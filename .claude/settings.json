@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s -o /tmp/request-page.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/request-a-tutor)"
+    ]
+  }
+}
