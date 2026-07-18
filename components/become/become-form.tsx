@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Link from "next/link";
+import { submitTutorProfile } from "@/app/lib/actions/tutor-profile";
 
 gsap.registerPlugin(useGSAP);
 
@@ -18,10 +20,14 @@ function FieldGroupHeading({ children }: { children: React.ReactNode }) {
 }
 
 export function BecomeForm() {
-  const [submitting, setSubmitting] = useState(false);
+  const [state, action, pending] = useActionState(submitTutorProfile, undefined);
   const [submitted, setSubmitted] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state?.message === "success") setSubmitted(true);
+  }, [state]);
 
   useGSAP(
     () => {
@@ -66,50 +72,38 @@ export function BecomeForm() {
   return (
     <form
       ref={formRef}
+      action={action}
       className="card elev-md gap-4 p-[var(--space-6)]"
       style={{ background: "var(--color-bg)" }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSubmitting(true);
-        window.setTimeout(() => {
-          setSubmitting(false);
-          setSubmitted(true);
-        }, 900);
-      }}
     >
       <div className="font-[var(--font-heading)] text-[22px]">Create your listing</div>
 
       <FieldGroupHeading>About you</FieldGroupHeading>
-      <div className="grid grid-cols-2 gap-[var(--space-3)]">
-        <div className="field">
-          <label>Full name</label>
-          <input className="input" placeholder="Your name" required />
-        </div>
-        <div className="field">
-          <label>Country</label>
-          <input className="input" placeholder="United Kingdom" required />
-        </div>
+      <div className="field">
+        <label>Country</label>
+        <input className="input" name="country" placeholder="United Kingdom" required />
       </div>
 
       <FieldGroupHeading>Your teaching profile</FieldGroupHeading>
       <div className="field">
         <label>Subjects you teach</label>
-        <input className="input" placeholder="e.g. Physics, Mathematics" required />
+        <input className="input" name="subjects" placeholder="e.g. Physics, Mathematics" required />
       </div>
       <div className="grid grid-cols-2 gap-[var(--space-3)]">
         <div className="field">
           <label>Years of experience</label>
-          <input className="input" type="number" placeholder="8" />
+          <input className="input" name="yearsExperience" type="number" placeholder="8" />
         </div>
         <div className="field">
           <label>Fee (per hour)</label>
-          <input className="input" placeholder="$40" />
+          <input className="input" name="hourlyRate" placeholder="$40" />
         </div>
       </div>
       <div className="field">
         <label>Short bio</label>
         <textarea
           className="input"
+          name="bio"
           placeholder="Tell students how you teach and who you help best"
         />
       </div>
@@ -126,14 +120,26 @@ export function BecomeForm() {
           {fileName ?? "Upload certificates"}
           <input
             type="file"
+            name="certificate"
             className="hidden"
             onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
           />
         </label>
       </div>
 
-      <button type="submit" className="btn btn-primary btn-block" disabled={submitting}>
-        {submitting ? "Submitting…" : "Submit for review"}
+      {state?.message && state.message !== "success" && (
+        <p className="text-[13.5px] m-0" style={{ color: "#d92d20" }}>
+          {state.message}{" "}
+          {state.message.includes("Create a tutor account") && (
+            <Link href="/signup" className="underline">
+              Sign up
+            </Link>
+          )}
+        </p>
+      )}
+
+      <button type="submit" className="btn btn-primary btn-block" disabled={pending}>
+        {pending ? "Submitting…" : "Submit for review"}
       </button>
       <p
         className="text-[12.5px] m-0 text-center"

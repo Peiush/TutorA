@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SegmentedControl } from "@/components/ui/segmented";
 import { subjects } from "@/lib/mock-data";
+import { submitTutorRequest } from "@/app/lib/actions/tutor-request";
 
 gsap.registerPlugin(useGSAP);
 
@@ -38,9 +39,22 @@ function StepHeading({ step, children }: { step: number; children: React.ReactNo
 export function RequestForm() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  const [subject, setSubject] = useState(subjects[0] ?? "");
+  const [level, setLevel] = useState("Secondary / GCSE");
+  const [goals, setGoals] = useState("");
   const [mode, setMode] = useState("Online");
+  const [sessionsPerWeek, setSessionsPerWeek] = useState("1");
+  const [timezone, setTimezone] = useState("GMT (London)");
   const [budget, setBudget] = useState(45);
   const [currency, setCurrency] = useState("USD");
+  const [notes, setNotes] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
   const cardRef = useRef<HTMLFormElement>(null);
 
   useGSAP(
@@ -142,8 +156,32 @@ export function RequestForm() {
         style={{ background: "var(--color-surface)" }}
         onSubmit={(e) => {
           e.preventDefault();
-          if (step === TOTAL_STEPS) setSubmitted(true);
-          else next();
+          if (step !== TOTAL_STEPS) {
+            next();
+            return;
+          }
+          setError(null);
+          startTransition(async () => {
+            const result = await submitTutorRequest({
+              name,
+              email,
+              phone,
+              subject,
+              level,
+              goals,
+              mode,
+              sessionsPerWeek,
+              timezone,
+              currency,
+              budgetPerHour: budget,
+              notes,
+            });
+            if (result.ok) {
+              setSubmitted(true);
+            } else {
+              setError(result.message ?? "Something went wrong. Please try again.");
+            }
+          });
         }}
       >
         {step === 1 && (
@@ -151,7 +189,7 @@ export function RequestForm() {
             <StepHeading step={1}>Subject &amp; level</StepHeading>
             <div className="field">
               <label>Subject</label>
-              <select className="input">
+              <select className="input" value={subject} onChange={(e) => setSubject(e.target.value)}>
                 {subjects.map((s) => (
                   <option key={s}>{s}</option>
                 ))}
@@ -159,7 +197,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Level</label>
-              <select className="input">
+              <select className="input" value={level} onChange={(e) => setLevel(e.target.value)}>
                 <option>Secondary / GCSE</option>
                 <option>A-Level / IB</option>
                 <option>University</option>
@@ -171,6 +209,8 @@ export function RequestForm() {
               <textarea
                 className="input"
                 placeholder="e.g. Rebuild confidence before May exams, focus on mechanics"
+                value={goals}
+                onChange={(e) => setGoals(e.target.value)}
               />
             </div>
           </div>
@@ -194,7 +234,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Sessions per week</label>
-              <select className="input">
+              <select className="input" value={sessionsPerWeek} onChange={(e) => setSessionsPerWeek(e.target.value)}>
                 <option>1</option>
                 <option>2</option>
                 <option>3+</option>
@@ -202,7 +242,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Time zone</label>
-              <select className="input">
+              <select className="input" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
                 <option>GMT (London)</option>
                 <option>EST (New York)</option>
                 <option>CET (Berlin)</option>
@@ -253,6 +293,8 @@ export function RequestForm() {
                 className="input"
                 rows={5}
                 placeholder="Preferred teaching style, availability, past tutoring, anything we should know"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
               />
             </div>
           </div>
@@ -263,15 +305,28 @@ export function RequestForm() {
             <StepHeading step={5}>Your contact details</StepHeading>
             <div className="field">
               <label>Full name</label>
-              <input className="input" placeholder="Your name" required />
+              <input
+                className="input"
+                placeholder="Your name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
             <div className="field">
               <label>Email</label>
-              <input className="input" type="email" placeholder="you@example.com" required />
+              <input
+                className="input"
+                type="email"
+                placeholder="you@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="field">
               <label>Phone (optional)</label>
-              <input className="input" placeholder="+44 …" />
+              <input className="input" placeholder="+44 …" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
             <p
               className="text-[13px] m-0"
@@ -280,6 +335,11 @@ export function RequestForm() {
               Your details are only ever seen by our team — never shared with a tutor until you
               confirm a match.
             </p>
+            {error && (
+              <p className="text-[13.5px] m-0" style={{ color: "#d92d20" }}>
+                {error}
+              </p>
+            )}
           </div>
         )}
 
@@ -287,8 +347,8 @@ export function RequestForm() {
           <button type="button" className="btn btn-secondary" onClick={back} disabled={step === 1}>
             Back
           </button>
-          <button type="submit" className="btn btn-primary">
-            {step === TOTAL_STEPS ? "Submit request" : "Continue"}
+          <button type="submit" className="btn btn-primary" disabled={pending}>
+            {step === TOTAL_STEPS ? (pending ? "Submitting…" : "Submit request") : "Continue"}
           </button>
         </div>
       </form>
