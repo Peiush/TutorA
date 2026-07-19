@@ -1,24 +1,26 @@
 "use client";
 
-import { CSSProperties, ReactNode, useRef } from "react";
+import { ReactNode, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-export function Reveal({
+export function StaggerReveal({
   children,
   className = "",
-  delay = 0,
-  y = 28,
-  style,
+  childSelector = ":scope > *",
+  stagger = 0.09,
+  y = 24,
+  ease = "power3.out",
 }: {
   children: ReactNode;
   className?: string;
-  delay?: number;
+  childSelector?: string;
+  stagger?: number;
   y?: number;
-  style?: CSSProperties;
+  ease?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,33 +28,35 @@ export function Reveal({
     () => {
       const el = ref.current;
       if (!el) return;
+      const items = el.querySelectorAll(childSelector);
+      if (!items.length) return;
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.fromTo(
-          el,
-          { autoAlpha: 0, y, scale: 0.97 },
+          items,
+          { autoAlpha: 0, y, scale: 0.96 },
           {
             autoAlpha: 1,
             y: 0,
             scale: 1,
-            duration: 0.8,
-            delay: delay / 1000,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
+            duration: 0.7,
+            ease,
+            stagger: { each: stagger, from: "start" },
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
           }
         );
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(el, { autoAlpha: 1 });
+        gsap.set(items, { autoAlpha: 1 });
       });
       return () => mm.revert();
     },
-    { scope: ref, dependencies: [delay, y] }
+    { scope: ref, dependencies: [childSelector, stagger, y, ease] }
   );
 
   return (
-    <div ref={ref} className={className} style={style}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

@@ -1,0 +1,151 @@
+import { SVGProps } from "react";
+
+function base(props: SVGProps<SVGSVGElement>) {
+  return {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    ...props,
+  };
+}
+
+export function MailIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="3" y="5" width="18" height="14" rx="3" />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
+
+export function LockIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+      <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" />
+    </svg>
+  );
+}
+
+export function UserIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <circle cx="12" cy="8" r="3.6" />
+      <path d="M4.5 20c1.2-4 4-6 7.5-6s6.3 2 7.5 6" />
+    </svg>
+  );
+}
+
+export function EyeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="2.75" />
+    </svg>
+  );
+}
+
+export function EyeOffIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M3.5 3.5l17 17" />
+      <path d="M10.6 5.7c.45-.1.92-.15 1.4-.15 6 0 9.5 6.4 9.5 6.4a15.6 15.6 0 0 1-3.28 4.05M6.8 6.9C4.02 8.55 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.24 0 2.36-.28 3.35-.73" />
+      <path d="M9.6 10.6a2.75 2.75 0 0 0 3.9 3.9" />
+    </svg>
+  );
+}
+
+export function ArrowRightIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M4 12h16M13 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+export function GraduationCapIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M2.5 9.5 12 5l9.5 4.5-9.5 4.5-9.5-4.5Z" />
+      <path d="M6.5 11.6v4.1c0 1.5 2.46 2.8 5.5 2.8s5.5-1.3 5.5-2.8v-4.1" />
+      <path d="M21.5 9.5v6" />
+    </svg>
+  );
+}
+
+export function ChalkboardIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="3" y="4" width="18" height="12" rx="2" />
+      <path d="M8 20h8M12 16v4M7 9.5l3 2.5 2.5-3.5L17 11" />
+    </svg>
+  );
+}
+
+export function BookIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5v-13Z" />
+      <path d="M12 6v13" />
+    </svg>
+  );
+}
+
+export function CalculatorIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="5" y="3" width="14" height="18" rx="2" />
+      <path d="M8 7.5h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01" />
+    </svg>
+  );
+}
+
+export function GlobeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.4 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.4-3.6-8.5S9.6 5.8 12 3.5Z" />
+    </svg>
+  );
+}
+
+export function ShieldCheckIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M12 3.5 19.5 6.5v5.3c0 4.6-3.2 7.9-7.5 9-4.3-1.1-7.5-4.4-7.5-9V6.5L12 3.5Z" />
+      <path d="m9 12 2.2 2.2L15.5 10" />
+    </svg>
+  );
+}
+
+export function ChatDotsIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M4 5.5h16v10H9.5L5 19v-3.5H4v-10Z" />
+      <path d="M8.2 10.5h.01M12 10.5h.01M15.8 10.5h.01" />
+    </svg>
+  );
+}
+
+export function DocumentIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M7 3.5h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z" />
+      <path d="M14 3.5v4h4" />
+      <path d="M9 12.5h6M9 16h6" />
+    </svg>
+  );
+}
+
+export function SpinnerIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} className="auth-spinner" aria-hidden>
+      <path d="M12 3a9 9 0 1 0 9 9" />
+    </svg>
+  );
+}

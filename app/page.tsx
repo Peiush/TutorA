@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/reveal";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorStrip } from "@/components/home/tutor-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
+import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import {
   tutorsRaw,
@@ -54,44 +56,7 @@ export default function Home() {
           />
         </div>
         <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(52px,7vw,96px)] pb-[clamp(32px,4vw,48px)] relative z-[1]">
-          <Tag variant="accent" className="text-[12px] px-3.5 py-1.5 animate-hero-up">
-            Every match personally verified
-          </Tag>
-          <h1
-            className="font-[var(--font-heading)] font-bold text-[clamp(38px,5.6vw,68px)] leading-[1.06] mt-4 max-w-[16ch] animate-hero-up"
-            style={{ animationDelay: "0.05s" }}
-          >
-            The right tutor,{" "}
-            <span
-              style={{
-                fontFamily: "var(--font-accent)",
-                fontWeight: 600,
-                color: "var(--color-accent-700)",
-                fontSize: "1.12em",
-                transform: "rotate(-2deg)",
-                display: "inline-block",
-              }}
-            >
-              personally
-            </span>{" "}
-            matched.
-          </h1>
-          <p
-            className="text-[18px] leading-[1.62] max-w-[52ch] mt-6 animate-hero-up"
-            style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)", animationDelay: "0.1s" }}
-          >
-            TutorConnect sits between students and tutors so no one has to guess. You tell us what
-            you need; our team vets, matches and introduces — students and tutors never chase each
-            other, and no connection slips through unverified.
-          </p>
-          <div className="flex gap-3 flex-wrap mt-8 animate-hero-up" style={{ animationDelay: "0.15s" }}>
-            <Link href="/find-a-tutor" className="btn btn-primary">
-              Find a Tutor
-            </Link>
-            <Link href="/become-a-tutor" className="btn btn-secondary">
-              Become a Tutor
-            </Link>
-          </div>
+          <HeroContent />
         </div>
         <HeroIllustration />
         <TutorStrip />
@@ -142,14 +107,14 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="card elev-sm mt-9 gap-3" style={{ background: "var(--color-bg)" }}>
+          <Reveal delay={200} className="card elev-sm mt-9 gap-3" style={{ background: "var(--color-bg)" }}>
             <div
               className="text-[12px] uppercase"
               style={{ letterSpacing: "0.04em", color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
             >
               Live verification pipeline · Request #R-1042
             </div>
-            <div className="flex items-center gap-0 mt-1.5 flex-wrap">
+            <StaggerReveal className="flex items-center gap-0 mt-1.5 flex-wrap" stagger={0.14} y={0}>
               {pipeline.map((p, i) => (
                 <div key={p.label} className="flex items-center">
                   <div className="flex items-center gap-2.5">
@@ -182,8 +147,8 @@ export default function Home() {
                   )}
                 </div>
               ))}
-            </div>
-          </div>
+            </StaggerReveal>
+          </Reveal>
         </div>
       </section>
 
@@ -206,7 +171,7 @@ export default function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <div className="grid gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerReveal className="grid gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((t, i) => (
             <div key={t.name} className="card elev-sm gap-3">
               <div className="flex gap-3 items-center">
@@ -245,7 +210,7 @@ export default function Home() {
               </Link>
             </div>
           ))}
-        </div>
+        </StaggerReveal>
       </section>
 
       {/* Testimonials */}
@@ -255,7 +220,7 @@ export default function Home() {
             What people say
           </Tag>
           <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-9">Trusted by both sides</h2>
-          <div className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+          <StaggerReveal className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
             {testimonials.map((q, i) => (
               <figure
                 key={q.name}
@@ -275,7 +240,7 @@ export default function Home() {
                 </figcaption>
               </figure>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
@@ -292,18 +257,18 @@ export default function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <div className="flex flex-wrap gap-2.5">
+        <StaggerReveal className="flex flex-wrap gap-2.5" stagger={0.03} y={12}>
           {subjects.map((s) => (
             <Link key={s} href="/find-a-tutor" className="tag tag-outline text-[16px] px-5 py-2.5">
               {s}
             </Link>
           ))}
-        </div>
+        </StaggerReveal>
       </section>
 
       {/* CTA */}
       <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(48px,6vw,80px)]">
-        <div
+        <Reveal
           className="rounded-[20px] p-[clamp(32px,5vw,56px)]"
           style={{ background: "var(--color-accent-2-100)" }}
         >
@@ -324,7 +289,7 @@ export default function Home() {
               Browse first
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

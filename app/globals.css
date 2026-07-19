@@ -165,24 +165,12 @@ a:hover {
   animation: heroUp 0.5s both;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .animate-hero-up,
-  .reveal {
+  .animate-hero-up {
     animation: none !important;
-    transition: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
@@ -335,6 +323,69 @@ textarea.input {
 .table tbody tr:hover { background: rgba(21, 33, 58, 0.04); }
 
 .text-muted { color: rgba(21, 33, 58, 0.62); }
+
+/* ── auth ── */
+.field-icon { position: relative; }
+.field-icon svg {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  pointer-events: none;
+}
+.field-icon .input { padding-left: 40px; }
+.field-icon .input-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 7px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
+  border-radius: 999px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.field-icon .input-toggle:hover { background: rgba(21, 33, 58, 0.08); color: var(--color-text); }
+.field-icon .input-toggle svg {
+  position: static;
+  transform: none;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+}
+
+@keyframes authSpin {
+  to { transform: rotate(360deg); }
+}
+.auth-spinner { animation: authSpin 0.8s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .auth-spinner { animation-duration: 1.8s; }
+}
+
+.role-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-divider);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.role-card input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.role-card svg { flex: none; color: var(--color-accent-2-700); }
+.role-card:has(input:checked) { border-color: var(--color-accent-2); background: var(--color-accent-2-100); }
+.role-card:not(:has(input:checked)):hover { border-color: rgba(21, 33, 58, 0.4); }
 
 /* ── details/summary (FAQ accordion) ── */
 details > summary { list-style: none; }

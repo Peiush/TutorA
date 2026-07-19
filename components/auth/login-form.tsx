@@ -1,22 +1,51 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { login } from "@/app/lib/actions/auth";
+import { MailIcon, LockIcon, EyeIcon, EyeOffIcon, ArrowRightIcon, SpinnerIcon } from "@/components/auth/auth-icons";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <form action={action} className="card elev-md gap-4 p-[var(--space-6)]" style={{ background: "var(--color-bg)" }}>
-      <div className="font-[var(--font-heading)] text-[22px]">Log in</div>
+    <form action={action} className="flex flex-col gap-5">
+      <div>
+        <h1 className="text-[28px]">Welcome back</h1>
+        <p className="text-[14.5px] mt-1.5" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
+          Log in to view your matches and messages.
+        </p>
+      </div>
 
       <div className="field">
-        <label>Email</label>
-        <input className="input" type="email" name="email" placeholder="you@example.com" required />
+        <label htmlFor="email">Email</label>
+        <div className="field-icon">
+          <MailIcon />
+          <input className="input" id="email" type="email" name="email" placeholder="you@example.com" autoComplete="email" required />
+        </div>
       </div>
+
       <div className="field">
-        <label>Password</label>
-        <input className="input" type="password" name="password" required />
+        <label htmlFor="password">Password</label>
+        <div className="field-icon">
+          <LockIcon />
+          <input
+            className="input"
+            id="password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            autoComplete="current-password"
+            required
+          />
+          <button
+            type="button"
+            className="input-toggle"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <EyeOffIcon width={17} height={17} /> : <EyeIcon width={17} height={17} />}
+          </button>
+        </div>
       </div>
 
       {state?.message && (
@@ -26,7 +55,15 @@ export function LoginForm() {
       )}
 
       <button type="submit" className="btn btn-primary btn-block" disabled={pending}>
-        {pending ? "Logging in…" : "Log in"}
+        {pending ? (
+          <>
+            <SpinnerIcon width={16} height={16} /> Logging in…
+          </>
+        ) : (
+          <>
+            Log in <ArrowRightIcon width={16} height={16} />
+          </>
+        )}
       </button>
     </form>
   );
