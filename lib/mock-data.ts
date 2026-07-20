@@ -1,4 +1,5 @@
 export interface TutorRaw {
+  id?: string;
   name: string;
   headline: string;
   subjects: string[];
@@ -9,6 +10,7 @@ export interface TutorRaw {
   city: string;
   mode: "Online" | "In person" | "Both";
   region: string;
+  isNew?: boolean;
 }
 
 export const tutorsRaw: TutorRaw[] = [

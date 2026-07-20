@@ -24,7 +24,7 @@ function StepHeading({ step, children }: { step: number; children: React.ReactNo
   return (
     <div className="flex items-center gap-2.5">
       <div
-        className="w-8 h-8 rounded-full grid place-content-center flex-none"
+        className="step-icon w-8 h-8 rounded-full grid place-content-center flex-none"
         style={{ background: "var(--color-accent-100)" }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,6 +32,65 @@ function StepHeading({ step, children }: { step: number; children: React.ReactNo
         </svg>
       </div>
       <div className="font-[var(--font-heading)] text-[20px]">{children}</div>
+    </div>
+  );
+}
+
+function SuccessScreen() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const circlePathRef = useRef<SVGPathElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const path = circlePathRef.current;
+        const length = path?.getTotalLength() ?? 0;
+        if (path) {
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        }
+
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.from(".success-badge", { scale: 0, rotation: -20, duration: 0.5, ease: "back.out(2)" });
+        if (path) {
+          tl.to(path, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, "-=0.15");
+        }
+        tl.from(".success-heading", { autoAlpha: 0, y: 10, duration: 0.35 }, "-=0.1").from(
+          ".success-copy",
+          { autoAlpha: 0, y: 10, duration: 0.35 },
+          "-=0.2"
+        );
+        return () => tl.kill();
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef }
+  );
+
+  return (
+    <div
+      ref={rootRef}
+      className="card gap-4 p-[var(--space-6)] text-center"
+      style={{ background: "var(--color-surface)" }}
+    >
+      <div
+        className="success-badge w-14 h-14 rounded-full grid place-content-center mx-auto"
+        style={{ background: "color-mix(in srgb, var(--color-verified) 18%, transparent)" }}
+      >
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-verified)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <path ref={circlePathRef} d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+      <h2 className="success-heading font-[var(--font-heading)] text-[24px]">Request received</h2>
+      <p
+        className="success-copy text-[15px] leading-[1.6] max-w-[46ch] mx-auto"
+        style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+      >
+        Our team will review your request and personally match you with the right tutor within
+        24–48 hours. We&rsquo;ve sent a confirmation to your email.
+      </p>
     </div>
   );
 }
@@ -61,13 +120,30 @@ export function RequestForm() {
     () => {
       const el = cardRef.current;
       if (!el) return;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduced) return;
-      gsap.fromTo(
-        el,
-        { opacity: 0, x: 16 },
-        { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }
-      );
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline();
+        tl.fromTo(
+          el,
+          { autoAlpha: 0, x: 16 },
+          { autoAlpha: 1, x: 0, duration: 0.35, ease: "power2.out" }
+        ).fromTo(
+          el.querySelectorAll(".field"),
+          { autoAlpha: 0, y: 10 },
+          { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06, ease: "power2.out" },
+          "-=0.2"
+        );
+
+        const icon = el.querySelector(".step-icon");
+        if (icon) {
+          gsap.fromTo(icon, { scale: 0.6, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.5)" });
+        }
+
+        return () => tl.kill();
+      });
+
+      return () => mm.revert();
     },
     { dependencies: [step], scope: cardRef }
   );
@@ -76,26 +152,7 @@ export function RequestForm() {
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   if (submitted) {
-    return (
-      <div className="card gap-4 p-[var(--space-6)] text-center" style={{ background: "var(--color-surface)" }}>
-        <div
-          className="w-14 h-14 rounded-full grid place-content-center mx-auto"
-          style={{ background: "color-mix(in srgb, var(--color-verified) 18%, transparent)" }}
-        >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-verified)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
-        </div>
-        <h2 className="font-[var(--font-heading)] text-[24px]">Request received</h2>
-        <p
-          className="text-[15px] leading-[1.6] max-w-[46ch] mx-auto"
-          style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
-        >
-          Our team will review your request and personally match you with the right tutor within
-          24–48 hours. We&rsquo;ve sent a confirmation to your email.
-        </p>
-      </div>
-    );
+    return <SuccessScreen />;
   }
 
   return (

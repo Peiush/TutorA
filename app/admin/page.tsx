@@ -1,6 +1,12 @@
 import { getUser } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { logout } from "@/app/lib/actions/auth";
+import { AdminHeader } from "@/components/admin/admin-header";
+import { TutorReviewPanel } from "@/components/admin/tutor-review-panel";
+import { TutorRequestsAdminPanel } from "@/components/admin/tutor-requests-admin-panel";
+import { StatCard } from "@/components/dashboard/stat-card";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
+import { UsersIcon, GraduationCapIcon, ClipboardCheckIcon } from "@/components/tutor/tutor-icons";
+import { TargetIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
   title: "Admin — TutorConnect",
@@ -8,29 +14,44 @@ export const metadata = {
 
 export default async function AdminPage() {
   const user = await getUser();
-  const pendingTutors = await prisma.tutorProfile.count({ where: { status: "PENDING" } });
-  const openRequests = await prisma.tutorRequest.count({ where: { status: "OPEN" } });
+
+  const [totalStudents, totalTutors, profiles, requests] = await Promise.all([
+    prisma.user.count({ where: { role: "STUDENT" } }),
+    prisma.user.count({ where: { role: "TUTOR" } }),
+    prisma.tutorProfile.findMany({
+      include: { user: { select: { name: true, email: true } } },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.tutorRequest.findMany({
+      include: { matchedTutor: { select: { name: true, email: true } } },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
+
+  const pendingApprovals = profiles.filter((p) => p.status === "PENDING").length;
+  const openRequests = requests.filter((r) => r.status === "OPEN").length;
+
+  const approvedTutors = profiles
+    .filter((p) => p.status === "APPROVED")
+    .map((p) => ({ userId: p.userId, name: p.user.name ?? p.user.email, subjects: p.subjects }));
 
   return (
-    <div className="max-w-[720px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(44px,8vw,96px)]">
-      <h1 className="text-[clamp(26px,3vw,36px)]">Admin — {user?.name}</h1>
-      <div className="grid gap-3 mt-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-        <div className="card p-5">
-          <div className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
-            Pending tutor listings
-          </div>
-          <div className="text-[28px] font-[var(--font-heading)]">{pendingTutors}</div>
-        </div>
-        <div className="card p-5">
-          <div className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
-            Open tutor requests
-          </div>
-          <div className="text-[28px] font-[var(--font-heading)]">{openRequests}</div>
-        </div>
-      </div>
-      <form action={logout} className="mt-6">
-        <button type="submit" className="btn btn-secondary">Log out</button>
-      </form>
+    <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,64px)] flex flex-col gap-7">
+      <AdminHeader name={user?.name ?? "Admin"} email={user?.email ?? ""} />
+
+      <StaggerReveal
+        className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"
+        stagger={0.08}
+        y={18}
+      >
+        <StatCard icon={<UsersIcon width={16} height={16} />} label="Total students" value={totalStudents} />
+        <StatCard icon={<GraduationCapIcon width={16} height={16} />} label="Total tutors" value={totalTutors} />
+        <StatCard icon={<ClipboardCheckIcon width={16} height={16} />} label="Pending approvals" value={pendingApprovals} />
+        <StatCard icon={<TargetIcon width={16} height={16} />} label="Open requests" value={openRequests} />
+      </StaggerReveal>
+
+      <TutorReviewPanel profiles={profiles} />
+      <TutorRequestsAdminPanel requests={requests} approvedTutors={approvedTutors} />
     </div>
   );
 }

@@ -66,10 +66,14 @@ export type LoginState = { message?: string } | undefined;
 
 export async function login(_state: LoginState, formData: FormData): Promise<LoginState> {
   try {
+    const email = formData.get("email");
+    const user = typeof email === "string" ? await prisma.user.findUnique({ where: { email } }) : null;
+    const redirectTo = user?.role === "ADMIN" ? "/admin" : user?.role === "TUTOR" ? "/tutor" : "/dashboard";
+
     await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      redirectTo: "/dashboard",
+      redirectTo,
     });
   } catch (error) {
     if (error instanceof AuthError) {

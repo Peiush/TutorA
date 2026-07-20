@@ -298,6 +298,8 @@ textarea.input {
 .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
 .tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
 .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-success { background: color-mix(in srgb, var(--color-verified) 16%, transparent); color: var(--color-verified); }
+.tag-danger { background: color-mix(in srgb, #d92d20 14%, transparent); color: #d92d20; }
 .tag-outline {
   border: 1px solid var(--color-accent-2-300);
   color: var(--color-accent-2-700);

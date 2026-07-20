@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, Caveat } from "next/font/google";
 import "./globals.css";
+import { auth } from "@/auth";
 import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 
@@ -28,18 +29,20 @@ export const metadata: Metadata = {
     "TutorConnect sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen flex flex-col">
-        <SiteNav />
+        <SiteNav user={session?.user ?? null} />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

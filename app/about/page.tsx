@@ -1,11 +1,13 @@
-import Link from "next/link";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { CheckBadge } from "@/components/ui/verified-badge";
 import { FaqAccordion } from "@/components/about/faq-accordion";
 import { studentFlow, tutorFlow, faqs, testimonials } from "@/lib/mock-data";
-import { AboutIllustration } from "@/components/about/about-illustration";
+import { AboutHero } from "@/components/about/about-hero";
+import { FlowSteps } from "@/components/about/flow-steps";
+import { PillarIcon } from "@/components/about/pillar-icon";
+import { PricingTable } from "@/components/about/pricing-table";
 
 export const metadata = {
   title: "About & How It Works — TutorConnect",
@@ -34,85 +36,7 @@ const pillars = [
 export default function AboutPage() {
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          ["--hero-gutter" as string]:
-            "max(clamp(20px,5vw,64px), calc((100vw - 1180px) / 2 + clamp(20px,5vw,64px)))",
-        }}
-      >
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-          <div
-            className="hidden lg:block absolute rounded-full"
-            style={{
-              top: "-140px",
-              right: "-120px",
-              width: 480,
-              height: 480,
-              background: "radial-gradient(circle at 32% 32%, var(--color-accent-200), transparent 72%)",
-              opacity: 0.55,
-              filter: "blur(6px)",
-            }}
-          />
-          <div
-            className="hidden lg:block absolute rounded-full"
-            style={{
-              top: "160px",
-              right: "40px",
-              width: 300,
-              height: 300,
-              background: "radial-gradient(circle at 60% 40%, var(--color-accent-2-200), transparent 70%)",
-              opacity: 0.45,
-              filter: "blur(10px)",
-            }}
-          />
-        </div>
-
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(52px,7vw,96px)] pb-[clamp(40px,5vw,64px)] relative z-[1]">
-          <div className="max-w-[680px]">
-            <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5 animate-hero-up">
-              About &amp; How It Works
-            </Tag>
-            <h1
-              className="font-bold text-[clamp(34px,4.6vw,54px)] mt-4 max-w-[18ch] animate-hero-up"
-              style={{ animationDelay: "0.05s" }}
-            >
-              A tutoring platform built on{" "}
-              <span 
-                style={{
-                  fontFamily: "var(--font-accent)",
-                  fontWeight: 600,
-                  color: "var(--color-accent-700)",
-                  fontSize: "1.1em",
-                  transform: "rotate(-2deg)",
-                  display: "inline-block",
-                }}
-              >
-                trust
-              </span>
-              , not a lead list.
-            </h1>
-            <p
-              className="text-[17px] leading-[1.62] mt-6 max-w-[56ch] animate-hero-up"
-              style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)", animationDelay: "0.1s" }}
-            >
-              We started TutorConnect because good tutoring is a relationship, and relationships
-              deserve a careful introduction. Every student request and every tutor listing passes
-              through our team before anyone connects.
-            </p>
-            <div className="flex gap-3 flex-wrap mt-8 animate-hero-up" style={{ animationDelay: "0.15s" }}>
-              <Link href="/find-a-tutor" className="btn btn-primary">
-                Find a Tutor
-              </Link>
-              <Link href="/become-a-tutor" className="btn btn-secondary">
-                Become a Tutor
-              </Link>
-            </div>
-          </div>
-        </div>
-        <AboutIllustration />
-      </section>
+      <AboutHero />
 
       {/* Trust pillars */}
       <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(8px,2vw,16px)] pb-[clamp(48px,6vw,84px)]">
@@ -126,10 +50,7 @@ export default function AboutPage() {
           {pillars.map((p, i) => (
             <Reveal key={p.title} delay={i * 100}>
               <div className="card elev-sm gap-4 h-full">
-                <div
-                  className="w-11 h-11 rounded-full grid place-content-center flex-none"
-                  style={{ background: "var(--color-accent-2-100)" }}
-                >
+                <PillarIcon>
                   <svg
                     width="20"
                     height="20"
@@ -143,7 +64,7 @@ export default function AboutPage() {
                   >
                     {p.icon}
                   </svg>
-                </div>
+                </PillarIcon>
                 <h3 className="text-[19px] m-0">{p.title}</h3>
                 <p
                   className="text-[14.5px] leading-[1.55] m-0"
@@ -170,37 +91,13 @@ export default function AboutPage() {
             <Reveal>
               <div className="rounded-[var(--radius-lg)] p-7 h-full" style={{ background: "var(--color-accent-100)" }}>
                 <h3 className="text-[21px] mb-5">For students</h3>
-                <div className="grid gap-4">
-                  {studentFlow.map((f) => (
-                    <div key={f.n} className="flex gap-3.5">
-                      <span
-                        className="font-[var(--font-heading)] font-semibold text-[14px] w-7 h-7 rounded-full grid place-content-center flex-none"
-                        style={{ background: "var(--color-accent)", color: "var(--color-bg)" }}
-                      >
-                        {f.n.replace(".", "")}
-                      </span>
-                      <span className="text-[15px] leading-[1.55] pt-0.5">{f.text}</span>
-                    </div>
-                  ))}
-                </div>
+                <FlowSteps items={studentFlow} numberBg="var(--color-accent)" numberColor="var(--color-bg)" />
               </div>
             </Reveal>
             <Reveal delay={100}>
               <div className="rounded-[var(--radius-lg)] p-7 h-full" style={{ background: "var(--color-accent-2-200)" }}>
                 <h3 className="text-[21px] mb-5">For tutors</h3>
-                <div className="grid gap-4">
-                  {tutorFlow.map((f) => (
-                    <div key={f.n} className="flex gap-3.5">
-                      <span
-                        className="font-[var(--font-heading)] font-semibold text-[14px] w-7 h-7 rounded-full grid place-content-center flex-none"
-                        style={{ background: "var(--color-accent-2-700)", color: "#fff" }}
-                      >
-                        {f.n.replace(".", "")}
-                      </span>
-                      <span className="text-[15px] leading-[1.55] pt-0.5">{f.text}</span>
-                    </div>
-                  ))}
-                </div>
+                <FlowSteps items={tutorFlow} numberBg="var(--color-accent-2-700)" numberColor="#fff" />
               </div>
             </Reveal>
           </div>
@@ -229,31 +126,7 @@ export default function AboutPage() {
             </div>
           </Reveal>
           <Reveal delay={100}>
-            <div className="card elev-md gap-0 p-0 overflow-hidden">
-              {[
-                { label: "Browse tutors", value: "Free" },
-                { label: "Submit a request", value: "Free" },
-                { label: "List as a tutor", value: "Free" },
-                { label: "Confirmed match", value: "Success fee" },
-              ].map((row, i, arr) => (
-                <div
-                  key={row.label}
-                  className="flex items-center justify-between px-6 py-4"
-                  style={{
-                    borderBottom: i < arr.length - 1 ? "1px solid var(--color-divider)" : "none",
-                    background: i === arr.length - 1 ? "var(--color-accent-2-100)" : "transparent",
-                  }}
-                >
-                  <span className="text-[15px] font-medium">{row.label}</span>
-                  <span
-                    className="font-[var(--font-heading)] font-semibold text-[14px]"
-                    style={{ color: i === arr.length - 1 ? "var(--color-accent-2-700)" : "var(--color-verified)" }}
-                  >
-                    {row.value}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <PricingTable />
           </Reveal>
         </div>
       </section>

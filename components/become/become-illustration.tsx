@@ -1,20 +1,76 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+gsap.registerPlugin(useGSAP);
+
 export function BecomeIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const stampRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const path = pathRef.current;
+        const length = path?.getTotalLength() ?? 0;
+        if (path) {
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        }
+
+        const tl = gsap.timeline({ delay: 0.2 });
+
+        if (path) {
+          tl.to(path, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" }, 0);
+        }
+        tl.from(".bi-card", { autoAlpha: 0, y: -14, rotation: 6, duration: 0.5, ease: "power3.out" }, 0.1)
+          .from(
+            ".bi-stamp",
+            { autoAlpha: 0, scale: 0.4, rotation: -30, duration: 0.55, ease: "back.out(1.8)" },
+            0.4
+          )
+          .from(".bi-note", { autoAlpha: 0, y: 8, rotation: 6, duration: 0.4, ease: "power2.out" }, 0.65);
+
+        const float = gsap.to(stampRef.current, {
+          y: -7,
+          duration: 2.4,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: tl.duration() + 0.2,
+        });
+
+        return () => {
+          tl.kill();
+          float.kill();
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef }
+  );
+
   return (
-    <div className="hidden xl:block relative" style={{ width: 260, height: 300 }} aria-hidden>
+    <div ref={rootRef} className="hidden xl:block relative" style={{ width: 260, height: 300 }} aria-hidden>
       <svg width="260" height="300" viewBox="0 0 260 300" className="absolute inset-0" style={{ overflow: "visible" }}>
         <path
+          ref={pathRef}
           d="M40 30 C 120 10, 150 90, 100 140 C 65 175, 100 210, 175 220"
           fill="none"
           stroke="var(--color-accent-300)"
           strokeWidth="3"
-          strokeDasharray="1 12"
           strokeLinecap="round"
         />
       </svg>
 
       {/* Listing card mockup */}
       <div
-        className="absolute"
+        className="bi-card absolute"
         style={{
           top: 0,
           left: 0,
@@ -59,7 +115,8 @@ export function BecomeIllustration() {
 
       {/* Verified educator stamp */}
       <div
-        className="absolute grid place-content-center"
+        ref={stampRef}
+        className="bi-stamp absolute grid place-content-center"
         style={{
           top: 130,
           left: 90,
@@ -89,7 +146,7 @@ export function BecomeIllustration() {
 
       {/* Handwritten note */}
       <div
-        className="absolute"
+        className="bi-note absolute"
         style={{
           top: 260,
           left: 30,

@@ -44,6 +44,7 @@ model User {
   sessions     Session[]
   tutorProfile TutorProfile?
   tutorRequests TutorRequest[]
+  matchedRequests TutorRequest[] @relation("MatchedTutorRequests")
 
   @@map("users")
 }
@@ -123,6 +124,8 @@ model TutorRequest {
   budgetPerHour    Int?
   notes            String?
   status           TutorRequestStatus @default(OPEN)
+  matchedTutorId   String?
+  matchedTutor     User?               @relation("MatchedTutorRequests", fields: [matchedTutorId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

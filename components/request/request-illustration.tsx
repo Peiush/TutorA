@@ -1,22 +1,78 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { CheckBadge } from "@/components/ui/verified-badge";
 
+gsap.registerPlugin(useGSAP);
+
 export function RequestIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const stampRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const path = pathRef.current;
+        const length = path?.getTotalLength() ?? 0;
+        if (path) {
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        }
+
+        const tl = gsap.timeline({ delay: 0.15 });
+
+        if (path) {
+          tl.to(path, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 0);
+        }
+        tl.from(".rqi-card", { autoAlpha: 0, y: -16, duration: 0.55, ease: "power3.out" }, 0.1)
+          .from(
+            ".rqi-stamp",
+            { autoAlpha: 0, scale: 0.4, rotation: -30, duration: 0.6, ease: "back.out(1.8)" },
+            0.45
+          )
+          .from(".rqi-badge", { autoAlpha: 0, x: -16, duration: 0.45, ease: "power3.out" }, 0.7)
+          .from(".rqi-note", { autoAlpha: 0, y: 8, rotation: 6, duration: 0.4, ease: "power2.out" }, 0.85);
+
+        const float = gsap.to(stampRef.current, {
+          y: -8,
+          duration: 2.2,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: tl.duration() + 0.2,
+        });
+
+        return () => {
+          tl.kill();
+          float.kill();
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef }
+  );
+
   return (
-    <div className="relative" style={{ width: 320, height: 470 }} aria-hidden>
+    <div ref={rootRef} className="relative" style={{ width: 320, height: 470 }} aria-hidden>
       <svg width="320" height="470" viewBox="0 0 320 470" className="absolute inset-0" style={{ overflow: "visible" }}>
         <path
+          ref={pathRef}
           d="M60 130 C 150 110, 190 220, 130 300 C 90 355, 120 400, 190 420"
           fill="none"
           stroke="var(--color-accent-2-300)"
           strokeWidth="3"
-          strokeDasharray="1 12"
           strokeLinecap="round"
         />
       </svg>
 
       {/* Request card mockup */}
       <div
-        className="absolute"
+        className="rqi-card absolute"
         style={{
           top: 10,
           left: 10,
@@ -54,7 +110,8 @@ export function RequestIllustration() {
 
       {/* Personally reviewed stamp */}
       <div
-        className="absolute grid place-content-center"
+        ref={stampRef}
+        className="rqi-stamp absolute grid place-content-center"
         style={{
           top: 195,
           left: 130,
@@ -84,7 +141,7 @@ export function RequestIllustration() {
 
       {/* Team badge sitting on the connector */}
       <div
-        className="absolute flex items-center gap-2"
+        className="rqi-badge absolute flex items-center gap-2"
         style={{
           top: 330,
           left: 20,
@@ -103,7 +160,7 @@ export function RequestIllustration() {
 
       {/* Handwritten note */}
       <div
-        className="absolute"
+        className="rqi-note absolute"
         style={{
           top: 415,
           left: 70,

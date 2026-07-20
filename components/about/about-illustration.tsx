@@ -1,26 +1,84 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { CheckBadge } from "@/components/ui/verified-badge";
 
+gsap.registerPlugin(useGSAP);
+
 export function AboutIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const stampRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const path = pathRef.current;
+        const length = path?.getTotalLength() ?? 0;
+        if (path) {
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        }
+
+        const tl = gsap.timeline({ delay: 0.3 });
+
+        if (path) {
+          tl.to(path, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 0);
+        }
+        tl.from(".ai-card", { autoAlpha: 0, y: -18, duration: 0.55, ease: "power3.out" }, 0.1)
+          .from(".ai-check", { scale: 0, stagger: 0.1, duration: 0.35, ease: "back.out(2.6)" }, 0.35)
+          .from(
+            ".ai-stamp",
+            { autoAlpha: 0, scale: 0.4, rotation: -30, duration: 0.6, ease: "back.out(1.8)" },
+            0.55
+          )
+          .from(".ai-badge", { autoAlpha: 0, x: -16, duration: 0.45, ease: "power3.out" }, 0.8)
+          .from(".ai-note", { autoAlpha: 0, y: 8, rotation: 6, duration: 0.4, ease: "power2.out" }, 0.95);
+
+        const float = gsap.to(stampRef.current, {
+          y: -8,
+          duration: 2.3,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: tl.duration() + 0.2,
+        });
+
+        return () => {
+          tl.kill();
+          float.kill();
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef }
+  );
+
   return (
     <div
+      ref={rootRef}
       className="hidden lg:block absolute pointer-events-none"
       style={{ top: 30, right: 10, width: 420, height: 470 }}
       aria-hidden
     >
       <svg width="420" height="470" viewBox="0 0 420 470" className="absolute inset-0" style={{ overflow: "visible" }}>
         <path
+          ref={pathRef}
           d="M170 158 C 230 172, 270 185, 300 225 C 260 300, 210 355, 155 398"
           fill="none"
           stroke="var(--color-accent-2-300)"
           strokeWidth="3"
-          strokeDasharray="1 12"
           strokeLinecap="round"
         />
       </svg>
 
       {/* Review card mockup */}
       <div
-        className="absolute"
+        className="ai-card absolute"
         style={{
           top: 10,
           left: 40,
@@ -42,7 +100,7 @@ export function AboutIllustration() {
           {["Identity verified", "Credentials checked", "References confirmed"].map((label) => (
             <div key={label} className="flex items-center gap-2.5">
               <div
-                className="w-[18px] h-[18px] rounded-full grid place-content-center flex-none"
+                className="ai-check w-[18px] h-[18px] rounded-full grid place-content-center flex-none"
                 style={{ background: "var(--color-verified)" }}
               >
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
@@ -57,7 +115,8 @@ export function AboutIllustration() {
 
       {/* Verified stamp */}
       <div
-        className="absolute grid place-content-center"
+        ref={stampRef}
+        className="ai-stamp absolute grid place-content-center"
         style={{
           top: 225,
           left: 255,
@@ -85,7 +144,7 @@ export function AboutIllustration() {
 
       {/* Team review badge sitting on the connector */}
       <div
-        className="absolute flex items-center gap-2"
+        className="ai-badge absolute flex items-center gap-2"
         style={{
           top: 170,
           left: 60,
@@ -104,7 +163,7 @@ export function AboutIllustration() {
 
       {/* Handwritten note */}
       <div
-        className="absolute"
+        className="ai-note absolute"
         style={{
           top: 405,
           left: 100,

@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
@@ -63,5 +64,6 @@ export async function submitTutorProfile(
     },
   });
 
+  revalidatePath("/tutor");
   return { message: "success" };
 }

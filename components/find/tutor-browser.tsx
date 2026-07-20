@@ -1,16 +1,20 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Flip } from "gsap/Flip";
 import { Tag } from "@/components/ui/tag";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { SegmentedControl } from "@/components/ui/segmented";
-import { tutorsRaw, subjects } from "@/lib/mock-data";
+import { Toast, ToastTone } from "@/components/ui/toast";
+import { subjects, type TutorRaw } from "@/lib/mock-data";
+import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, Flip);
 
 const REGIONS = ["Anywhere", "United Kingdom", "United States", "Europe", "Asia-Pacific", "Africa"];
 const SORTS = ["Top rated", "Lowest price", "Most reviews"] as const;
@@ -21,8 +25,20 @@ function priceValue(price: string) {
 }
 
 function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) return;
+      gsap.from(ref.current, { autoAlpha: 0, scale: 0.7, duration: 0.3, ease: "back.out(2.2)" });
+    },
+    { scope: ref }
+  );
+
   return (
     <span
+      ref={ref}
       className="inline-flex items-center gap-1.5 text-[12px] font-medium"
       style={{
         background: "var(--color-accent-2-100)",
@@ -47,17 +63,59 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   );
 }
 
-export function TutorBrowser() {
+export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
+  const router = useRouter();
   const [subject, setSubject] = useState("All subjects");
   const [mode, setMode] = useState("Online");
   const [region, setRegion] = useState("Anywhere");
   const [maxBudget, setMaxBudget] = useState(120);
   const [sort, setSort] = useState<(typeof SORTS)[number]>("Top rated");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [pendingName, setPendingName] = useState<string | null>(null);
+  const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
+  const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const flipStateRef = useRef<Flip.FlipState | null>(null);
+  const knownIdsRef = useRef<Set<string>>(new Set());
+
+  const subjectOptions = useMemo(
+    () => Array.from(new Set([...subjects, ...tutors.flatMap((t) => t.subjects)])),
+    [tutors]
+  );
+
+  function captureFlip() {
+    const cards = gridRef.current?.querySelectorAll(".tutor-card");
+    if (cards && cards.length) {
+      flipStateRef.current = Flip.getState(cards);
+    }
+  }
+
+  function handleRequestTutor(t: TutorRaw) {
+    setPendingName(t.name);
+    startTransition(async () => {
+      const result = await requestSpecificTutor({
+        tutorName: t.name,
+        subject: t.subjects[0] ?? t.headline,
+        mode: t.mode,
+      });
+      setPendingName(null);
+      if (result.requiresAuth) {
+        router.push(`/login?callbackUrl=${encodeURIComponent("/find-a-tutor")}`);
+        return;
+      }
+      if (result.ok) {
+        setRequestedNames((prev) => new Set(prev).add(t.name));
+        setToast({ tone: "success", message: result.message ?? `Your request for ${t.name} has been sent.` });
+      } else {
+        setToast({ tone: "error", message: result.message ?? "Something went wrong. Please try again." });
+      }
+    });
+  }
 
   const filtered = useMemo(() => {
-    let list = tutorsRaw.filter((t) => {
+    let list = tutors.filter((t) => {
       if (subject !== "All subjects" && !t.subjects.includes(subject)) return false;
       if (mode !== "Both" && t.mode !== mode && t.mode !== "Both") return false;
       if (region !== "Anywhere" && t.region !== region) return false;
@@ -70,26 +128,76 @@ export function TutorBrowser() {
       return b.rating - a.rating;
     });
     return list;
-  }, [subject, mode, region, maxBudget, sort]);
+  }, [tutors, subject, mode, region, maxBudget, sort]);
 
-  const topRatedName = useMemo(
-    () => (filtered.length ? filtered.reduce((a, b) => (b.rating > a.rating ? b : a)).name : null),
-    [filtered]
+  const topRatedName = useMemo(() => {
+    if (!filtered.length) return null;
+    const best = filtered.reduce((a, b) => (b.rating > a.rating ? b : a));
+    return best.rating > 0 ? best.name : null;
+  }, [filtered]);
+
+  useGSAP(
+    () => {
+      const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tutor-card");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const currentIds = new Set(filtered.map((t) => t.id ?? t.name));
+      const newIds = new Set<string>();
+      if (knownIdsRef.current.size) {
+        currentIds.forEach((id) => {
+          if (!knownIdsRef.current.has(id)) newIds.add(id);
+        });
+      }
+      knownIdsRef.current = currentIds;
+
+      if (!cards || !cards.length || reduced) {
+        flipStateRef.current = null;
+        return;
+      }
+
+      const state = flipStateRef.current;
+      flipStateRef.current = null;
+
+      if (state) {
+        Flip.from(state, {
+          duration: 0.5,
+          ease: "power2.inOut",
+          stagger: 0.02,
+          absolute: true,
+          onEnter: (els) =>
+            gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }),
+        });
+      } else {
+        const entering = Array.from(cards).filter((c) => newIds.size === 0 || newIds.has(c.dataset.tutorId ?? ""));
+        gsap.fromTo(
+          entering.length ? entering : cards,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.04 }
+        );
+      }
+    },
+    { dependencies: [filtered], scope: gridRef }
   );
 
   useGSAP(
     () => {
-      const cards = gridRef.current?.querySelectorAll(".tutor-card");
-      if (!cards || !cards.length) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tween = gsap.from(sidebarRef.current, { autoAlpha: 0, x: -16, duration: 0.5, ease: "power3.out" });
+        return () => tween.kill();
+      });
+      return () => mm.revert();
+    },
+    { scope: sidebarRef }
+  );
+
+  useGSAP(
+    () => {
+      if (!filtersOpen) return;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return;
-      gsap.fromTo(
-        cards,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.04 }
-      );
+      gsap.from(sidebarRef.current, { autoAlpha: 0, y: -10, duration: 0.35, ease: "power2.out" });
     },
-    { dependencies: [filtered], scope: gridRef }
+    { dependencies: [filtersOpen], scope: sidebarRef }
   );
 
   const activeFilters = [
@@ -100,6 +208,7 @@ export function TutorBrowser() {
   ].filter(Boolean) as { label: string; clear: () => void }[];
 
   return (
+    <>
     <div className="grid gap-8 items-start [grid-template-columns:260px_1fr] max-[860px]:[grid-template-columns:1fr]">
       <div className="flex flex-col gap-3">
         <button
@@ -130,6 +239,7 @@ export function TutorBrowser() {
         </button>
 
         <aside
+          ref={sidebarRef}
           className={`card gap-4 sticky top-[88px] ${filtersOpen ? "" : "max-[860px]:hidden"}`}
           style={{ background: "var(--color-surface)" }}
         >
@@ -147,15 +257,22 @@ export function TutorBrowser() {
           {activeFilters.length > 0 && (
             <div className="flex flex-wrap gap-1.5 -mt-1">
               {activeFilters.map((f) => (
-                <FilterChip key={f.label} label={f.label} onRemove={f.clear} />
+                <FilterChip key={f.label} label={f.label} onRemove={() => { captureFlip(); f.clear(); }} />
               ))}
             </div>
           )}
           <div className="field">
             <label>Subject</label>
-            <select className="input" value={subject} onChange={(e) => setSubject(e.target.value)}>
+            <select
+              className="input"
+              value={subject}
+              onChange={(e) => {
+                captureFlip();
+                setSubject(e.target.value);
+              }}
+            >
               <option>All subjects</option>
-              {subjects.map((s) => (
+              {subjectOptions.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
@@ -165,7 +282,10 @@ export function TutorBrowser() {
             <SegmentedControl
               name="mode"
               value={mode}
-              onChange={setMode}
+              onChange={(v) => {
+                captureFlip();
+                setMode(v);
+              }}
               options={[
                 { label: "Online", value: "Online" },
                 { label: "In person", value: "In person" },
@@ -175,7 +295,14 @@ export function TutorBrowser() {
           </div>
           <div className="field">
             <label>Region</label>
-            <select className="input" value={region} onChange={(e) => setRegion(e.target.value)}>
+            <select
+              className="input"
+              value={region}
+              onChange={(e) => {
+                captureFlip();
+                setRegion(e.target.value);
+              }}
+            >
               {REGIONS.map((r) => (
                 <option key={r}>{r}</option>
               ))}
@@ -212,7 +339,10 @@ export function TutorBrowser() {
           <select
             className="input w-auto"
             value={sort}
-            onChange={(e) => setSort(e.target.value as (typeof SORTS)[number])}
+            onChange={(e) => {
+              captureFlip();
+              setSort(e.target.value as (typeof SORTS)[number]);
+            }}
           >
             {SORTS.map((s) => (
               <option key={s}>{s}</option>
@@ -221,10 +351,11 @@ export function TutorBrowser() {
         </div>
 
         {filtered.length > 0 ? (
-          <div ref={gridRef} className="grid gap-4.5 [grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]">
+          <div ref={gridRef} className="relative grid gap-4.5 [grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]">
             {filtered.map((t, i) => (
               <div
-                key={t.name}
+                key={t.id ?? t.name}
+                data-tutor-id={t.id ?? t.name}
                 className="tutor-card card elev-sm gap-3 transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
               >
                 <div className="flex gap-3 items-center">
@@ -236,6 +367,11 @@ export function TutorBrowser() {
                       {t.name === topRatedName && (
                         <Tag variant="accent" className="text-[10px] px-2 py-0.5">
                           Top rated
+                        </Tag>
+                      )}
+                      {t.isNew && (
+                        <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
+                          New
                         </Tag>
                       )}
                     </div>
@@ -261,17 +397,39 @@ export function TutorBrowser() {
                   ))}
                 </div>
                 <div className="flex justify-between items-center text-[13px]">
-                  <span className="flex items-center gap-1.5">
-                    <StarRating rating={t.rating} />
-                    <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                      {t.rating.toFixed(1)} ({t.reviews})
+                  {t.reviews > 0 ? (
+                    <span className="flex items-center gap-1.5">
+                      <StarRating rating={t.rating} />
+                      <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                        {t.rating.toFixed(1)} ({t.reviews})
+                      </span>
                     </span>
-                  </span>
+                  ) : (
+                    <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                      No reviews yet
+                    </span>
+                  )}
                   <span className="font-semibold">{t.price}</span>
                 </div>
-                <Link href="/request-a-tutor" className="btn btn-primary btn-block">
-                  Request This Tutor
-                </Link>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-block"
+                  disabled={pendingName === t.name || requestedNames.has(t.name)}
+                  onClick={() => handleRequestTutor(t)}
+                >
+                  {requestedNames.has(t.name) ? (
+                    <span className="inline-flex items-center gap-1.5">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      Request sent
+                    </span>
+                  ) : pendingName === t.name ? (
+                    "Sending…"
+                  ) : (
+                    "Request This Tutor"
+                  )}
+                </button>
               </div>
             ))}
           </div>
@@ -312,5 +470,7 @@ export function TutorBrowser() {
         )}
       </div>
     </div>
+    {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
+    </>
   );
 }

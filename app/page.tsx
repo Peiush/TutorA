@@ -3,11 +3,12 @@ import { Reveal } from "@/components/ui/reveal";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
-import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorStrip } from "@/components/home/tutor-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
+import { FeaturedTutors } from "@/components/home/featured-tutors";
+import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import {
   tutorsRaw,
   steps,
@@ -16,8 +17,9 @@ import {
   subjects,
 } from "@/lib/mock-data";
 
-export default function Home() {
-  const featured = tutorsRaw.slice(0, 3);
+export default async function Home() {
+  const approvedTutors = await getApprovedTutorListings();
+  const featured = [...approvedTutors, ...tutorsRaw].slice(0, 3);
 
   return (
     <div>
@@ -171,46 +173,7 @@ export default function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <StaggerReveal className="grid gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((t, i) => (
-            <div key={t.name} className="card elev-sm gap-3">
-              <div className="flex gap-3 items-center">
-                <TutorAvatar name={t.name} index={i} size={52} />
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-[var(--font-heading)] text-[17px]">{t.name}</span>
-                    <VerifiedBadge />
-                  </div>
-                  <div
-                    className="text-[12px] mt-0.5"
-                    style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
-                  >
-                    {t.meta.split(" · ").pop()}
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {t.subjects.map((s) => (
-                  <Tag key={s} variant="neutral">
-                    {s}
-                  </Tag>
-                ))}
-              </div>
-              <div className="flex justify-between items-center text-[13px]">
-                <span style={{ color: "var(--color-accent-700)" }}>
-                  ★ {t.rating.toFixed(1)}{" "}
-                  <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                    ({t.reviews})
-                  </span>
-                </span>
-                <span className="font-semibold">{t.price}</span>
-              </div>
-              <Link href="/request-a-tutor" className="btn btn-secondary btn-block mt-1">
-                Request This Tutor
-              </Link>
-            </div>
-          ))}
-        </StaggerReveal>
+        <FeaturedTutors tutors={featured} />
       </section>
 
       {/* Testimonials */}
