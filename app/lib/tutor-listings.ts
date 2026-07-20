@@ -28,6 +28,7 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
       mode: "Both",
       region: p.country,
       isNew: true,
+      bio: p.bio ?? undefined,
     };
   });
 }

@@ -82,8 +82,8 @@ export function HeroContent() {
         <Link href="/find-a-tutor" className="hero-cta btn btn-primary inline-block">
           Find a Tutor
         </Link>
-        <Link href="/become-a-tutor" className="hero-cta btn btn-secondary inline-block">
-          Become a Tutor
+        <Link href="/request-a-tutor" className="hero-cta btn btn-secondary inline-block">
+          Request a Tutor
         </Link>
       </div>
     </div>

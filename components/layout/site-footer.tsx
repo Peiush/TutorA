@@ -22,9 +22,6 @@ export function SiteFooter() {
           <Link href="/request-a-tutor" className="block" style={{ color: "var(--color-neutral-300)" }}>
             Request a Tutor
           </Link>
-          <Link href="/become-a-tutor" className="block" style={{ color: "var(--color-neutral-300)" }}>
-            Become a Tutor
-          </Link>
         </div>
         <div className="text-[14px] leading-[2]">
           <div className="mb-1.5" style={{ fontFamily: "var(--font-heading)", color: "var(--color-bg)" }}>

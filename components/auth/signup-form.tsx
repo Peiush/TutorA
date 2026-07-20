@@ -10,13 +10,10 @@ import {
   EyeOffIcon,
   ArrowRightIcon,
   SpinnerIcon,
-  GraduationCapIcon,
-  ChalkboardIcon,
 } from "@/components/auth/auth-icons";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined);
-  const [role, setRole] = useState<"STUDENT" | "TUTOR">("STUDENT");
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -24,25 +21,8 @@ export function SignupForm() {
       <div>
         <h1 className="text-[28px]">Create your account</h1>
         <p className="text-[14.5px] mt-1.5" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
-          Tell us a little about you to get matched.
+          Tell us a little about you to get matched with a tutor.
         </p>
-      </div>
-
-      <div className="field">
-        <label>I am a</label>
-        <div className="grid grid-cols-2 gap-2.5">
-          <label className="role-card">
-            <input type="radio" name="role-display" checked={role === "STUDENT"} onChange={() => setRole("STUDENT")} />
-            <GraduationCapIcon width={20} height={20} />
-            <span className="font-[var(--font-heading)] font-semibold text-[14px]">Student</span>
-          </label>
-          <label className="role-card">
-            <input type="radio" name="role-display" checked={role === "TUTOR"} onChange={() => setRole("TUTOR")} />
-            <ChalkboardIcon width={20} height={20} />
-            <span className="font-[var(--font-heading)] font-semibold text-[14px]">Tutor</span>
-          </label>
-        </div>
-        <input type="hidden" name="role" value={role} />
       </div>
 
       <div className="field">

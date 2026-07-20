@@ -4,6 +4,7 @@ const roleGatedPrefixes: Record<string, string> = {
   "/dashboard": "STUDENT",
   "/tutor": "TUTOR",
   "/admin": "ADMIN",
+  "/become-a-tutor": "ADMIN",
 };
 
 export const authConfig = {

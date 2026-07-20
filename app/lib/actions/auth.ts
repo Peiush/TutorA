@@ -15,7 +15,6 @@ const SignupSchema = z.object({
     .min(8, "Be at least 8 characters long.")
     .regex(/[a-zA-Z]/, "Contain at least one letter.")
     .regex(/[0-9]/, "Contain at least one number."),
-  role: z.enum(["STUDENT", "TUTOR"]),
 });
 
 export type SignupState =
@@ -24,7 +23,6 @@ export type SignupState =
         name?: string[];
         email?: string[];
         password?: string[];
-        role?: string[];
       };
       message?: string;
     }
@@ -35,14 +33,13 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
-    role: formData.get("role"),
   });
 
   if (!validated.success) {
     return { errors: validated.error.flatten().fieldErrors };
   }
 
-  const { name, email, password, role } = validated.data;
+  const { name, email, password } = validated.data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -52,13 +49,13 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await prisma.user.create({
-    data: { name, email, password: hashedPassword, role },
+    data: { name, email, password: hashedPassword, role: "STUDENT" },
   });
 
   await signIn("credentials", {
     email,
     password,
-    redirectTo: role === "TUTOR" ? "/tutor" : "/dashboard",
+    redirectTo: "/dashboard",
   });
 }
 

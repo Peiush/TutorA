@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
@@ -51,6 +52,9 @@ export function AdminHeader({ name, email }: { name: string; email: string }) {
             {email} · Platform overview
           </p>
         </div>
+        <Link href="/become-a-tutor" className="btn btn-primary relative">
+          Add a teacher
+        </Link>
       </div>
     </Reveal>
   );

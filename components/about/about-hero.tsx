@@ -114,8 +114,8 @@ export function AboutHero() {
             <Link href="/find-a-tutor" className="ah-cta btn btn-primary">
               Find a Tutor
             </Link>
-            <Link href="/become-a-tutor" className="ah-cta btn btn-secondary">
-              Become a Tutor
+            <Link href="/request-a-tutor" className="ah-cta btn btn-secondary">
+              Request a Tutor
             </Link>
           </div>
         </div>

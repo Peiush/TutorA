@@ -11,6 +11,8 @@ export interface TutorRaw {
   mode: "Online" | "In person" | "Both";
   region: string;
   isNew?: boolean;
+  languages?: string[];
+  bio?: string;
 }
 
 export const tutorsRaw: TutorRaw[] = [
@@ -25,6 +27,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Lagos, Nigeria",
     mode: "Online",
     region: "Africa",
+    languages: ["English", "Igbo"],
+    bio: "I help students build genuine intuition for physics and maths, not just memorised formulas. My lessons move from first-principles reasoning to exam technique, with plenty of worked problems tailored to each student's syllabus.",
   },
   {
     name: "Liang Wei",
@@ -37,6 +41,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Chicago, USA",
     mode: "Online",
     region: "United States",
+    languages: ["English", "Mandarin"],
+    bio: "A patient, structured teacher who specialises in turning maths anxiety into confidence. I focus on building strong fundamentals before layering on exam strategy, and share visual, step-by-step notes after every session.",
   },
   {
     name: "Sofia Marchetti",
@@ -49,6 +55,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Milan, Italy",
     mode: "Online",
     region: "Europe",
+    languages: ["Italian", "Spanish", "English"],
+    bio: "Native Italian speaker with a passion for conversational fluency. Lessons blend grammar with real conversation, music and film, so language feels natural rather than academic from day one.",
   },
   {
     name: "James Halloran",
@@ -61,6 +69,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "London, UK",
     mode: "In person",
     region: "United Kingdom",
+    languages: ["English"],
+    bio: "Former secondary school science teacher now tutoring full-time. I specialise in exam board-specific preparation (AQA, Edexcel, OCR) and love making abstract concepts click with hands-on analogies.",
   },
   {
     name: "Priya Nair",
@@ -73,6 +83,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Bengaluru, India",
     mode: "Online",
     region: "Asia-Pacific",
+    languages: ["English", "Hindi", "Tamil"],
+    bio: "Software engineer turned educator. I teach programming fundamentals, data structures and Python through project-based learning, so students leave every session with something real they built themselves.",
   },
   {
     name: "Daniel Kim",
@@ -85,6 +97,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Toronto, Canada",
     mode: "Online",
     region: "United States",
+    languages: ["English", "Korean"],
+    bio: "Specialist SAT/ACT coach with a track record of significant score improvements. I build a personalised study plan around each student's target schools and weak spots, with weekly timed practice.",
   },
   {
     name: "Elena Rossi",
@@ -97,6 +111,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Rome, Italy",
     mode: "In person",
     region: "Europe",
+    languages: ["Italian", "English", "French"],
+    bio: "Conservatory-trained pianist teaching students of all ages and levels. Lessons combine technique, theory and repertoire chosen to keep practice genuinely enjoyable, not just correct.",
   },
   {
     name: "Marcus Bennett",
@@ -109,6 +125,8 @@ export const tutorsRaw: TutorRaw[] = [
     city: "Austin, USA",
     mode: "Online",
     region: "United States",
+    languages: ["English"],
+    bio: "I help students write with clarity and confidence, from essay structure to close reading of literature. Feedback is detailed and specific, aimed at building skills that carry over to every subject.",
   },
 ];
 

@@ -3,7 +3,6 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Link from "next/link";
 import { submitTutorProfile } from "@/app/lib/actions/tutor-profile";
 
 gsap.registerPlugin(useGSAP);
@@ -66,12 +65,12 @@ function SubmittedScreen() {
           <path ref={checkRef} d="M20 6 9 17l-5-5" />
         </svg>
       </div>
-      <h2 className="bf-heading font-[var(--font-heading)] text-[22px]">Listing submitted</h2>
+      <h2 className="bf-heading font-[var(--font-heading)] text-[22px]">Teacher added</h2>
       <p
         className="bf-copy text-[14px] leading-[1.6] m-0"
         style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
       >
-        We&rsquo;ll review your profile and get back to you within 24–48 hours.
+        This teacher is now live in the listings and ready to be matched with students.
       </p>
     </div>
   );
@@ -119,15 +118,23 @@ export function BecomeForm() {
       className="card elev-md gap-4 p-[var(--space-6)]"
       style={{ background: "var(--color-bg)" }}
     >
-      <div className="font-[var(--font-heading)] text-[22px]">Create your listing</div>
+      <div className="font-[var(--font-heading)] text-[22px]">Add a teacher</div>
 
-      <FieldGroupHeading>About you</FieldGroupHeading>
+      <FieldGroupHeading>Teacher details</FieldGroupHeading>
+      <div className="field">
+        <label>Full name</label>
+        <input className="input" name="name" placeholder="Jane Doe" required />
+      </div>
+      <div className="field">
+        <label>Email</label>
+        <input className="input" name="email" type="email" placeholder="jane@example.com" required />
+      </div>
       <div className="field">
         <label>Country</label>
         <input className="input" name="country" placeholder="United Kingdom" required />
       </div>
 
-      <FieldGroupHeading>Your teaching profile</FieldGroupHeading>
+      <FieldGroupHeading>Teaching profile</FieldGroupHeading>
       <div className="field">
         <label>Subjects you teach</label>
         <input className="input" name="subjects" placeholder="e.g. Physics, Mathematics" required />
@@ -172,23 +179,18 @@ export function BecomeForm() {
 
       {state?.message && state.message !== "success" && (
         <p className="text-[13.5px] m-0" style={{ color: "#d92d20" }}>
-          {state.message}{" "}
-          {state.message.includes("Create a tutor account") && (
-            <Link href="/signup" className="underline">
-              Sign up
-            </Link>
-          )}
+          {state.message}
         </p>
       )}
 
       <button type="submit" className="btn btn-primary btn-block" disabled={pending}>
-        {pending ? "Submitting…" : "Submit for review"}
+        {pending ? "Adding…" : "Add teacher"}
       </button>
       <p
         className="text-[12.5px] m-0 text-center"
         style={{ color: "color-mix(in srgb, var(--color-text) 64%, transparent)" }}
       >
-        Profiles are reviewed within 24–48 hours before going live.
+        The listing goes live immediately for students to find and request.
       </p>
     </form>
   );

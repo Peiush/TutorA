@@ -9,9 +9,10 @@ import { TutorAvatar } from "@/components/ui/tutor-avatar";
 const LINKS = [
   { href: "/find-a-tutor", label: "Find a Tutor" },
   { href: "/request-a-tutor", label: "Request a Tutor" },
-  { href: "/become-a-tutor", label: "Become a Tutor" },
   { href: "/about", label: "About" },
 ];
+
+const ADMIN_LINKS = [{ href: "/become-a-tutor", label: "Add a Teacher" }];
 
 const DASHBOARD_HREF: Record<string, string> = {
   STUDENT: "/dashboard",
@@ -126,7 +127,7 @@ export function SiteNav({ user = null }: { user?: NavUser }) {
       >
         TutorConnect
       </Link>
-      {LINKS.map((link) => (
+      {[...LINKS, ...(user?.role === "ADMIN" ? ADMIN_LINKS : [])].map((link) => (
         <Link
           key={link.href}
           href={link.href}

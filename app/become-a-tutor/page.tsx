@@ -1,20 +1,20 @@
-import { tutorPerks, tutorTestimonials } from "@/lib/mock-data";
 import { BecomeForm } from "@/components/become/become-form";
 import { BecomeHero } from "@/components/become/become-hero";
-import { BecomeTestimonials } from "@/components/become/become-testimonials";
 
 export const metadata = {
-  title: "Become a Tutor — TutorConnect",
+  title: "Add a Teacher — TutorConnect",
 };
+
+const adminPerks = [
+  "Teacher listings go live immediately — no separate review step.",
+  "Every teacher is added by an admin; there is no self-service tutor signup.",
+  "Once added, the teacher can be matched against open student requests.",
+];
 
 export default function BecomeATutorPage() {
   return (
-    <div>
-      <section style={{ background: "var(--color-surface)" }}>
-        <BecomeHero perks={tutorPerks} form={<BecomeForm />} />
-      </section>
-
-      <BecomeTestimonials testimonials={tutorTestimonials} />
-    </div>
+    <section style={{ background: "var(--color-surface)" }}>
+      <BecomeHero perks={adminPerks} form={<BecomeForm />} />
+    </section>
   );
 }

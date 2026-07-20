@@ -11,8 +11,12 @@ import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { SegmentedControl } from "@/components/ui/segmented";
 import { Toast, ToastTone } from "@/components/ui/toast";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
+import { TutorAdminEditModal } from "@/components/find/tutor-admin-edit-modal";
 import { subjects, type TutorRaw } from "@/lib/mock-data";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
+import { deleteTutorProfile } from "@/app/lib/actions/admin";
 
 gsap.registerPlugin(useGSAP, Flip);
 
@@ -63,7 +67,7 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   );
 }
 
-export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
+export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; isAdmin?: boolean }) {
   const router = useRouter();
   const [subject, setSubject] = useState("All subjects");
   const [mode, setMode] = useState("Online");
@@ -74,6 +78,10 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   const [pendingName, setPendingName] = useState<string | null>(null);
   const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [selected, setSelected] = useState<{ tutor: TutorRaw; index: number } | null>(null);
+  const [editingTutor, setEditingTutor] = useState<TutorRaw | null>(null);
+  const [deletingTutor, setDeletingTutor] = useState<TutorRaw | null>(null);
+  const [deletePending, setDeletePending] = useState(false);
   const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -112,6 +120,20 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
         setToast({ tone: "error", message: result.message ?? "Something went wrong. Please try again." });
       }
     });
+  }
+
+  async function handleDeleteTutor() {
+    if (!deletingTutor?.id) return;
+    setDeletePending(true);
+    const result = await deleteTutorProfile(deletingTutor.id);
+    setDeletePending(false);
+    setDeletingTutor(null);
+    if (result.ok) {
+      setToast({ tone: "success", message: `${deletingTutor.name}'s listing has been removed.` });
+      router.refresh();
+    } else {
+      setToast({ tone: "error", message: result.message ?? "Could not delete this listing." });
+    }
   }
 
   const filtered = useMemo(() => {
@@ -356,7 +378,16 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
               <div
                 key={t.id ?? t.name}
                 data-tutor-id={t.id ?? t.name}
-                className="tutor-card card elev-sm gap-3 transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelected({ tutor: t, index: i })}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelected({ tutor: t, index: i });
+                  }
+                }}
+                className="tutor-card card elev-sm gap-3 relative cursor-pointer transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
               >
                 <div className="flex gap-3 items-center">
                   <TutorAvatar name={t.name} index={i} size={52} />
@@ -415,7 +446,10 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                   type="button"
                   className="btn btn-primary btn-block"
                   disabled={pendingName === t.name || requestedNames.has(t.name)}
-                  onClick={() => handleRequestTutor(t)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRequestTutor(t);
+                  }}
                 >
                   {requestedNames.has(t.name) ? (
                     <span className="inline-flex items-center gap-1.5">
@@ -430,6 +464,46 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                     "Request This Tutor"
                   )}
                 </button>
+                {isAdmin && t.id && (
+                  <div className="flex gap-2 -mt-1">
+                    <button
+                      type="button"
+                      aria-label={`Edit ${t.name}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingTutor(t);
+                      }}
+                      className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
+                      style={{
+                        width: 34,
+                        height: 34,
+                        background: "var(--color-surface)",
+                        color: "var(--color-text)",
+                        border: "1px solid color-mix(in srgb, var(--color-text) 15%, transparent)",
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Delete ${t.name}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeletingTutor(t);
+                      }}
+                      className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
+                      style={{ width: 34, height: 34, background: "color-mix(in srgb, #d92d20 12%, transparent)", color: "#d92d20" }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 6h18" />
+                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -471,6 +545,37 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
       </div>
     </div>
     {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
+    {selected && (
+      <TutorDetailModal
+        tutor={selected.tutor}
+        index={selected.index}
+        isTopRated={selected.tutor.name === topRatedName}
+        pending={pendingName === selected.tutor.name}
+        requested={requestedNames.has(selected.tutor.name)}
+        onClose={() => setSelected(null)}
+        onRequest={handleRequestTutor}
+      />
+    )}
+    {editingTutor && (
+      <TutorAdminEditModal
+        tutor={editingTutor}
+        onClose={() => setEditingTutor(null)}
+        onSaved={() => {
+          setToast({ tone: "success", message: `${editingTutor.name}'s listing has been updated.` });
+          router.refresh();
+        }}
+      />
+    )}
+    {deletingTutor && (
+      <ConfirmDialog
+        title="Delete this tutor listing?"
+        description={`${deletingTutor.name}'s listing will be permanently removed from Find a Tutor.`}
+        confirmLabel="Delete"
+        pending={deletePending}
+        onConfirm={handleDeleteTutor}
+        onCancel={() => setDeletingTutor(null)}
+      />
+    )}
     </>
   );
 }

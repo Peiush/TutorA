@@ -45,17 +45,17 @@ export function BecomeHero({ perks, form }: { perks: string[]; form: React.React
     >
       <div>
         <Tag variant="accent-2" className="bh-tag text-[12px] px-3.5 py-1.5">
-          Become a Tutor
+          Admin
         </Tag>
         <h1 className="bh-heading text-[clamp(32px,4.4vw,54px)] leading-[1.05] mt-4">
-          Teach more. Chase leads less.
+          Add a teacher to the platform.
         </h1>
         <p
           className="bh-copy text-[17px] leading-[1.6] mt-5 max-w-[46ch]"
           style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
         >
-          We bring you matched, ready students and handle the vetting and introductions. You
-          focus on teaching.
+          Teachers don&rsquo;t sign up themselves — you create their listing here and it goes
+          live immediately for students to find and request.
         </p>
         <div className="grid gap-4 mt-7 max-w-[44ch]">
           {perks.map((p, i) => (
