@@ -120,6 +120,14 @@ export function XIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function BookmarkIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
 export function InboxEmptyIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)} aria-hidden>

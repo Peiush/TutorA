@@ -28,6 +28,27 @@ enum TutorRequestStatus {
   CLOSED
 }
 
+enum CourseCategory {
+  MATHEMATICS
+  SCIENCE
+  COMPUTER_SCIENCE
+  LANGUAGES
+  MUSIC
+  TEST_PREP
+  WRITING
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ALL_LEVELS
+}
+
+enum CourseRequestStatus {
+  OPEN
+  CLOSED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -45,6 +66,9 @@ model User {
   tutorProfile TutorProfile?
   tutorRequests TutorRequest[]
   matchedRequests TutorRequest[] @relation("MatchedTutorRequests")
+  savedTutors   SavedTutor[]
+  savedCourses    SavedCourse[]
+  courseRequests  CourseRequest[]
 
   @@map("users")
 }
@@ -100,11 +124,26 @@ model TutorProfile {
   bio            String?
   certificateUrl String?
   status         TutorProfileStatus  @default(PENDING)
+  savedBy        SavedTutor[]
+  courses        Course[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("tutor_profiles")
+}
+
+model SavedTutor {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tutorProfileId String
+  tutorProfile   TutorProfile @relation(fields: [tutorProfileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, tutorProfileId])
+  @@map("saved_tutors")
 }
 
 model TutorRequest {
@@ -124,6 +163,9 @@ model TutorRequest {
   budgetPerHour    Int?
   notes            String?
   status           TutorRequestStatus @default(OPEN)
+  requestedTutorName String?
+  requestedTutorRate String?
+  requestedTutorProfileId String?
   matchedTutorId   String?
   matchedTutor     User?               @relation("MatchedTutorRequests", fields: [matchedTutorId], references: [id], onDelete: SetNull)
 
@@ -131,4 +173,60 @@ model TutorRequest {
   updatedAt DateTime @updatedAt
 
   @@map("tutor_requests")
+}
+
+model Course {
+  id                  String         @id @default(cuid())
+  title               String
+  subtitle            String?
+  instructorId        String
+  instructor          TutorProfile   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  category            CourseCategory
+  level               CourseLevel    @default(ALL_LEVELS)
+  rating              Float          @default(4.8)
+  reviewCount         Int            @default(0)
+  priceCents          Int
+  originalPriceCents  Int
+  durationHours       Float
+  lectureCount        Int
+  whatYoullLearn      String
+  bestseller          Boolean        @default(false)
+  premium             Boolean        @default(false)
+  isNew               Boolean        @default(false)
+  published           Boolean        @default(true)
+  savedBy             SavedCourse[]
+  requests            CourseRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("courses")
+}
+
+model SavedCourse {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@map("saved_courses")
+}
+
+model CourseRequest {
+  id       String              @id @default(cuid())
+  userId   String
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course              @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status   CourseRequestStatus @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@map("course_requests")
 }

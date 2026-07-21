@@ -9,6 +9,8 @@ import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import {
   tutorsRaw,
   steps,
@@ -20,6 +22,21 @@ import {
 export default async function Home() {
   const approvedTutors = await getApprovedTutorListings();
   const featured = [...approvedTutors, ...tutorsRaw].slice(0, 3);
+
+  const session = await auth();
+  const requestedTutors = session?.user?.id
+    ? await prisma.tutorRequest.findMany({
+        where: {
+          userId: session.user.id,
+          status: { in: ["OPEN", "MATCHED"] },
+          requestedTutorProfileId: { not: null },
+        },
+        select: { requestedTutorProfileId: true },
+      })
+    : [];
+  const requestedTutorProfileIds = requestedTutors
+    .map((r) => r.requestedTutorProfileId)
+    .filter((id): id is string => Boolean(id));
 
   return (
     <div>
@@ -173,7 +190,7 @@ export default async function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <FeaturedTutors tutors={featured} />
+        <FeaturedTutors tutors={featured} requestedTutorProfileIds={requestedTutorProfileIds} />
       </section>
 
       {/* Testimonials */}

@@ -7,9 +7,10 @@ import { logout } from "@/app/lib/actions/auth";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 
 const LINKS = [
+  { href: "/courses", label: "Courses" },
   { href: "/find-a-tutor", label: "Find a Tutor" },
   { href: "/request-a-tutor", label: "Request a Tutor" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
 ];
 
 const ADMIN_LINKS = [{ href: "/become-a-tutor", label: "Add a Teacher" }];

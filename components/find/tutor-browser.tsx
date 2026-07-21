@@ -16,7 +16,9 @@ import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
 import { TutorAdminEditModal } from "@/components/find/tutor-admin-edit-modal";
 import { subjects, type TutorRaw } from "@/lib/mock-data";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
+import { toggleSavedTutor } from "@/app/lib/actions/saved-tutor";
 import { deleteTutorProfile } from "@/app/lib/actions/admin";
+import { usePlaneLaunch } from "@/components/ui/plane-launch";
 
 gsap.registerPlugin(useGSAP, Flip);
 
@@ -26,6 +28,17 @@ const SORTS = ["Top rated", "Lowest price", "Most reviews"] as const;
 function priceValue(price: string) {
   const n = parseFloat(price.replace(/[^0-9.]/g, ""));
   return Number.isFinite(n) ? n : 0;
+}
+
+const TIERS = [
+  { label: "Gold", min: 90, color: "#8A6A12", bg: "#FBEFC7" },
+  { label: "Silver", min: 30, color: "#4A5568", bg: "#E7EAEE" },
+  { label: "Bronze", min: 0, color: "#8A4B2C", bg: "#F3E1D2" },
+] as const;
+
+function tierOf(t: TutorRaw) {
+  const score = t.reviews + t.rating * 10;
+  return TIERS.find((tier) => score >= tier.min) ?? TIERS[TIERS.length - 1];
 }
 
 function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }) {
@@ -67,7 +80,17 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   );
 }
 
-export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; isAdmin?: boolean }) {
+export function TutorBrowser({
+  tutors,
+  isAdmin = false,
+  savedTutorIds = [],
+  requestedTutorProfileIds = [],
+}: {
+  tutors: TutorRaw[];
+  isAdmin?: boolean;
+  savedTutorIds?: string[];
+  requestedTutorProfileIds?: string[];
+}) {
   const router = useRouter();
   const [subject, setSubject] = useState("All subjects");
   const [mode, setMode] = useState("Online");
@@ -77,11 +100,19 @@ export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; 
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [pendingName, setPendingName] = useState<string | null>(null);
   const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
+  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set(requestedTutorProfileIds));
+  const launchPlane = usePlaneLaunch();
+
+  function isAlreadyRequested(t: TutorRaw) {
+    return t.id ? requestedIds.has(t.id) : requestedNames.has(t.name);
+  }
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [selected, setSelected] = useState<{ tutor: TutorRaw; index: number } | null>(null);
   const [editingTutor, setEditingTutor] = useState<TutorRaw | null>(null);
   const [deletingTutor, setDeletingTutor] = useState<TutorRaw | null>(null);
   const [deletePending, setDeletePending] = useState(false);
+  const [bookmarked, setBookmarked] = useState<Set<string>>(new Set(savedTutorIds));
+  const [bookmarkPending, setBookmarkPending] = useState<Set<string>>(new Set());
   const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -101,12 +132,15 @@ export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; 
   }
 
   function handleRequestTutor(t: TutorRaw) {
+    if (isAlreadyRequested(t)) return;
     setPendingName(t.name);
     startTransition(async () => {
       const result = await requestSpecificTutor({
         tutorName: t.name,
         subject: t.subjects[0] ?? t.headline,
         mode: t.mode,
+        tutorRate: t.price,
+        tutorProfileId: t.id,
       });
       setPendingName(null);
       if (result.requiresAuth) {
@@ -115,9 +149,42 @@ export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; 
       }
       if (result.ok) {
         setRequestedNames((prev) => new Set(prev).add(t.name));
+        if (t.id) setRequestedIds((prev) => new Set(prev).add(t.id!));
         setToast({ tone: "success", message: result.message ?? `Your request for ${t.name} has been sent.` });
       } else {
         setToast({ tone: "error", message: result.message ?? "Something went wrong. Please try again." });
+      }
+    });
+  }
+
+  function handleToggleBookmark(t: TutorRaw) {
+    if (!t.id) return;
+    const id = t.id;
+    setBookmarkPending((prev) => new Set(prev).add(id));
+    startTransition(async () => {
+      const result = await toggleSavedTutor(id);
+      setBookmarkPending((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+      if (result.requiresAuth) {
+        router.push(`/login?callbackUrl=${encodeURIComponent("/find-a-tutor")}`);
+        return;
+      }
+      if (result.ok) {
+        setBookmarked((prev) => {
+          const next = new Set(prev);
+          if (result.saved) next.add(id);
+          else next.delete(id);
+          return next;
+        });
+        setToast({
+          tone: "success",
+          message: result.saved ? `${t.name} saved to your dashboard.` : `${t.name} removed from saved tutors.`,
+        });
+      } else {
+        setToast({ tone: "error", message: result.message ?? "Could not update saved tutors." });
       }
     });
   }
@@ -373,139 +440,232 @@ export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; 
         </div>
 
         {filtered.length > 0 ? (
-          <div ref={gridRef} className="relative grid gap-4.5 [grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]">
-            {filtered.map((t, i) => (
-              <div
-                key={t.id ?? t.name}
-                data-tutor-id={t.id ?? t.name}
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelected({ tutor: t, index: i })}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelected({ tutor: t, index: i });
-                  }
-                }}
-                className="tutor-card card elev-sm gap-3 relative cursor-pointer transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
-              >
-                <div className="flex gap-3 items-center">
-                  <TutorAvatar name={t.name} index={i} size={52} />
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="font-[var(--font-heading)] text-[17px]">{t.name}</span>
-                      <VerifiedBadge />
-                      {t.name === topRatedName && (
-                        <Tag variant="accent" className="text-[10px] px-2 py-0.5">
-                          Top rated
-                        </Tag>
-                      )}
-                      {t.isNew && (
-                        <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
-                          New
-                        </Tag>
-                      )}
-                    </div>
-                    <div
-                      className="text-[12.5px]"
-                      style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
-                    >
-                      {t.headline}
-                    </div>
-                  </div>
-                </div>
+          <div ref={gridRef} className="relative flex flex-col gap-4">
+            {filtered.map((t, i) => {
+              const tier = tierOf(t);
+              const isBookmarked = t.id ? bookmarked.has(t.id) : false;
+              const isBookmarkPending = t.id ? bookmarkPending.has(t.id) : false;
+              return (
                 <div
-                  className="text-[12.5px]"
-                  style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
-                >
-                  {t.meta}
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {t.subjects.map((s) => (
-                    <Tag key={s} variant="neutral">
-                      {s}
-                    </Tag>
-                  ))}
-                </div>
-                <div className="flex justify-between items-center text-[13px]">
-                  {t.reviews > 0 ? (
-                    <span className="flex items-center gap-1.5">
-                      <StarRating rating={t.rating} />
-                      <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                        {t.rating.toFixed(1)} ({t.reviews})
-                      </span>
-                    </span>
-                  ) : (
-                    <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                      No reviews yet
-                    </span>
-                  )}
-                  <span className="font-semibold">{t.price}</span>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-block"
-                  disabled={pendingName === t.name || requestedNames.has(t.name)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRequestTutor(t);
+                  key={t.id ?? t.name}
+                  data-tutor-id={t.id ?? t.name}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelected({ tutor: t, index: i })}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelected({ tutor: t, index: i });
+                    }
                   }}
+                  className="tutor-card card elev-sm relative cursor-pointer transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
                 >
-                  {requestedNames.has(t.name) ? (
-                    <span className="inline-flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                      Request sent
-                    </span>
-                  ) : pendingName === t.name ? (
-                    "Sending…"
-                  ) : (
-                    "Request This Tutor"
-                  )}
-                </button>
-                {isAdmin && t.id && (
-                  <div className="flex gap-2 -mt-1">
-                    <button
-                      type="button"
-                      aria-label={`Edit ${t.name}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEditingTutor(t);
-                      }}
-                      className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
-                      style={{
-                        width: 34,
-                        height: 34,
-                        background: "var(--color-surface)",
-                        color: "var(--color-text)",
-                        border: "1px solid color-mix(in srgb, var(--color-text) 15%, transparent)",
-                      }}
-                    >
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 20h9" />
-                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      aria-label={`Delete ${t.name}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setDeletingTutor(t);
-                      }}
-                      className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
-                      style={{ width: 34, height: 34, background: "color-mix(in srgb, #d92d20 12%, transparent)", color: "#d92d20" }}
-                    >
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 6h18" />
-                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
-                      </svg>
-                    </button>
+                  <div className="flex gap-4 p-5 max-[560px]:flex-col">
+                    <div className="flex flex-col items-center gap-1.5 flex-none">
+                      <TutorAvatar name={t.name} index={i} size={64} withBadge />
+                      <span
+                        className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+                        style={{ background: tier.bg, color: tier.color }}
+                      >
+                        {tier.label}
+                      </span>
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-[var(--font-heading)] text-[18px]">{t.name}</span>
+                            <VerifiedBadge />
+                            {t.name === topRatedName && (
+                              <Tag variant="accent" className="text-[10px] px-2 py-0.5">
+                                Top rated
+                              </Tag>
+                            )}
+                            {t.isNew && (
+                              <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
+                                New
+                              </Tag>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                            <span
+                              className="text-[12.5px]"
+                              style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+                            >
+                              {t.city}
+                            </span>
+                            <Tag variant="neutral" className="text-[10px] px-2 py-0.5">
+                              {t.mode === "In person" ? "Home Tutor" : t.mode === "Both" ? "Online & Home" : "Online Tutor"}
+                            </Tag>
+                          </div>
+                        </div>
+                        <span
+                          className="font-[var(--font-heading)] text-[20px] whitespace-nowrap"
+                          style={{ color: "var(--color-accent-2-700)" }}
+                        >
+                          {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
+                          <span
+                            className="text-[12px] font-[var(--font-body)] font-normal"
+                            style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                          >
+                            /hr
+                          </span>
+                        </span>
+                      </div>
+
+                      <div className="mt-2.5 flex items-start gap-1.5 text-[13px]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                          <path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5" />
+                          <path d="M2 19.5h20" />
+                          <path d="M9 22v-4h6v4" />
+                        </svg>
+                        <span>
+                          <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+                            Teaches:
+                          </span>{" "}
+                          {t.subjects.map((s, si) => (
+                            <span key={s}>
+                              <strong style={{ color: "var(--color-text)" }}>{s}</strong>
+                              {si < t.subjects.length - 1 ? ", " : ""}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+
+                      {t.languages && t.languages.length > 0 && (
+                        <div
+                          className="mt-1 flex items-center gap-1.5 text-[13px]"
+                          style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                          </svg>
+                          Speaks {t.languages.join(", ")}
+                        </div>
+                      )}
+
+                      {(t.bio || t.headline) && (
+                        <p
+                          className="text-[13px] leading-relaxed line-clamp-2 mt-2.5 mb-0"
+                          style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
+                        >
+                          {t.bio || t.headline}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  <div
+                    className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap"
+                    style={{ borderTop: "1px solid color-mix(in srgb, var(--color-text) 8%, transparent)", background: "color-mix(in srgb, var(--color-surface) 60%, transparent)" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      {t.reviews > 0 ? (
+                        <span className="flex items-center gap-1.5 text-[13px]">
+                          <StarRating rating={t.rating} />
+                          <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                            {t.rating.toFixed(1)} ({t.reviews})
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                          No reviews yet
+                        </span>
+                      )}
+                      {isAdmin && t.id && (
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            aria-label={`Edit ${t.name}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingTutor(t);
+                            }}
+                            className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
+                            style={{
+                              width: 32,
+                              height: 32,
+                              background: "var(--color-surface)",
+                              color: "var(--color-text)",
+                              border: "1px solid color-mix(in srgb, var(--color-text) 15%, transparent)",
+                            }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M12 20h9" />
+                              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg>
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Delete ${t.name}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeletingTutor(t);
+                            }}
+                            className="grid place-content-center rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
+                            style={{ width: 32, height: 32, background: "color-mix(in srgb, #d92d20 12%, transparent)", color: "#d92d20" }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M3 6h18" />
+                              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        aria-label={isBookmarked ? `Remove ${t.name} from saved tutors` : `Save ${t.name}`}
+                        aria-pressed={isBookmarked}
+                        disabled={isBookmarkPending}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleBookmark(t);
+                        }}
+                        className="grid place-content-center rounded-full cursor-pointer transition-colors duration-150"
+                        style={{
+                          width: 38,
+                          height: 38,
+                          color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
+                          border: "1px solid color-mix(in srgb, var(--color-text) 15%, transparent)",
+                          opacity: isBookmarkPending ? 0.6 : 1,
+                        }}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled={pendingName === t.name || isAlreadyRequested(t)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          launchPlane(e.currentTarget);
+                          handleRequestTutor(t);
+                        }}
+                      >
+                        {isAlreadyRequested(t) ? (
+                          <span className="inline-flex items-center gap-1.5">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                            Request sent
+                          </span>
+                        ) : pendingName === t.name ? (
+                          "Sending…"
+                        ) : (
+                          "Send Request"
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div
@@ -551,7 +711,7 @@ export function TutorBrowser({ tutors, isAdmin = false }: { tutors: TutorRaw[]; 
         index={selected.index}
         isTopRated={selected.tutor.name === topRatedName}
         pending={pendingName === selected.tutor.name}
-        requested={requestedNames.has(selected.tutor.name)}
+        requested={isAlreadyRequested(selected.tutor)}
         onClose={() => setSelected(null)}
         onRequest={handleRequestTutor}
       />

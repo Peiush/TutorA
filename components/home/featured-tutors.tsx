@@ -12,20 +12,34 @@ import type { tutorsRaw } from "@/lib/mock-data";
 
 type Tutor = (typeof tutorsRaw)[number];
 
-export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
+export function FeaturedTutors({
+  tutors,
+  requestedTutorProfileIds = [],
+}: {
+  tutors: Tutor[];
+  requestedTutorProfileIds?: string[];
+}) {
   const router = useRouter();
   const [pendingName, setPendingName] = useState<string | null>(null);
   const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
+  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set(requestedTutorProfileIds));
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [, startTransition] = useTransition();
 
+  function isAlreadyRequested(t: Tutor) {
+    return t.id ? requestedIds.has(t.id) : requestedNames.has(t.name);
+  }
+
   function handleRequestTutor(t: Tutor) {
+    if (isAlreadyRequested(t)) return;
     setPendingName(t.name);
     startTransition(async () => {
       const result = await requestSpecificTutor({
         tutorName: t.name,
         subject: t.subjects[0] ?? t.headline,
         mode: t.mode,
+        tutorRate: t.price,
+        tutorProfileId: t.id,
       });
       setPendingName(null);
       if (result.requiresAuth) {
@@ -34,6 +48,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
       }
       if (result.ok) {
         setRequestedNames((prev) => new Set(prev).add(t.name));
+        if (t.id) setRequestedIds((prev) => new Set(prev).add(t.id!));
         setToast({ tone: "success", message: result.message ?? `Your request for ${t.name} has been sent.` });
       } else {
         setToast({ tone: "error", message: result.message ?? "Something went wrong. Please try again." });
@@ -91,10 +106,10 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
             <button
               type="button"
               className="btn btn-secondary btn-block mt-1"
-              disabled={pendingName === t.name || requestedNames.has(t.name)}
+              disabled={pendingName === t.name || isAlreadyRequested(t)}
               onClick={() => handleRequestTutor(t)}
             >
-              {requestedNames.has(t.name) ? (
+              {isAlreadyRequested(t) ? (
                 <span className="inline-flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6 9 17l-5-5" />

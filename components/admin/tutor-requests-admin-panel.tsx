@@ -8,6 +8,7 @@ import { Toast, ToastTone } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { setTutorRequestStatus, matchTutorRequest } from "@/app/lib/actions/admin";
 import { InboxEmptyIcon, XIcon } from "@/components/dashboard/dashboard-icons";
+import { currencySymbol, modeLabel } from "@/components/dashboard/request-status";
 
 type RequestStatus = "OPEN" | "MATCHED" | "CLOSED";
 
@@ -24,13 +25,28 @@ export type TutorRequestRow = {
   subject: string;
   level: string | null;
   mode: string | null;
+  sessionsPerWeek: string | null;
   status: RequestStatus;
   budgetPerHour: number | null;
   currency: string | null;
   notes: string | null;
   createdAt: Date;
-  matchedTutor: { name: string | null; email: string } | null;
+  requestedTutorName: string | null;
+  requestedTutorRate: string | null;
+  matchedTutor: {
+    name: string | null;
+    email: string;
+    tutorProfile: { hourlyRateCents: number | null } | null;
+  } | null;
 };
+
+function tutorRateLabel(r: TutorRequestRow) {
+  const cents = r.matchedTutor?.tutorProfile?.hourlyRateCents;
+  if (cents) return `$${Math.round(cents / 100)}/hr`;
+  if (r.requestedTutorRate) return r.requestedTutorRate;
+  if (r.budgetPerHour) return `${currencySymbol(r.currency)}${r.budgetPerHour}/hr (student's budget)`;
+  return "Rate not available";
+}
 
 function MatchTutorModal({
   request,
@@ -215,6 +231,9 @@ export function TutorRequestsAdminPanel({
           {filtered.map((r) => {
             const meta = STATUS_META[r.status];
             const rowPending = pending && pendingId === r.id;
+            const isSpecific = Boolean(r.requestedTutorName);
+            const tutorName = r.matchedTutor?.name ?? r.requestedTutorName ?? null;
+            const mode = modeLabel(r.mode);
             return (
               <div
                 key={r.id}
@@ -224,14 +243,29 @@ export function TutorRequestsAdminPanel({
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-[14.5px]" style={{ fontFamily: "var(--font-heading)" }}>
-                      {r.subject}
+                      {isSpecific ? tutorName ?? "Tutor not yet assigned" : r.subject}
                     </span>
                     <Tag variant={meta.variant} className="text-[10.5px]">
                       {meta.label}
                     </Tag>
+                    <Tag variant="neutral" className="text-[10.5px]">
+                      {isSpecific ? "Requested tutor" : "Custom request"}
+                    </Tag>
                   </div>
                   <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-                    {r.name} · {r.email} · {[r.level, r.mode].filter(Boolean).join(" · ") || "No preferences"}
+                    Student: {r.name} · {r.email}
+                  </div>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                    {isSpecific
+                      ? [r.subject, mode].filter(Boolean).join(" · ")
+                      : [mode, r.level, r.sessionsPerWeek ? `${r.sessionsPerWeek}x/week` : null]
+                          .filter(Boolean)
+                          .join(" · ") || "No preferences"}
+                  </div>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                    {isSpecific
+                      ? tutorRateLabel(r)
+                      : `Budget: ${r.budgetPerHour ? `${currencySymbol(r.currency)}${r.budgetPerHour}/hr` : "Not set"}`}
                   </div>
                   {r.status === "MATCHED" && r.matchedTutor && (
                     <div className="text-[12.5px] mt-1" style={{ color: "var(--color-verified)" }}>
@@ -241,8 +275,7 @@ export function TutorRequestsAdminPanel({
                 </div>
 
                 <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                  {r.budgetPerHour ? `${r.currency ?? "$"}${r.budgetPerHour}/hr` : ""}
-                  <div>{relativeDate(r.createdAt)}</div>
+                  {relativeDate(r.createdAt)}
                 </div>
 
                 <div className="flex gap-2 flex-none">

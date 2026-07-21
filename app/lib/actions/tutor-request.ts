@@ -102,6 +102,8 @@ const RequestSpecificTutorSchema = z.object({
   tutorName: z.string().trim().min(1),
   subject: z.string().trim().min(1),
   mode: z.string().trim().optional(),
+  tutorRate: z.string().trim().optional(),
+  tutorProfileId: z.string().trim().optional(),
 });
 
 export type RequestSpecificTutorInput = z.infer<typeof RequestSpecificTutorSchema>;
@@ -125,7 +127,20 @@ export async function requestSpecificTutor(
     return { ok: false, requiresAuth: true, message: "Please sign in to request a tutor." };
   }
 
-  const { tutorName, subject, mode } = validated.data;
+  const { tutorName, subject, mode, tutorRate, tutorProfileId } = validated.data;
+
+  if (tutorProfileId) {
+    const existing = await prisma.tutorRequest.findFirst({
+      where: {
+        userId: user.id,
+        requestedTutorProfileId: tutorProfileId,
+        status: { in: ["OPEN", "MATCHED"] },
+      },
+    });
+    if (existing) {
+      return { ok: false, message: `You've already sent a request to ${tutorName}.` };
+    }
+  }
 
   await prisma.tutorRequest.create({
     data: {
@@ -136,9 +151,14 @@ export async function requestSpecificTutor(
       mode,
       notes: `Directly requested tutor: ${tutorName}`,
       status: "OPEN",
+      requestedTutorName: tutorName,
+      requestedTutorRate: tutorRate,
+      requestedTutorProfileId: tutorProfileId,
     },
   });
 
   revalidatePath("/dashboard");
+  revalidatePath("/find-a-tutor");
+  revalidatePath("/");
   return { ok: true, message: `Your request for ${tutorName} has been sent.` };
 }

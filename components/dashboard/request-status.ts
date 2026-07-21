@@ -4,6 +4,24 @@ export const STATUS_META = {
   CLOSED: { label: "Closed", variant: "neutral" as const },
 };
 
+const CURRENCY_SYMBOLS: Record<string, string> = { USD: "$", GBP: "£", EUR: "€" };
+
+export function currencySymbol(currency: string | null) {
+  return (currency && CURRENCY_SYMBOLS[currency]) || "$";
+}
+
+const MODE_LABELS: Record<string, string> = {
+  Online: "Online",
+  "In person": "Home",
+  Both: "Online and Home",
+  Either: "Online and Home",
+};
+
+export function modeLabel(mode: string | null) {
+  if (!mode) return null;
+  return MODE_LABELS[mode] ?? mode;
+}
+
 export function relativeDate(date: Date) {
   const diffMs = Date.now() - date.getTime();
   const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -25,5 +43,11 @@ export type RequestRowData = {
   currency: string | null;
   notes: string | null;
   createdAt: Date;
-  matchedTutor: { name: string | null; email: string } | null;
+  requestedTutorName: string | null;
+  requestedTutorRate: string | null;
+  matchedTutor: {
+    name: string | null;
+    email: string;
+    tutorProfile: { hourlyRateCents: number | null } | null;
+  } | null;
 };

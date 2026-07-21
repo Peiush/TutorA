@@ -7,7 +7,15 @@ import { SegmentedControl } from "@/components/ui/segmented";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { updateTutorRequest, deleteTutorRequest } from "@/app/lib/actions/tutor-request";
-import { STATUS_META, relativeDate, RequestRowData } from "@/components/dashboard/request-status";
+import { STATUS_META, relativeDate, currencySymbol, modeLabel, RequestRowData } from "@/components/dashboard/request-status";
+
+function tutorRateLabel(request: RequestRowData) {
+  const cents = request.matchedTutor?.tutorProfile?.hourlyRateCents;
+  if (cents) return `$${Math.round(cents / 100)}/hr`;
+  if (request.requestedTutorRate) return request.requestedTutorRate;
+  if (request.budgetPerHour) return `${currencySymbol(request.currency)}${request.budgetPerHour}/hr (your budget)`;
+  return "Rate not available";
+}
 import { PencilIcon, TrashIcon, XIcon } from "@/components/dashboard/dashboard-icons";
 
 function EditModal({
@@ -162,6 +170,10 @@ export function RequestRow({ request }: { request: RequestRowData }) {
   const [pending, startTransition] = useTransition();
   const meta = STATUS_META[request.status];
   const canManage = request.status === "OPEN";
+  const isSpecific = Boolean(request.requestedTutorName);
+  const tutorName = request.matchedTutor?.name ?? request.requestedTutorName ?? null;
+  const mode = modeLabel(request.mode);
+  const rate = tutorRateLabel(request);
 
   function handleConfirmDelete() {
     startTransition(async () => {
@@ -180,28 +192,52 @@ export function RequestRow({ request }: { request: RequestRowData }) {
       className="flex flex-wrap items-center gap-3 p-3.5 transition-colors duration-150"
       style={{ borderRadius: "var(--radius-md)", background: "var(--color-surface)" }}
     >
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[15px]" style={{ fontFamily: "var(--font-heading)" }}>
-            {request.subject}
-          </span>
-          <Tag variant={meta.variant} className="text-[10.5px]">
-            {meta.label}
-          </Tag>
-        </div>
-        <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-          {[request.level, request.mode].filter(Boolean).join(" · ") || "No preferences added"}
-        </div>
-        {request.status === "MATCHED" && request.matchedTutor && (
-          <div className="text-[12.5px] mt-1" style={{ color: "var(--color-verified)" }}>
-            Matched with {request.matchedTutor.name ?? "your tutor"} · {request.matchedTutor.email}
+      <div className="min-w-0 flex-1 flex items-center gap-3">
+        <span
+          className="w-9 h-9 rounded-full grid place-content-center text-[13px] flex-none"
+          style={
+            isSpecific
+              ? { background: "var(--color-accent-2-100)", color: "var(--color-accent-2-700)" }
+              : { background: "color-mix(in srgb, var(--color-text) 10%, transparent)", color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }
+          }
+        >
+          {(isSpecific ? tutorName : request.subject)?.charAt(0).toUpperCase() ?? "?"}
+        </span>
+
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[15px]" style={{ fontFamily: "var(--font-heading)" }}>
+              {isSpecific ? tutorName ?? "Tutor not yet assigned" : request.subject}
+            </span>
+            <Tag variant={meta.variant} className="text-[10.5px]">
+              {meta.label}
+            </Tag>
+            <Tag variant="neutral" className="text-[10.5px]">
+              {isSpecific ? "Requested tutor" : "Custom request"}
+            </Tag>
           </div>
-        )}
+          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+            {isSpecific
+              ? [request.subject, mode].filter(Boolean).join(" · ")
+              : [mode, request.level, request.sessionsPerWeek ? `${request.sessionsPerWeek}x/week` : null]
+                  .filter(Boolean)
+                  .join(" · ") || "No preferences added"}
+          </div>
+          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+            {isSpecific ? rate : `Budget: ${request.budgetPerHour ? `${currencySymbol(request.currency)}${request.budgetPerHour}/hr` : "Not set"}`}
+          </div>
+          {request.matchedTutor?.email && (
+            <div className="text-[11.5px] mt-0.5" style={{ color: "var(--color-verified)" }}>
+              {isSpecific
+                ? request.matchedTutor.email
+                : `Matched with ${request.matchedTutor.name ?? "your tutor"} · ${request.matchedTutor.email}`}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="text-[13px] text-right" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-        {request.budgetPerHour ? `${request.currency ?? "$"}${request.budgetPerHour}/hr` : ""}
-        <div>{relativeDate(request.createdAt)}</div>
+        {relativeDate(request.createdAt)}
       </div>
 
       {canManage && (

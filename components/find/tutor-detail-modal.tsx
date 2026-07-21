@@ -115,7 +115,7 @@ export function TutorDetailModal({
               className="text-[13.5px] mt-0.5"
               style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
             >
-              {tutor.headline}
+              {tutor.meta}
             </div>
             <div className="flex gap-1.5 flex-wrap mt-1.5">
               {isTopRated && (
@@ -143,17 +143,15 @@ export function TutorDetailModal({
           ) : (
             <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>No reviews yet</span>
           )}
-          <span className="font-[var(--font-heading)] text-[19px]">{tutor.price}</span>
+          <span className="font-[var(--font-heading)] text-[19px]">
+            {tutor.price.replace(/\s*\/\s*hr\s*$/i, "")}
+            <span className="text-[13px] font-[var(--font-body)] font-normal" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+              /hr
+            </span>
+          </span>
         </div>
 
         <div className="detail-stagger flex flex-col gap-1.5 text-[13.5px]" style={{ color: "var(--color-text)" }}>
-          <div className="flex items-center gap-2">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z" />
-              <circle cx="12" cy="9" r="2.5" />
-            </svg>
-            <span>{tutor.city} · {tutor.meta}</span>
-          </div>
           {tutor.languages && tutor.languages.length > 0 && (
             <div className="flex items-center gap-2">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

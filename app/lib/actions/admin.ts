@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 
 export type AdminActionState = { ok: boolean; message?: string };
 
-async function requireAdmin(): Promise<{ error?: AdminActionState }> {
+export async function requireAdmin(): Promise<{ error?: AdminActionState }> {
   const session = await auth();
   if (session?.user?.role !== "ADMIN") {
     return { error: { ok: false, message: "Admins only." } };
@@ -133,5 +133,18 @@ export async function matchTutorRequest(id: string, tutorUserId: string): Promis
   revalidatePath("/admin");
   revalidatePath("/dashboard");
   revalidatePath("/tutor");
+  return { ok: true };
+}
+
+export async function setCourseRequestStatus(
+  id: string,
+  status: "OPEN" | "CLOSED"
+): Promise<AdminActionState> {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
+  await prisma.courseRequest.update({ where: { id }, data: { status } });
+  revalidatePath("/admin");
+  revalidatePath("/dashboard");
   return { ok: true };
 }
