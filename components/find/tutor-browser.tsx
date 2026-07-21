@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
@@ -10,6 +10,9 @@ import { Tag } from "@/components/ui/tag";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { SegmentedControl } from "@/components/ui/segmented";
+import { SubjectIcon } from "@/components/ui/subject-icons";
+import { subjectAccent } from "@/components/ui/subject-accent";
+import { SearchEmptyIllustration, RequestSendIllustration } from "@/components/find/illustrations";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
@@ -80,6 +83,131 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   );
 }
 
+function SubjectMultiSelect({
+  options,
+  selected,
+  onChange,
+}: {
+  options: string[];
+  selected: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onDocPointerDown(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onDocPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  useGSAP(
+    () => {
+      if (!open) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) return;
+      gsap.fromTo(
+        menuRef.current,
+        { autoAlpha: 0, y: -6, scale: 0.98 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.18, ease: "power2.out" }
+      );
+    },
+    { dependencies: [open], scope: rootRef }
+  );
+
+  function toggle(opt: string) {
+    onChange(selected.includes(opt) ? selected.filter((s) => s !== opt) : [...selected, opt]);
+  }
+
+  const label =
+    selected.length === 0
+      ? "All subjects"
+      : selected.length === 1
+      ? selected[0]
+      : `${selected.length} subjects selected`;
+
+  return (
+    <div className="relative" ref={rootRef}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="input flex items-center justify-between gap-2 cursor-pointer text-left"
+      >
+        <span className="truncate" style={{ color: selected.length ? "var(--color-text)" : undefined }}>
+          {label}
+        </span>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="flex-none transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : "none", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          ref={menuRef}
+          role="listbox"
+          aria-multiselectable="true"
+          className="absolute z-20 mt-1.5 w-full max-h-64 overflow-auto rounded-[var(--radius-md)] border p-1.5"
+          style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)", boxShadow: "var(--shadow-lg)" }}
+        >
+          {selected.length > 0 && (
+            <button
+              type="button"
+              onClick={() => onChange([])}
+              className="w-full text-left text-[12px] font-medium px-2.5 py-1.5 mb-0.5 rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150 hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)]"
+              style={{ color: "var(--color-accent-2-700)" }}
+            >
+              Clear subjects
+            </button>
+          )}
+          {options.map((opt) => {
+            const checked = selected.includes(opt);
+            return (
+              <label
+                key={opt}
+                role="option"
+                aria-selected={checked}
+                className="flex items-center gap-2.5 px-2.5 py-2 rounded-[var(--radius-sm)] cursor-pointer text-[13.5px] transition-colors duration-150 hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)]"
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => toggle(opt)}
+                  className="cursor-pointer"
+                  style={{ accentColor: "var(--color-accent-600)", width: 15, height: 15 }}
+                />
+                <span className="truncate">{opt}</span>
+              </label>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function TutorBrowser({
   tutors,
   isAdmin = false,
@@ -92,7 +220,7 @@ export function TutorBrowser({
   requestedTutorProfileIds?: string[];
 }) {
   const router = useRouter();
-  const [subject, setSubject] = useState("All subjects");
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [mode, setMode] = useState("Online");
   const [region, setRegion] = useState("Anywhere");
   const [maxBudget, setMaxBudget] = useState(120);
@@ -116,6 +244,9 @@ export function TutorBrowser({
   const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const countRef = useRef<HTMLSpanElement>(null);
+  const mountedRef = useRef(false);
   const flipStateRef = useRef<Flip.FlipState | null>(null);
   const knownIdsRef = useRef<Set<string>>(new Set());
 
@@ -205,7 +336,7 @@ export function TutorBrowser({
 
   const filtered = useMemo(() => {
     let list = tutors.filter((t) => {
-      if (subject !== "All subjects" && !t.subjects.includes(subject)) return false;
+      if (selectedSubjects.length > 0 && !t.subjects.some((s) => selectedSubjects.includes(s))) return false;
       if (mode !== "Both" && t.mode !== mode && t.mode !== "Both") return false;
       if (region !== "Anywhere" && t.region !== region) return false;
       if (priceValue(t.price) > maxBudget) return false;
@@ -217,7 +348,7 @@ export function TutorBrowser({
       return b.rating - a.rating;
     });
     return list;
-  }, [tutors, subject, mode, region, maxBudget, sort]);
+  }, [tutors, selectedSubjects, mode, region, maxBudget, sort]);
 
   const topRatedName = useMemo(() => {
     if (!filtered.length) return null;
@@ -240,6 +371,24 @@ export function TutorBrowser({
 
       if (!cards || !cards.length || reduced) {
         flipStateRef.current = null;
+        mountedRef.current = true;
+        return;
+      }
+
+      if (!mountedRef.current) {
+        mountedRef.current = true;
+        flipStateRef.current = null;
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.fromTo(
+          cards,
+          { autoAlpha: 0, y: 40, scale: 0.94, rotateX: -4 },
+          { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: 0.65, stagger: 0.09, clearProps: "transform" }
+        ).fromTo(
+          gridRef.current!.querySelectorAll(".tutor-avatar-ring"),
+          { scale: 0.4, autoAlpha: 0 },
+          { scale: 1, autoAlpha: 1, duration: 0.5, stagger: 0.09, ease: "back.out(2.4)", clearProps: "transform" },
+          "-=0.55"
+        );
         return;
       }
 
@@ -271,12 +420,48 @@ export function TutorBrowser({
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tween = gsap.from(sidebarRef.current, { autoAlpha: 0, x: -16, duration: 0.5, ease: "power3.out" });
-        return () => tween.kill();
+        const header = sidebarRef.current?.querySelector(".filters-header-icon");
+        const fields = sidebarRef.current?.querySelectorAll(".field");
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        tl.from(sidebarRef.current, { autoAlpha: 0, x: -24, duration: 0.55, clearProps: "transform" })
+          .fromTo(
+            header ?? [],
+            { scale: 0.3, autoAlpha: 0, rotate: -25 },
+            { scale: 1, autoAlpha: 1, rotate: 0, duration: 0.45, ease: "back.out(2.4)", clearProps: "transform" },
+            "-=0.35"
+          )
+          .fromTo(
+            fields ?? [],
+            { autoAlpha: 0, x: -16 },
+            { autoAlpha: 1, x: 0, duration: 0.4, stagger: 0.09, clearProps: "transform" },
+            "-=0.25"
+          );
+        return () => tl.kill();
       });
       return () => mm.revert();
     },
     { scope: sidebarRef }
+  );
+
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced || !countRef.current) return;
+      gsap.fromTo(countRef.current, { autoAlpha: 0.3, y: -3 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
+    },
+    { dependencies: [filtered.length], scope: countRef }
+  );
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tween = gsap.from(toolbarRef.current, { autoAlpha: 0, y: -10, duration: 0.5, ease: "power3.out", delay: 0.1 });
+        return () => tween.kill();
+      });
+      return () => mm.revert();
+    },
+    { scope: toolbarRef }
   );
 
   useGSAP(
@@ -290,7 +475,10 @@ export function TutorBrowser({
   );
 
   const activeFilters = [
-    subject !== "All subjects" && { label: subject, clear: () => setSubject("All subjects") },
+    ...selectedSubjects.map((s) => ({
+      label: s,
+      clear: () => setSelectedSubjects((prev) => prev.filter((x) => x !== s)),
+    })),
     mode !== "Online" && { label: mode, clear: () => setMode("Online") },
     region !== "Anywhere" && { label: region, clear: () => setRegion("Anywhere") },
     maxBudget !== 120 && { label: `Up to $${maxBudget}/hr`, clear: () => setMaxBudget(120) },
@@ -303,8 +491,8 @@ export function TutorBrowser({
         <button
           type="button"
           onClick={() => setFiltersOpen((o) => !o)}
-          className="hidden max-[860px]:flex items-center justify-between gap-2 card cursor-pointer"
-          style={{ background: "var(--color-surface)" }}
+          className="hidden max-[860px]:flex items-center justify-between gap-2 card elev-sm cursor-pointer border transition-shadow duration-200 hover:shadow-[var(--shadow-md)]"
+          style={{ background: "var(--color-surface)", borderColor: "var(--color-divider)" }}
         >
           <span className="flex items-center gap-2 font-[var(--font-heading)] text-[15px]">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -329,19 +517,37 @@ export function TutorBrowser({
 
         <aside
           ref={sidebarRef}
-          className={`card gap-4 sticky top-[88px] ${filtersOpen ? "" : "max-[860px]:hidden"}`}
-          style={{ background: "var(--color-surface)" }}
+          className={`card elev-md gap-4 sticky top-[88px] border ${filtersOpen ? "" : "max-[860px]:hidden"}`}
+          style={{ background: "var(--color-surface)", borderColor: "var(--color-divider)" }}
         >
-          <div className="flex items-center gap-2.5">
-            <div
-              className="w-8 h-8 rounded-full grid place-content-center flex-none"
-              style={{ background: "var(--color-accent-2-100)" }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 6h16M7 12h10M10 18h4" />
-              </svg>
+          <div className="flex items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2.5">
+              <div
+                className="filters-header-icon w-8 h-8 rounded-full grid place-content-center flex-none"
+                style={{ background: "var(--color-accent-2-100)" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 6h16M7 12h10M10 18h4" />
+                </svg>
+              </div>
+              <div className="font-[var(--font-heading)] text-[18px]">Filters</div>
             </div>
-            <div className="font-[var(--font-heading)] text-[18px]">Filters</div>
+            {activeFilters.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  captureFlip();
+                  setSelectedSubjects([]);
+                  setMode("Online");
+                  setRegion("Anywhere");
+                  setMaxBudget(120);
+                }}
+                className="text-[12.5px] font-medium cursor-pointer transition-colors duration-150"
+                style={{ color: "var(--color-accent-2-700)" }}
+              >
+                Clear all
+              </button>
+            )}
           </div>
           {activeFilters.length > 0 && (
             <div className="flex flex-wrap gap-1.5 -mt-1">
@@ -351,20 +557,15 @@ export function TutorBrowser({
             </div>
           )}
           <div className="field">
-            <label>Subject</label>
-            <select
-              className="input"
-              value={subject}
-              onChange={(e) => {
+            <label>Subject{selectedSubjects.length > 1 ? "s" : ""}</label>
+            <SubjectMultiSelect
+              options={subjectOptions}
+              selected={selectedSubjects}
+              onChange={(next) => {
                 captureFlip();
-                setSubject(e.target.value);
+                setSelectedSubjects(next);
               }}
-            >
-              <option>All subjects</option>
-              {subjectOptions.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
+            />
           </div>
           <div className="field">
             <label>Mode</label>
@@ -418,31 +619,49 @@ export function TutorBrowser({
       </div>
 
       <div>
-        <div className="flex justify-between items-center flex-wrap gap-2.5 mb-4.5">
+        <div ref={toolbarRef} className="flex justify-between items-center flex-wrap gap-2.5 mb-4.5">
           <span
+            ref={countRef}
             className="text-[14px]"
             style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
           >
-            Showing {filtered.length} verified tutor{filtered.length === 1 ? "" : "s"}
+            Showing <strong style={{ color: "var(--color-text)" }}>{filtered.length}</strong> verified tutor{filtered.length === 1 ? "" : "s"}
           </span>
-          <select
-            className="input w-auto"
-            value={sort}
-            onChange={(e) => {
-              captureFlip();
-              setSort(e.target.value as (typeof SORTS)[number]);
-            }}
-          >
-            {SORTS.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              className="input w-auto pr-9 appearance-none cursor-pointer"
+              value={sort}
+              onChange={(e) => {
+                captureFlip();
+                setSort(e.target.value as (typeof SORTS)[number]);
+              }}
+            >
+              {SORTS.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"
+              style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
         </div>
 
         {filtered.length > 0 ? (
-          <div ref={gridRef} className="relative flex flex-col gap-4">
+          <div ref={gridRef} className="relative flex flex-col gap-4" style={{ perspective: 1000 }}>
             {filtered.map((t, i) => {
               const tier = tierOf(t);
+              const accent = subjectAccent(t.subjects, i);
               const isBookmarked = t.id ? bookmarked.has(t.id) : false;
               const isBookmarkPending = t.id ? bookmarkPending.has(t.id) : false;
               return (
@@ -458,11 +677,22 @@ export function TutorBrowser({
                       setSelected({ tutor: t, index: i });
                     }
                   }}
-                  className="tutor-card card elev-sm relative cursor-pointer transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
+                  className="tutor-card group card elev-sm relative cursor-pointer border transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
+                  style={{ borderColor: "var(--color-divider)" }}
                 >
-                  <div className="flex gap-4 p-5 max-[560px]:flex-col">
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 left-0 w-[4px] transition-[width] duration-200 ease-out group-hover:w-[5px]"
+                    style={{ background: accent.bar }}
+                  />
+                  <div className="flex gap-4 p-5 pl-6 max-[560px]:flex-col">
                     <div className="flex flex-col items-center gap-1.5 flex-none">
-                      <TutorAvatar name={t.name} index={i} size={64} withBadge />
+                      <div
+                        className="tutor-avatar-ring rounded-full transition-transform duration-200 ease-out group-hover:scale-[1.04]"
+                        style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${accent.bar} 22%, transparent)`, borderRadius: "50%" }}
+                      >
+                        <TutorAvatar name={t.name} index={i} size={64} withBadge />
+                      </div>
                       <span
                         className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
                         style={{ background: tier.bg, color: tier.color }}
@@ -501,8 +731,8 @@ export function TutorBrowser({
                           </div>
                         </div>
                         <span
-                          className="font-[var(--font-heading)] text-[20px] whitespace-nowrap"
-                          style={{ color: "var(--color-accent-2-700)" }}
+                          className="font-[var(--font-heading)] text-[20px] whitespace-nowrap rounded-full px-3 py-1"
+                          style={{ color: "var(--color-accent-2-700)", background: "var(--color-accent-2-100)" }}
                         >
                           {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
                           <span
@@ -515,11 +745,14 @@ export function TutorBrowser({
                       </div>
 
                       <div className="mt-2.5 flex items-start gap-1.5 text-[13px]">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
-                          <path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5" />
-                          <path d="M2 19.5h20" />
-                          <path d="M9 22v-4h6v4" />
-                        </svg>
+                        <SubjectIcon
+                          subject={t.subjects[0] ?? ""}
+                          width={14}
+                          height={14}
+                          strokeWidth={2}
+                          className="flex-none mt-0.5"
+                          style={{ color: accent.bar }}
+                        />
                         <span>
                           <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
                             Teaches:
@@ -625,12 +858,13 @@ export function TutorBrowser({
                           e.stopPropagation();
                           handleToggleBookmark(t);
                         }}
-                        className="grid place-content-center rounded-full cursor-pointer transition-colors duration-150"
+                        className="grid place-content-center rounded-full cursor-pointer transition-[color,border-color,transform,box-shadow] duration-150 hover:scale-105 active:scale-95"
                         style={{
                           width: 38,
                           height: 38,
                           color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
-                          border: "1px solid color-mix(in srgb, var(--color-text) 15%, transparent)",
+                          background: isBookmarked ? "var(--color-accent-2-100)" : "transparent",
+                          border: `1px solid ${isBookmarked ? "var(--color-accent-2-300)" : "color-mix(in srgb, var(--color-text) 15%, transparent)"}`,
                           opacity: isBookmarkPending ? 0.6 : 1,
                         }}
                       >
@@ -640,7 +874,7 @@ export function TutorBrowser({
                       </button>
                       <button
                         type="button"
-                        className="btn btn-primary"
+                        className="btn btn-primary hover:scale-[1.03] active:scale-95 transition-transform duration-150"
                         disabled={pendingName === t.name || isAlreadyRequested(t)}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -669,9 +903,13 @@ export function TutorBrowser({
           </div>
         ) : (
           <div
-            className="rounded-[var(--radius-lg)] p-8 text-center"
-            style={{ background: "var(--color-accent-2-100)" }}
+            className="rounded-[var(--radius-lg)] p-10 text-center border"
+            style={{
+              background: "linear-gradient(155deg, var(--color-accent-2-100), var(--color-accent-100))",
+              borderColor: "var(--color-divider)",
+            }}
           >
+            <SearchEmptyIllustration className="w-[180px] h-auto mx-auto mb-2" />
             <h3 className="text-[24px]">No tutors match those filters</h3>
             <p
               className="text-[15px] mx-auto mt-2.5 mb-5 max-w-[44ch]"
@@ -679,7 +917,7 @@ export function TutorBrowser({
             >
               Tell us what you need and our team will source a match for you personally.
             </p>
-            <Link href="/request-a-tutor" className="btn btn-primary">
+            <Link href="/request-a-tutor" className="btn btn-primary hover:scale-[1.03] active:scale-95 transition-transform duration-150">
               Request a Tutor
             </Link>
           </div>
@@ -687,9 +925,13 @@ export function TutorBrowser({
 
         {filtered.length > 0 && (
           <div
-            className="mt-10 rounded-[var(--radius-lg)] p-8 text-center"
-            style={{ background: "var(--color-accent-2-100)" }}
+            className="mt-10 rounded-[var(--radius-lg)] p-10 text-center border"
+            style={{
+              background: "linear-gradient(155deg, var(--color-accent-2-100), var(--color-accent-100))",
+              borderColor: "var(--color-divider)",
+            }}
           >
+            <RequestSendIllustration className="w-[180px] h-auto mx-auto mb-2" />
             <h3 className="text-[24px]">Can&rsquo;t find the right tutor?</h3>
             <p
               className="text-[15px] mx-auto mt-2.5 mb-5 max-w-[44ch]"
@@ -697,7 +939,7 @@ export function TutorBrowser({
             >
               Tell us what you need and our team will source a match for you personally.
             </p>
-            <Link href="/request-a-tutor" className="btn btn-primary">
+            <Link href="/request-a-tutor" className="btn btn-primary hover:scale-[1.03] active:scale-95 transition-transform duration-150">
               Request a Tutor
             </Link>
           </div>

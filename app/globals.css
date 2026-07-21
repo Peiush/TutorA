@@ -189,6 +189,8 @@ a:hover {
   }
 }
 
+@layer components {
+
 /* ── buttons ── */
 .btn {
   display: inline-flex;
@@ -416,3 +418,5 @@ details > summary::before {
   color: var(--color-accent-700);
 }
 details[open] > summary::before { content: "–"; }
+
+}

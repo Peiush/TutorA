@@ -6,6 +6,7 @@ import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
+import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
 import { RequestIcon, ShieldMatchIcon, HandshakeIcon, FlowArrowIcon } from "@/components/home/step-icons";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
@@ -164,25 +165,46 @@ export default async function Home() {
       </section>
 
       {/* Featured tutors */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
-        <div className="flex justify-between items-end flex-wrap gap-3 mb-7">
-          <div>
-            <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-              Freshly vetted
-            </Tag>
-            <h2 className="text-[clamp(28px,3.4vw,38px)] mt-4">Verified and ready to teach</h2>
-            <div
-              className="text-[12.5px] mt-1.5"
-              style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
-            >
-              Rates shown in each tutor's local currency.
+      <section className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute top-0 right-0 w-[420px] h-[320px] rounded-full blur-3xl opacity-25"
+          style={{ background: "var(--color-accent-2-200)" }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute top-40 left-0 w-[280px] h-[280px] rounded-full blur-3xl opacity-20"
+          style={{ background: "var(--color-accent-200)" }}
+          aria-hidden
+        />
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+          <div className="flex justify-between items-end flex-wrap gap-5 mb-7">
+            <Reveal>
+              <div>
+                <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
+                  Freshly vetted
+                </Tag>
+                <h2 className="text-[clamp(28px,3.4vw,38px)] mt-4">Verified and ready to teach</h2>
+                <div
+                  className="text-[12.5px] mt-1.5"
+                  style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                >
+                  Rates shown in each tutor's local currency.
+                </div>
+              </div>
+            </Reveal>
+
+            <div className="flex items-center gap-4">
+              <FeaturedTutorsIllustration tutors={featured} />
+              <Link href="/find-a-tutor" className="btn btn-ghost group">
+                Browse all tutors
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+                  →
+                </span>
+              </Link>
             </div>
           </div>
-          <Link href="/find-a-tutor" className="btn btn-ghost">
-            Browse all tutors →
-          </Link>
+          <FeaturedTutors tutors={featured} requestedTutorProfileIds={requestedTutorProfileIds} />
         </div>
-        <FeaturedTutors tutors={featured} requestedTutorProfileIds={requestedTutorProfileIds} />
       </section>
 
       {/* Testimonials */}

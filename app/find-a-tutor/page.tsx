@@ -34,9 +34,11 @@ export default async function FindATutorPage() {
     .map((r) => r.requestedTutorProfileId)
     .filter((id): id is string => Boolean(id));
 
+  const subjectCount = new Set(tutors.flatMap((t) => t.subjects)).size;
+
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
-      <FindHero />
+      <FindHero tutorCount={tutors.length} subjectCount={subjectCount} />
       <TutorBrowser
         tutors={tutors}
         isAdmin={isAdmin}

@@ -3,14 +3,41 @@
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export function FaqAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
   const [open, setOpen] = useState<number | null>(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const list = listRef.current;
+      if (!list) return;
+      const items = list.querySelectorAll(".faq-item");
+      if (!items.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(items, { autoAlpha: 0, y: 24 });
+        gsap
+          .timeline({ scrollTrigger: { trigger: list, start: "top 85%", once: true } })
+          .to(items, { autoAlpha: 1, y: 0, stagger: 0.09, duration: 0.5, ease: "power3.out" });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(items, { autoAlpha: 1, y: 0 });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: listRef, dependencies: [faqs.length] }
+  );
 
   return (
-    <div className="grid gap-3">
+    <div ref={listRef} className="grid gap-3.5">
       {faqs.map((f, i) => (
         <FaqItem key={f.q} q={f.q} a={f.a} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
       ))}
@@ -74,38 +101,50 @@ function FaqItem({
 
   return (
     <div
-      className="card m-0 p-0 overflow-hidden"
-      style={{ background: "var(--color-surface)" }}
+      className={`faq-item group rounded-[var(--radius-lg)] overflow-hidden border transition-[box-shadow,border-color,background-color] duration-300 ${
+        isOpen ? "" : "hover:shadow-[var(--shadow-md)] hover:border-[var(--color-accent-300)]"
+      }`}
+      style={{
+        background: isOpen ? "var(--color-bg)" : "var(--color-surface)",
+        borderColor: isOpen ? "var(--color-accent-400)" : "var(--color-divider)",
+        boxShadow: isOpen ? "var(--shadow-md)" : "var(--shadow-sm)",
+      }}
     >
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
         className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
-        style={{ padding: "18px 22px" }}
+        style={{ padding: "18px 20px" }}
       >
         <span className="font-[var(--font-heading)] font-semibold text-[16.5px]">{q}</span>
-        <svg
-          ref={iconRef}
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--color-accent-700)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          className="flex-none"
-          aria-hidden
+        <span
+          className="w-8 h-8 rounded-full grid place-content-center flex-none transition-[background-color,transform] duration-300 group-hover:scale-105"
+          style={{ background: isOpen ? "var(--color-accent-600)" : "var(--color-accent-100)" }}
         >
-          <path d="M12 5v14M5 12h14" />
-        </svg>
+          <svg
+            ref={iconRef}
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={isOpen ? "#fff" : "var(--color-accent-700)"}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            aria-hidden
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </span>
       </button>
       <div ref={bodyRef} style={{ display: "none", height: 0, opacity: 0 }}>
         <p
           className="text-[15px] leading-[1.6] m-0"
           style={{
             color: "color-mix(in srgb, var(--color-text) 74%, transparent)",
-            padding: "0 22px 20px",
+            padding: "0 20px 20px",
+            borderTop: "1px solid var(--color-divider)",
+            paddingTop: 16,
           }}
         >
           {a}

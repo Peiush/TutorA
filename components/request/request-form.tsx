@@ -35,6 +35,23 @@ function StepHeading({ step, children }: { step: number; children: React.ReactNo
   );
 }
 
+const SUCCESS_PARTICLES = [
+  { color: "var(--color-accent)", size: 8, shape: "circle" },
+  { color: "var(--color-accent-2)", size: 6, shape: "square" },
+  { color: "var(--color-verified)", size: 7, shape: "circle" },
+  { color: "var(--color-accent-300)", size: 9, shape: "square" },
+  { color: "var(--color-accent-2-300)", size: 6, shape: "circle" },
+  { color: "var(--color-accent)", size: 6, shape: "square" },
+  { color: "var(--color-verified)", size: 8, shape: "circle" },
+  { color: "var(--color-accent-2)", size: 7, shape: "circle" },
+  { color: "var(--color-accent-300)", size: 6, shape: "circle" },
+  { color: "var(--color-accent-2-300)", size: 8, shape: "square" },
+  { color: "var(--color-accent)", size: 7, shape: "circle" },
+  { color: "var(--color-verified)", size: 6, shape: "square" },
+];
+
+const SUCCESS_TAGS = ["Personally reviewed", "Matched in 24–48h", "Confirmation sent"];
+
 function SuccessScreen() {
   const rootRef = useRef<HTMLDivElement>(null);
   const circlePathRef = useRef<SVGPathElement>(null);
@@ -50,16 +67,45 @@ function SuccessScreen() {
           gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
         }
 
+        const particles = gsap.utils.toArray<HTMLElement>(".success-particle");
+        gsap.set(particles, { autoAlpha: 0, x: 0, y: 0, scale: 0 });
+
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.from(".success-badge", { scale: 0, rotation: -20, duration: 0.5, ease: "back.out(2)" });
+
+        tl.from(".success-glow", { scale: 0.3, autoAlpha: 0, duration: 0.6, ease: "power2.out" })
+          .from(".success-badge", { scale: 0, rotation: -25, duration: 0.55, ease: "back.out(2.4)" }, "-=0.4");
+
         if (path) {
           tl.to(path, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, "-=0.15");
         }
-        tl.from(".success-heading", { autoAlpha: 0, y: 10, duration: 0.35 }, "-=0.1").from(
-          ".success-copy",
-          { autoAlpha: 0, y: 10, duration: 0.35 },
-          "-=0.2"
+
+        tl.to(
+          particles,
+          {
+            autoAlpha: 1,
+            scale: 1,
+            x: () => gsap.utils.random(-95, 95),
+            y: () => gsap.utils.random(-85, -15),
+            rotation: () => gsap.utils.random(-120, 120),
+            duration: 0.65,
+            ease: "power3.out",
+            stagger: { each: 0.025, from: "center" },
+          },
+          "-=0.35"
+        ).to(
+          particles,
+          { autoAlpha: 0, y: "+=36", duration: 0.55, ease: "power1.in" },
+          "-=0.05"
         );
+
+        tl.from(".success-heading", { autoAlpha: 0, y: 10, duration: 0.35 }, "-=1.05")
+          .from(".success-copy", { autoAlpha: 0, y: 10, duration: 0.35 }, "-=0.2")
+          .from(
+            ".success-tag",
+            { autoAlpha: 0, y: 8, scale: 0.9, stagger: 0.08, duration: 0.35, ease: "back.out(2.2)" },
+            "-=0.15"
+          );
+
         return () => tl.kill();
       });
 
@@ -71,16 +117,47 @@ function SuccessScreen() {
   return (
     <div
       ref={rootRef}
-      className="card gap-4 p-[var(--space-6)] text-center"
+      className="card gap-4 p-6 sm:p-8 text-center relative overflow-hidden shadow-md"
       style={{ background: "var(--color-surface)" }}
     >
       <div
-        className="success-badge w-14 h-14 rounded-full grid place-content-center mx-auto"
-        style={{ background: "color-mix(in srgb, var(--color-verified) 18%, transparent)" }}
-      >
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-verified)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-          <path ref={circlePathRef} d="M20 6 9 17l-5-5" />
-        </svg>
+        className="success-glow absolute rounded-full pointer-events-none"
+        style={{
+          top: -60,
+          left: "50%",
+          width: 260,
+          height: 260,
+          marginLeft: -130,
+          background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 22%, transparent) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative w-14 h-14 mx-auto">
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          {SUCCESS_PARTICLES.map((p, i) => (
+            <span
+              key={i}
+              className="success-particle absolute top-1/2 left-1/2 block"
+              style={{
+                width: p.size,
+                height: p.size,
+                marginLeft: -p.size / 2,
+                marginTop: -p.size / 2,
+                background: p.color,
+                borderRadius: p.shape === "circle" ? "50%" : "3px",
+                opacity: 0,
+              }}
+            />
+          ))}
+        </div>
+        <div
+          className="success-badge w-14 h-14 rounded-full grid place-content-center relative"
+          style={{ background: "color-mix(in srgb, var(--color-verified) 18%, transparent)" }}
+        >
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-verified)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path ref={circlePathRef} d="M20 6 9 17l-5-5" />
+          </svg>
+        </div>
       </div>
       <h2 className="success-heading font-[var(--font-heading)] text-[24px]">Request received</h2>
       <p
@@ -90,6 +167,22 @@ function SuccessScreen() {
         Our team will review your request and personally match you with the right tutor within
         24–48 hours. We&rsquo;ve sent a confirmation to your email.
       </p>
+      <div className="flex flex-wrap justify-center gap-2 mt-1">
+        {SUCCESS_TAGS.map((label) => (
+          <span
+            key={label}
+            className="success-tag text-[12px] font-medium"
+            style={{
+              background: "var(--color-accent-2-100)",
+              color: "var(--color-accent-2-800)",
+              borderRadius: 999,
+              padding: "5px 12px",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -208,7 +301,7 @@ export function RequestForm() {
 
       <form
         ref={cardRef}
-        className="card gap-4 p-[var(--space-6)]"
+        className="card gap-4 p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
         style={{ background: "var(--color-surface)" }}
         onSubmit={(e) => {
           e.preventDefault();
