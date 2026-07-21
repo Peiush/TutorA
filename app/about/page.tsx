@@ -11,7 +11,7 @@ import { PricingTable } from "@/components/about/pricing-table";
 import { ContactCta } from "@/components/about/contact-cta";
 
 export const metadata = {
-  title: "About & How It Works — TutorConnect",
+  title: "About & How It Works — TutorA",
 };
 
 const pillars = [
@@ -77,7 +77,7 @@ export default function AboutPage() {
                 className="text-[16px] leading-[1.62] max-w-[48ch]"
                 style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
               >
-                TutorConnect charges a percentage-based success fee once a match is confirmed —
+                TutorA charges a percentage-based success fee once a match is confirmed —
                 nothing before. There are no listing fees for tutors and no charge to browse or
                 request. Our incentive is simple: a good match that lasts.
               </p>

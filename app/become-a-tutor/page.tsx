@@ -2,7 +2,7 @@ import { BecomeForm } from "@/components/become/become-form";
 import { BecomeHero } from "@/components/become/become-hero";
 
 export const metadata = {
-  title: "Add a Teacher — TutorConnect",
+  title: "Add a Teacher — TutorA",
 };
 
 const adminPerks = [

@@ -1,13 +1,12 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 
 export function SiteFooter() {
   return (
     <footer style={{ background: "var(--color-neutral-900)", color: "var(--color-neutral-200)" }}>
       <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(40px,5vw,64px)] grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]">
         <div>
-          <div className="text-[22px]" style={{ fontFamily: "var(--font-heading)", color: "var(--color-bg)" }}>
-            TutorConnect
-          </div>
+          <Logo size={32} dark />
           <p className="text-[13px] leading-[1.6] mt-3 max-w-[24ch]" style={{ color: "var(--color-neutral-400)" }}>
             Admin-mediated tutoring, matched with care across borders.
           </p>

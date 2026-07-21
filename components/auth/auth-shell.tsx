@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ReactNode } from "react";
 import { AuthIllustration } from "@/components/auth/auth-illustration";
+import { Logo } from "@/components/ui/logo";
 
 export function AuthShell({
   variant,
@@ -44,13 +44,7 @@ export function AuthShell({
         </div>
 
         <div className="relative w-full max-w-[400px] mx-auto">
-          <Link
-            href="/"
-            className="lg:hidden inline-block text-[20px] mb-8"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--color-text)" }}
-          >
-            TutorConnect
-          </Link>
+          <Logo size={28} className="lg:hidden mb-8" />
           <div className="reveal-up card elev-lg p-[clamp(28px,4vw,40px)]" style={{ background: "var(--color-bg)" }}>
             {children}
           </div>

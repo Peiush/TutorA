@@ -96,7 +96,7 @@ export function AboutHero() {
             className="reveal-up d2 text-[17px] leading-[1.62] mt-6 max-w-[56ch]"
             style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
           >
-            We started TutorConnect because good tutoring is a relationship, and relationships
+            We started TutorA because good tutoring is a relationship, and relationships
             deserve a careful introduction. Every student request and every tutor listing passes
             through our team before anyone connects.
           </p>

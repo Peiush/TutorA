@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Courses — TutorConnect",
+  title: "Courses — TutorA",
 };
 
 export default async function CoursesPage() {

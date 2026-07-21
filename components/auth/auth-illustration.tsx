@@ -25,7 +25,7 @@ const COPY = {
     bullets: ["Every match personally verified", "Real tutors, real reviews", "No bots, no spam — ever"] as string[],
   },
   signup: {
-    tag: "Join TutorConnect",
+    tag: "Join TutorA",
     title: "Every request, personally verified.",
     body: "Submit what you need — our team reviews it before any introduction is made.",
     bullets: [] as string[],

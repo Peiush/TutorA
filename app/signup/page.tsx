@@ -3,7 +3,7 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/auth/signup-form";
 
 export const metadata = {
-  title: "Sign up — TutorConnect",
+  title: "Sign up — TutorA",
 };
 
 export default function SignupPage() {

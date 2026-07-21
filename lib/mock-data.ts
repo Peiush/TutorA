@@ -219,8 +219,8 @@ export const tutorFlow = [
 
 export const faqs = [
   { q: "Can I contact a tutor directly?", a: "Not until a match is confirmed. Every introduction is made by our team — it keeps both sides safe and every match accountable. The moment you and the tutor both confirm, we release full contact details." },
-  { q: "How much does it cost?", a: "Browsing and requesting are free. TutorConnect charges a percentage-based success fee once a match is confirmed — never before." },
+  { q: "How much does it cost?", a: "Browsing and requesting are free. TutorA charges a percentage-based success fee once a match is confirmed — never before." },
   { q: "How are tutors verified?", a: "Every tutor uploads qualifications and experience, which our team reviews before a profile goes live. Reviews from students are published openly." },
   { q: "How quickly will I be matched?", a: "Most students receive proposed tutors within 24–48 hours of submitting a request." },
-  { q: "Is TutorConnect available in my country?", a: "Yes — we operate internationally, with multi-currency pricing and time-zone-aware matching for online tutoring." },
+  { q: "Is TutorA available in my country?", a: "Yes — we operate internationally, with multi-currency pricing and time-zone-aware matching for online tutoring." },
 ];

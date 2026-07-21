@@ -103,12 +103,21 @@ export function CourseCard({
             onOpen(course);
           }
         }}
-        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col transition-shadow duration-200 ease-out hover:shadow-[var(--shadow-lg)]"
+        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-200 ease-out hover:shadow-[var(--shadow-lg)]"
+        style={{ borderColor: "var(--color-divider)" }}
       >
         <div className="relative aspect-[16/10] overflow-hidden" style={{ background: "var(--color-neutral-100)" }}>
           <div ref={thumbRef} className="w-full h-full">
             <CourseIllustration category={course.category} className="w-full h-full" />
           </div>
+          {discountPct > 0 && (
+            <span
+              className="absolute top-2.5 left-2.5 text-[11px] font-bold px-2 py-1 rounded-full"
+              style={{ background: "var(--color-accent-700)", color: "#fff" }}
+            >
+              -{discountPct}%
+            </span>
+          )}
           <button
             type="button"
             aria-label={saved ? `Remove ${course.title} from wishlist` : `Save ${course.title} to wishlist`}
@@ -118,7 +127,7 @@ export function CourseCard({
               e.stopPropagation();
               onToggleSaved(course);
             }}
-            className="absolute top-2.5 right-2.5 grid place-content-center rounded-full cursor-pointer transition-colors duration-150"
+            className="absolute top-2.5 right-2.5 grid place-content-center rounded-full cursor-pointer transition-[color,background-color,transform] duration-150 hover:scale-110"
             style={{
               width: 34,
               height: 34,
@@ -249,7 +258,7 @@ export function CourseCard({
               e.stopPropagation();
               onToggleSaved(course);
             }}
-            className="grid place-content-center rounded-full cursor-pointer transition-colors duration-150"
+            className="grid place-content-center rounded-full cursor-pointer transition-[color,background-color,transform] duration-150 hover:scale-110"
             style={{
               width: 40,
               height: 40,

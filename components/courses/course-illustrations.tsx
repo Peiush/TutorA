@@ -1,6 +1,6 @@
 import type { CourseCategory } from "@/lib/mock-courses";
 
-const PALETTE: Record<CourseCategory, { bg: string; line: string; dot: string }> = {
+export const CATEGORY_PALETTE: Record<CourseCategory, { bg: string; line: string; dot: string }> = {
   Mathematics: { bg: "var(--color-accent-200)", line: "var(--color-accent-800)", dot: "var(--color-accent-2-700)" },
   Science: { bg: "var(--color-accent-2-200)", line: "var(--color-accent-2-800)", dot: "var(--color-accent-600)" },
   "Computer Science": { bg: "var(--color-neutral-200)", line: "var(--color-neutral-800)", dot: "var(--color-accent-600)" },
@@ -95,7 +95,7 @@ export function CourseIllustration({
   category: CourseCategory;
   className?: string;
 }) {
-  const p = PALETTE[category];
+  const p = CATEGORY_PALETTE[category];
   return (
     <svg viewBox="0 0 160 160" className={className} role="img" aria-label={`${category} illustration`}>
       <Blob bg={p.bg} />

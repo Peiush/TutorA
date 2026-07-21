@@ -12,7 +12,7 @@ export async function getPublishedCourses(): Promise<CourseRaw[]> {
   return courses.map((c): CourseRaw => ({
     id: c.id,
     title: c.title,
-    instructor: c.instructor.user.name ?? "TutorConnect instructor",
+    instructor: c.instructor.user.name ?? "TutorA instructor",
     instructorId: c.instructorId,
     category: CATEGORY_DB_TO_LABEL[c.category] ?? "Mathematics",
     level: LEVEL_DB_TO_LABEL[c.level] ?? "All Levels",

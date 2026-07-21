@@ -12,7 +12,7 @@ import { TargetIcon } from "@/components/dashboard/dashboard-icons";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 
 export const metadata = {
-  title: "Admin — TutorConnect",
+  title: "Admin — TutorA",
 };
 
 export default async function AdminPage() {
@@ -59,7 +59,7 @@ export default async function AdminPage() {
     studentName: r.user.name ?? "Student",
     studentEmail: r.user.email,
     courseTitle: r.course.title,
-    instructor: r.course.instructor.user.name ?? "TutorConnect instructor",
+    instructor: r.course.instructor.user.name ?? "TutorA instructor",
     priceCents: r.course.priceCents,
     status: r.status,
     createdAt: r.createdAt,

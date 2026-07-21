@@ -24,9 +24,9 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "TutorConnect — The right tutor, personally matched",
+  title: "TutorA — The right tutor, personally matched",
   description:
-    "TutorConnect sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+    "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
 };
 
 export default async function RootLayout({

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { logout } from "@/app/lib/actions/auth";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
+import { Logo } from "@/components/ui/logo";
 
 const LINKS = [
   { href: "/courses", label: "Courses" },
@@ -121,13 +122,7 @@ export function SiteNav({ user = null }: { user?: NavUser }) {
         borderColor: "var(--color-divider)",
       }}
     >
-      <Link
-        href="/"
-        className="mr-auto text-[22px]"
-        style={{ fontFamily: "var(--font-heading)", color: "var(--color-text)" }}
-      >
-        TutorConnect
-      </Link>
+      <Logo size={32} className="mr-auto" />
       {[...LINKS, ...(user?.role === "ADMIN" ? ADMIN_LINKS : [])].map((link) => (
         <Link
           key={link.href}

@@ -11,7 +11,7 @@ import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TargetIcon, BookOpenIcon, SparkleIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
-  title: "Dashboard — TutorConnect",
+  title: "Dashboard — TutorA",
 };
 
 export default async function DashboardPage() {
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
     id: r.id,
     courseId: r.courseId,
     courseTitle: r.course.title,
-    instructor: r.course.instructor.user.name ?? "TutorConnect instructor",
+    instructor: r.course.instructor.user.name ?? "TutorA instructor",
     priceCents: r.course.priceCents,
     status: r.status,
     createdAt: r.createdAt,
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
   const savedCourseRows = savedCourses.map((s) => ({
     courseId: s.courseId,
     title: s.course.title,
-    instructor: s.course.instructor.user.name ?? "TutorConnect instructor",
+    instructor: s.course.instructor.user.name ?? "TutorA instructor",
     priceCents: s.course.priceCents,
     alreadyRequested: openCourseRequestIds.has(s.courseId),
   }));

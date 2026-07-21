@@ -2,7 +2,7 @@ import { RequestPageBody } from "@/components/request/request-page-body";
 import { stats } from "@/lib/mock-data";
 
 export const metadata = {
-  title: "Request a Tutor — TutorConnect",
+  title: "Request a Tutor — TutorA",
 };
 
 const trustStats = [stats[1], stats[2]];

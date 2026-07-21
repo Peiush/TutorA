@@ -7,7 +7,7 @@ import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
 import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
-import { RequestIcon, ShieldMatchIcon, HandshakeIcon, FlowArrowIcon } from "@/components/home/step-icons";
+import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { PopularSubjects } from "@/components/home/popular-subjects";
@@ -22,13 +22,6 @@ import {
   testimonials,
   subjects,
 } from "@/lib/mock-data";
-
-const STEP_ICONS = [RequestIcon, ShieldMatchIcon, HandshakeIcon];
-
-function StepIcon({ index }: { index: number }) {
-  const Icon = STEP_ICONS[index] ?? RequestIcon;
-  return <Icon />;
-}
 
 export default async function Home() {
   const approvedTutors = await getApprovedTutorListings();
@@ -98,68 +91,44 @@ export default async function Home() {
       </div>
 
       {/* How it works */}
-      <section style={{ background: "var(--color-surface)" }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
-          <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-            How it works
-          </Tag>
-          <h2 className="text-[clamp(28px,3.6vw,40px)] mt-4 mb-1.5 max-w-[20ch]">
-            We stand in the middle — on purpose.
-          </h2>
-          <p
-            className="text-[16px] max-w-[50ch] mb-10"
-            style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
-          >
-            Our team is the only bridge between the two sides. That is the trust, not a limitation.
-          </p>
-          <div className="flex flex-col lg:flex-row items-stretch gap-5">
-            {steps.map((st, i) => (
-              <div key={st.title} className="contents lg:flex lg:flex-1 lg:items-center lg:gap-5">
-                <Reveal delay={i * 100} className="flex-1 h-full">
-                  <div
-                    className="rounded-[var(--radius-lg)] p-7 relative h-full"
-                    style={{ background: st.bg }}
-                  >
-                    <div
-                      className="w-11 h-11 rounded-full grid place-content-center relative"
-                      style={{ background: st.dot, color: "var(--color-bg)" }}
-                    >
-                      <StepIcon index={i} />
-                      <span
-                        className="absolute -bottom-1 -right-1 w-[18px] h-[18px] rounded-full grid place-content-center text-[10px] font-bold font-[var(--font-heading)]"
-                        style={{
-                          background: "var(--color-bg)",
-                          color: "var(--color-text)",
-                          border: "1.5px solid var(--color-divider)",
-                        }}
-                      >
-                        {st.n}
-                      </span>
-                    </div>
-                    <h3 className="text-[21px] mt-4.5 mb-2">{st.title}</h3>
-                    <p
-                      className="text-[15px] leading-[1.55] m-0"
-                      style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
-                    >
-                      {st.body}
-                    </p>
-                  </div>
-                </Reveal>
-                {i < steps.length - 1 && (
-                  <div
-                    className="hidden lg:flex items-center justify-center flex-none"
-                    style={{ color: "var(--color-accent-2-300)" }}
-                    aria-hidden
-                  >
-                    <FlowArrowIcon />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+      <section className="relative overflow-hidden" style={{ background: "var(--color-surface)" }}>
+        <div
+          className="pointer-events-none absolute -top-16 right-[8%] w-[360px] h-[360px] rounded-full blur-3xl opacity-25"
+          style={{ background: "var(--color-accent-2-200)" }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 left-[4%] w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
+          style={{ background: "var(--color-accent-200)" }}
+          aria-hidden
+        />
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+          <Reveal>
+            <div>
+              <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
+                How it works
+              </Tag>
+              <h2 className="text-[clamp(28px,3.6vw,40px)] mt-4 mb-1.5 max-w-[20ch]">
+                We stand in the middle — on purpose.
+              </h2>
+              <p
+                className="text-[16px] max-w-[50ch] mb-10"
+                style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+              >
+                Our team is the only bridge between the two sides. That is the trust, not a limitation.
+              </p>
+            </div>
+          </Reveal>
 
-          <Reveal delay={200} className="card elev-sm mt-9 gap-3" style={{ background: "var(--color-bg)" }}>
-            <VerificationPipeline items={pipeline} requestId="R-1042" />
+          <HowItWorksSteps steps={steps} />
+
+          <Reveal delay={200}>
+            <div
+              className="card elev-sm mt-9 gap-3 border"
+              style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)" }}
+            >
+              <VerificationPipeline items={pipeline} requestId="R-1042" />
+            </div>
           </Reveal>
         </div>
       </section>

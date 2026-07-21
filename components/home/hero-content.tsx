@@ -27,7 +27,7 @@ export function HeroContent() {
         className="reveal-up d2 text-[18px] leading-[1.62] max-w-[52ch] mt-6"
         style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
       >
-        TutorConnect sits between students and tutors so no one has to guess. You tell us what
+        TutorA sits between students and tutors so no one has to guess. You tell us what
         you need; our team vets, matches and introduces — students and tutors never chase each
         other, and no connection slips through unverified.
       </p>

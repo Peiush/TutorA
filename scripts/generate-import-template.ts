@@ -34,18 +34,18 @@ function addListValidation(sheet: ExcelJS.Worksheet, column: string, options: st
 
 async function main() {
   const wb = new ExcelJS.Workbook();
-  wb.creator = "TutorConnect";
+  wb.creator = "TutorA";
 
   // ---- Instructions sheet ----
   const info = wb.addWorksheet("Instructions");
   info.columns = [{ width: 100 }];
   const lines = [
-    "TutorConnect data import template",
+    "TutorA data import template",
     "",
     "How to use this file:",
     "1. Fill in the 'Teachers' sheet with every instructor first.",
     "2. Fill in the 'Courses' sheet. Each course must reference an Instructor Email that",
-    "   exists either in the Teachers sheet of this file, or already in TutorConnect.",
+    "   exists either in the Teachers sheet of this file, or already in TutorA.",
     "3. Save the file (keep it as .xlsx) and send it back — do not rename the sheet tabs.",
     "4. Leave a cell empty only for fields marked optional below. Do not delete columns.",
     "",
@@ -140,7 +140,7 @@ async function main() {
   addListValidation(courses, "N", YES_NO);
   addListValidation(courses, "O", YES_NO);
 
-  const outPath = process.argv[2] ?? "TutorConnect-Import-Template.xlsx";
+  const outPath = process.argv[2] ?? "TutorA-Import-Template.xlsx";
   await wb.xlsx.writeFile(outPath);
   console.log(`Template written to ${outPath}`);
 }

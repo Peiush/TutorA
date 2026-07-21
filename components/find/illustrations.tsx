@@ -5,7 +5,7 @@ export function HeroMatchIllustration(props: { className?: string }) {
       fill="none"
       className={props.className}
       role="img"
-      aria-label="A tutor and student matched through TutorConnect"
+      aria-label="A tutor and student matched through TutorA"
     >
       <ellipse cx="180" cy="285" rx="130" ry="16" fill="var(--color-accent-2-100)" />
 

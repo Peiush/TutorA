@@ -9,6 +9,7 @@ import { Toast, ToastTone } from "@/components/ui/toast";
 import { CourseCard } from "@/components/courses/course-card";
 import { CourseDetailModal } from "@/components/courses/course-detail-modal";
 import { SearchIcon } from "@/components/courses/course-icons";
+import { CATEGORY_PALETTE } from "@/components/courses/course-illustrations";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
 import { courseCategories, type CourseRaw } from "@/lib/mock-courses";
@@ -39,7 +40,31 @@ export function CourseBrowser({
   const [openCourse, setOpenCourse] = useState<CourseRaw | null>(null);
   const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
+  const filterBarRef = useRef<HTMLDivElement>(null);
   const flipStateRef = useRef<Flip.FlipState | null>(null);
+
+  useGSAP(
+    () => {
+      const bar = filterBarRef.current;
+      if (!bar) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(bar.querySelectorAll(".cb-reveal"), { autoAlpha: 0, y: 14 });
+        gsap.to(bar.querySelectorAll(".cb-reveal"), {
+          autoAlpha: 1,
+          y: 0,
+          stagger: 0.05,
+          duration: 0.5,
+          ease: "power3.out",
+        });
+      });
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(bar.querySelectorAll(".cb-reveal"), { autoAlpha: 1, y: 0 });
+      });
+      return () => mm.revert();
+    },
+    { scope: filterBarRef }
+  );
 
   function captureFlip() {
     const cards = gridRef.current?.querySelectorAll(".course-card");
@@ -142,10 +167,13 @@ export function CourseBrowser({
 
   return (
     <>
-      <div className="flex flex-col gap-4 mb-6">
+      <div ref={filterBarRef} className="flex flex-col gap-4 mb-6">
         <div className="flex gap-3 flex-wrap items-center justify-between">
-          <div className="flex items-center gap-2 flex-1 min-w-[220px] max-w-[360px]">
-            <div className="field-icon w-full">
+          <div className="cb-reveal flex items-center gap-2 flex-1 min-w-[220px] max-w-[360px]">
+            <div
+              className="field-icon w-full rounded-full transition-shadow duration-300 focus-within:shadow-[0_0_0_4px_color-mix(in_srgb,var(--color-accent-400)_28%,transparent)]"
+              style={{ boxShadow: "var(--shadow-sm)" }}
+            >
               <SearchIcon width={16} height={16} />
               <input
                 className="input"
@@ -159,7 +187,8 @@ export function CourseBrowser({
             </div>
           </div>
           <select
-            className="input w-auto"
+            className="cb-reveal input w-auto transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
+            style={{ boxShadow: "var(--shadow-sm)" }}
             value={sort}
             onChange={(e) => {
               captureFlip();
@@ -173,24 +202,45 @@ export function CourseBrowser({
         </div>
 
         <div className="flex gap-2 flex-wrap">
-          {[ALL, ...courseCategories].map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => {
-                captureFlip();
-                setCategory(c);
-              }}
-              className="tag cursor-pointer transition-colors duration-150 text-[12.5px] px-3.5 py-1.5"
-              style={
-                category === c
-                  ? { background: "var(--color-accent-2)", color: "var(--color-bg)" }
-                  : { background: "var(--color-surface)", color: "var(--color-text)" }
-              }
-            >
-              {c}
-            </button>
-          ))}
+          {[ALL, ...courseCategories].map((c) => {
+            const active = category === c;
+            const dot = c === ALL ? "var(--color-accent-2-700)" : CATEGORY_PALETTE[c as keyof typeof CATEGORY_PALETTE]?.line;
+            return (
+              <button
+                key={c}
+                type="button"
+                onClick={() => {
+                  captureFlip();
+                  setCategory(c);
+                }}
+                className="cb-reveal group inline-flex items-center gap-2 cursor-pointer rounded-full border text-[12.5px] px-3.5 py-1.5 font-medium transition-[transform,box-shadow,background-color,border-color] duration-200 ease-out hover:-translate-y-0.5"
+                style={
+                  active
+                    ? {
+                        background: "var(--color-accent-2-800)",
+                        color: "#fff",
+                        borderColor: "var(--color-accent-2-800)",
+                        boxShadow: "var(--shadow-md)",
+                      }
+                    : {
+                        background: "var(--color-bg)",
+                        color: "var(--color-text)",
+                        borderColor: "var(--color-divider)",
+                        boxShadow: "var(--shadow-sm)",
+                      }
+                }
+              >
+                {dot && (
+                  <span
+                    className="inline-block w-[7px] h-[7px] rounded-full flex-none transition-transform duration-200 group-hover:scale-125"
+                    style={{ background: active ? "#fff" : dot }}
+                    aria-hidden
+                  />
+                )}
+                {c}
+              </button>
+            );
+          })}
         </div>
       </div>
 
