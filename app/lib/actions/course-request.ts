@@ -4,6 +4,8 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { priceLabel } from "@/lib/mock-courses";
 
 const RequestCourseSchema = z.object({
   courseId: z.string().trim().min(1),
@@ -27,7 +29,10 @@ export async function requestCourse(courseId: string): Promise<RequestCourseStat
     return { ok: false, requiresAuth: true, message: "Please sign in to request a course." };
   }
 
-  const course = await prisma.course.findUnique({ where: { id: validated.data.courseId } });
+  const course = await prisma.course.findUnique({
+    where: { id: validated.data.courseId },
+    include: { instructor: { include: { user: true } } },
+  });
   if (!course) {
     return { ok: false, message: "This course could not be found." };
   }
@@ -48,6 +53,18 @@ export async function requestCourse(courseId: string): Promise<RequestCourseStat
   await prisma.courseRequest.create({
     data: { userId: user.id, courseId: course.id, status: "OPEN" },
   });
+
+  void sendAdminWhatsApp(
+    [
+      "New course request:",
+      `Student: ${user.name ?? "N/A"}`,
+      `Email: ${user.email}`,
+      `Phone: ${user.phone || "N/A"}`,
+      `Course: ${course.title}`,
+      `Instructor: ${course.instructor.user.name ?? "N/A"}`,
+      `Price: ${priceLabel(course.priceCents)}`,
+    ].join("\n")
+  );
 
   revalidatePath("/dashboard");
   revalidatePath("/courses");

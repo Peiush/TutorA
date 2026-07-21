@@ -8,6 +8,11 @@ import { auth } from "@/auth";
 const TeacherSchema = z.object({
   name: z.string().trim().min(2, "Name is required."),
   email: z.string().trim().email("Please enter a valid email."),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Please enter a valid phone number.")
+    .regex(/^[+\d][\d\s-]*$/, "Please enter a valid phone number."),
   country: z.string().trim().min(2, "Country is required."),
   subjects: z.string().trim().min(2, "List at least one subject."),
   yearsExperience: z.coerce.number().int().min(0).optional().or(z.literal("").transform(() => undefined)),
@@ -34,6 +39,7 @@ export async function submitTutorProfile(
   const validated = TeacherSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
+    phone: formData.get("phone"),
     country: formData.get("country"),
     subjects: formData.get("subjects"),
     yearsExperience: formData.get("yearsExperience"),
@@ -45,7 +51,7 @@ export async function submitTutorProfile(
     return { errors: validated.error.flatten().fieldErrors };
   }
 
-  const { name, email, country, subjects, yearsExperience, hourlyRate, bio } = validated.data;
+  const { name, email, phone, country, subjects, yearsExperience, hourlyRate, bio } = validated.data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -63,6 +69,7 @@ export async function submitTutorProfile(
     data: {
       name,
       email,
+      phone,
       role: "TUTOR",
       tutorProfile: {
         create: {

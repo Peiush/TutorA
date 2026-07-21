@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
 
 const ToggleSavedTutorSchema = z.object({
   tutorProfileId: z.string().trim().min(1),
@@ -40,6 +41,25 @@ export async function toggleSavedTutor(tutorProfileId: string): Promise<ToggleSa
   await prisma.savedTutor.create({
     data: { userId: user.id, tutorProfileId: validated.data.tutorProfileId },
   });
+
+  const tutorProfile = await prisma.tutorProfile.findUnique({
+    where: { id: validated.data.tutorProfileId },
+    include: { user: true },
+  });
+  void sendAdminWhatsApp(
+    [
+      "Tutor saved:",
+      `Student: ${user.name ?? "N/A"}`,
+      `Email: ${user.email}`,
+      `Phone: ${user.phone || "N/A"}`,
+      `Tutor: ${tutorProfile?.user.name ?? "Unknown"}`,
+      `Tutor phone: ${tutorProfile?.user.phone || "N/A"}`,
+      `Subject: ${tutorProfile?.subjects ?? "N/A"}`,
+      `Mode: ${formatMode("Both")}`,
+      `Price: ${tutorProfile?.hourlyRateCents ? `$${Math.round(tutorProfile.hourlyRateCents / 100)}/hr` : "Rate on request"}`,
+    ].join("\n")
+  );
+
   revalidatePath("/dashboard");
   return { ok: true, saved: true };
 }

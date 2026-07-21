@@ -6,6 +6,7 @@ import {
   MailIcon,
   LockIcon,
   UserIcon,
+  PhoneIcon,
   EyeIcon,
   EyeOffIcon,
   ArrowRightIcon,
@@ -41,6 +42,23 @@ export function SignupForm() {
           <input className="input" id="email" type="email" name="email" placeholder="you@example.com" autoComplete="email" required />
         </div>
         {state?.errors?.email && <p className="text-[13px] m-0 mt-1" style={{ color: "#d92d20" }}>{state.errors.email[0]}</p>}
+      </div>
+
+      <div className="field">
+        <label htmlFor="phone">Phone number</label>
+        <div className="field-icon">
+          <PhoneIcon />
+          <input
+            className="input"
+            id="phone"
+            type="tel"
+            name="phone"
+            placeholder="+91 98765 43210"
+            autoComplete="tel"
+            required
+          />
+        </div>
+        {state?.errors?.phone && <p className="text-[13px] m-0 mt-1" style={{ color: "#d92d20" }}>{state.errors.phone[0]}</p>}
       </div>
 
       <div className="field">

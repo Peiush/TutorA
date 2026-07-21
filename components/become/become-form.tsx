@@ -130,6 +130,15 @@ export function BecomeForm() {
         <input className="input" name="email" type="email" placeholder="jane@example.com" required />
       </div>
       <div className="field">
+        <label>Phone number</label>
+        <input className="input" name="phone" type="tel" placeholder="+91 98765 43210" required />
+        {state?.errors?.phone && (
+          <p className="text-[13px] m-0 mt-1" style={{ color: "#d92d20" }}>
+            {state.errors.phone[0]}
+          </p>
+        )}
+      </div>
+      <div className="field">
         <label>Country</label>
         <input className="input" name="country" placeholder="United Kingdom" required />
       </div>

@@ -41,6 +41,14 @@ export function UserIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function PhoneIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M5.5 4.5h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3c0 1-.9 1.8-1.9 1.6-4.2-.7-8.2-2.8-11.1-5.7C3.2 11 1.1 7 .5 2.9.3 1.9 1 1 2 1h3.5Z" />
+    </svg>
+  );
+}
+
 export function EyeIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)} aria-hidden>

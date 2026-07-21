@@ -4,6 +4,7 @@ const DUMMY_TUTORS = [
   {
     name: "Dr. Amara Okafor",
     email: "amara.okafor.demo@tutorconnect.dev",
+    phone: "+234 802 345 6781",
     country: "Lagos, Nigeria",
     subjects: "Physics, Mathematics",
     yearsExperience: 12,
@@ -13,6 +14,7 @@ const DUMMY_TUTORS = [
   {
     name: "Liang Wei",
     email: "liang.wei.demo@tutorconnect.dev",
+    phone: "+1 312 555 0142",
     country: "Chicago, USA",
     subjects: "Mathematics, Statistics",
     yearsExperience: 8,
@@ -22,6 +24,7 @@ const DUMMY_TUTORS = [
   {
     name: "Sofia Marchetti",
     email: "sofia.marchetti.demo@tutorconnect.dev",
+    phone: "+39 345 678 9012",
     country: "Milan, Italy",
     subjects: "Spanish, Italian",
     yearsExperience: 6,
@@ -31,6 +34,7 @@ const DUMMY_TUTORS = [
   {
     name: "James Halloran",
     email: "james.halloran.demo@tutorconnect.dev",
+    phone: "+44 7700 900123",
     country: "London, UK",
     subjects: "Chemistry, Biology",
     yearsExperience: 10,
@@ -40,6 +44,7 @@ const DUMMY_TUTORS = [
   {
     name: "Priya Nair",
     email: "priya.nair.demo@tutorconnect.dev",
+    phone: "+91 98765 43210",
     country: "Bengaluru, India",
     subjects: "Computer Science, Python",
     yearsExperience: 9,
@@ -49,6 +54,7 @@ const DUMMY_TUTORS = [
   {
     name: "Daniel Kim",
     email: "daniel.kim.demo@tutorconnect.dev",
+    phone: "+1 416 555 0198",
     country: "Toronto, Canada",
     subjects: "Test Prep, Mathematics",
     yearsExperience: 7,
@@ -58,6 +64,7 @@ const DUMMY_TUTORS = [
   {
     name: "Isabelle Laurent",
     email: "isabelle.laurent.demo@tutorconnect.dev",
+    phone: "+33 6 12 34 56 78",
     country: "Paris, France",
     subjects: "French, English",
     yearsExperience: 5,
@@ -67,6 +74,7 @@ const DUMMY_TUTORS = [
   {
     name: "Marcus Webb",
     email: "marcus.webb.demo@tutorconnect.dev",
+    phone: "+1 512 555 0176",
     country: "Austin, USA",
     subjects: "Guitar, Music Theory",
     yearsExperience: 15,
@@ -76,6 +84,7 @@ const DUMMY_TUTORS = [
   {
     name: "Hana Suzuki",
     email: "hana.suzuki.demo@tutorconnect.dev",
+    phone: "+81 90 1234 5678",
     country: "Tokyo, Japan",
     subjects: "Japanese, Art History",
     yearsExperience: 4,
@@ -85,6 +94,7 @@ const DUMMY_TUTORS = [
   {
     name: "Oliver Bennett",
     email: "oliver.bennett.demo@tutorconnect.dev",
+    phone: "+61 412 345 678",
     country: "Sydney, Australia",
     subjects: "Economics, Business Studies",
     yearsExperience: 11,
@@ -94,6 +104,7 @@ const DUMMY_TUTORS = [
   {
     name: "Fatima Al-Sayed",
     email: "fatima.alsayed.demo@tutorconnect.dev",
+    phone: "+971 50 123 4567",
     country: "Dubai, UAE",
     subjects: "Arabic, English Literature",
     yearsExperience: 6,
@@ -103,6 +114,7 @@ const DUMMY_TUTORS = [
   {
     name: "Carlos Mendes",
     email: "carlos.mendes.demo@tutorconnect.dev",
+    phone: "+351 912 345 678",
     country: "Lisbon, Portugal",
     subjects: "Portuguese, Geography",
     yearsExperience: 3,
@@ -287,10 +299,11 @@ async function main() {
   for (const t of DUMMY_TUTORS) {
     await prisma.user.upsert({
       where: { email: t.email },
-      update: {},
+      update: { phone: t.phone },
       create: {
         name: t.name,
         email: t.email,
+        phone: t.phone,
         role: "TUTOR",
         tutorProfile: {
           create: {

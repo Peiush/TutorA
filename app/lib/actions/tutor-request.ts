@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
 
 const TutorRequestSchema = z.object({
   name: z.string().trim().min(2, "Name is required."),
@@ -38,6 +39,27 @@ export async function submitTutorRequest(input: TutorRequestInput): Promise<Tuto
       userId: session?.user?.id,
     },
   });
+
+  const d = validated.data;
+  void sendAdminWhatsApp(
+    [
+      "New tutor request (custom form):",
+      `Student: ${d.name}`,
+      `Email: ${d.email}`,
+      `Phone: ${d.phone || "N/A"}`,
+      `Subject: ${d.subject}`,
+      `Mode: ${formatMode(d.mode)}`,
+      d.level && `Level: ${d.level}`,
+      d.goals && `Goals: ${d.goals}`,
+      d.sessionsPerWeek && `Sessions/week: ${d.sessionsPerWeek}`,
+      d.timezone && `Timezone: ${d.timezone}`,
+      (d.budgetPerHour || d.currency) &&
+        `Budget: ${d.budgetPerHour ?? "N/A"}${d.currency ? ` ${d.currency}/hr` : "/hr"}`,
+      d.notes && `Notes: ${d.notes}`,
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
 
   return { ok: true };
 }
@@ -156,6 +178,19 @@ export async function requestSpecificTutor(
       requestedTutorProfileId: tutorProfileId,
     },
   });
+
+  void sendAdminWhatsApp(
+    [
+      "New tutor request (from list):",
+      `Student: ${user.name ?? "N/A"}`,
+      `Email: ${user.email}`,
+      `Phone: ${user.phone || "N/A"}`,
+      `Tutor: ${tutorName}`,
+      `Subject: ${subject}`,
+      `Mode: ${formatMode(mode)}`,
+      `Price: ${tutorRate || "N/A"}`,
+    ].join("\n")
+  );
 
   revalidatePath("/dashboard");
   revalidatePath("/find-a-tutor");

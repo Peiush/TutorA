@@ -4,7 +4,6 @@ import { useRef, useState, useTransition } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SegmentedControl } from "@/components/ui/segmented";
-import { subjects } from "@/lib/mock-data";
 import { submitTutorRequest } from "@/app/lib/actions/tutor-request";
 
 gsap.registerPlugin(useGSAP);
@@ -101,7 +100,7 @@ export function RequestForm() {
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const [subject, setSubject] = useState(subjects[0] ?? "");
+  const [subject, setSubject] = useState("");
   const [level, setLevel] = useState("Secondary / GCSE");
   const [goals, setGoals] = useState("");
   const [mode, setMode] = useState("Online");
@@ -246,11 +245,13 @@ export function RequestForm() {
             <StepHeading step={1}>Subject &amp; level</StepHeading>
             <div className="field">
               <label>Subject</label>
-              <select className="input" value={subject} onChange={(e) => setSubject(e.target.value)}>
-                {subjects.map((s) => (
-                  <option key={s}>{s}</option>
-                ))}
-              </select>
+              <input
+                className="input"
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="e.g. Mathematics"
+              />
             </div>
             <div className="field">
               <label>Level</label>

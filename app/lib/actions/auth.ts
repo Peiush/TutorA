@@ -6,10 +6,16 @@ import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/auth";
+import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
 
 const SignupSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters long."),
   email: z.string().trim().email("Please enter a valid email."),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Please enter a valid phone number.")
+    .regex(/^[+\d][\d\s-]*$/, "Please enter a valid phone number."),
   password: z
     .string()
     .min(8, "Be at least 8 characters long.")
@@ -22,6 +28,7 @@ export type SignupState =
       errors?: {
         name?: string[];
         email?: string[];
+        phone?: string[];
         password?: string[];
       };
       message?: string;
@@ -32,6 +39,7 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
   const validated = SignupSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
+    phone: formData.get("phone"),
     password: formData.get("password"),
   });
 
@@ -39,7 +47,7 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
     return { errors: validated.error.flatten().fieldErrors };
   }
 
-  const { name, email, password } = validated.data;
+  const { name, email, phone, password } = validated.data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -49,8 +57,12 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await prisma.user.create({
-    data: { name, email, password: hashedPassword, role: "STUDENT" },
+    data: { name, email, phone, password: hashedPassword, role: "STUDENT" },
   });
+
+  void sendAdminWhatsApp(
+    ["New user signed up:", `Name: ${name}`, `Email: ${email}`, `Phone: ${phone || "N/A"}`].join("\n")
+  );
 
   await signIn("credentials", {
     email,
