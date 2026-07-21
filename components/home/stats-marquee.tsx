@@ -47,8 +47,8 @@ export function StatsMarquee() {
     <section
       className="relative overflow-hidden py-6"
       style={{ background: "var(--color-neutral-900)" }}
-      onMouseEnter={() => tweenRef.current?.timeScale(0.25)}
-      onMouseLeave={() => tweenRef.current?.timeScale(1)}
+      onMouseEnter={() => tweenRef.current?.pause()}
+      onMouseLeave={() => tweenRef.current?.resume()}
     >
       <div ref={trackRef} className="flex w-max items-center will-change-transform">
         {[0, 1].map((copy) => (

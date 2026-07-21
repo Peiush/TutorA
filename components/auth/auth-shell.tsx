@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { AuthIllustration } from "@/components/auth/auth-illustration";
-import { Reveal } from "@/components/ui/reveal";
 
 export function AuthShell({
   variant,
@@ -52,9 +51,9 @@ export function AuthShell({
           >
             TutorConnect
           </Link>
-          <Reveal y={20} className="card elev-lg p-[clamp(28px,4vw,40px)]" style={{ background: "var(--color-bg)" }}>
+          <div className="reveal-up card elev-lg p-[clamp(28px,4vw,40px)]" style={{ background: "var(--color-bg)" }}>
             {children}
-          </Reveal>
+          </div>
         </div>
       </div>
     </div>

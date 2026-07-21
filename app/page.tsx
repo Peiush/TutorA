@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/reveal";
-import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { Tag } from "@/components/ui/tag";
-import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { TutorStrip } from "@/components/home/tutor-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroContent } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
+import { RequestIcon, ShieldMatchIcon, HandshakeIcon, FlowArrowIcon } from "@/components/home/step-icons";
+import { VerificationPipeline } from "@/components/home/verification-pipeline";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { PopularSubjects } from "@/components/home/popular-subjects";
+import { FinalCta } from "@/components/home/final-cta";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -18,6 +21,13 @@ import {
   testimonials,
   subjects,
 } from "@/lib/mock-data";
+
+const STEP_ICONS = [RequestIcon, ShieldMatchIcon, HandshakeIcon];
+
+function StepIcon({ index }: { index: number }) {
+  const Icon = STEP_ICONS[index] ?? RequestIcon;
+  return <Icon />;
+}
 
 export default async function Home() {
   const approvedTutors = await getApprovedTutorListings();
@@ -101,72 +111,54 @@ export default async function Home() {
           >
             Our team is the only bridge between the two sides. That is the trust, not a limitation.
           </p>
-          <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+          <div className="flex flex-col lg:flex-row items-stretch gap-5">
             {steps.map((st, i) => (
-              <Reveal key={st.title} delay={i * 100}>
-                <div
-                  className="rounded-[var(--radius-lg)] p-7 relative h-full"
-                  style={{ background: st.bg }}
-                >
+              <div key={st.title} className="contents lg:flex lg:flex-1 lg:items-center lg:gap-5">
+                <Reveal delay={i * 100} className="flex-1 h-full">
                   <div
-                    className="w-11 h-11 rounded-full grid place-content-center font-[var(--font-heading)] text-[20px]"
-                    style={{ background: st.dot, color: "var(--color-bg)" }}
+                    className="rounded-[var(--radius-lg)] p-7 relative h-full"
+                    style={{ background: st.bg }}
                   >
-                    {st.n}
+                    <div
+                      className="w-11 h-11 rounded-full grid place-content-center relative"
+                      style={{ background: st.dot, color: "var(--color-bg)" }}
+                    >
+                      <StepIcon index={i} />
+                      <span
+                        className="absolute -bottom-1 -right-1 w-[18px] h-[18px] rounded-full grid place-content-center text-[10px] font-bold font-[var(--font-heading)]"
+                        style={{
+                          background: "var(--color-bg)",
+                          color: "var(--color-text)",
+                          border: "1.5px solid var(--color-divider)",
+                        }}
+                      >
+                        {st.n}
+                      </span>
+                    </div>
+                    <h3 className="text-[21px] mt-4.5 mb-2">{st.title}</h3>
+                    <p
+                      className="text-[15px] leading-[1.55] m-0"
+                      style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
+                    >
+                      {st.body}
+                    </p>
                   </div>
-                  <h3 className="text-[21px] mt-4.5 mb-2">{st.title}</h3>
-                  <p
-                    className="text-[15px] leading-[1.55] m-0"
-                    style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
+                </Reveal>
+                {i < steps.length - 1 && (
+                  <div
+                    className="hidden lg:flex items-center justify-center flex-none"
+                    style={{ color: "var(--color-accent-2-300)" }}
+                    aria-hidden
                   >
-                    {st.body}
-                  </p>
-                </div>
-              </Reveal>
+                    <FlowArrowIcon />
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
           <Reveal delay={200} className="card elev-sm mt-9 gap-3" style={{ background: "var(--color-bg)" }}>
-            <div
-              className="text-[12px] uppercase"
-              style={{ letterSpacing: "0.04em", color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
-            >
-              Live verification pipeline · Request #R-1042
-            </div>
-            <StaggerReveal className="flex items-center gap-0 mt-1.5 flex-wrap" stagger={0.14} y={0}>
-              {pipeline.map((p, i) => (
-                <div key={p.label} className="flex items-center">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className="w-[30px] h-[30px] rounded-full grid place-content-center flex-none relative"
-                      style={{ background: p.dot, color: p.dotText }}
-                    >
-                      {p.pulse && (
-                        <span
-                          className="absolute -inset-1 rounded-full opacity-50"
-                          style={{ border: "2px solid var(--color-verified)" }}
-                        />
-                      )}
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-[var(--font-heading)] font-semibold text-[14.5px]">{p.label}</div>
-                      <div className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                        {p.time}
-                      </div>
-                    </div>
-                  </div>
-                  {p.hasNext && (
-                    <div
-                      className="w-[clamp(24px,4vw,56px)] h-0.5 mx-3"
-                      style={{ background: "var(--color-divider)" }}
-                    />
-                  )}
-                </div>
-              ))}
-            </StaggerReveal>
+            <VerificationPipeline items={pipeline} requestId="R-1042" />
           </Reveal>
         </div>
       </section>
@@ -176,7 +168,7 @@ export default async function Home() {
         <div className="flex justify-between items-end flex-wrap gap-3 mb-7">
           <div>
             <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-              Top-rated tutors
+              Freshly vetted
             </Tag>
             <h2 className="text-[clamp(28px,3.4vw,38px)] mt-4">Verified and ready to teach</h2>
             <div
@@ -200,27 +192,7 @@ export default async function Home() {
             What people say
           </Tag>
           <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-9">Trusted by both sides</h2>
-          <StaggerReveal className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
-            {testimonials.map((q, i) => (
-              <figure
-                key={q.name}
-                className="card m-0 gap-4 justify-between"
-                style={{ background: "var(--color-bg)" }}
-              >
-                <p className="font-[var(--font-heading)] text-[18px] leading-[1.4] m-0">
-                  <span style={{ color: "var(--color-accent-2-300)" }}>“</span>
-                  {q.quote}
-                  <span style={{ color: "var(--color-accent-2-300)" }}>”</span>
-                </p>
-                <figcaption className="flex items-center gap-2.5">
-                  <TutorAvatar name={q.name} index={i} size={36} />
-                  <div className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
-                    {q.name} · {q.role}
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </StaggerReveal>
+          <TestimonialsSection testimonials={testimonials} />
         </div>
       </section>
 
@@ -237,40 +209,11 @@ export default async function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <StaggerReveal className="flex flex-wrap gap-2.5" stagger={0.03} y={12}>
-          {subjects.map((s) => (
-            <Link key={s} href="/find-a-tutor" className="tag tag-outline text-[16px] px-5 py-2.5">
-              {s}
-            </Link>
-          ))}
-        </StaggerReveal>
+        <PopularSubjects subjects={subjects} />
       </section>
 
       {/* CTA */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(48px,6vw,80px)]">
-        <Reveal
-          className="rounded-[20px] p-[clamp(32px,5vw,56px)]"
-          style={{ background: "var(--color-accent-2-100)" }}
-        >
-          <h2 className="text-[clamp(26px,3.4vw,38px)] max-w-[18ch]">
-            Tell us what you need. We&rsquo;ll find who fits.
-          </h2>
-          <p
-            className="text-[16px] max-w-[48ch] mt-4"
-            style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
-          >
-            Our team reviews every request and matches you personally, usually within 24–48 hours.
-          </p>
-          <div className="flex gap-3 flex-wrap mt-7">
-            <Link href="/request-a-tutor" className="btn btn-primary">
-              Request a Tutor
-            </Link>
-            <Link href="/find-a-tutor" className="btn btn-secondary">
-              Browse first
-            </Link>
-          </div>
-        </Reveal>
-      </section>
+      <FinalCta />
     </div>
   );
 }

@@ -7,6 +7,8 @@ import gsap from "gsap";
 import { Tag } from "@/components/ui/tag";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
+import { SubjectIcon } from "@/components/ui/subject-icons";
+import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import type { TutorRaw } from "@/lib/mock-data";
 
 gsap.registerPlugin(useGSAP);
@@ -30,6 +32,7 @@ export function TutorDetailModal({
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const launchPlane = usePlaneLaunch();
 
   const { contextSafe } = useGSAP(
     () => {
@@ -123,7 +126,7 @@ export function TutorDetailModal({
                   Top rated
                 </Tag>
               )}
-              {tutor.isNew && (
+              {tutor.isNew && tutor.reviews > 0 && (
                 <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
                   New
                 </Tag>
@@ -141,7 +144,10 @@ export function TutorDetailModal({
               </span>
             </span>
           ) : (
-            <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>No reviews yet</span>
+            <span className="inline-flex items-center gap-1" style={{ color: "var(--color-verified)", fontWeight: 600 }}>
+              <VerifiedBadge size={13} />
+              Newly verified
+            </span>
           )}
           <span className="font-[var(--font-heading)] text-[19px]">
             {tutor.price.replace(/\s*\/\s*hr\s*$/i, "")}
@@ -165,7 +171,8 @@ export function TutorDetailModal({
 
         <div className="detail-stagger flex flex-wrap gap-1.5">
           {tutor.subjects.map((s) => (
-            <Tag key={s} variant="neutral">
+            <Tag key={s} variant="neutral" className="inline-flex items-center gap-1">
+              <SubjectIcon subject={s} />
               {s}
             </Tag>
           ))}
@@ -184,7 +191,10 @@ export function TutorDetailModal({
           type="button"
           className="detail-stagger btn btn-primary btn-block mt-1"
           disabled={pending || requested}
-          onClick={() => onRequest(tutor)}
+          onClick={(e) => {
+            launchPlane(e.currentTarget);
+            onRequest(tutor);
+          }}
         >
           {requested ? (
             <span className="inline-flex items-center gap-1.5">

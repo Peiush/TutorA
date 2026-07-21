@@ -175,9 +175,9 @@ export const steps = [
 ];
 
 export const pipeline = [
-  { label: "Submitted", time: "Jul 15, 9:02am", dot: "var(--color-accent-2-200)", dotText: "var(--color-accent-2-800)", pulse: false, hasNext: true },
-  { label: "Verified", time: "Jul 15, 11:40am", dot: "var(--color-verified)", dotText: "#fff", pulse: true, hasNext: true },
-  { label: "Matched", time: "Awaiting confirmation", dot: "var(--color-neutral-200)", dotText: "var(--color-neutral-500)", pulse: false, hasNext: false },
+  { label: "Submitted", time: "Jul 15, 9:02am", dot: "var(--color-accent-2-200)", dotText: "var(--color-accent-2-800)", pulse: false, hasNext: true, done: true },
+  { label: "Verified", time: "Jul 15, 11:40am", dot: "var(--color-verified)", dotText: "#fff", pulse: true, hasNext: true, done: true },
+  { label: "Matched", time: "Awaiting confirmation", dot: "var(--color-neutral-200)", dotText: "var(--color-neutral-500)", pulse: false, hasNext: false, done: false },
 ];
 
 export const testimonials = [
