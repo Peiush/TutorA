@@ -1,0 +1,27 @@
+import { LegalHero } from "@/components/legal/legal-hero";
+import { LegalContent } from "@/components/legal/legal-content";
+import { TERMS_SECTIONS } from "@/components/legal/terms-sections";
+
+export const metadata = {
+  title: "Terms of Service — TutorA",
+};
+
+export default function TermsPage() {
+  return (
+    <div>
+      <LegalHero
+        eyebrow="Legal"
+        title="Terms of Service"
+        description={
+          <>
+            These terms explain how TutorA&rsquo;s admin-mediated marketplace works for
+            students and tutors, and what we each agree to by using it. Please read them
+            carefully — the sections below cover fees, verification, and how matches happen.
+          </>
+        }
+        updated="July 23, 2026"
+      />
+      <LegalContent sections={TERMS_SECTIONS} />
+    </div>
+  );
+}
