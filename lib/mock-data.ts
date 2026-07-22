@@ -1,8 +1,11 @@
 export interface TutorRaw {
   id?: string;
+  listingId?: string;
   name: string;
   headline: string;
   subjects: string[];
+  curriculum?: string;
+  onDemand?: boolean;
   price: string;
   rating: number;
   reviews: number;

@@ -17,7 +17,7 @@ export type CourseRequestAdminRow = {
   studentEmail: string;
   courseTitle: string;
   instructor: string;
-  priceCents: number;
+  priceCents: number | null;
   status: CourseRequestStatus;
   createdAt: Date;
 };
@@ -124,7 +124,7 @@ export function CourseRequestsAdminPanel({ requests }: { requests: CourseRequest
                 </div>
 
                 <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                  {priceLabel(r.priceCents)}
+                  {r.priceCents != null ? priceLabel(r.priceCents) : "Price on request"}
                   <div>{relativeDate(r.createdAt)}</div>
                 </div>
 

@@ -60,7 +60,7 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
         return (
           <Link
             key={s}
-            href="/find-a-tutor"
+            href={`/find-a-tutor?subject=${encodeURIComponent(s)}`}
             className="subject-pill group relative inline-flex items-center gap-2.5 rounded-full border pl-2 pr-5 py-2 cursor-pointer transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1"
             style={{
               background: "var(--color-bg)",

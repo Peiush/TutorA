@@ -92,7 +92,7 @@ export function CourseFormModal({
             <input
               className="input"
               name="price"
-              defaultValue={course ? priceLabel(course.priceCents) : undefined}
+              defaultValue={course?.priceCents != null ? priceLabel(course.priceCents) : undefined}
               placeholder="$44.99"
               required
             />
@@ -102,7 +102,7 @@ export function CourseFormModal({
             <input
               className="input"
               name="originalPrice"
-              defaultValue={course ? priceLabel(course.originalPriceCents) : undefined}
+              defaultValue={course?.originalPriceCents != null ? priceLabel(course.originalPriceCents) : undefined}
               placeholder="$89.99"
               required
             />
@@ -112,11 +112,11 @@ export function CourseFormModal({
         <div className="grid grid-cols-2 gap-3">
           <div className="field">
             <label>Duration (hours)</label>
-            <input className="input" name="durationHours" type="number" step="0.5" min="0.5" defaultValue={course?.durationHours} required />
+            <input className="input" name="durationHours" type="number" step="0.5" min="0.5" defaultValue={course?.durationHours ?? undefined} required />
           </div>
           <div className="field">
             <label>Lecture count</label>
-            <input className="input" name="lectureCount" type="number" min="1" defaultValue={course?.lectureCount} required />
+            <input className="input" name="lectureCount" type="number" min="1" defaultValue={course?.lectureCount ?? undefined} required />
           </div>
         </div>
 

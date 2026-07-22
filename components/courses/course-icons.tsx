@@ -101,3 +101,64 @@ export function SearchIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function CodeBracketIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="m9 8-4.5 4L9 16" />
+      <path d="m15 8 4.5 4L15 16" />
+      <path d="m13.5 5.5-3 13" />
+    </svg>
+  );
+}
+
+export function TargetIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function GlobeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.4 2.3 3.7 5.3 3.7 8.5s-1.3 6.2-3.7 8.5c-2.4-2.3-3.7-5.3-3.7-8.5S9.6 5.8 12 3.5Z" />
+    </svg>
+  );
+}
+
+export function PaletteIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M12 3.5A8.5 8.5 0 1 0 12 20.5c1.1 0 1.9-.9 1.9-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-1.9 2-1.9h2.1c2 0 3.5-1.6 3.5-3.5 0-4.3-3.8-7-8.5-7Z" />
+      <circle cx="8" cy="10.5" r="1.1" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="7.5" r="1.1" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="10.5" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function MusicNoteIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M9 17.5V6l10-2v11.5" />
+      <circle cx="6.5" cy="17.5" r="2.5" />
+      <circle cx="16.5" cy="15.5" r="2.5" />
+    </svg>
+  );
+}
+
+export function GridIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}

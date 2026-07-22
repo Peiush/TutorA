@@ -136,7 +136,9 @@ export function TutorDetailModal({
         </div>
 
         <div className="detail-stagger flex justify-between items-center text-[13.5px] flex-wrap gap-2">
-          {tutor.reviews > 0 ? (
+          {tutor.onDemand ? (
+            <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>No tutor assigned yet</span>
+          ) : tutor.reviews > 0 ? (
             <span className="flex items-center gap-1.5">
               <StarRating rating={tutor.rating} size={15} />
               <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
@@ -150,10 +152,16 @@ export function TutorDetailModal({
             </span>
           )}
           <span className="font-[var(--font-heading)] text-[19px]">
-            {tutor.price.replace(/\s*\/\s*hr\s*$/i, "")}
-            <span className="text-[13px] font-[var(--font-body)] font-normal" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
-              /hr
-            </span>
+            {/\d/.test(tutor.price) ? (
+              <>
+                {tutor.price.replace(/\s*\/\s*hr\s*$/i, "")}
+                <span className="text-[13px] font-[var(--font-body)] font-normal" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                  /hr
+                </span>
+              </>
+            ) : (
+              tutor.price
+            )}
           </span>
         </div>
 

@@ -34,7 +34,16 @@ export function CourseDetailModal({
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const discountPct = Math.round((1 - course.priceCents / course.originalPriceCents) * 100);
+  const hasDiscount = course.priceCents != null && course.originalPriceCents != null;
+  const discountPct = hasDiscount
+    ? Math.round((1 - course.priceCents! / course.originalPriceCents!) * 100)
+    : 0;
+  const primaryPrice =
+    course.priceCents != null
+      ? `${priceLabel(course.priceCents)}/hr`
+      : course.originalPriceCents != null
+      ? `${priceLabel(course.originalPriceCents)} full course`
+      : "Price on request";
   const launchPlane = usePlaneLaunch();
 
   const { contextSafe } = useGSAP(
@@ -141,19 +150,23 @@ export function CourseDetailModal({
           </div>
 
           <div className="cdetail-stagger flex items-center gap-3 text-[13px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-            <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
+            {course.instructor && (
+              <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
+            )}
             <span className="inline-flex items-center gap-1">
               <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
               <StarRating rating={course.rating} size={12} />
               <span>({course.reviews.toLocaleString()})</span>
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <ClockIcon width={13} height={13} />
-              {course.durationHours}h
-            </span>
+            {course.durationHours != null && (
+              <span className="inline-flex items-center gap-1.5">
+                <ClockIcon width={13} height={13} />
+                {course.durationHours}h
+              </span>
+            )}
             <span className="inline-flex items-center gap-1.5">
               <LayersIcon width={13} height={13} />
-              {course.lectureCount} lectures
+              {course.lectureCount != null ? `${course.lectureCount} lectures` : course.lectureCountLabel ?? "Flexible"}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <BarChartIcon width={13} height={13} />
@@ -161,36 +174,42 @@ export function CourseDetailModal({
             </span>
           </div>
 
-          <div
-            className="cdetail-stagger rounded-[var(--radius-md)] p-3"
-            style={{ background: "var(--color-surface)" }}
-          >
-            <div className="text-[12.5px] font-semibold mb-1.5" style={{ fontFamily: "var(--font-heading)" }}>
-              What you&rsquo;ll learn
+          {course.whatYoullLearn.length > 0 && (
+            <div
+              className="cdetail-stagger rounded-[var(--radius-md)] p-3"
+              style={{ background: "var(--color-surface)" }}
+            >
+              <div className="text-[12.5px] font-semibold mb-1.5" style={{ fontFamily: "var(--font-heading)" }}>
+                What you&rsquo;ll learn
+              </div>
+              <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
+                {course.whatYoullLearn.map((item) => (
+                  <li key={item} className="flex items-start gap-1.5 text-[13px] leading-snug">
+                    <CheckIcon width={14} height={14} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
+                    <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
-              {course.whatYoullLearn.map((item) => (
-                <li key={item} className="flex items-start gap-1.5 text-[13px] leading-snug">
-                  <CheckIcon width={14} height={14} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
-                  <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
 
           <div className="cdetail-stagger flex items-center gap-3 flex-wrap">
             <div className="flex items-baseline gap-2 font-[var(--font-heading)]">
-              <span className="text-[26px]">{priceLabel(course.priceCents)}</span>
-              <span
-                className="text-[15px] font-[var(--font-body)] line-through"
-                style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
-              >
-                {priceLabel(course.originalPriceCents)}
-              </span>
+              <span className="text-[26px]">{primaryPrice}</span>
+              {hasDiscount && (
+                <span
+                  className="text-[15px] font-[var(--font-body)] line-through"
+                  style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
+                >
+                  {priceLabel(course.originalPriceCents!)}
+                </span>
+              )}
             </div>
-            <Tag variant="success" className="text-[11px] px-2.5 py-1">
-              {discountPct}% off
-            </Tag>
+            {hasDiscount && (
+              <Tag variant="success" className="text-[11px] px-2.5 py-1">
+                {discountPct}% off
+              </Tag>
+            )}
           </div>
 
           <div className="cdetail-stagger flex items-center gap-2">

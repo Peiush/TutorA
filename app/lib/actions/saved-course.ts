@@ -54,8 +54,8 @@ export async function toggleSavedCourse(courseId: string): Promise<ToggleSavedCo
       `Email: ${user.email}`,
       `Phone: ${user.phone || "N/A"}`,
       `Course: ${course?.title ?? "Unknown"}`,
-      `Instructor: ${course?.instructor.user.name ?? "N/A"}`,
-      `Instructor phone: ${course?.instructor.user.phone || "N/A"}`,
+      `Instructor: ${course?.instructor?.user.name ?? "N/A"}`,
+      `Instructor phone: ${course?.instructor?.user.phone || "N/A"}`,
     ].join("\n")
   );
 

@@ -13,7 +13,7 @@ export interface SavedCourseRowData {
   courseId: string;
   title: string;
   instructor: string;
-  priceCents: number;
+  priceCents: number | null;
   alreadyRequested: boolean;
 }
 
@@ -68,7 +68,7 @@ export function SavedCourseRow({ course }: { course: SavedCourseRowData }) {
         </div>
       </div>
       <div className="text-[13px] flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-        {priceLabel(course.priceCents)}
+        {course.priceCents != null ? priceLabel(course.priceCents) : "Price on request"}
       </div>
       <button
         type="button"

@@ -11,10 +11,10 @@ import type { CourseCategory } from "@/lib/mock-courses";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const FLOATERS: { category: CourseCategory; size: number; top: string; left: string; depth: number }[] = [
-  { category: "Mathematics", size: 78, top: "2%", left: "68%", depth: 30 },
-  { category: "Computer Science", size: 60, top: "48%", left: "88%", depth: 55 },
-  { category: "Music", size: 56, top: "62%", left: "58%", depth: 20 },
-  { category: "Science", size: 68, top: "8%", left: "86%", depth: 45 },
+  { category: "Programming & Technology", size: 78, top: "2%", left: "68%", depth: 30 },
+  { category: "Test Preparation", size: 60, top: "48%", left: "88%", depth: 55 },
+  { category: "Music & Instruments", size: 56, top: "62%", left: "58%", depth: 20 },
+  { category: "Creative Skills", size: 68, top: "8%", left: "86%", depth: 45 },
 ];
 
 export function CoursesHero() {

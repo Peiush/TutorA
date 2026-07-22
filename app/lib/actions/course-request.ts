@@ -61,8 +61,8 @@ export async function requestCourse(courseId: string): Promise<RequestCourseStat
       `Email: ${user.email}`,
       `Phone: ${user.phone || "N/A"}`,
       `Course: ${course.title}`,
-      `Instructor: ${course.instructor.user.name ?? "N/A"}`,
-      `Price: ${priceLabel(course.priceCents)}`,
+      `Instructor: ${course.instructor?.user.name ?? "N/A"}`,
+      `Price: ${course.priceCents != null ? priceLabel(course.priceCents) : course.originalPriceCents != null ? priceLabel(course.originalPriceCents) : "N/A"}`,
     ].join("\n")
   );
 

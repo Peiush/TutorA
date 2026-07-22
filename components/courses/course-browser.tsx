@@ -8,11 +8,11 @@ import { Flip } from "gsap/Flip";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { CourseCard } from "@/components/courses/course-card";
 import { CourseDetailModal } from "@/components/courses/course-detail-modal";
+import { CategorySelector } from "@/components/courses/category-selector";
 import { SearchIcon } from "@/components/courses/course-icons";
-import { CATEGORY_PALETTE } from "@/components/courses/course-illustrations";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
-import { courseCategories, type CourseRaw } from "@/lib/mock-courses";
+import type { CourseRaw } from "@/lib/mock-courses";
 
 gsap.registerPlugin(useGSAP, Flip);
 
@@ -73,16 +73,23 @@ export function CourseBrowser({
     }
   }
 
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const c of courses) counts[c.category] = (counts[c.category] ?? 0) + 1;
+    return counts;
+  }, [courses]);
+
   const filtered = useMemo(() => {
     let list = courses.filter((c) => {
       if (category !== ALL && c.category !== category) return false;
-      if (query.trim() && !c.title.toLowerCase().includes(query.trim().toLowerCase()) && !c.instructor.toLowerCase().includes(query.trim().toLowerCase())) {
+      const q = query.trim().toLowerCase();
+      if (q && !c.title.toLowerCase().includes(q) && !(c.instructor ?? "").toLowerCase().includes(q)) {
         return false;
       }
       return true;
     });
     list = [...list].sort((a, b) => {
-      if (sort === "Lowest price") return a.priceCents - b.priceCents;
+      if (sort === "Lowest price") return (a.priceCents ?? a.originalPriceCents ?? 0) - (b.priceCents ?? b.originalPriceCents ?? 0);
       if (sort === "Highest rated") return b.rating - a.rating;
       return b.reviews - a.reviews;
     });
@@ -201,46 +208,16 @@ export function CourseBrowser({
           </select>
         </div>
 
-        <div className="flex gap-2 flex-wrap">
-          {[ALL, ...courseCategories].map((c) => {
-            const active = category === c;
-            const dot = c === ALL ? "var(--color-accent-2-700)" : CATEGORY_PALETTE[c as keyof typeof CATEGORY_PALETTE]?.line;
-            return (
-              <button
-                key={c}
-                type="button"
-                onClick={() => {
-                  captureFlip();
-                  setCategory(c);
-                }}
-                className="cb-reveal group inline-flex items-center gap-2 cursor-pointer rounded-full border text-[12.5px] px-3.5 py-1.5 font-medium transition-[transform,box-shadow,background-color,border-color] duration-200 ease-out hover:-translate-y-0.5"
-                style={
-                  active
-                    ? {
-                        background: "var(--color-accent-2-800)",
-                        color: "#fff",
-                        borderColor: "var(--color-accent-2-800)",
-                        boxShadow: "var(--shadow-md)",
-                      }
-                    : {
-                        background: "var(--color-bg)",
-                        color: "var(--color-text)",
-                        borderColor: "var(--color-divider)",
-                        boxShadow: "var(--shadow-sm)",
-                      }
-                }
-              >
-                {dot && (
-                  <span
-                    className="inline-block w-[7px] h-[7px] rounded-full flex-none transition-transform duration-200 group-hover:scale-125"
-                    style={{ background: active ? "#fff" : dot }}
-                    aria-hidden
-                  />
-                )}
-                {c}
-              </button>
-            );
-          })}
+        <div className="cb-reveal">
+          <CategorySelector
+            category={category}
+            onSelect={(c) => {
+              captureFlip();
+              setCategory(c);
+            }}
+            counts={categoryCounts}
+            total={courses.length}
+          />
         </div>
       </div>
 

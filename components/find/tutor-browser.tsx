@@ -25,7 +25,6 @@ import { usePlaneLaunch } from "@/components/ui/plane-launch";
 
 gsap.registerPlugin(useGSAP, Flip);
 
-const REGIONS = ["Anywhere", "United Kingdom", "United States", "Europe", "Asia-Pacific", "Africa"];
 const SORTS = ["Top rated", "Lowest price", "Most reviews"] as const;
 
 function priceValue(price: string) {
@@ -213,16 +212,20 @@ export function TutorBrowser({
   isAdmin = false,
   savedTutorIds = [],
   requestedTutorProfileIds = [],
+  initialSubject,
 }: {
   tutors: TutorRaw[];
   isAdmin?: boolean;
   savedTutorIds?: string[];
   requestedTutorProfileIds?: string[];
+  initialSubject?: string;
 }) {
   const router = useRouter();
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>(
+    initialSubject ? [initialSubject] : []
+  );
   const [mode, setMode] = useState("Online");
-  const [region, setRegion] = useState("Anywhere");
+  const [curriculum, setCurriculum] = useState("All curricula");
   const [maxBudget, setMaxBudget] = useState(120);
   const [sort, setSort] = useState<(typeof SORTS)[number]>("Top rated");
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -250,10 +253,35 @@ export function TutorBrowser({
   const flipStateRef = useRef<Flip.FlipState | null>(null);
   const knownIdsRef = useRef<Set<string>>(new Set());
 
-  const subjectOptions = useMemo(
-    () => Array.from(new Set([...subjects, ...tutors.flatMap((t) => t.subjects)])),
-    [tutors]
-  );
+  // Cross-filtered so each list only offers values that actually co-occur with the other's current selection.
+  const subjectOptions = useMemo(() => {
+    const pool = curriculum === "All curricula" ? tutors : tutors.filter((t) => t.curriculum === curriculum);
+    const fromTutors = pool.flatMap((t) => t.subjects);
+    const base = curriculum === "All curricula" ? [...subjects, ...fromTutors] : fromTutors;
+    return Array.from(new Set(base)).sort((a, b) => a.localeCompare(b));
+  }, [tutors, curriculum]);
+
+  const curriculumOptions = useMemo(() => {
+    const pool =
+      selectedSubjects.length === 0
+        ? tutors
+        : tutors.filter((t) => t.subjects.some((s) => selectedSubjects.includes(s)));
+    return Array.from(new Set(pool.map((t) => t.curriculum).filter((c): c is string => Boolean(c)))).sort((a, b) =>
+      a.localeCompare(b)
+    );
+  }, [tutors, selectedSubjects]);
+
+  // Drop selections that no longer apply once the other filter narrows the options.
+  useEffect(() => {
+    setSelectedSubjects((prev) => {
+      const next = prev.filter((s) => subjectOptions.includes(s));
+      return next.length === prev.length ? prev : next;
+    });
+  }, [subjectOptions]);
+
+  useEffect(() => {
+    setCurriculum((prev) => (prev !== "All curricula" && !curriculumOptions.includes(prev) ? "All curricula" : prev));
+  }, [curriculumOptions]);
 
   function captureFlip() {
     const cards = gridRef.current?.querySelectorAll(".tutor-card");
@@ -338,7 +366,7 @@ export function TutorBrowser({
     let list = tutors.filter((t) => {
       if (selectedSubjects.length > 0 && !t.subjects.some((s) => selectedSubjects.includes(s))) return false;
       if (mode !== "Both" && t.mode !== mode && t.mode !== "Both") return false;
-      if (region !== "Anywhere" && t.region !== region) return false;
+      if (curriculum !== "All curricula" && t.curriculum !== curriculum) return false;
       if (priceValue(t.price) > maxBudget) return false;
       return true;
     });
@@ -348,7 +376,7 @@ export function TutorBrowser({
       return b.rating - a.rating;
     });
     return list;
-  }, [tutors, selectedSubjects, mode, region, maxBudget, sort]);
+  }, [tutors, selectedSubjects, mode, curriculum, maxBudget, sort]);
 
   const topRatedName = useMemo(() => {
     if (!filtered.length) return null;
@@ -360,7 +388,7 @@ export function TutorBrowser({
     () => {
       const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tutor-card");
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const currentIds = new Set(filtered.map((t) => t.id ?? t.name));
+      const currentIds = new Set(filtered.map((t) => t.listingId ?? t.id ?? t.name));
       const newIds = new Set<string>();
       if (knownIdsRef.current.size) {
         currentIds.forEach((id) => {
@@ -379,14 +407,17 @@ export function TutorBrowser({
         mountedRef.current = true;
         flipStateRef.current = null;
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        // stagger as { amount } caps the TOTAL spread regardless of list length — with a fixed
+        // per-item delay (e.g. 0.09s each), a 100+ card list takes 10s+ to fully reveal and the
+        // last cards (and their avatars) sit invisible that whole time.
         tl.fromTo(
           cards,
           { autoAlpha: 0, y: 40, scale: 0.94, rotateX: -4 },
-          { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: 0.65, stagger: 0.09, clearProps: "transform" }
+          { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: 0.65, stagger: { each: 0.09, amount: 0.8 }, clearProps: "transform" }
         ).fromTo(
           gridRef.current!.querySelectorAll(".tutor-avatar-ring"),
           { scale: 0.4, autoAlpha: 0 },
-          { scale: 1, autoAlpha: 1, duration: 0.5, stagger: 0.09, ease: "back.out(2.4)", clearProps: "transform" },
+          { scale: 1, autoAlpha: 1, duration: 0.5, stagger: { each: 0.09, amount: 0.6 }, ease: "back.out(2.4)", clearProps: "transform" },
           "-=0.55"
         );
         return;
@@ -399,17 +430,17 @@ export function TutorBrowser({
         Flip.from(state, {
           duration: 0.5,
           ease: "power2.inOut",
-          stagger: 0.02,
+          stagger: { each: 0.02, amount: 0.5 },
           absolute: true,
           onEnter: (els) =>
-            gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }),
+            gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: { each: 0.05, amount: 0.35 }, ease: "power2.out" }),
         });
       } else {
         const entering = Array.from(cards).filter((c) => newIds.size === 0 || newIds.has(c.dataset.tutorId ?? ""));
         gsap.fromTo(
           entering.length ? entering : cards,
           { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.04 }
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: { each: 0.04, amount: 0.3 } }
         );
       }
     },
@@ -480,7 +511,7 @@ export function TutorBrowser({
       clear: () => setSelectedSubjects((prev) => prev.filter((x) => x !== s)),
     })),
     mode !== "Online" && { label: mode, clear: () => setMode("Online") },
-    region !== "Anywhere" && { label: region, clear: () => setRegion("Anywhere") },
+    curriculum !== "All curricula" && { label: curriculum, clear: () => setCurriculum("All curricula") },
     maxBudget !== 120 && { label: `Up to $${maxBudget}/hr`, clear: () => setMaxBudget(120) },
   ].filter(Boolean) as { label: string; clear: () => void }[];
 
@@ -539,7 +570,7 @@ export function TutorBrowser({
                   captureFlip();
                   setSelectedSubjects([]);
                   setMode("Online");
-                  setRegion("Anywhere");
+                  setCurriculum("All curricula");
                   setMaxBudget(120);
                 }}
                 className="text-[12.5px] font-medium cursor-pointer transition-colors duration-150"
@@ -568,6 +599,22 @@ export function TutorBrowser({
             />
           </div>
           <div className="field">
+            <label>Curriculum</label>
+            <select
+              className="input"
+              value={curriculum}
+              onChange={(e) => {
+                captureFlip();
+                setCurriculum(e.target.value);
+              }}
+            >
+              <option>All curricula</option>
+              {curriculumOptions.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
             <label>Mode</label>
             <SegmentedControl
               name="mode"
@@ -582,21 +629,6 @@ export function TutorBrowser({
                 { label: "Both", value: "Both" },
               ]}
             />
-          </div>
-          <div className="field">
-            <label>Region</label>
-            <select
-              className="input"
-              value={region}
-              onChange={(e) => {
-                captureFlip();
-                setRegion(e.target.value);
-              }}
-            >
-              {REGIONS.map((r) => (
-                <option key={r}>{r}</option>
-              ))}
-            </select>
           </div>
           <div className="field">
             <label>Budget (per hour)</label>
@@ -625,7 +657,7 @@ export function TutorBrowser({
             className="text-[14px]"
             style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
           >
-            Showing <strong style={{ color: "var(--color-text)" }}>{filtered.length}</strong> verified tutor{filtered.length === 1 ? "" : "s"}
+            Showing <strong style={{ color: "var(--color-text)" }}>{filtered.length}</strong> subject listing{filtered.length === 1 ? "" : "s"}
           </span>
           <div className="relative">
             <select
@@ -666,8 +698,8 @@ export function TutorBrowser({
               const isBookmarkPending = t.id ? bookmarkPending.has(t.id) : false;
               return (
                 <div
-                  key={t.id ?? t.name}
-                  data-tutor-id={t.id ?? t.name}
+                  key={t.listingId ?? t.id ?? t.name}
+                  data-tutor-id={t.listingId ?? t.id ?? t.name}
                   role="button"
                   tabIndex={0}
                   onClick={() => setSelected({ tutor: t, index: i })}
@@ -691,14 +723,16 @@ export function TutorBrowser({
                         className="tutor-avatar-ring rounded-full transition-transform duration-200 ease-out group-hover:scale-[1.04]"
                         style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${accent.bar} 22%, transparent)`, borderRadius: "50%" }}
                       >
-                        <TutorAvatar name={t.name} index={i} size={64} withBadge />
+                        <TutorAvatar name={t.name} index={i} size={64} withBadge={!t.onDemand} />
                       </div>
-                      <span
-                        className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
-                        style={{ background: tier.bg, color: tier.color }}
-                      >
-                        {tier.label}
-                      </span>
+                      {!t.onDemand && (
+                        <span
+                          className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+                          style={{ background: tier.bg, color: tier.color }}
+                        >
+                          {tier.label}
+                        </span>
+                      )}
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -706,16 +740,24 @@ export function TutorBrowser({
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="font-[var(--font-heading)] text-[18px]">{t.name}</span>
-                            <VerifiedBadge />
-                            {t.name === topRatedName && (
-                              <Tag variant="accent" className="text-[10px] px-2 py-0.5">
-                                Top rated
+                            {t.onDemand ? (
+                              <Tag variant="neutral" className="text-[10px] px-2 py-0.5">
+                                On demand
                               </Tag>
-                            )}
-                            {t.isNew && (
-                              <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
-                                New
-                              </Tag>
+                            ) : (
+                              <>
+                                <VerifiedBadge />
+                                {t.name === topRatedName && (
+                                  <Tag variant="accent" className="text-[10px] px-2 py-0.5">
+                                    Top rated
+                                  </Tag>
+                                )}
+                                {t.isNew && (
+                                  <Tag variant="accent-2" className="text-[10px] px-2 py-0.5">
+                                    New
+                                  </Tag>
+                                )}
+                              </>
                             )}
                           </div>
                           <div className="flex items-center gap-1.5 flex-wrap mt-1">
@@ -725,22 +767,30 @@ export function TutorBrowser({
                             >
                               {t.city}
                             </span>
-                            <Tag variant="neutral" className="text-[10px] px-2 py-0.5">
-                              {t.mode === "In person" ? "Home Tutor" : t.mode === "Both" ? "Online & Home" : "Online Tutor"}
-                            </Tag>
+                            {!t.onDemand && (
+                              <Tag variant="neutral" className="text-[10px] px-2 py-0.5">
+                                {t.mode === "In person" ? "Home Tutor" : t.mode === "Both" ? "Online & Home" : "Online Tutor"}
+                              </Tag>
+                            )}
                           </div>
                         </div>
                         <span
                           className="font-[var(--font-heading)] text-[20px] whitespace-nowrap rounded-full px-3 py-1"
                           style={{ color: "var(--color-accent-2-700)", background: "var(--color-accent-2-100)" }}
                         >
-                          {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
-                          <span
-                            className="text-[12px] font-[var(--font-body)] font-normal"
-                            style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
-                          >
-                            /hr
-                          </span>
+                          {/\d/.test(t.price) ? (
+                            <>
+                              {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
+                              <span
+                                className="text-[12px] font-[var(--font-body)] font-normal"
+                                style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                              >
+                                /hr
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-[14px] font-[var(--font-body)] font-medium">{t.price}</span>
+                          )}
                         </span>
                       </div>
 
@@ -794,7 +844,11 @@ export function TutorBrowser({
                     style={{ borderTop: "1px solid color-mix(in srgb, var(--color-text) 8%, transparent)", background: "color-mix(in srgb, var(--color-surface) 60%, transparent)" }}
                   >
                     <div className="flex items-center gap-3">
-                      {t.reviews > 0 ? (
+                      {t.onDemand ? (
+                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                          No tutor assigned yet
+                        </span>
+                      ) : t.reviews > 0 ? (
                         <span className="flex items-center gap-1.5 text-[13px]">
                           <StarRating rating={t.rating} />
                           <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
@@ -849,29 +903,31 @@ export function TutorBrowser({
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        aria-label={isBookmarked ? `Remove ${t.name} from saved tutors` : `Save ${t.name}`}
-                        aria-pressed={isBookmarked}
-                        disabled={isBookmarkPending}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleToggleBookmark(t);
-                        }}
-                        className="grid place-content-center rounded-full cursor-pointer transition-[color,border-color,transform,box-shadow] duration-150 hover:scale-105 active:scale-95"
-                        style={{
-                          width: 38,
-                          height: 38,
-                          color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
-                          background: isBookmarked ? "var(--color-accent-2-100)" : "transparent",
-                          border: `1px solid ${isBookmarked ? "var(--color-accent-2-300)" : "color-mix(in srgb, var(--color-text) 15%, transparent)"}`,
-                          opacity: isBookmarkPending ? 0.6 : 1,
-                        }}
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                        </svg>
-                      </button>
+                      {!t.onDemand && (
+                        <button
+                          type="button"
+                          aria-label={isBookmarked ? `Remove ${t.name} from saved tutors` : `Save ${t.name}`}
+                          aria-pressed={isBookmarked}
+                          disabled={isBookmarkPending}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleBookmark(t);
+                          }}
+                          className="grid place-content-center rounded-full cursor-pointer transition-[color,border-color,transform,box-shadow] duration-150 hover:scale-105 active:scale-95"
+                          style={{
+                            width: 38,
+                            height: 38,
+                            color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
+                            background: isBookmarked ? "var(--color-accent-2-100)" : "transparent",
+                            border: `1px solid ${isBookmarked ? "var(--color-accent-2-300)" : "color-mix(in srgb, var(--color-text) 15%, transparent)"}`,
+                            opacity: isBookmarkPending ? 0.6 : 1,
+                          }}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                          </svg>
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="btn btn-primary hover:scale-[1.03] active:scale-95 transition-transform duration-150"

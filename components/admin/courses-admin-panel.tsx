@@ -86,12 +86,19 @@ export function CoursesAdminPanel({
                   )}
                 </div>
                 <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-                  {c.instructor} · {c.category} · {c.level}
+                  {c.instructor ? `${c.instructor} · ` : ""}{c.category} · {c.level}
                 </div>
               </div>
               <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
-                {priceLabel(c.priceCents)}
-                <div>{c.durationHours}h · {c.lectureCount} lectures</div>
+                {c.priceCents != null
+                  ? `${priceLabel(c.priceCents)}/hr`
+                  : c.originalPriceCents != null
+                  ? `${priceLabel(c.originalPriceCents)} full course`
+                  : "Price on request"}
+                <div>
+                  {c.durationHours != null ? `${c.durationHours}h · ` : ""}
+                  {c.lectureCount != null ? `${c.lectureCount} lectures` : c.lectureCountLabel ?? ""}
+                </div>
               </div>
               <div className="flex gap-2 flex-none">
                 <button

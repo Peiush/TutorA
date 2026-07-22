@@ -8,8 +8,16 @@ export const metadata = {
   title: "Find a Tutor — TutorA",
 };
 
-export default async function FindATutorPage() {
-  const [tutors, session] = await Promise.all([getApprovedTutorListings(), auth()]);
+export default async function FindATutorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ subject?: string }>;
+}) {
+  const [{ subject }, tutors, session] = await Promise.all([
+    searchParams,
+    getApprovedTutorListings(),
+    auth(),
+  ]);
   const isAdmin = session?.user?.role === "ADMIN";
 
   const savedTutors = session?.user?.id
@@ -35,15 +43,17 @@ export default async function FindATutorPage() {
     .filter((id): id is string => Boolean(id));
 
   const subjectCount = new Set(tutors.flatMap((t) => t.subjects)).size;
+  const tutorCount = new Set(tutors.filter((t) => !t.onDemand).map((t) => t.id)).size;
 
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
-      <FindHero tutorCount={tutors.length} subjectCount={subjectCount} />
+      <FindHero tutorCount={tutorCount} subjectCount={subjectCount} />
       <TutorBrowser
         tutors={tutors}
         isAdmin={isAdmin}
         savedTutorIds={savedTutorIds}
         requestedTutorProfileIds={requestedTutorProfileIds}
+        initialSubject={subject}
       />
     </div>
   );

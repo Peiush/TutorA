@@ -127,7 +127,7 @@ const DUMMY_COURSES = [
   {
     title: "Calculus Foundations: From Limits to Integrals",
     instructorEmail: "amara.okafor.demo@tutorconnect.dev",
-    category: "MATHEMATICS",
+    category: "PROGRAMMING_TECHNOLOGY",
     level: "BEGINNER",
     priceCents: 4599,
     originalPriceCents: 7999,
@@ -146,7 +146,7 @@ const DUMMY_COURSES = [
   {
     title: "Physics Mechanics: Motion, Forces & Energy",
     instructorEmail: "james.halloran.demo@tutorconnect.dev",
-    category: "SCIENCE",
+    category: "PROGRAMMING_TECHNOLOGY",
     level: "INTERMEDIATE",
     priceCents: 3999,
     originalPriceCents: 6499,
@@ -165,7 +165,7 @@ const DUMMY_COURSES = [
   {
     title: "Python Programming: Zero to Projects",
     instructorEmail: "priya.nair.demo@tutorconnect.dev",
-    category: "COMPUTER_SCIENCE",
+    category: "PROGRAMMING_TECHNOLOGY",
     level: "BEGINNER",
     priceCents: 4499,
     originalPriceCents: 8999,
@@ -202,7 +202,7 @@ const DUMMY_COURSES = [
   {
     title: "Guitar & Music Theory Essentials",
     instructorEmail: "marcus.webb.demo@tutorconnect.dev",
-    category: "MUSIC",
+    category: "MUSIC_INSTRUMENTS",
     level: "BEGINNER",
     priceCents: 3499,
     originalPriceCents: 5999,
@@ -221,7 +221,7 @@ const DUMMY_COURSES = [
   {
     title: "SAT / ACT Test Prep Mastery",
     instructorEmail: "daniel.kim.demo@tutorconnect.dev",
-    category: "TEST_PREP",
+    category: "TEST_PREPARATION",
     level: "INTERMEDIATE",
     priceCents: 5999,
     originalPriceCents: 9999,
@@ -241,7 +241,7 @@ const DUMMY_COURSES = [
   {
     title: "Essay Writing: Structure, Style & Clarity",
     instructorEmail: "fatima.alsayed.demo@tutorconnect.dev",
-    category: "WRITING",
+    category: "CREATIVE_SKILLS",
     level: "ALL_LEVELS",
     priceCents: 2499,
     originalPriceCents: 4499,
@@ -259,7 +259,7 @@ const DUMMY_COURSES = [
   {
     title: "Statistics for Data Analysis",
     instructorEmail: "liang.wei.demo@tutorconnect.dev",
-    category: "MATHEMATICS",
+    category: "PROGRAMMING_TECHNOLOGY",
     level: "INTERMEDIATE",
     priceCents: 3999,
     originalPriceCents: 6999,
@@ -277,7 +277,7 @@ const DUMMY_COURSES = [
   {
     title: "Chemistry Fundamentals: Atoms to Reactions",
     instructorEmail: "james.halloran.demo@tutorconnect.dev",
-    category: "SCIENCE",
+    category: "PROGRAMMING_TECHNOLOGY",
     level: "BEGINNER",
     priceCents: 2999,
     originalPriceCents: 5299,

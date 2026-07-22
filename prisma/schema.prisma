@@ -29,13 +29,11 @@ enum TutorRequestStatus {
 }
 
 enum CourseCategory {
-  MATHEMATICS
-  SCIENCE
-  COMPUTER_SCIENCE
+  PROGRAMMING_TECHNOLOGY
+  TEST_PREPARATION
   LANGUAGES
-  MUSIC
-  TEST_PREP
-  WRITING
+  CREATIVE_SKILLS
+  MUSIC_INSTRUMENTS
 }
 
 enum CourseLevel {
@@ -127,11 +125,41 @@ model TutorProfile {
   status         TutorProfileStatus  @default(PENDING)
   savedBy        SavedTutor[]
   courses        Course[]
+  subjectListings TutorSubject[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("tutor_profiles")
+}
+
+model Subject {
+  id              String         @id @default(cuid())
+  name            String         @unique
+  gradeLevel      String?
+  curriculum      String?
+  hourlyRateCents Int?
+  tutorListings   TutorSubject[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subjects")
+}
+
+model TutorSubject {
+  id              String       @id @default(cuid())
+  tutorProfileId  String
+  tutorProfile    TutorProfile @relation(fields: [tutorProfileId], references: [id], onDelete: Cascade)
+  subjectId       String
+  subject         Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  hourlyRateCents Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tutorProfileId, subjectId])
+  @@map("tutor_subjects")
 }
 
 model SavedTutor {
@@ -180,17 +208,18 @@ model Course {
   id                  String         @id @default(cuid())
   title               String
   subtitle            String?
-  instructorId        String
-  instructor          TutorProfile   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  instructorId        String?
+  instructor          TutorProfile?  @relation(fields: [instructorId], references: [id], onDelete: SetNull)
   category            CourseCategory
   level               CourseLevel    @default(ALL_LEVELS)
   rating              Float          @default(4.8)
   reviewCount         Int            @default(0)
-  priceCents          Int
-  originalPriceCents  Int
-  durationHours       Float
-  lectureCount        Int
-  whatYoullLearn      String
+  priceCents          Int?
+  originalPriceCents  Int?
+  durationHours       Float?
+  lectureCount        Int?
+  lectureCountLabel   String?
+  whatYoullLearn      String?
   bestseller          Boolean        @default(false)
   premium             Boolean        @default(false)
   isNew               Boolean        @default(false)

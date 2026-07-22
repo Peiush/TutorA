@@ -59,7 +59,7 @@ export default async function AdminPage() {
     studentName: r.user.name ?? "Student",
     studentEmail: r.user.email,
     courseTitle: r.course.title,
-    instructor: r.course.instructor.user.name ?? "TutorA instructor",
+    instructor: r.course.instructor?.user.name ?? "TutorA instructor",
     priceCents: r.course.priceCents,
     status: r.status,
     createdAt: r.createdAt,

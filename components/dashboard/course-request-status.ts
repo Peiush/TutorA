@@ -8,7 +8,7 @@ export type CourseRequestRowData = {
   courseId: string;
   courseTitle: string;
   instructor: string;
-  priceCents: number;
+  priceCents: number | null;
   status: "OPEN" | "CLOSED";
   createdAt: Date;
 };

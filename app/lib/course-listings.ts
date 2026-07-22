@@ -12,9 +12,9 @@ export async function getPublishedCourses(): Promise<CourseRaw[]> {
   return courses.map((c): CourseRaw => ({
     id: c.id,
     title: c.title,
-    instructor: c.instructor.user.name ?? "TutorA instructor",
+    instructor: c.instructor?.user.name ?? null,
     instructorId: c.instructorId,
-    category: CATEGORY_DB_TO_LABEL[c.category] ?? "Mathematics",
+    category: CATEGORY_DB_TO_LABEL[c.category] ?? "Programming & Technology",
     level: LEVEL_DB_TO_LABEL[c.level] ?? "All Levels",
     rating: c.rating,
     reviews: c.reviewCount,
@@ -22,10 +22,11 @@ export async function getPublishedCourses(): Promise<CourseRaw[]> {
     originalPriceCents: c.originalPriceCents,
     durationHours: c.durationHours,
     lectureCount: c.lectureCount,
+    lectureCountLabel: c.lectureCountLabel,
     bestseller: c.bestseller,
     premium: c.premium,
     isNew: c.isNew,
     subtitle: c.subtitle ?? "",
-    whatYoullLearn: c.whatYoullLearn.split("\n").filter(Boolean),
+    whatYoullLearn: (c.whatYoullLearn ?? "").split("\n").filter(Boolean),
   }));
 }

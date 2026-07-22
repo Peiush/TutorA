@@ -39,7 +39,16 @@ export function CourseCard({
   const flyoutRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
-  const discountPct = Math.round((1 - course.priceCents / course.originalPriceCents) * 100);
+  const hasDiscount = course.priceCents != null && course.originalPriceCents != null;
+  const discountPct = hasDiscount
+    ? Math.round((1 - course.priceCents! / course.originalPriceCents!) * 100)
+    : 0;
+  const primaryPrice =
+    course.priceCents != null
+      ? `${priceLabel(course.priceCents)}/hr`
+      : course.originalPriceCents != null
+      ? `${priceLabel(course.originalPriceCents)} full course`
+      : "Price on request";
   const launchPlane = usePlaneLaunch();
 
   const { contextSafe } = useGSAP({ scope: rootRef });
@@ -110,7 +119,7 @@ export function CourseCard({
           <div ref={thumbRef} className="w-full h-full">
             <CourseIllustration category={course.category} className="w-full h-full" />
           </div>
-          {discountPct > 0 && (
+          {hasDiscount && discountPct > 0 && (
             <span
               className="absolute top-2.5 left-2.5 text-[11px] font-bold px-2 py-1 rounded-full"
               style={{ background: "var(--color-accent-700)", color: "#fff" }}
@@ -163,9 +172,11 @@ export function CourseCard({
           <h3 className="text-[15.5px] leading-snug line-clamp-2 m-0" style={{ fontFamily: "var(--font-heading)" }}>
             {course.title}
           </h3>
-          <p className="text-[12.5px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-            {course.instructor}
-          </p>
+          {course.instructor && (
+            <p className="text-[12.5px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+              {course.instructor}
+            </p>
+          )}
           <div className="flex items-center gap-1.5 text-[12.5px]">
             <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
             <StarRating rating={course.rating} size={12} />
@@ -177,13 +188,15 @@ export function CourseCard({
             className="flex items-center gap-1 mt-auto pt-1 font-[var(--font-heading)]"
             style={{ color: "var(--color-text)" }}
           >
-            <span className="text-[17px]">{priceLabel(course.priceCents)}</span>
-            <span
-              className="text-[13px] font-[var(--font-body)] line-through"
-              style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
-            >
-              {priceLabel(course.originalPriceCents)}
-            </span>
+            <span className="text-[17px]">{primaryPrice}</span>
+            {hasDiscount && (
+              <span
+                className="text-[13px] font-[var(--font-body)] line-through"
+                style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
+              >
+                {priceLabel(course.originalPriceCents!)}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -203,27 +216,31 @@ export function CourseCard({
           {course.title}
         </h3>
         <div className="flex items-center gap-2 text-[12px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
-          <span className="inline-flex items-center gap-1">
-            <ClockIcon width={13} height={13} />
-            {course.durationHours}h
-          </span>
+          {course.durationHours != null && (
+            <span className="inline-flex items-center gap-1">
+              <ClockIcon width={13} height={13} />
+              {course.durationHours}h
+            </span>
+          )}
           <span className="inline-flex items-center gap-1">
             <LayersIcon width={13} height={13} />
-            {course.lectureCount} lectures
+            {course.lectureCount != null ? `${course.lectureCount} lectures` : course.lectureCountLabel ?? "Flexible"}
           </span>
           <span className="inline-flex items-center gap-1">
             <BarChartIcon width={13} height={13} />
             {course.level}
           </span>
         </div>
-        <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
-          {course.whatYoullLearn.slice(0, 3).map((item) => (
-            <li key={item} className="flex items-start gap-1.5 text-[12.5px] leading-snug">
-              <CheckIcon width={13} height={13} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
-              <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>
-            </li>
-          ))}
-        </ul>
+        {course.whatYoullLearn.length > 0 && (
+          <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
+            {course.whatYoullLearn.slice(0, 3).map((item) => (
+              <li key={item} className="flex items-start gap-1.5 text-[12.5px] leading-snug">
+                <CheckIcon width={13} height={13} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
+                <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="flex items-center gap-2 mt-1">
           <button
             type="button"
@@ -274,7 +291,8 @@ export function CourseCard({
           className="text-[11px] text-center"
           style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
         >
-          {discountPct}% off · {priceLabel(course.priceCents)}
+          {hasDiscount ? `${discountPct}% off · ` : ""}
+          {primaryPrice}
         </span>
       </div>
     </div>

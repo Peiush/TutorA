@@ -128,7 +128,7 @@ export function FeaturedTutors({
           const already = isAlreadyRequested(t);
           return (
             <div
-              key={t.id ?? t.name}
+              key={t.listingId ?? t.id ?? t.name}
               className="tutor-card group relative flex flex-col rounded-[22px] border cursor-pointer transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1.5"
               style={{
                 background: "var(--color-bg)",

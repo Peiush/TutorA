@@ -1,27 +1,26 @@
 export type CourseCategory =
-  | "Mathematics"
-  | "Science"
-  | "Computer Science"
+  | "Programming & Technology"
+  | "Test Preparation"
   | "Languages"
-  | "Music"
-  | "Test Prep"
-  | "Writing";
+  | "Creative Skills"
+  | "Music & Instruments";
 
 export type CourseLevel = "Beginner" | "Intermediate" | "All Levels";
 
 export interface CourseRaw {
   id: string;
   title: string;
-  instructor: string;
-  instructorId: string;
+  instructor: string | null;
+  instructorId: string | null;
   category: CourseCategory;
   level: CourseLevel;
   rating: number;
   reviews: number;
-  priceCents: number;
-  originalPriceCents: number;
-  durationHours: number;
-  lectureCount: number;
+  priceCents: number | null;
+  originalPriceCents: number | null;
+  durationHours: number | null;
+  lectureCount: number | null;
+  lectureCountLabel: string | null;
   bestseller?: boolean;
   premium?: boolean;
   isNew?: boolean;
@@ -34,33 +33,27 @@ export function priceLabel(cents: number) {
 }
 
 export const courseCategories: CourseCategory[] = [
-  "Mathematics",
-  "Science",
-  "Computer Science",
+  "Programming & Technology",
+  "Test Preparation",
   "Languages",
-  "Music",
-  "Test Prep",
-  "Writing",
+  "Creative Skills",
+  "Music & Instruments",
 ];
 
 export const CATEGORY_DB_TO_LABEL: Record<string, CourseCategory> = {
-  MATHEMATICS: "Mathematics",
-  SCIENCE: "Science",
-  COMPUTER_SCIENCE: "Computer Science",
+  PROGRAMMING_TECHNOLOGY: "Programming & Technology",
+  TEST_PREPARATION: "Test Preparation",
   LANGUAGES: "Languages",
-  MUSIC: "Music",
-  TEST_PREP: "Test Prep",
-  WRITING: "Writing",
+  CREATIVE_SKILLS: "Creative Skills",
+  MUSIC_INSTRUMENTS: "Music & Instruments",
 };
 
 export const CATEGORY_LABEL_TO_DB: Record<CourseCategory, string> = {
-  Mathematics: "MATHEMATICS",
-  Science: "SCIENCE",
-  "Computer Science": "COMPUTER_SCIENCE",
+  "Programming & Technology": "PROGRAMMING_TECHNOLOGY",
+  "Test Preparation": "TEST_PREPARATION",
   Languages: "LANGUAGES",
-  Music: "MUSIC",
-  "Test Prep": "TEST_PREP",
-  Writing: "WRITING",
+  "Creative Skills": "CREATIVE_SKILLS",
+  "Music & Instruments": "MUSIC_INSTRUMENTS",
 };
 
 export const courseLevels: CourseLevel[] = ["Beginner", "Intermediate", "All Levels"];

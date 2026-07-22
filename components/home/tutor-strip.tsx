@@ -171,7 +171,7 @@ export function TutorStrip() {
         }}
       >
         {tutorsRaw.map((t, i) => (
-          <TutorCard key={t.name} t={t} i={i} />
+          <TutorCard key={t.listingId ?? t.name} t={t} i={i} />
         ))}
         {tutorsRaw.map((t, i) => (
           <TutorCard key={`${t.name}-dup`} t={t} i={i} isClone />

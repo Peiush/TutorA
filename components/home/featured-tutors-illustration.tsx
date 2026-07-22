@@ -55,7 +55,7 @@ export function FeaturedTutorsIllustration({ tutors }: { tutors: (typeof tutorsR
       <div className="flex -space-x-2.5">
         {tutors.slice(0, 3).map((t, i) => (
           <span
-            key={t.name}
+            key={t.listingId ?? t.id ?? t.name}
             className="ft-avatar rounded-full"
             style={{ boxShadow: "0 0 0 2.5px var(--color-bg)" }}
           >
