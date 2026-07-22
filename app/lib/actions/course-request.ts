@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
 import { priceLabel } from "@/lib/mock-courses";
+import { rateLimit } from "@/lib/rate-limit";
 
 const RequestCourseSchema = z.object({
   courseId: z.string().trim().min(1),
@@ -22,6 +23,11 @@ export async function requestCourse(courseId: string): Promise<RequestCourseStat
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, requiresAuth: true, message: "Please sign in to request a course." };
+  }
+
+  const limited = rateLimit(`course-request:${session.user.id}`, 20, 10 * 60 * 1000);
+  if (!limited.ok) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
   }
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });

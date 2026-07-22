@@ -1,4 +1,4 @@
-import { getUser } from "@/app/lib/dal";
+import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { TutorHeader } from "@/components/tutor/tutor-header";
 import { ProfilePanel } from "@/components/tutor/profile-panel";
@@ -14,6 +14,7 @@ export const metadata = {
 };
 
 export default async function TutorDashboardPage() {
+  await requireFreshRole(["TUTOR"]);
   const user = await getUser();
 
   const profile = await prisma.tutorProfile.findUnique({

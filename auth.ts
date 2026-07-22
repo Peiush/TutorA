@@ -1,15 +1,27 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "./auth.config";
+import { rateLimit } from "@/lib/rate-limit";
+import { verifyTotpCode, consumeBackupCode } from "@/lib/mfa";
+import { logSecurityEvent } from "@/lib/security-log";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  code: z.string().trim().optional().nullable(),
 });
+
+class MfaRequiredError extends CredentialsSignin {
+  code = "mfa_required";
+}
+
+class InvalidMfaCodeError extends CredentialsSignin {
+  code = "invalid_mfa_code";
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -19,17 +31,51 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: {},
         password: {},
+        code: {},
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         const parsed = credentialsSchema.safeParse(credentials);
-        if (!parsed.success) return null;
+        if (!parsed.success) {
+          logSecurityEvent("auth.login_failed", { reason: "invalid_input" });
+          return null;
+        }
 
-        const { email, password } = parsed.data;
+        const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+        const { email, password, code } = parsed.data;
+
+        const byIp = rateLimit(`login:ip:${ip}`, 20, 15 * 60 * 1000);
+        const byEmail = rateLimit(`login:email:${email}`, 8, 15 * 60 * 1000);
+        if (!byIp.ok || !byEmail.ok) {
+          logSecurityEvent("auth.login_rate_limited", { email, ip });
+          return null;
+        }
+
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user?.password) return null;
+        if (!user?.password) {
+          logSecurityEvent("auth.login_failed", { reason: "unknown_email", email, ip });
+          return null;
+        }
 
         const valid = await bcrypt.compare(password, user.password);
-        if (!valid) return null;
+        if (!valid) {
+          logSecurityEvent("auth.login_failed", { reason: "bad_password", email, ip, userId: user.id });
+          return null;
+        }
+
+        if (user.role === "ADMIN" && user.twoFactorEnabled) {
+          if (!code) throw new MfaRequiredError();
+
+          const validTotp = user.twoFactorSecret ? await verifyTotpCode(user.twoFactorSecret, code) : false;
+          if (!validTotp) {
+            const { matched, remaining } = await consumeBackupCode(user.twoFactorBackupCodes, code);
+            if (!matched) {
+              logSecurityEvent("auth.mfa_failed", { email, ip, userId: user.id });
+              throw new InvalidMfaCodeError();
+            }
+            await prisma.user.update({ where: { id: user.id }, data: { twoFactorBackupCodes: remaining } });
+            logSecurityEvent("auth.mfa_backup_code_used", { email, ip, userId: user.id, remaining: remaining.length });
+          }
+        }
 
         return {
           id: user.id,

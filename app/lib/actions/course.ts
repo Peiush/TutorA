@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin, type AdminActionState } from "@/app/lib/actions/admin";
 import { CATEGORY_LABEL_TO_DB, LEVEL_LABEL_TO_DB, courseCategories } from "@/lib/mock-courses";
+import { logAdminAction } from "@/lib/audit-log";
 
 const CourseSchema = z.object({
   title: z.string().trim().min(3, "Title is required."),
@@ -81,8 +82,10 @@ async function saveCourse(_state: CourseFormState, formData: FormData, existingI
 
   if (existingId) {
     await prisma.course.update({ where: { id: existingId }, data });
+    await logAdminAction(session.admin!, "course.update", "Course", existingId);
   } else {
-    await prisma.course.create({ data });
+    const created = await prisma.course.create({ data });
+    await logAdminAction(session.admin!, "course.create", "Course", created.id);
   }
 
   revalidatePath("/admin");
@@ -103,10 +106,11 @@ export async function updateCourse(state: CourseFormState, formData: FormData): 
 }
 
 export async function deleteCourse(id: string): Promise<AdminActionState> {
-  const { error } = await requireAdmin();
+  const { error, admin } = await requireAdmin();
   if (error) return error;
 
   await prisma.course.delete({ where: { id } });
+  await logAdminAction(admin!, "course.delete", "Course", id);
   revalidatePath("/admin");
   revalidatePath("/courses");
   return { ok: true };

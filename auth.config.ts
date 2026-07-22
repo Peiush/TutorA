@@ -13,6 +13,9 @@ export const authConfig = {
   },
   session: {
     strategy: "jwt",
+    // Kept short since the role claim in the JWT isn't re-checked against the
+    // database between logins — bounds how long a revoked/changed role stays live.
+    maxAge: 12 * 60 * 60,
   },
   callbacks: {
     authorized({ auth, request }) {

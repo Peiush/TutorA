@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
+import { rateLimit } from "@/lib/rate-limit";
 
 const ToggleSavedTutorSchema = z.object({
   tutorProfileId: z.string().trim().min(1),
@@ -21,6 +22,11 @@ export async function toggleSavedTutor(tutorProfileId: string): Promise<ToggleSa
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, requiresAuth: true, message: "Please sign in to save tutors." };
+  }
+
+  const limited = rateLimit(`saved-tutor:${session.user.id}`, 30, 10 * 60 * 1000);
+  if (!limited.ok) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
   }
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });

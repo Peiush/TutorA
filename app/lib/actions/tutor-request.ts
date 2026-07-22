@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const TutorRequestSchema = z.object({
   name: z.string().trim().min(2, "Name is required."),
@@ -26,6 +27,12 @@ export type TutorRequestInput = z.infer<typeof TutorRequestSchema>;
 export type TutorRequestState = { ok: boolean; message?: string };
 
 export async function submitTutorRequest(input: TutorRequestInput): Promise<TutorRequestState> {
+  const ip = await getClientIp();
+  const limited = rateLimit(`tutor-request:ip:${ip}`, 5, 10 * 60 * 1000);
+  if (!limited.ok) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
+  }
+
   const validated = TutorRequestSchema.safeParse(input);
   if (!validated.success) {
     return { ok: false, message: "Please check the details you entered." };
@@ -142,6 +149,11 @@ export async function requestSpecificTutor(
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, requiresAuth: true, message: "Please sign in to request a tutor." };
+  }
+
+  const limited = rateLimit(`tutor-request-specific:${session.user.id}`, 20, 10 * 60 * 1000);
+  if (!limited.ok) {
+    return { ok: false, message: "Too many requests. Please try again in a few minutes." };
   }
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });

@@ -1,4 +1,4 @@
-import { getUser } from "@/app/lib/dal";
+import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { StatCard } from "@/components/dashboard/stat-card";
@@ -15,6 +15,7 @@ export const metadata = {
 };
 
 export default async function DashboardPage() {
+  await requireFreshRole(["STUDENT"]);
   const user = await getUser();
 
   const requests = await prisma.tutorRequest.findMany({

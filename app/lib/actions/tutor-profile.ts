@@ -3,7 +3,8 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
+import { requireAdmin } from "@/app/lib/actions/admin";
+import { logAdminAction } from "@/lib/audit-log";
 
 const TeacherSchema = z.object({
   name: z.string().trim().min(2, "Name is required."),
@@ -31,10 +32,8 @@ export async function submitTutorProfile(
   _state: TutorProfileState,
   formData: FormData
 ): Promise<TutorProfileState> {
-  const session = await auth();
-  if (session?.user?.role !== "ADMIN") {
-    return { message: "Admins only." };
-  }
+  const { error, admin } = await requireAdmin();
+  if (error) return { message: error.message };
 
   const validated = TeacherSchema.safeParse({
     name: formData.get("name"),
@@ -65,7 +64,7 @@ export async function submitTutorProfile(
   const certificate = formData.get("certificate");
   const certificateUrl = certificate instanceof File && certificate.size > 0 ? certificate.name : null;
 
-  await prisma.user.create({
+  const created = await prisma.user.create({
     data: {
       name,
       email,
@@ -84,6 +83,7 @@ export async function submitTutorProfile(
       },
     },
   });
+  await logAdminAction(admin!, "tutor_profile.create", "User", created.id);
 
   revalidatePath("/admin");
   revalidatePath("/find-a-tutor");

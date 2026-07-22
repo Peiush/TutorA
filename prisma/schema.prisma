@@ -57,15 +57,19 @@ model User {
   phone         String?
   role          Role      @default(STUDENT)
 
+  twoFactorEnabled     Boolean  @default(false)
+  twoFactorSecret      String?
+  twoFactorBackupCodes String[] @default([])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  tutorProfile TutorProfile?
-  tutorRequests TutorRequest[]
-  matchedRequests TutorRequest[] @relation("MatchedTutorRequests")
-  savedTutors   SavedTutor[]
+  accounts        Account[]
+  sessions        Session[]
+  tutorProfile    TutorProfile?
+  tutorRequests   TutorRequest[]
+  matchedRequests TutorRequest[]  @relation("MatchedTutorRequests")
+  savedTutors     SavedTutor[]
   savedCourses    SavedCourse[]
   courseRequests  CourseRequest[]
 
@@ -113,18 +117,18 @@ model VerificationToken {
 }
 
 model TutorProfile {
-  id             String              @id @default(cuid())
-  userId         String              @unique
-  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  country        String
-  subjects       String
+  id              String             @id @default(cuid())
+  userId          String             @unique
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country         String
+  subjects        String
   yearsExperience Int?
   hourlyRateCents Int?
-  bio            String?
-  certificateUrl String?
-  status         TutorProfileStatus  @default(PENDING)
-  savedBy        SavedTutor[]
-  courses        Course[]
+  bio             String?
+  certificateUrl  String?
+  status          TutorProfileStatus @default(PENDING)
+  savedBy         SavedTutor[]
+  courses         Course[]
   subjectListings TutorSubject[]
 
   createdAt DateTime @default(now())
@@ -176,27 +180,27 @@ model SavedTutor {
 }
 
 model TutorRequest {
-  id               String              @id @default(cuid())
-  userId           String?
-  user             User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
-  name             String
-  email            String
-  phone            String?
-  subject          String
-  level            String?
-  goals            String?
-  mode             String?
-  sessionsPerWeek  String?
-  timezone         String?
-  currency         String?
-  budgetPerHour    Int?
-  notes            String?
-  status           TutorRequestStatus @default(OPEN)
-  requestedTutorName String?
-  requestedTutorRate String?
+  id                      String             @id @default(cuid())
+  userId                  String?
+  user                    User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name                    String
+  email                   String
+  phone                   String?
+  subject                 String
+  level                   String?
+  goals                   String?
+  mode                    String?
+  sessionsPerWeek         String?
+  timezone                String?
+  currency                String?
+  budgetPerHour           Int?
+  notes                   String?
+  status                  TutorRequestStatus @default(OPEN)
+  requestedTutorName      String?
+  requestedTutorRate      String?
   requestedTutorProfileId String?
-  matchedTutorId   String?
-  matchedTutor     User?               @relation("MatchedTutorRequests", fields: [matchedTutorId], references: [id], onDelete: SetNull)
+  matchedTutorId          String?
+  matchedTutor            User?              @relation("MatchedTutorRequests", fields: [matchedTutorId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -205,27 +209,27 @@ model TutorRequest {
 }
 
 model Course {
-  id                  String         @id @default(cuid())
-  title               String
-  subtitle            String?
-  instructorId        String?
-  instructor          TutorProfile?  @relation(fields: [instructorId], references: [id], onDelete: SetNull)
-  category            CourseCategory
-  level               CourseLevel    @default(ALL_LEVELS)
-  rating              Float          @default(4.8)
-  reviewCount         Int            @default(0)
-  priceCents          Int?
-  originalPriceCents  Int?
-  durationHours       Float?
-  lectureCount        Int?
-  lectureCountLabel   String?
-  whatYoullLearn      String?
-  bestseller          Boolean        @default(false)
-  premium             Boolean        @default(false)
-  isNew               Boolean        @default(false)
-  published           Boolean        @default(true)
-  savedBy             SavedCourse[]
-  requests            CourseRequest[]
+  id                 String          @id @default(cuid())
+  title              String
+  subtitle           String?
+  instructorId       String?
+  instructor         TutorProfile?   @relation(fields: [instructorId], references: [id], onDelete: SetNull)
+  category           CourseCategory
+  level              CourseLevel     @default(ALL_LEVELS)
+  rating             Float           @default(4.8)
+  reviewCount        Int             @default(0)
+  priceCents         Int?
+  originalPriceCents Int?
+  durationHours      Float?
+  lectureCount       Int?
+  lectureCountLabel  String?
+  whatYoullLearn     String?
+  bestseller         Boolean         @default(false)
+  premium            Boolean         @default(false)
+  isNew              Boolean         @default(false)
+  published          Boolean         @default(true)
+  savedBy            SavedCourse[]
+  requests           CourseRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -259,4 +263,19 @@ model CourseRequest {
 
   @@unique([userId, courseId])
   @@map("course_requests")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  actorEmail String
+  action     String
+  targetType String
+  targetId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([targetType, targetId])
+  @@map("audit_logs")
 }

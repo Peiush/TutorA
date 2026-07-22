@@ -1,4 +1,4 @@
-import { getUser } from "@/app/lib/dal";
+import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { TutorReviewPanel } from "@/components/admin/tutor-review-panel";
@@ -10,15 +10,18 @@ import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { UsersIcon, GraduationCapIcon, ClipboardCheckIcon } from "@/components/tutor/tutor-icons";
 import { TargetIcon } from "@/components/dashboard/dashboard-icons";
 import { getPublishedCourses } from "@/app/lib/course-listings";
+import { getMfaStatus } from "@/app/lib/actions/mfa";
+import { TwoFactorPanel } from "@/components/admin/two-factor-panel";
 
 export const metadata = {
   title: "Admin — TutorA",
 };
 
 export default async function AdminPage() {
+  await requireFreshRole(["ADMIN"]);
   const user = await getUser();
 
-  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests] = await Promise.all([
+  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, mfaStatus] = await Promise.all([
     prisma.user.count({ where: { role: "STUDENT" } }),
     prisma.user.count({ where: { role: "TUTOR" } }),
     prisma.tutorProfile.findMany({
@@ -41,6 +44,7 @@ export default async function AdminPage() {
       },
       orderBy: { createdAt: "desc" },
     }),
+    getMfaStatus(),
   ]);
 
   const pendingApprovals = profiles.filter((p) => p.status === "PENDING").length;
@@ -80,6 +84,7 @@ export default async function AdminPage() {
         <StatCard icon={<TargetIcon width={16} height={16} />} label="Open requests" value={openRequests} />
       </StaggerReveal>
 
+      <TwoFactorPanel initialEnabled={mfaStatus.enabled} />
       <TutorReviewPanel profiles={profiles} />
       <TutorRequestsAdminPanel requests={requests} approvedTutors={approvedTutors} />
       <CoursesAdminPanel courses={courses} instructorOptions={instructorOptions} />
