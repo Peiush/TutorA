@@ -11,8 +11,11 @@ import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { PopularSubjects } from "@/components/home/popular-subjects";
+import { CourseCategoriesShowcase, type CategoryCount } from "@/components/home/course-categories-showcase";
 import { FinalCta } from "@/components/home/final-cta";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
+import { getPublishedCourses } from "@/app/lib/course-listings";
+import { courseCategories } from "@/lib/mock-courses";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import {
@@ -24,10 +27,18 @@ import {
 } from "@/lib/mock-data";
 
 export default async function Home() {
-  const approvedTutors = await getApprovedTutorListings();
+  const [approvedTutors, allCourses, session] = await Promise.all([
+    getApprovedTutorListings(),
+    getPublishedCourses(),
+    auth(),
+  ]);
+
+  const categoryCounts: CategoryCount[] = courseCategories.map((label) => ({
+    label,
+    count: allCourses.filter((c) => c.category === label).length,
+  }));
   const featured = [...approvedTutors, ...tutorsRaw].slice(0, 3);
 
-  const session = await auth();
   const requestedTutors = session?.user?.id
     ? await prisma.tutorRequest.findMany({
         where: {
@@ -90,7 +101,7 @@ export default async function Home() {
         <StatsMarquee />
       </div>
 
-      {/* How it works */}
+       {/* How it works */}
       <section className="relative overflow-hidden" style={{ background: "var(--color-surface)" }}>
         <div
           className="pointer-events-none absolute -top-16 right-[8%] w-[360px] h-[360px] rounded-full blur-3xl opacity-25"
@@ -132,6 +143,53 @@ export default async function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* Course categories */}
+      <section className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute -top-20 left-[6%] w-[320px] h-[320px] rounded-full blur-3xl opacity-20"
+          style={{ background: "var(--color-accent-200)"  }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 right-[8%] w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
+          style={{ background: "var(--color-accent-2-200)" }}
+          aria-hidden
+        />
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+          <Reveal>
+            <div className="flex justify-between items-end flex-wrap gap-5 mb-9">
+              <div>
+                <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
+                  Explore courses
+                </Tag>
+                <h2 className="text-[clamp(28px,3.6vw,40px)] mt-4 mb-1.5 max-w-[24ch]">
+                  Every subject, one holistic view.
+                </h2>
+                <p
+                  className="text-[16px] max-w-[52ch]"
+                  style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+                >
+                  From code to canvas to scales — browse our full course catalog by category.
+                </p>
+              </div>
+              <Link href="/courses" className="btn btn-ghost group">
+                Browse all courses
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+                  →
+                </span>
+              </Link>
+            </div>
+          </Reveal>
+
+          <CourseCategoriesShowcase
+            categories={categoryCounts}
+            total={allCourses.length}
+          />
+        </div>
+      </section>
+
+     
 
       {/* Featured tutors */}
       <section className="relative overflow-hidden">

@@ -157,6 +157,7 @@ export const steps = [
   {
     n: "1",
     title: "You tell us",
+    short: "Send a private request.",
     body: "Browse verified tutors or send a private request. Nothing is posted publicly and no tutor sees your details.",
     bg: "var(--color-accent-100)",
     dot: "var(--color-accent)",
@@ -164,6 +165,7 @@ export const steps = [
   {
     n: "2",
     title: "We verify & match",
+    short: "We vet, then bridge both sides.",
     body: "Our team vets every tutor, sources the right fit and relays messages — the trusted bridge between both sides.",
     bg: "var(--color-accent-2-200)",
     dot: "var(--color-accent-2-700)",
@@ -171,6 +173,7 @@ export const steps = [
   {
     n: "3",
     title: "You connect",
+    short: "Contact details released. Learning begins.",
     body: "Once you and the tutor both confirm, we release contact details immediately and step aside. Learning begins.",
     bg: "var(--color-accent-100)",
     dot: "var(--color-accent)",

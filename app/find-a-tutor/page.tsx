@@ -20,24 +20,24 @@ export default async function FindATutorPage({
   ]);
   const isAdmin = session?.user?.role === "ADMIN";
 
-  const savedTutors = session?.user?.id
-    ? await prisma.savedTutor.findMany({
-        where: { userId: session.user.id },
-        select: { tutorProfileId: true },
-      })
-    : [];
+  const [savedTutors, requestedTutors] = session?.user?.id
+    ? await Promise.all([
+        prisma.savedTutor.findMany({
+          where: { userId: session.user.id },
+          select: { tutorProfileId: true },
+        }),
+        prisma.tutorRequest.findMany({
+          where: {
+            userId: session.user.id,
+            status: { in: ["OPEN", "MATCHED"] },
+            requestedTutorProfileId: { not: null },
+          },
+          select: { requestedTutorProfileId: true },
+        }),
+      ])
+    : [[], []];
   const savedTutorIds = savedTutors.map((s) => s.tutorProfileId);
 
-  const requestedTutors = session?.user?.id
-    ? await prisma.tutorRequest.findMany({
-        where: {
-          userId: session.user.id,
-          status: { in: ["OPEN", "MATCHED"] },
-          requestedTutorProfileId: { not: null },
-        },
-        select: { requestedTutorProfileId: true },
-      })
-    : [];
   const requestedTutorProfileIds = requestedTutors
     .map((r) => r.requestedTutorProfileId)
     .filter((id): id is string => Boolean(id));

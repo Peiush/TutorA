@@ -23,13 +23,15 @@ export function CourseBrowser({
   courses,
   savedCourseIds = [],
   requestedCourseIds = [],
+  initialCategory,
 }: {
   courses: CourseRaw[];
   savedCourseIds?: string[];
   requestedCourseIds?: string[];
+  initialCategory?: string;
 }) {
   const router = useRouter();
-  const [category, setCategory] = useState<string>(ALL);
+  const [category, setCategory] = useState<string>(initialCategory ?? ALL);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<(typeof SORTS)[number]>("Most popular");
   const [saved, setSaved] = useState<Set<string>>(new Set(savedCourseIds));
@@ -118,8 +120,16 @@ export function CourseBrowser({
             gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }),
         });
       } else {
-        gsap.fromTo(cards, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05 });
+        gsap.fromTo(cards, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05, overwrite: "auto" });
       }
+
+      // If this effect gets torn down mid-flight (e.g. React Strict Mode's double-invoke
+      // on mount, or a rapid filter change), clear GSAP's inline styles instead of leaving a
+      // card stuck at its pre-animation opacity/transform — a plain unmount should always
+      // resolve to the natural, visible CSS state.
+      return () => {
+        gsap.set(cards, { clearProps: "opacity,transform" });
+      };
     },
     { dependencies: [filtered], scope: gridRef }
   );

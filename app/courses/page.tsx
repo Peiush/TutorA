@@ -8,8 +8,16 @@ export const metadata = {
   title: "Courses — TutorA",
 };
 
-export default async function CoursesPage() {
-  const [courses, session] = await Promise.all([getPublishedCourses(), auth()]);
+export default async function CoursesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const [{ category }, courses, session] = await Promise.all([
+    searchParams,
+    getPublishedCourses(),
+    auth(),
+  ]);
 
   const userId = session?.user?.id;
   const [savedCourses, openRequests] = userId
@@ -25,7 +33,12 @@ export default async function CoursesPage() {
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
       <CoursesHero />
-      <CourseBrowser courses={courses} savedCourseIds={savedCourseIds} requestedCourseIds={requestedCourseIds} />
+      <CourseBrowser
+        courses={courses}
+        savedCourseIds={savedCourseIds}
+        requestedCourseIds={requestedCourseIds}
+        initialCategory={category}
+      />
     </div>
   );
 }

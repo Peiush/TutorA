@@ -49,15 +49,19 @@ export function CategorySelector({
     { scope: rootRef }
   );
 
-  const handleEnter = contextSafe((el: HTMLElement) => {
+  const handleEnter = contextSafe((el: HTMLElement, solid: string, active: boolean) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     gsap.to(el, { y: -5, duration: 0.25, ease: "power2.out" });
     gsap.to(el.querySelector(".cat-icon"), { rotate: -8, scale: 1.12, duration: 0.3, ease: "back.out(2.4)" });
+    el.style.boxShadow = active
+      ? `0 16px 32px -8px color-mix(in srgb, ${solid} 65%, transparent)`
+      : `0 14px 28px -10px color-mix(in srgb, ${solid} 45%, transparent)`;
   });
 
-  const handleLeave = contextSafe((el: HTMLElement) => {
+  const handleLeave = contextSafe((el: HTMLElement, solid: string, active: boolean) => {
     gsap.to(el, { y: 0, duration: 0.3, ease: "power2.out" });
     gsap.to(el.querySelector(".cat-icon"), { rotate: 0, scale: 1, duration: 0.3, ease: "power2.out" });
+    el.style.boxShadow = active ? `0 10px 24px -8px color-mix(in srgb, ${solid} 55%, transparent)` : "var(--shadow-sm)";
   });
 
   const handleClick = contextSafe((el: HTMLElement, value: string) => {
@@ -87,37 +91,45 @@ export function CategorySelector({
           <button
             key={label}
             type="button"
-            onMouseEnter={(e) => handleEnter(e.currentTarget)}
-            onMouseLeave={(e) => handleLeave(e.currentTarget)}
+            onMouseEnter={(e) => handleEnter(e.currentTarget, solid, active)}
+            onMouseLeave={(e) => handleLeave(e.currentTarget, solid, active)}
             onClick={(e) => handleClick(e.currentTarget, label)}
             aria-pressed={active}
-            className="cat-card group relative flex flex-col items-start gap-2.5 cursor-pointer rounded-[var(--radius-lg)] border p-4 text-left transition-[box-shadow,border-color,background-color] duration-250 ease-out"
+            className="cat-card group relative flex flex-col items-start gap-2.5 cursor-pointer overflow-hidden rounded-[var(--radius-lg)] border p-4 text-left transition-[border-color] duration-250 ease-out"
             style={{
-              background: active ? solid : "var(--color-bg)",
-              borderColor: active ? solid : "var(--color-divider)",
+              background: active
+                ? `linear-gradient(140deg, ${solid} 0%, color-mix(in srgb, ${solid} 78%, black 22%) 100%)`
+                : `linear-gradient(140deg, ${light} 0%, color-mix(in srgb, ${solid} 12%, ${light}) 100%)`,
+              borderColor: active ? solid : `color-mix(in srgb, ${solid} 26%, transparent)`,
               boxShadow: active ? `0 10px 24px -8px color-mix(in srgb, ${solid} 55%, transparent)` : "var(--shadow-sm)",
             }}
           >
+            {/* sheen sweep */}
+            <span
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[420%] group-hover:opacity-100"
+              style={{ background: active ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.35)" }}
+              aria-hidden
+            />
             {active && (
               <span
                 className="absolute top-2.5 right-2.5 grid place-content-center rounded-full"
-                style={{ width: 20, height: 20, background: "rgba(255,255,255,0.25)", color: "#fff" }}
+                style={{ width: 20, height: 20, background: "var(--color-accent-500)", color: "var(--color-accent-2-900)" }}
               >
                 <CheckIcon width={11} height={11} strokeWidth={3} />
               </span>
             )}
             <span
-              className="cat-icon grid place-content-center rounded-[14px] flex-none transition-colors duration-250"
+              className="cat-icon relative grid place-content-center rounded-[14px] flex-none transition-colors duration-250"
               style={{
                 width: 40,
                 height: 40,
-                background: active ? "rgba(255,255,255,0.2)" : light,
+                background: active ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.55)",
                 color: active ? "#fff" : text,
               }}
             >
               <Icon width={20} height={20} strokeWidth={2} />
             </span>
-            <span>
+            <span className="relative">
               <span
                 className="block text-[13.5px] font-semibold leading-snug font-[var(--font-heading)]"
                 style={{ color: active ? "#fff" : "var(--color-text)" }}

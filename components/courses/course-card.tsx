@@ -1,11 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Tag } from "@/components/ui/tag";
 import { StarRating } from "@/components/ui/tutor-avatar";
-import { CourseIllustration } from "@/components/courses/course-illustrations";
+import { CourseIllustration, CATEGORY_COLORS } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, HeartIcon, SendIcon, CheckIcon } from "@/components/courses/course-icons";
 import { priceLabel, type CourseRaw } from "@/lib/mock-courses";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
@@ -14,6 +13,20 @@ gsap.registerPlugin(useGSAP);
 
 function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+function CourseBadge({ tone, children }: { tone: "gold" | "navy" | "green"; children: ReactNode }) {
+  const style =
+    tone === "gold"
+      ? { background: "linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600))", color: "var(--color-accent-2-900)" }
+      : tone === "navy"
+      ? { background: "var(--color-accent-2-800)", color: "var(--color-accent-300)" }
+      : { background: "var(--color-verified)", color: "#fff" };
+  return (
+    <span className="text-[10px] font-bold px-2 py-1 rounded-full shadow-sm" style={style}>
+      {children}
+    </span>
+  );
 }
 
 export function CourseCard({
@@ -50,6 +63,8 @@ export function CourseCard({
       ? `${priceLabel(course.originalPriceCents)} full course`
       : "Price on request";
   const launchPlane = usePlaneLaunch();
+  const colors = CATEGORY_COLORS[course.category];
+  const firstSaveRender = useRef(true);
 
   const { contextSafe } = useGSAP({ scope: rootRef });
 
@@ -64,17 +79,19 @@ export function CourseCard({
       return;
     }
     gsap.set(rootRef.current, { zIndex: 20 });
+    gsap.to(rootRef.current, { y: -6, duration: 0.3, ease: "power2.out" });
     gsap.fromTo(
       flyoutRef.current,
       { autoAlpha: 0, y: -6, scale: 0.97 },
       { autoAlpha: 1, y: 0, scale: 1, duration: 0.28, ease: "power2.out" }
     );
-    gsap.to(thumbRef.current, { scale: 1.04, duration: 0.35, ease: "power2.out" });
+    gsap.to(thumbRef.current, { scale: 1.08, rotate: 1.5, duration: 0.4, ease: "power2.out" });
   });
 
   const closeFlyout = contextSafe(() => {
     if (!canHover()) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gsap.to(rootRef.current, { y: 0, duration: 0.3, ease: "power2.out" });
     if (reduced) {
       setHovered(false);
       gsap.set(rootRef.current, { zIndex: 1 });
@@ -91,13 +108,29 @@ export function CourseCard({
         gsap.set(rootRef.current, { zIndex: 1 });
       },
     });
-    gsap.to(thumbRef.current, { scale: 1, duration: 0.25, ease: "power2.out" });
+    gsap.to(thumbRef.current, { scale: 1, rotate: 0, duration: 0.3, ease: "power2.out" });
   });
+
+  useGSAP(
+    () => {
+      if (firstSaveRender.current) {
+        firstSaveRender.current = false;
+        return;
+      }
+      if (!saved || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      gsap.fromTo(
+        rootRef.current?.querySelectorAll(".save-heart-btn") ?? [],
+        { scale: 1.35 },
+        { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" }
+      );
+    },
+    { scope: rootRef, dependencies: [saved] }
+  );
 
   return (
     <div
       ref={rootRef}
-      className="course-card relative"
+      className="course-card group relative"
       style={{ zIndex: 1 }}
       onMouseEnter={openFlyout}
       onMouseLeave={closeFlyout}
@@ -112,17 +145,47 @@ export function CourseCard({
             onOpen(course);
           }
         }}
-        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-200 ease-out hover:shadow-[var(--shadow-lg)]"
-        style={{ borderColor: "var(--color-divider)" }}
+        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-300 ease-out"
+        style={{
+          borderColor: "var(--color-divider)",
+          boxShadow: "var(--shadow-sm)",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = `0 18px 36px -16px color-mix(in srgb, ${colors.solid} 45%, transparent), var(--shadow-md)`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = "var(--shadow-sm)";
+        }}
       >
-        <div className="relative aspect-[16/10] overflow-hidden" style={{ background: "var(--color-neutral-100)" }}>
-          <div ref={thumbRef} className="w-full h-full">
+        <div
+          className="relative aspect-[16/10] overflow-hidden"
+          style={{
+            background: `linear-gradient(160deg, ${colors.light} 0%, color-mix(in srgb, ${colors.solid} 14%, ${colors.light}) 100%)`,
+          }}
+        >
+          <span
+            className="pointer-events-none absolute rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-300"
+            style={{ width: 130, height: 130, background: colors.solid, top: "18%", left: "28%" }}
+            aria-hidden
+          />
+          <div ref={thumbRef} className="relative w-full h-full">
             <CourseIllustration category={course.category} className="w-full h-full" />
           </div>
+          {/* diagonal sheen sweep */}
+          <span
+            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/40 opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[420%] group-hover:opacity-100"
+            aria-hidden
+          />
+          {/* bottom fade blending into card body */}
+          <span
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-8"
+            style={{ background: "linear-gradient(to bottom, transparent, var(--color-surface))" }}
+            aria-hidden
+          />
           {hasDiscount && discountPct > 0 && (
             <span
-              className="absolute top-2.5 left-2.5 text-[11px] font-bold px-2 py-1 rounded-full"
-              style={{ background: "var(--color-accent-700)", color: "#fff" }}
+              className="absolute top-2.5 left-2.5 text-[11px] font-bold px-2 py-1 rounded-full shadow-sm"
+              style={{ background: "linear-gradient(135deg, var(--color-accent-500), var(--color-accent-700))", color: "#fff" }}
             >
               -{discountPct}%
             </span>
@@ -136,13 +199,14 @@ export function CourseCard({
               e.stopPropagation();
               onToggleSaved(course);
             }}
-            className="absolute top-2.5 right-2.5 grid place-content-center rounded-full cursor-pointer transition-[color,background-color,transform] duration-150 hover:scale-110"
+            className="save-heart-btn absolute top-2.5 right-2.5 grid place-content-center rounded-full cursor-pointer backdrop-blur-sm transition-[color,background-color,transform] duration-150 hover:scale-110"
             style={{
               width: 34,
               height: 34,
               background: "color-mix(in srgb, var(--color-bg) 88%, transparent)",
               color: saved ? "#d92d20" : "var(--color-text)",
               opacity: savePending ? 0.6 : 1,
+              boxShadow: "var(--shadow-sm)",
             }}
           >
             <HeartIcon width={16} height={16} fill={saved ? "currentColor" : "none"} />
@@ -152,21 +216,9 @@ export function CourseCard({
         <div className="flex flex-col gap-1.5 p-4 flex-1">
           {(course.bestseller || course.premium || course.isNew) && (
             <div className="flex gap-1.5 flex-wrap mb-0.5">
-              {course.bestseller && (
-                <Tag variant="accent" className="text-[10px] px-2 py-0.5 font-semibold">
-                  Bestseller
-                </Tag>
-              )}
-              {course.premium && (
-                <Tag variant="accent-2" className="text-[10px] px-2 py-0.5 font-semibold">
-                  Premium
-                </Tag>
-              )}
-              {course.isNew && (
-                <Tag variant="success" className="text-[10px] px-2 py-0.5 font-semibold">
-                  New
-                </Tag>
-              )}
+              {course.bestseller && <CourseBadge tone="gold">Bestseller</CourseBadge>}
+              {course.premium && <CourseBadge tone="navy">Premium</CourseBadge>}
+              {course.isNew && <CourseBadge tone="green">New</CourseBadge>}
             </div>
           )}
           <h3 className="text-[15.5px] leading-snug line-clamp-2 m-0" style={{ fontFamily: "var(--font-heading)" }}>
@@ -188,7 +240,9 @@ export function CourseCard({
             className="flex items-center gap-1 mt-auto pt-1 font-[var(--font-heading)]"
             style={{ color: "var(--color-text)" }}
           >
-            <span className="text-[17px]">{primaryPrice}</span>
+            <span className="text-[18px] font-bold" style={{ color: "var(--color-accent-700)" }}>
+              {primaryPrice}
+            </span>
             {hasDiscount && (
               <span
                 className="text-[13px] font-[var(--font-body)] line-through"
@@ -203,7 +257,7 @@ export function CourseCard({
 
       <div
         ref={flyoutRef}
-        className="absolute left-0 top-0 w-full card elev-lg p-4 flex flex-col gap-3"
+        className="absolute left-0 top-0 w-full card elev-lg p-4 flex flex-col gap-3 overflow-hidden"
         style={{
           background: "var(--color-bg)",
           opacity: 0,
@@ -212,22 +266,30 @@ export function CourseCard({
         }}
         onClick={() => onOpen(course)}
       >
+        <span
+          className="pointer-events-none absolute top-0 left-6 right-6 h-[3px] rounded-full opacity-80"
+          style={{ background: "linear-gradient(90deg, transparent, var(--color-accent-400), transparent)" }}
+          aria-hidden
+        />
         <h3 className="text-[16px] leading-snug m-0" style={{ fontFamily: "var(--font-heading)" }}>
           {course.title}
         </h3>
-        <div className="flex items-center gap-2 text-[12px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+        <div className="flex items-center gap-1.5 text-[11.5px] flex-wrap font-medium">
           {course.durationHours != null && (
-            <span className="inline-flex items-center gap-1">
-              <ClockIcon width={13} height={13} />
+            <span
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1"
+              style={{ background: colors.light, color: colors.text }}
+            >
+              <ClockIcon width={12} height={12} />
               {course.durationHours}h
             </span>
           )}
-          <span className="inline-flex items-center gap-1">
-            <LayersIcon width={13} height={13} />
+          <span className="inline-flex items-center gap-1 rounded-full px-2 py-1" style={{ background: colors.light, color: colors.text }}>
+            <LayersIcon width={12} height={12} />
             {course.lectureCount != null ? `${course.lectureCount} lectures` : course.lectureCountLabel ?? "Flexible"}
           </span>
-          <span className="inline-flex items-center gap-1">
-            <BarChartIcon width={13} height={13} />
+          <span className="inline-flex items-center gap-1 rounded-full px-2 py-1" style={{ background: colors.light, color: colors.text }}>
+            <BarChartIcon width={12} height={12} />
             {course.level}
           </span>
         </div>
@@ -244,7 +306,7 @@ export function CourseCard({
         <div className="flex items-center gap-2 mt-1">
           <button
             type="button"
-            className="btn btn-primary flex-1"
+            className="btn btn-primary flex-1 relative overflow-hidden"
             disabled={requestPending || requested}
             onClick={(e) => {
               e.stopPropagation();
@@ -252,6 +314,10 @@ export function CourseCard({
               onRequest(course);
             }}
           >
+            <span
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/35 opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[420%] group-hover:opacity-100"
+              aria-hidden
+            />
             {requested ? (
               <>
                 <CheckIcon width={15} height={15} />
@@ -275,7 +341,7 @@ export function CourseCard({
               e.stopPropagation();
               onToggleSaved(course);
             }}
-            className="grid place-content-center rounded-full cursor-pointer transition-[color,background-color,transform] duration-150 hover:scale-110"
+            className="save-heart-btn grid place-content-center rounded-full cursor-pointer transition-[color,background-color,transform] duration-150 hover:scale-110"
             style={{
               width: 40,
               height: 40,

@@ -3,11 +3,14 @@ import { prisma } from "@/lib/prisma";
 import type { TutorRaw } from "@/lib/mock-data";
 
 export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
-  const profiles = await prisma.tutorProfile.findMany({
-    where: { status: "APPROVED" },
-    include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
-    orderBy: { updatedAt: "desc" },
-  });
+  const [profiles, allSubjects] = await Promise.all([
+    prisma.tutorProfile.findMany({
+      where: { status: "APPROVED" },
+      include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
+      orderBy: { updatedAt: "desc" },
+    }),
+    prisma.subject.findMany({ orderBy: { name: "asc" } }),
+  ]);
 
   const cards: TutorRaw[] = [];
   const coveredSubjectIds = new Set<string>();
@@ -66,7 +69,6 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
 
   // Subjects we offer but have no approved tutor teaching yet — still list them so students
   // can see what's available and request a match; we appoint a tutor once demand comes in.
-  const allSubjects = await prisma.subject.findMany({ orderBy: { name: "asc" } });
   for (const subject of allSubjects) {
     if (coveredSubjectIds.has(subject.id)) continue;
 
