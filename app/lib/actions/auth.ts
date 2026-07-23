@@ -113,6 +113,36 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
   }
 }
 
+export type InlineLoginState = { ok: boolean; message?: string; mfaRequired?: boolean };
+
+export async function loginInline(input: { email: string; password: string; code?: string }): Promise<InlineLoginState> {
+  try {
+    const codeProp = input.code ? { code: input.code } : {};
+    await signIn("credentials", {
+      email: input.email,
+      password: input.password,
+      ...codeProp,
+      redirect: false,
+    });
+    return { ok: true };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        const code = (error as CredentialsSignin).code;
+        if (code === "mfa_required") {
+          return { ok: false, mfaRequired: true, message: "Enter the 6-digit code from your authenticator app." };
+        }
+        if (code === "invalid_mfa_code") {
+          return { ok: false, mfaRequired: true, message: "That code didn't work. Try again." };
+        }
+        return { ok: false, message: "Invalid email or password." };
+      }
+      return { ok: false, message: "Something went wrong. Please try again." };
+    }
+    throw error;
+  }
+}
+
 export async function logout() {
   await signOut({ redirectTo: "/" });
   redirect("/");

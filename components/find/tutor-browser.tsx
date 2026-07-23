@@ -17,6 +17,7 @@ import { Toast, ToastTone } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
 import { TutorAdminEditModal } from "@/components/find/tutor-admin-edit-modal";
+import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { subjects, type TutorRaw } from "@/lib/mock-data";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import { toggleSavedTutor } from "@/app/lib/actions/saved-tutor";
@@ -238,6 +239,7 @@ export function TutorBrowser({
     return t.id ? requestedIds.has(t.id) : requestedNames.has(t.name);
   }
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const [selected, setSelected] = useState<{ tutor: TutorRaw; index: number } | null>(null);
   const [editingTutor, setEditingTutor] = useState<TutorRaw | null>(null);
   const [deletingTutor, setDeletingTutor] = useState<TutorRaw | null>(null);
@@ -290,8 +292,9 @@ export function TutorBrowser({
     }
   }
 
-  function handleRequestTutor(t: TutorRaw) {
+  function handleRequestTutor(t: TutorRaw, origin: HTMLElement | null) {
     if (isAlreadyRequested(t)) return;
+    const rect = origin?.getBoundingClientRect() ?? null;
     setPendingName(t.name);
     startTransition(async () => {
       const result = await requestSpecificTutor({
@@ -303,9 +306,10 @@ export function TutorBrowser({
       });
       setPendingName(null);
       if (result.requiresAuth) {
-        router.push(`/login?callbackUrl=${encodeURIComponent("/find-a-tutor")}`);
+        setLoginPrompt({ rect, retry: () => handleRequestTutor(t, origin) });
         return;
       }
+      launchPlane(origin);
       if (result.ok) {
         setRequestedNames((prev) => new Set(prev).add(t.name));
         if (t.id) setRequestedIds((prev) => new Set(prev).add(t.id!));
@@ -944,8 +948,7 @@ export function TutorBrowser({
                         disabled={pendingName === t.name || isAlreadyRequested(t)}
                         onClick={(e) => {
                           e.stopPropagation();
-                          launchPlane(e.currentTarget);
-                          handleRequestTutor(t);
+                          handleRequestTutor(t, e.currentTarget);
                         }}
                       >
                         {isAlreadyRequested(t) ? (
@@ -1042,6 +1045,18 @@ export function TutorBrowser({
         pending={deletePending}
         onConfirm={handleDeleteTutor}
         onCancel={() => setDeletingTutor(null)}
+      />
+    )}
+    {loginPrompt && (
+      <RequestLoginModal
+        originRect={loginPrompt.rect}
+        onClose={() => setLoginPrompt(null)}
+        onAuthenticated={() => {
+          const retry = loginPrompt.retry;
+          setLoginPrompt(null);
+          router.refresh();
+          retry();
+        }}
       />
     )}
     </>

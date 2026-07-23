@@ -12,6 +12,7 @@ import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
+import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import type { tutorsRaw } from "@/lib/mock-data";
@@ -34,6 +35,7 @@ export function FeaturedTutors({
   const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set(requestedTutorProfileIds));
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [detail, setDetail] = useState<{ tutor: Tutor; index: number } | null>(null);
+  const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const [, startTransition] = useTransition();
   const launchPlane = usePlaneLaunch();
 
@@ -41,8 +43,9 @@ export function FeaturedTutors({
     return t.id ? requestedIds.has(t.id) : requestedNames.has(t.name);
   }
 
-  function handleRequestTutor(t: Tutor) {
+  function handleRequestTutor(t: Tutor, origin: HTMLElement | null) {
     if (isAlreadyRequested(t)) return;
+    const rect = origin?.getBoundingClientRect() ?? null;
     setPendingName(t.name);
     startTransition(async () => {
       const result = await requestSpecificTutor({
@@ -54,9 +57,10 @@ export function FeaturedTutors({
       });
       setPendingName(null);
       if (result.requiresAuth) {
-        router.push(`/login?callbackUrl=${encodeURIComponent("/")}`);
+        setLoginPrompt({ rect, retry: () => handleRequestTutor(t, origin) });
         return;
       }
+      launchPlane(origin);
       if (result.ok) {
         setRequestedNames((prev) => new Set(prev).add(t.name));
         if (t.id) setRequestedIds((prev) => new Set(prev).add(t.id!));
@@ -214,8 +218,7 @@ export function FeaturedTutors({
                   disabled={pendingName === t.name || already}
                   onClick={(e) => {
                     e.stopPropagation();
-                    launchPlane(e.currentTarget);
-                    handleRequestTutor(t);
+                    handleRequestTutor(t, e.currentTarget);
                   }}
                 >
                   {already ? (
@@ -249,6 +252,18 @@ export function FeaturedTutors({
         />
       )}
       {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
+      {loginPrompt && (
+        <RequestLoginModal
+          originRect={loginPrompt.rect}
+          onClose={() => setLoginPrompt(null)}
+          onAuthenticated={() => {
+            const retry = loginPrompt.retry;
+            setLoginPrompt(null);
+            router.refresh();
+            retry();
+          }}
+        />
+      )}
     </>
   );
 }

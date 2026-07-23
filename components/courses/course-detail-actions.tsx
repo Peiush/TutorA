@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { HeartIcon, SendIcon, CheckIcon } from "@/components/courses/course-icons";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
+import { RequestLoginModal } from "@/components/auth/request-login-modal";
 
 export function CourseDetailActions({
   courseId,
@@ -16,11 +18,13 @@ export function CourseDetailActions({
   initialSaved: boolean;
   initialRequested: boolean;
 }) {
+  const router = useRouter();
   const [saved, setSaved] = useState(initialSaved);
   const [requested, setRequested] = useState(initialRequested);
   const [savePending, startSaveTransition] = useTransition();
   const [requestPending, startRequestTransition] = useTransition();
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const launchPlane = usePlaneLaunch();
 
   const onToggleSaved = () => {
@@ -34,10 +38,15 @@ export function CourseDetailActions({
     });
   };
 
-  const onRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
-    launchPlane(e.currentTarget);
+  const onRequest = (origin: HTMLElement) => {
+    const rect = origin.getBoundingClientRect();
     startRequestTransition(async () => {
       const result = await requestCourse(courseId);
+      if (result.requiresAuth) {
+        setLoginPrompt({ rect, retry: () => onRequest(origin) });
+        return;
+      }
+      launchPlane(origin);
       if (!result.ok) {
         setToast({ tone: "error", message: result.message ?? "Something went wrong." });
         return;
@@ -53,7 +62,7 @@ export function CourseDetailActions({
         type="button"
         className="btn btn-primary flex-1"
         disabled={requestPending || requested}
-        onClick={onRequest}
+        onClick={(e) => onRequest(e.currentTarget)}
       >
         {requested ? (
           <>
@@ -87,6 +96,18 @@ export function CourseDetailActions({
         <HeartIcon width={18} height={18} fill={saved ? "currentColor" : "none"} />
       </button>
       {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
+      {loginPrompt && (
+        <RequestLoginModal
+          originRect={loginPrompt.rect}
+          onClose={() => setLoginPrompt(null)}
+          onAuthenticated={() => {
+            const retry = loginPrompt.retry;
+            setLoginPrompt(null);
+            router.refresh();
+            retry();
+          }}
+        />
+      )}
     </div>
   );
 }

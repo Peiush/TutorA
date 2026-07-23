@@ -12,6 +12,8 @@ import { CategorySelector } from "@/components/courses/category-selector";
 import { SearchIcon } from "@/components/courses/course-icons";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
+import { usePlaneLaunch } from "@/components/ui/plane-launch";
+import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import type { CourseRaw } from "@/lib/mock-courses";
 
 gsap.registerPlugin(useGSAP, Flip);
@@ -39,8 +41,10 @@ export function CourseBrowser({
   const [requested, setRequested] = useState<Set<string>>(new Set(requestedCourseIds));
   const [requestingId, setRequestingId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const [openCourse, setOpenCourse] = useState<CourseRaw | null>(null);
   const [, startTransition] = useTransition();
+  const launchPlane = usePlaneLaunch();
   const gridRef = useRef<HTMLDivElement>(null);
   const filterBarRef = useRef<HTMLDivElement>(null);
   const flipStateRef = useRef<Flip.FlipState | null>(null);
@@ -164,15 +168,17 @@ export function CourseBrowser({
     });
   }
 
-  function handleRequestCourse(course: CourseRaw) {
+  function handleRequestCourse(course: CourseRaw, origin: HTMLElement | null) {
+    const rect = origin?.getBoundingClientRect() ?? null;
     setRequestingId(course.id);
     startTransition(async () => {
       const result = await requestCourse(course.id);
       setRequestingId(null);
       if (result.requiresAuth) {
-        router.push(`/login?callbackUrl=${encodeURIComponent("/courses")}`);
+        setLoginPrompt({ rect, retry: () => handleRequestCourse(course, origin) });
         return;
       }
+      launchPlane(origin);
       if (result.ok) {
         setRequested((prev) => new Set(prev).add(course.id));
         setToast({ tone: "success", message: result.message ?? `Your request for "${course.title}" has been sent.` });
@@ -275,6 +281,18 @@ export function CourseBrowser({
           onToggleSaved={handleToggleSaved}
           onRequest={handleRequestCourse}
           onClose={() => setOpenCourse(null)}
+        />
+      )}
+      {loginPrompt && (
+        <RequestLoginModal
+          originRect={loginPrompt.rect}
+          onClose={() => setLoginPrompt(null)}
+          onAuthenticated={() => {
+            const retry = loginPrompt.retry;
+            setLoginPrompt(null);
+            router.refresh();
+            retry();
+          }}
         />
       )}
     </>

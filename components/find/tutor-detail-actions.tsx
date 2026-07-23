@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Toast, ToastTone } from "@/components/ui/toast";
+import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import { toggleSavedTutor } from "@/app/lib/actions/saved-tutor";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
@@ -27,6 +28,7 @@ export function TutorDetailActions({
   const [savePending, startSaveTransition] = useTransition();
   const [requestingSubjectId, setRequestingSubjectId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
+  const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const launchPlane = usePlaneLaunch();
 
   const onToggleSaved = () => {
@@ -44,8 +46,8 @@ export function TutorDetailActions({
     });
   };
 
-  const onRequest = (offering: TutorSubjectOffering, e: React.MouseEvent<HTMLButtonElement>) => {
-    launchPlane(e.currentTarget);
+  const onRequest = (offering: TutorSubjectOffering, origin: HTMLElement) => {
+    const rect = origin.getBoundingClientRect();
     setRequestingSubjectId(offering.id);
     requestSpecificTutor({
       tutorName,
@@ -56,9 +58,10 @@ export function TutorDetailActions({
     }).then((result) => {
       setRequestingSubjectId(null);
       if (result.requiresAuth) {
-        router.push(`/login?callbackUrl=${encodeURIComponent(`/find-a-tutor`)}`);
+        setLoginPrompt({ rect, retry: () => onRequest(offering, origin) });
         return;
       }
+      launchPlane(origin);
       if (!result.ok) {
         setToast({ tone: "error", message: result.message ?? "Something went wrong." });
         return;
@@ -93,7 +96,7 @@ export function TutorDetailActions({
               className="btn btn-primary"
               style={{ padding: "7px 16px", fontSize: 13 }}
               disabled={requested || requestingSubjectId === offering.id}
-              onClick={(e) => onRequest(offering, e)}
+              onClick={(e) => onRequest(offering, e.currentTarget)}
             >
               {requested ? "Requested" : requestingSubjectId === offering.id ? "Sending…" : "Request"}
             </button>
@@ -113,6 +116,18 @@ export function TutorDetailActions({
       </button>
 
       {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
+      {loginPrompt && (
+        <RequestLoginModal
+          originRect={loginPrompt.rect}
+          onClose={() => setLoginPrompt(null)}
+          onAuthenticated={() => {
+            const retry = loginPrompt.retry;
+            setLoginPrompt(null);
+            router.refresh();
+            retry();
+          }}
+        />
+      )}
     </div>
   );
 }

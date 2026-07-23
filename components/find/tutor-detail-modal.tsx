@@ -8,7 +8,6 @@ import { Tag } from "@/components/ui/tag";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { SubjectIcon } from "@/components/ui/subject-icons";
-import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import type { TutorRaw } from "@/lib/mock-data";
 
 gsap.registerPlugin(useGSAP);
@@ -28,11 +27,10 @@ export function TutorDetailModal({
   pending: boolean;
   requested: boolean;
   onClose: () => void;
-  onRequest: (t: TutorRaw) => void;
+  onRequest: (t: TutorRaw, origin: HTMLElement | null) => void;
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const launchPlane = usePlaneLaunch();
 
   const { contextSafe } = useGSAP(
     () => {
@@ -200,8 +198,7 @@ export function TutorDetailModal({
           className="detail-stagger btn btn-primary btn-block mt-1"
           disabled={pending || requested}
           onClick={(e) => {
-            launchPlane(e.currentTarget);
-            onRequest(tutor);
+            onRequest(tutor, e.currentTarget);
           }}
         >
           {requested ? (

@@ -9,7 +9,6 @@ import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, HeartIcon, SendIcon, CheckIcon, XIcon } from "@/components/courses/course-icons";
 import { priceLabel, type CourseRaw } from "@/lib/mock-courses";
-import { usePlaneLaunch } from "@/components/ui/plane-launch";
 
 gsap.registerPlugin(useGSAP);
 
@@ -29,7 +28,7 @@ export function CourseDetailModal({
   requested: boolean;
   requestPending: boolean;
   onToggleSaved: (course: CourseRaw) => void;
-  onRequest: (course: CourseRaw) => void;
+  onRequest: (course: CourseRaw, origin: HTMLElement | null) => void;
   onClose: () => void;
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -44,7 +43,6 @@ export function CourseDetailModal({
       : course.originalPriceCents != null
       ? `${priceLabel(course.originalPriceCents)} full course`
       : "Price on request";
-  const launchPlane = usePlaneLaunch();
 
   const { contextSafe } = useGSAP(
     () => {
@@ -218,8 +216,7 @@ export function CourseDetailModal({
               className="btn btn-primary flex-1"
               disabled={requestPending || requested}
               onClick={(e) => {
-                launchPlane(e.currentTarget);
-                onRequest(course);
+                onRequest(course, e.currentTarget);
               }}
             >
               {requested ? (
