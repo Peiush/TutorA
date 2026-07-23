@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { login } from "@/app/lib/actions/auth";
-import { MailIcon, LockIcon, EyeIcon, EyeOffIcon, ArrowRightIcon, SpinnerIcon } from "@/components/auth/auth-icons";
+import { login, loginWithGoogle } from "@/app/lib/actions/auth";
+import { MailIcon, LockIcon, EyeIcon, EyeOffIcon, ArrowRightIcon, SpinnerIcon, GoogleIcon } from "@/components/auth/auth-icons";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -13,7 +13,26 @@ export function LoginForm() {
   const mfaRequired = state?.mfaRequired ?? false;
 
   return (
-    <form action={action} className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
+      {!mfaRequired && (
+        <>
+          <form action={loginWithGoogle}>
+            <button type="submit" className="btn btn-secondary btn-block flex items-center justify-center gap-2">
+              <GoogleIcon />
+              Continue with Google
+            </button>
+          </form>
+          <div className="flex items-center gap-3">
+            <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
+            <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+              or
+            </span>
+            <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
+          </div>
+        </>
+      )}
+
+      <form action={action} className="flex flex-col gap-5">
       <div>
         <h1 className="text-[28px]">{mfaRequired ? "Verify it's you" : "Welcome back"}</h1>
         <p className="text-[14.5px] mt-1.5" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
@@ -108,5 +127,6 @@ export function LoginForm() {
         )}
       </button>
     </form>
+    </div>
   );
 }

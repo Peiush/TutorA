@@ -3,7 +3,10 @@ import { LegalContent } from "@/components/legal/legal-content";
 import { PRIVACY_SECTIONS } from "@/components/legal/privacy-sections";
 
 export const metadata = {
-  title: "Privacy Policy — TutorA",
+  title: "Privacy Policy",
+  description:
+    "TutorA's Privacy Policy — what personal information we collect, how we use it to review requests and propose matches, and your choices.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

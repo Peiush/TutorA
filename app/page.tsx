@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorStrip } from "@/components/home/tutor-strip";
@@ -9,10 +11,7 @@ import { FeaturedTutors } from "@/components/home/featured-tutors";
 import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
 import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
-import { TestimonialsSection } from "@/components/home/testimonials-section";
-import { PopularSubjects } from "@/components/home/popular-subjects";
-import { CourseCategoriesShowcase, type CategoryCount } from "@/components/home/course-categories-showcase";
-import { FinalCta } from "@/components/home/final-cta";
+import type { CategoryCount } from "@/components/home/course-categories-showcase";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { courseCategories } from "@/lib/mock-courses";
@@ -25,6 +24,25 @@ import {
   testimonials,
   subjects,
 } from "@/lib/mock-data";
+
+// Below-the-fold sections: split into separate chunks so their GSAP-driven JS isn't
+// part of the critical bundle blocking first paint. Content still renders via SSR (ssr: true).
+const CourseCategoriesShowcase = dynamic(() =>
+  import("@/components/home/course-categories-showcase").then((mod) => mod.CourseCategoriesShowcase)
+);
+const TestimonialsSection = dynamic(() =>
+  import("@/components/home/testimonials-section").then((mod) => mod.TestimonialsSection)
+);
+const PopularSubjects = dynamic(() =>
+  import("@/components/home/popular-subjects").then((mod) => mod.PopularSubjects)
+);
+const FinalCta = dynamic(() => import("@/components/home/final-cta").then((mod) => mod.FinalCta));
+
+export const metadata: Metadata = {
+  description:
+    "Find a personally verified tutor or course on TutorA. Every student request and tutor listing is reviewed by our team before it's matched.",
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const [approvedTutors, allCourses, session] = await Promise.all([

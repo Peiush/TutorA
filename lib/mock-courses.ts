@@ -9,6 +9,7 @@ export type CourseLevel = "Beginner" | "Intermediate" | "All Levels";
 
 export interface CourseRaw {
   id: string;
+  slug: string;
   title: string;
   instructor: string | null;
   instructorId: string | null;

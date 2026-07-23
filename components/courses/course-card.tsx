@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { StarRating } from "@/components/ui/tutor-avatar";
@@ -222,7 +223,13 @@ export function CourseCard({
             </div>
           )}
           <h3 className="text-[15.5px] leading-snug line-clamp-2 m-0" style={{ fontFamily: "var(--font-heading)" }}>
-            {course.title}
+            <Link
+              href={`/courses/${course.slug}`}
+              onClick={(e) => e.stopPropagation()}
+              className="hover:underline"
+            >
+              {course.title}
+            </Link>
           </h3>
           {course.instructor && (
             <p className="text-[12.5px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>

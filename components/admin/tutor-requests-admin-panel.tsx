@@ -274,7 +274,7 @@ export function TutorRequestsAdminPanel({
                   )}
                 </div>
 
-                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                   {relativeDate(r.createdAt)}
                 </div>
 

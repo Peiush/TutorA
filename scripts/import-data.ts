@@ -3,6 +3,7 @@ import ExcelJS from "exceljs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { courseCategories, courseLevels, CATEGORY_LABEL_TO_DB, LEVEL_LABEL_TO_DB } from "@/lib/mock-courses";
+import { makeSlug } from "@/lib/slug";
 
 type RowError = { sheet: string; row: number; message: string };
 
@@ -142,6 +143,7 @@ async function importTeachers(sheet: ExcelJS.Worksheet | undefined, dryRun: bool
         : await prisma.tutorProfile.create({
             data: {
               userId: existingUser.id,
+              slug: makeSlug(d.name),
               country: d.country,
               subjects: d.subjects,
               yearsExperience: d.yearsExperience ?? null,
@@ -161,6 +163,7 @@ async function importTeachers(sheet: ExcelJS.Worksheet | undefined, dryRun: bool
           role: "TUTOR",
           tutorProfile: {
             create: {
+              slug: makeSlug(d.name),
               country: d.country,
               subjects: d.subjects,
               yearsExperience: d.yearsExperience ?? null,
@@ -282,7 +285,7 @@ async function importCourses(sheet: ExcelJS.Worksheet | undefined, instructorMap
       await prisma.course.update({ where: { id: existingCourseCheck.id }, data });
       summary.coursesUpdated++;
     } else {
-      await prisma.course.create({ data });
+      await prisma.course.create({ data: { ...data, slug: makeSlug(d.title) } });
       summary.coursesCreated++;
     }
   }

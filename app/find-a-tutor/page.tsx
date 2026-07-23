@@ -5,7 +5,10 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Find a Tutor — TutorA",
+  title: "Find a Tutor",
+  description:
+    "Browse personally verified tutors across subjects and languages. Every listing is reviewed by our team before it's matched with a student.",
+  alternates: { canonical: "/find-a-tutor" },
 };
 
 export default async function FindATutorPage({

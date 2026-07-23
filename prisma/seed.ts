@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { makeSlug } from "@/lib/slug";
 
 const DUMMY_TUTORS = [
   {
@@ -307,6 +308,7 @@ async function main() {
         role: "TUTOR",
         tutorProfile: {
           create: {
+            slug: makeSlug(t.name),
             country: t.country,
             subjects: t.subjects,
             yearsExperience: t.yearsExperience,
@@ -350,7 +352,7 @@ async function main() {
         data: { ...data, instructor: { connect: { id: instructor.id } } },
       });
     } else {
-      await prisma.course.create({ data: { ...data, instructorId: instructor.id } });
+      await prisma.course.create({ data: { ...data, slug: makeSlug(c.title), instructorId: instructor.id } });
     }
   }
   console.log(`Seeded ${DUMMY_COURSES.length} demo courses.`);

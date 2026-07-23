@@ -3,7 +3,10 @@ import { LegalContent } from "@/components/legal/legal-content";
 import { TERMS_SECTIONS } from "@/components/legal/terms-sections";
 
 export const metadata = {
-  title: "Terms of Service — TutorA",
+  title: "Terms of Service",
+  description:
+    "TutorA's Terms of Service — how our admin-mediated tutoring marketplace works, fees, verification, and how matches happen.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

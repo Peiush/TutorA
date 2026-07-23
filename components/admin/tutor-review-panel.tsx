@@ -128,7 +128,7 @@ export function TutorReviewPanel({ profiles }: { profiles: TutorProfileRow[] }) 
                     {p.user.email} · {p.subjects} · {p.country}
                   </div>
                 </div>
-                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                   {p.hourlyRateCents ? `$${(p.hourlyRateCents / 100).toFixed(0)}/hr` : "No rate"}
                   <div>{p.yearsExperience ?? 0} yrs</div>
                 </div>

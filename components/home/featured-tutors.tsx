@@ -191,7 +191,7 @@ export function FeaturedTutors({
                   {t.reviews > 0 ? (
                     <span className="inline-flex items-center gap-1.5">
                       <StarRating rating={t.rating} size={13} />
-                      <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                      <span style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                         {t.rating.toFixed(1)} ({t.reviews})
                       </span>
                     </span>

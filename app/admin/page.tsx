@@ -12,40 +12,45 @@ import { TargetIcon } from "@/components/dashboard/dashboard-icons";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getMfaStatus } from "@/app/lib/actions/mfa";
 import { TwoFactorPanel } from "@/components/admin/two-factor-panel";
+import { WhatsAppInboxPanel } from "@/components/admin/whatsapp-inbox-panel";
+import { listConversations } from "@/app/lib/actions/whatsapp";
 
 export const metadata = {
-  title: "Admin — TutorA",
+  title: "Admin",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminPage() {
   await requireFreshRole(["ADMIN"]);
   const user = await getUser();
 
-  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, mfaStatus] = await Promise.all([
-    prisma.user.count({ where: { role: "STUDENT" } }),
-    prisma.user.count({ where: { role: "TUTOR" } }),
-    prisma.tutorProfile.findMany({
-      include: { user: { select: { name: true, email: true } } },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.tutorRequest.findMany({
-      include: {
-        matchedTutor: {
-          select: { name: true, email: true, tutorProfile: { select: { hourlyRateCents: true } } },
+  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, mfaStatus, conversations] =
+    await Promise.all([
+      prisma.user.count({ where: { role: "STUDENT" } }),
+      prisma.user.count({ where: { role: "TUTOR" } }),
+      prisma.tutorProfile.findMany({
+        include: { user: { select: { name: true, email: true } } },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.tutorRequest.findMany({
+        include: {
+          matchedTutor: {
+            select: { name: true, email: true, tutorProfile: { select: { hourlyRateCents: true } } },
+          },
         },
-      },
-      orderBy: { createdAt: "desc" },
-    }),
-    getPublishedCourses(),
-    prisma.courseRequest.findMany({
-      include: {
-        user: { select: { name: true, email: true } },
-        course: { include: { instructor: { include: { user: { select: { name: true } } } } } },
-      },
-      orderBy: { createdAt: "desc" },
-    }),
-    getMfaStatus(),
-  ]);
+        orderBy: { createdAt: "desc" },
+      }),
+      getPublishedCourses(),
+      prisma.courseRequest.findMany({
+        include: {
+          user: { select: { name: true, email: true } },
+          course: { include: { instructor: { include: { user: { select: { name: true } } } } } },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+      getMfaStatus(),
+      listConversations(),
+    ]);
 
   const pendingApprovals = profiles.filter((p) => p.status === "PENDING").length;
   const openRequests = requests.filter((r) => r.status === "OPEN").length;
@@ -85,6 +90,7 @@ export default async function AdminPage() {
       </StaggerReveal>
 
       <TwoFactorPanel initialEnabled={mfaStatus.enabled} />
+      <WhatsAppInboxPanel conversations={conversations} />
       <TutorReviewPanel profiles={profiles} />
       <TutorRequestsAdminPanel requests={requests} approvedTutors={approvedTutors} />
       <CoursesAdminPanel courses={courses} instructorOptions={instructorOptions} />

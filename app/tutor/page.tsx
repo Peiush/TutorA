@@ -10,7 +10,8 @@ import { GraduationCapIcon, CoinsIcon, UsersIcon } from "@/components/tutor/tuto
 import { BookOpenIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
-  title: "Tutor dashboard — TutorA",
+  title: "Tutor dashboard",
+  robots: { index: false, follow: false },
 };
 
 export default async function TutorDashboardPage() {

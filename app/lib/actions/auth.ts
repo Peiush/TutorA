@@ -117,3 +117,7 @@ export async function logout() {
   await signOut({ redirectTo: "/" });
   redirect("/");
 }
+
+export async function loginWithGoogle() {
+  await signIn("google", { redirectTo: "/dashboard" });
+}

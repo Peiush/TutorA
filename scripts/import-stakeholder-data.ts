@@ -2,6 +2,7 @@ import "dotenv/config";
 import ExcelJS from "exceljs";
 import { prisma } from "@/lib/prisma";
 import { CATEGORY_LABEL_TO_DB, type CourseCategory } from "@/lib/mock-courses";
+import { makeSlug } from "@/lib/slug";
 
 // Known-safe aliases: teacher's free-text subject -> canonical catalog name (Subjects sheet or Courses sheet title).
 // Only pairs where the mapping is unambiguous (same subject, different spelling) live here.
@@ -216,7 +217,7 @@ async function writeCourses(courses: ParsedCourse[], dryRun: boolean) {
       await prisma.course.update({ where: { id: existing.id }, data });
       summary.coursesUpdated++;
     } else {
-      await prisma.course.create({ data });
+      await prisma.course.create({ data: { ...data, slug: makeSlug(c.title) } });
       summary.coursesCreated++;
     }
   }
@@ -308,6 +309,7 @@ async function importTeachers(
         role: "TUTOR",
         tutorProfile: {
           create: {
+            slug: makeSlug(name),
             country,
             subjects: subjectsText,
             yearsExperience: yearsExperience ?? undefined,

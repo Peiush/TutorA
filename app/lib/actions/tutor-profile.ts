@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/app/lib/actions/admin";
 import { logAdminAction } from "@/lib/audit-log";
+import { makeSlug } from "@/lib/slug";
 
 const TeacherSchema = z.object({
   name: z.string().trim().min(2, "Name is required."),
@@ -72,6 +73,7 @@ export async function submitTutorProfile(
       role: "TUTOR",
       tutorProfile: {
         create: {
+          slug: makeSlug(name),
           country,
           subjects,
           yearsExperience,

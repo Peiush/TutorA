@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { signup } from "@/app/lib/actions/auth";
+import { signup, loginWithGoogle } from "@/app/lib/actions/auth";
 import {
   MailIcon,
   LockIcon,
@@ -11,6 +11,7 @@ import {
   EyeOffIcon,
   ArrowRightIcon,
   SpinnerIcon,
+  GoogleIcon,
 } from "@/components/auth/auth-icons";
 
 export function SignupForm() {
@@ -18,6 +19,21 @@ export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
+    <div className="flex flex-col gap-5">
+      <form action={loginWithGoogle}>
+        <button type="submit" className="btn btn-secondary btn-block flex items-center justify-center gap-2">
+          <GoogleIcon />
+          Continue with Google
+        </button>
+      </form>
+      <div className="flex items-center gap-3">
+        <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
+        <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+          or
+        </span>
+        <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
+      </div>
+
     <form action={action} className="flex flex-col gap-5">
       <div>
         <h1 className="text-[28px]">Create your account</h1>
@@ -112,5 +128,6 @@ export function SignupForm() {
         )}
       </button>
     </form>
+    </div>
   );
 }

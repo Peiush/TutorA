@@ -47,7 +47,7 @@ export function CourseRequestRow({ request }: { request: CourseRequestRowData })
         </div>
       </div>
 
-      <div className="text-[13px] text-right" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+      <div className="text-[13px] text-right" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
         {request.priceCents != null ? priceLabel(request.priceCents) : "Price on request"}
         <div>{relativeDate(request.createdAt)}</div>
       </div>

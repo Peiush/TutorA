@@ -642,7 +642,7 @@ export function TutorBrowser({
             />
             <div
               className="text-[12px] mt-1"
-              style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
+              style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
             >
               Up to ${maxBudget} / hr
             </div>
@@ -739,7 +739,17 @@ export function TutorBrowser({
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="font-[var(--font-heading)] text-[18px]">{t.name}</span>
+                            {t.slug ? (
+                              <Link
+                                href={`/find-a-tutor/${t.slug}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="font-[var(--font-heading)] text-[18px] hover:underline"
+                              >
+                                {t.name}
+                              </Link>
+                            ) : (
+                              <span className="font-[var(--font-heading)] text-[18px]">{t.name}</span>
+                            )}
                             {t.onDemand ? (
                               <Tag variant="neutral" className="text-[10px] px-2 py-0.5">
                                 On demand
@@ -845,18 +855,18 @@ export function TutorBrowser({
                   >
                     <div className="flex items-center gap-3">
                       {t.onDemand ? (
-                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                           No tutor assigned yet
                         </span>
                       ) : t.reviews > 0 ? (
                         <span className="flex items-center gap-1.5 text-[13px]">
                           <StarRating rating={t.rating} />
-                          <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                          <span style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                             {t.rating.toFixed(1)} ({t.reviews})
                           </span>
                         </span>
                       ) : (
-                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                        <span className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                           No reviews yet
                         </span>
                       )}

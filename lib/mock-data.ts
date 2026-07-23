@@ -1,6 +1,7 @@
 export interface TutorRaw {
   id?: string;
   listingId?: string;
+  slug?: string;
   name: string;
   headline: string;
   subjects: string[];

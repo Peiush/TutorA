@@ -1,5 +1,6 @@
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -27,6 +28,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
   providers: [
+    Google({
+      // Reads clientId/clientSecret from AUTH_GOOGLE_ID / AUTH_GOOGLE_SECRET.
+      // Google verifies ownership of the email itself, so it's safe to link
+      // straight into an existing credentials account with the same address
+      // instead of bouncing the user with an OAuthAccountNotLinked error.
+      allowDangerousEmailAccountLinking: true,
+    }),
     Credentials({
       credentials: {
         email: {},

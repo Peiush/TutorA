@@ -77,7 +77,7 @@ export function FeaturedTutorsIllustration({ tutors }: { tutors: (typeof tutorsR
       </div>
       <div>
         <div className="text-[12.5px] font-semibold leading-tight">Vetted this week</div>
-        <div className="text-[11px] leading-tight" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+        <div className="text-[11px] leading-tight" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
           15 new tutors approved
         </div>
       </div>

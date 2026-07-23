@@ -236,7 +236,7 @@ export function RequestRow({ request }: { request: RequestRowData }) {
         </div>
       </div>
 
-      <div className="text-[13px] text-right" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+      <div className="text-[13px] text-right" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
         {relativeDate(request.createdAt)}
       </div>
 

@@ -114,7 +114,7 @@ export function TwoFactorPanel({ initialEnabled }: { initialEnabled: boolean }) 
             <div className="flex-1 min-w-[220px] flex flex-col gap-3">
               <div>
                 <p className="text-[13.5px] mb-1">1. Scan with an authenticator app (Google Authenticator, 1Password, Authy).</p>
-                <p className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                <p className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                   Can&rsquo;t scan? Enter this key manually: <code>{secret}</code>
                 </p>
               </div>

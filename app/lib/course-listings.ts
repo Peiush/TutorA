@@ -1,16 +1,24 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { CATEGORY_DB_TO_LABEL, LEVEL_DB_TO_LABEL, type CourseRaw } from "@/lib/mock-courses";
+import { Prisma } from "@/lib/generated/prisma/client";
+import {
+  CATEGORY_DB_TO_LABEL,
+  CATEGORY_LABEL_TO_DB,
+  LEVEL_DB_TO_LABEL,
+  type CourseRaw,
+  type CourseCategory,
+} from "@/lib/mock-courses";
 
-export async function getPublishedCourses(): Promise<CourseRaw[]> {
-  const courses = await prisma.course.findMany({
-    where: { published: true },
-    include: { instructor: { include: { user: { select: { name: true } } } } },
-    orderBy: { createdAt: "desc" },
-  });
+const courseWithInstructor = {
+  include: { instructor: { include: { user: { select: { name: true } } } } },
+} as const;
 
-  return courses.map((c): CourseRaw => ({
+type CourseWithInstructor = Prisma.CourseGetPayload<typeof courseWithInstructor>;
+
+function toCourseRaw(c: CourseWithInstructor): CourseRaw {
+  return {
     id: c.id,
+    slug: c.slug,
     title: c.title,
     instructor: c.instructor?.user.name ?? null,
     instructorId: c.instructorId,
@@ -28,5 +36,43 @@ export async function getPublishedCourses(): Promise<CourseRaw[]> {
     isNew: c.isNew,
     subtitle: c.subtitle ?? "",
     whatYoullLearn: (c.whatYoullLearn ?? "").split("\n").filter(Boolean),
-  }));
+  };
+}
+
+export async function getPublishedCourses(): Promise<CourseRaw[]> {
+  const courses = await prisma.course.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "desc" },
+    ...courseWithInstructor,
+  });
+
+  return courses.map(toCourseRaw);
+}
+
+export async function getCourseBySlug(slug: string): Promise<CourseRaw | null> {
+  const course = await prisma.course.findUnique({
+    where: { slug, published: true },
+    ...courseWithInstructor,
+  });
+
+  return course ? toCourseRaw(course) : null;
+}
+
+export async function getRelatedCourses(
+  excludeId: string,
+  category: CourseCategory,
+  limit = 3
+): Promise<CourseRaw[]> {
+  const courses = await prisma.course.findMany({
+    where: {
+      published: true,
+      id: { not: excludeId },
+      category: CATEGORY_LABEL_TO_DB[category] as never,
+    },
+    orderBy: { rating: "desc" },
+    take: limit,
+    ...courseWithInstructor,
+  });
+
+  return courses.map(toCourseRaw);
 }

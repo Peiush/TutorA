@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin, type AdminActionState } from "@/app/lib/actions/admin";
 import { CATEGORY_LABEL_TO_DB, LEVEL_LABEL_TO_DB, courseCategories } from "@/lib/mock-courses";
 import { logAdminAction } from "@/lib/audit-log";
+import { makeSlug } from "@/lib/slug";
 
 const CourseSchema = z.object({
   title: z.string().trim().min(3, "Title is required."),
@@ -81,10 +82,11 @@ async function saveCourse(_state: CourseFormState, formData: FormData, existingI
   };
 
   if (existingId) {
+    // slug is intentionally left untouched on edit — published URLs must stay stable.
     await prisma.course.update({ where: { id: existingId }, data });
     await logAdminAction(session.admin!, "course.update", "Course", existingId);
   } else {
-    const created = await prisma.course.create({ data });
+    const created = await prisma.course.create({ data: { ...data, slug: makeSlug(d.title) } });
     await logAdminAction(session.admin!, "course.create", "Course", created.id);
   }
 

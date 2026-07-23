@@ -29,6 +29,7 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
       cards.push({
         id: p.id,
         listingId: p.id,
+        slug: p.slug,
         name,
         headline: p.bio ? p.bio.slice(0, 64) : subjects.join(" & "),
         subjects,
@@ -50,6 +51,7 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
       cards.push({
         id: p.id,
         listingId: listing.id,
+        slug: p.slug,
         name,
         headline: listing.subject.name,
         subjects: [listing.subject.name],
@@ -92,4 +94,99 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
   }
 
   return cards;
+}
+
+export interface TutorSubjectOffering {
+  id: string;
+  subjectId: string;
+  subjectName: string;
+  curriculum: string | null;
+  gradeLevel: string | null;
+  priceLabel: string;
+}
+
+export interface TutorProfileDetail {
+  id: string;
+  slug: string;
+  name: string;
+  country: string;
+  yearsExperience: number | null;
+  bio: string | null;
+  subjects: TutorSubjectOffering[];
+}
+
+export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileDetail | null> {
+  const p = await prisma.tutorProfile.findUnique({
+    where: { slug, status: "APPROVED" },
+    include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
+  });
+
+  if (!p) return null;
+
+  const subjects: TutorSubjectOffering[] =
+    p.subjectListings.length > 0
+      ? p.subjectListings.map((listing) => ({
+          id: listing.id,
+          subjectId: listing.subjectId,
+          subjectName: listing.subject.name,
+          curriculum: listing.subject.curriculum,
+          gradeLevel: listing.subject.gradeLevel,
+          priceLabel:
+            listing.hourlyRateCents != null ? `$${Math.round(listing.hourlyRateCents / 100)}/hr` : "Rate on request",
+        }))
+      : p.subjects
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .map((subjectName) => ({
+            id: subjectName,
+            subjectId: subjectName,
+            subjectName,
+            curriculum: null,
+            gradeLevel: null,
+            priceLabel: p.hourlyRateCents != null ? `$${Math.round(p.hourlyRateCents / 100)}/hr` : "Rate on request",
+          }));
+
+  return {
+    id: p.id,
+    slug: p.slug,
+    name: p.user.name ?? "Verified tutor",
+    country: p.country,
+    yearsExperience: p.yearsExperience,
+    bio: p.bio,
+    subjects,
+  };
+}
+
+export interface RelatedTutor {
+  slug: string;
+  name: string;
+  country: string;
+  subjectNames: string[];
+}
+
+export async function getRelatedTutors(
+  excludeId: string,
+  subjectNames: string[],
+  limit = 3
+): Promise<RelatedTutor[]> {
+  if (subjectNames.length === 0) return [];
+
+  const profiles = await prisma.tutorProfile.findMany({
+    where: {
+      status: "APPROVED",
+      id: { not: excludeId },
+      subjectListings: { some: { subject: { name: { in: subjectNames } } } },
+    },
+    include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
+    orderBy: { updatedAt: "desc" },
+    take: limit,
+  });
+
+  return profiles.map((p) => ({
+    slug: p.slug,
+    name: p.user.name ?? "Verified tutor",
+    country: p.country,
+    subjectNames: p.subjectListings.map((l) => l.subject.name),
+  }));
 }

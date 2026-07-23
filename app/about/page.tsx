@@ -11,7 +11,10 @@ import { PricingTable } from "@/components/about/pricing-table";
 import { ContactCta } from "@/components/about/contact-cta";
 
 export const metadata = {
-  title: "About & How It Works — TutorA",
+  title: "About & How It Works",
+  description:
+    "See how TutorA's admin-mediated matching works, from request to verified tutor — plus pricing, FAQs, and what makes every match trustworthy.",
+  alternates: { canonical: "/about" },
 };
 
 const pillars = [
@@ -34,9 +37,20 @@ const pillars = [
   },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function AboutPage() {
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <AboutHero />
 
       {/* Trust pillars + Flows */}

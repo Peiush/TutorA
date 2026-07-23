@@ -146,7 +146,7 @@ export function TutorStrip() {
     <div ref={rootRef} className="relative mt-8 py-7" style={{ background: "var(--color-surface)" }}>
       <div
         className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] mb-4 flex items-center gap-2"
-        style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
+        style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
       >
         <span className="relative inline-flex w-2 h-2">
           <span

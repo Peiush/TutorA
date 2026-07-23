@@ -11,7 +11,8 @@ import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TargetIcon, BookOpenIcon, SparkleIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
-  title: "Dashboard — TutorA",
+  title: "Dashboard",
+  robots: { index: false, follow: false },
 };
 
 export default async function DashboardPage() {

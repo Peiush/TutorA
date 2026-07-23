@@ -61,7 +61,7 @@ export function MatchedStudentsPanel({ requests }: { requests: MatchedRequestRow
                     {r.email} · {r.subject} · {[r.level, r.mode].filter(Boolean).join(" · ") || "No preferences"}
                   </div>
                 </div>
-                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                   {r.budgetPerHour ? `${r.currency ?? "$"}${r.budgetPerHour}/hr` : ""}
                 </div>
               </div>

@@ -3,7 +3,10 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata = {
-  title: "Log in — TutorA",
+  title: "Log in",
+  description: "Log in to your TutorA account to manage your tutor matches, courses, and requests.",
+  alternates: { canonical: "/login" },
+  robots: { index: false, follow: true },
 };
 
 export default function LoginPage() {

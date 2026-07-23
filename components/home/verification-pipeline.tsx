@@ -101,7 +101,7 @@ export function VerificationPipeline({
     <div ref={rootRef}>
       <div
         className="text-[12px] uppercase"
-        style={{ letterSpacing: "0.04em", color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
+        style={{ letterSpacing: "0.04em", color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
       >
         Live verification pipeline · Request #{requestId}
       </div>
@@ -126,7 +126,7 @@ export function VerificationPipeline({
               </div>
               <div className="vp-label">
                 <div className="font-[var(--font-heading)] font-semibold text-[14.5px]">{p.label}</div>
-                <div className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                <div className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                   {p.time}
                 </div>
               </div>

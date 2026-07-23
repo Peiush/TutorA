@@ -44,7 +44,7 @@ export function ProfilePanel({ profile }: { profile: ProfileData }) {
         <h2 className="text-[19px]">Your listing</h2>
         <span
           className="text-[12.5px] flex items-center gap-1.5"
-          style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
+          style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
         >
           <MapPinIcon width={14} height={14} />
           {profile.country}

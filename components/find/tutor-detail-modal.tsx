@@ -137,11 +137,11 @@ export function TutorDetailModal({
 
         <div className="detail-stagger flex justify-between items-center text-[13.5px] flex-wrap gap-2">
           {tutor.onDemand ? (
-            <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>No tutor assigned yet</span>
+            <span style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>No tutor assigned yet</span>
           ) : tutor.reviews > 0 ? (
             <span className="flex items-center gap-1.5">
               <StarRating rating={tutor.rating} size={15} />
-              <span style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+              <span style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                 {tutor.rating.toFixed(1)} ({tutor.reviews} reviews)
               </span>
             </span>

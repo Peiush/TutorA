@@ -3,7 +3,10 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/auth/signup-form";
 
 export const metadata = {
-  title: "Sign up — TutorA",
+  title: "Sign up",
+  description: "Create a TutorA account to request a tutor, browse courses, and track your matches.",
+  alternates: { canonical: "/signup" },
+  robots: { index: false, follow: true },
 };
 
 export default function SignupPage() {

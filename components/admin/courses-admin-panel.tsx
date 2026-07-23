@@ -89,7 +89,7 @@ export function CoursesAdminPanel({
                   {c.instructor ? `${c.instructor} · ` : ""}{c.category} · {c.level}
                 </div>
               </div>
-              <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+              <div className="text-[13px] text-right flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                 {c.priceCents != null
                   ? `${priceLabel(c.priceCents)}/hr`
                   : c.originalPriceCents != null

@@ -92,7 +92,7 @@ export function BecomeIllustration() {
           </div>
           <div>
             <div className="font-[var(--font-heading)] font-semibold text-[13px]">Priya N.</div>
-            <div className="text-[11px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+            <div className="text-[11px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
               Computer Science
             </div>
           </div>

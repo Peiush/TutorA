@@ -47,6 +47,19 @@ enum CourseRequestStatus {
   CLOSED
 }
 
+enum MessageDirection {
+  IN
+  OUT
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -72,6 +85,7 @@ model User {
   savedTutors     SavedTutor[]
   savedCourses    SavedCourse[]
   courseRequests  CourseRequest[]
+  conversations   Conversation[]
 
   @@map("users")
 }
@@ -120,6 +134,7 @@ model TutorProfile {
   id              String             @id @default(cuid())
   userId          String             @unique
   user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug            String             @unique
   country         String
   subjects        String
   yearsExperience Int?
@@ -210,6 +225,7 @@ model TutorRequest {
 
 model Course {
   id                 String          @id @default(cuid())
+  slug               String          @unique
   title              String
   subtitle           String?
   instructorId       String?
@@ -263,6 +279,36 @@ model CourseRequest {
 
   @@unique([userId, courseId])
   @@map("course_requests")
+}
+
+model Conversation {
+  id            String            @id @default(cuid())
+  phone         String            @unique
+  userId        String?
+  user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  lastMessageAt DateTime          @default(now())
+  messages      WhatsAppMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("conversations")
+}
+
+model WhatsAppMessage {
+  id             String           @id @default(cuid())
+  conversationId String
+  conversation   Conversation     @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  direction      MessageDirection
+  waMessageId    String?          @unique
+  body           String
+  status         MessageStatus    @default(QUEUED)
+  payload        Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([conversationId])
+  @@map("whatsapp_messages")
 }
 
 model AuditLog {
