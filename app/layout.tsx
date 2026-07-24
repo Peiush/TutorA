@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     description:
       "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
   },
+  verification: {
+    google: "CvK_OAkuYG6OD3qFDaKAha2lRdVoEJXihUNSBIr6RGs",
+  },
 };
 
 const BASE_URL = "https://www.tutora.it.com";
