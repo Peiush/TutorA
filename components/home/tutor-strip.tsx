@@ -17,7 +17,7 @@ function TutorCard({ t, i, isClone }: { t: (typeof tutorsRaw)[number]; i: number
   const accent = subjectAccent(t.subjects, i);
   return (
     <div
-      className="tutor-card group relative flex-none w-[228px] p-5 overflow-hidden transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lg)]"
+      className="tutor-card group relative flex-none w-[228px] p-5 overflow-hidden snap-start transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lg)]"
       aria-hidden={isClone || undefined}
       style={{
         background: "var(--color-bg)",
@@ -143,7 +143,12 @@ export function TutorStrip() {
   );
 
   return (
-    <div ref={rootRef} className="relative mt-8 py-7" style={{ background: "var(--color-surface)" }}>
+    <div
+      id="recently-matched"
+      ref={rootRef}
+      className="relative mt-4 lg:mt-8 py-5 lg:py-7 scroll-mt-4"
+      style={{ background: "var(--color-surface)" }}
+    >
       <div
         className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] mb-4 flex items-center gap-2"
         style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
@@ -163,7 +168,7 @@ export function TutorStrip() {
       </div>
       <div
         ref={trackRef}
-        className="hero-strip flex gap-5 overflow-x-auto pb-2 pt-2"
+        className="hero-strip flex gap-5 overflow-x-auto snap-x snap-proximity pb-2 pt-2"
         style={{
           paddingLeft: "var(--hero-gutter)",
           paddingRight: "var(--hero-gutter)",

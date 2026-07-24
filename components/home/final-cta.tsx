@@ -99,7 +99,7 @@ export function FinalCta() {
   );
 
   return (
-    <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(48px,6vw,80px)]">
+    <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(32px,6vw,80px)]">
       <div
         ref={rootRef}
         className="relative overflow-hidden rounded-[24px] p-[clamp(36px,6vw,64px)] isolate"

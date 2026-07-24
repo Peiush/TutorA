@@ -5,7 +5,11 @@ import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { TutorStrip } from "@/components/home/tutor-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
-import { HeroContent } from "@/components/home/hero-content";
+import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobile";
+import { HeroScrollCue } from "@/components/home/hero-scroll-cue";
+import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
+import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
+import { HeroHeading, HeroCopy } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
 import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
@@ -107,8 +111,13 @@ export default async function Home() {
             }}
           />
         </div>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(52px,7vw,96px)] pb-[clamp(32px,4vw,48px)] relative z-[1]">
-          <HeroContent />
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(52px,7vw,96px)] pb-[clamp(20px,4vw,48px)] relative z-[1]">
+          <HeroMobileFx>
+            <HeroHeading />
+            <HeroIllustrationMobile />
+            <HeroCopy />
+            <HeroScrollCue />
+          </HeroMobileFx>
         </div>
         <HeroIllustration />
         <TutorStrip />
@@ -131,7 +140,7 @@ export default async function Home() {
           style={{ background: "var(--color-accent-200)" }}
           aria-hidden
         />
-        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
           <Reveal>
             <div>
               <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
@@ -174,7 +183,7 @@ export default async function Home() {
           style={{ background: "var(--color-accent-2-200)" }}
           aria-hidden
         />
-        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
           <Reveal>
             <div className="flex justify-between items-end flex-wrap gap-5 mb-9">
               <div>
@@ -221,7 +230,7 @@ export default async function Home() {
           style={{ background: "var(--color-accent-200)" }}
           aria-hidden
         />
-        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
           <div className="flex justify-between items-end flex-wrap gap-5 mb-7">
             <Reveal>
               <div>
@@ -254,7 +263,7 @@ export default async function Home() {
 
       {/* Testimonials */}
       <section style={{ background: "var(--color-surface)" }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
           <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
             What people say
           </Tag>
@@ -264,7 +273,7 @@ export default async function Home() {
       </section>
 
       {/* Subjects */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,80px)]">
+      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,80px)]">
         <div className="flex justify-between items-end flex-wrap gap-3 mb-5.5">
           <div>
             <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
@@ -281,6 +290,7 @@ export default async function Home() {
 
       {/* CTA */}
       <FinalCta />
+      <ScrollTriggerGuard />
     </div>
   );
 }

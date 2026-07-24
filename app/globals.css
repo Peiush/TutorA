@@ -167,15 +167,19 @@ a:hover {
 
 /* Above-the-fold reveal: CSS-only so it always resolves to visible,
    even if JS fails to hydrate/execute (unlike a JS-timeline reveal,
-   which can leave content permanently hidden if it never runs). */
-.reveal-up {
-  animation: heroUp 0.6s ease-out both;
+   which can leave content permanently hidden if it never runs).
+   Desktop-only (lg+): below that width the mobile hero uses its own
+   richer GSAP-driven entrance (see HeroMobileFx) instead of this. */
+@media (min-width: 1024px) {
+  .reveal-up {
+    animation: heroUp 0.6s ease-out both;
+  }
+  .reveal-up.d1 { animation-delay: 0.08s; }
+  .reveal-up.d2 { animation-delay: 0.16s; }
+  .reveal-up.d3 { animation-delay: 0.24s; }
+  .reveal-up.d4 { animation-delay: 0.32s; }
+  .reveal-up.d5 { animation-delay: 0.4s; }
 }
-.reveal-up.d1 { animation-delay: 0.08s; }
-.reveal-up.d2 { animation-delay: 0.16s; }
-.reveal-up.d3 { animation-delay: 0.24s; }
-.reveal-up.d4 { animation-delay: 0.32s; }
-.reveal-up.d5 { animation-delay: 0.4s; }
 
 @media (prefers-reduced-motion: reduce) {
   html {
