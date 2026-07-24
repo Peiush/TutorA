@@ -4,6 +4,7 @@ import "./globals.css";
 import { auth } from "@/auth";
 import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -93,6 +94,7 @@ export default async function RootLayout({
         <SiteNav user={session?.user ?? null} />
         <main id="main-content" className="flex-1">{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
