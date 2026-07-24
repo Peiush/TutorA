@@ -82,7 +82,7 @@ function UserMenu({ user }: { user: NonNullable<NavUser> }) {
             <div className="text-[14px] truncate" style={{ fontFamily: "var(--font-heading)" }}>
               {user.name || "Your account"}
             </div>
-            <div className="text-[12px] truncate" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+            <div className="text-[12px] truncate" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
               {user.email}
             </div>
           </div>
@@ -237,7 +237,7 @@ export function SiteNav({ user = null }: { user?: NavUser }) {
                   <div className="text-[14px] truncate" style={{ fontFamily: "var(--font-heading)" }}>
                     {user.name || "Your account"}
                   </div>
-                  <div className="text-[12px] truncate" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12px] truncate" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {user.email}
                   </div>
                 </div>

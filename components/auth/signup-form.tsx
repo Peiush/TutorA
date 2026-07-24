@@ -28,7 +28,7 @@ export function SignupForm() {
       </form>
       <div className="flex items-center gap-3">
         <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
-        <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+        <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
           or
         </span>
         <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
@@ -98,7 +98,7 @@ export function SignupForm() {
             {showPassword ? <EyeOffIcon width={17} height={17} /> : <EyeIcon width={17} height={17} />}
           </button>
         </div>
-        <p className="text-[12px] mt-1.5 m-0" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+        <p className="text-[12px] mt-1.5 m-0" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
           At least 8 characters, with a letter and a number.
         </p>
         {state?.errors?.password && (

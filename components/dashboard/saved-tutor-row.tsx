@@ -71,11 +71,11 @@ export function SavedTutorRow({ tutor, index }: { tutor: SavedTutorRowData; inde
         <div className="text-[14.5px]" style={{ fontFamily: "var(--font-heading)" }}>
           {tutor.name}
         </div>
-        <div className="text-[12.5px] mt-0.5 truncate" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+        <div className="text-[12.5px] mt-0.5 truncate" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
           {tutor.subjects.join(", ")} · {tutor.country}
         </div>
       </div>
-      <div className="text-[13px] flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+      <div className="text-[13px] flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
         {tutor.price}
       </div>
       <button

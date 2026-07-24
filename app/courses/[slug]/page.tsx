@@ -200,7 +200,7 @@ export default async function CourseDetailPage({
             </p>
           )}
 
-          <div className="flex items-center gap-3 text-[13.5px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+          <div className="flex items-center gap-3 text-[13.5px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
             {course.instructor && (
               <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
             )}
@@ -257,7 +257,7 @@ export default async function CourseDetailPage({
             <div className="flex items-baseline gap-2 font-[var(--font-heading)]">
               <span className="text-[28px]">{primaryPrice}</span>
               {hasDiscount && (
-                <span className="text-[16px] font-[var(--font-body)] line-through" style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}>
+                <span className="text-[16px] font-[var(--font-body)] line-through" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
                   {priceLabel(course.originalPriceCents!)}
                 </span>
               )}
@@ -297,7 +297,7 @@ export default async function CourseDetailPage({
                 <span className="text-[14px] font-semibold line-clamp-2" style={{ fontFamily: "var(--font-heading)" }}>
                   {related.title}
                 </span>
-                <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                   {related.level} · {related.rating.toFixed(1)}★
                 </span>
               </Link>

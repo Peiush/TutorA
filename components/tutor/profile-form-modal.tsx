@@ -18,7 +18,7 @@ function FieldGroupHeading({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="text-[11px] uppercase font-semibold mt-1"
-      style={{ letterSpacing: "0.05em", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+      style={{ letterSpacing: "0.05em", color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
     >
       {children}
     </div>

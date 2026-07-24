@@ -67,7 +67,7 @@ export function ProfilePanel({ profile }: { profile: ProfileData }) {
 
       <div
         className="flex flex-wrap gap-x-6 gap-y-1 text-[13px] pt-2"
-        style={{ borderTop: "1px solid var(--color-divider)", color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+        style={{ borderTop: "1px solid var(--color-divider)", color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
       >
         <span>{profile.yearsExperience ?? 0} yrs experience</span>
         <span>{profile.hourlyRateCents ? `$${(profile.hourlyRateCents / 100).toFixed(0)}/hr` : "Rate not set"}</span>

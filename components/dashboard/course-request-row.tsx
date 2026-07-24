@@ -42,7 +42,7 @@ export function CourseRequestRow({ request }: { request: CourseRequestRowData })
             {meta.label}
           </Tag>
         </div>
-        <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+        <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
           {request.instructor}
         </div>
       </div>

@@ -158,7 +158,7 @@ function SubjectMultiSelect({
           strokeLinecap="round"
           strokeLinejoin="round"
           className="flex-none transition-transform duration-200"
-          style={{ transform: open ? "rotate(180deg)" : "none", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+          style={{ transform: open ? "rotate(180deg)" : "none", color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
         >
           <path d="m6 9 6 6 6-6" />
         </svg>
@@ -686,7 +686,7 @@ export function TutorBrowser({
               strokeLinecap="round"
               strokeLinejoin="round"
               className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"
-              style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+              style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
             >
               <path d="m6 9 6 6 6-6" />
             </svg>
@@ -777,7 +777,7 @@ export function TutorBrowser({
                           <div className="flex items-center gap-1.5 flex-wrap mt-1">
                             <span
                               className="text-[12.5px]"
-                              style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+                              style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
                             >
                               {t.city}
                             </span>
@@ -797,7 +797,7 @@ export function TutorBrowser({
                               {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
                               <span
                                 className="text-[12px] font-[var(--font-body)] font-normal"
-                                style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                                style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
                               >
                                 /hr
                               </span>
@@ -833,7 +833,7 @@ export function TutorBrowser({
                       {t.languages && t.languages.length > 0 && (
                         <div
                           className="mt-1 flex items-center gap-1.5 text-[13px]"
-                          style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+                          style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
                         >
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -931,7 +931,7 @@ export function TutorBrowser({
                           style={{
                             width: 38,
                             height: 38,
-                            color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
+                            color: isBookmarked ? "var(--color-accent-2-700)" : "color-mix(in srgb, var(--color-text) 67%, transparent)",
                             background: isBookmarked ? "var(--color-accent-2-100)" : "transparent",
                             border: `1px solid ${isBookmarked ? "var(--color-accent-2-300)" : "color-mix(in srgb, var(--color-text) 15%, transparent)"}`,
                             opacity: isBookmarkPending ? 0.6 : 1,

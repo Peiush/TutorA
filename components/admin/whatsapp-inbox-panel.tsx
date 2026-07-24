@@ -129,7 +129,7 @@ export function WhatsAppInboxPanel({ conversations: initial }: { conversations: 
                   <span className="text-[13.5px] truncate" style={{ fontFamily: "var(--font-heading)" }}>
                     {c.studentName ?? c.phone}
                   </span>
-                  <span className="text-[11px] flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                  <span className="text-[11px] flex-none" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
                     {relativeDate(c.lastMessageAt)}
                   </span>
                 </div>
@@ -146,7 +146,7 @@ export function WhatsAppInboxPanel({ conversations: initial }: { conversations: 
 
           <div className="flex flex-col gap-2.5 min-w-0" style={{ borderLeft: "1px solid var(--color-divider)", paddingLeft: 14 }}>
             {!selected ? (
-              <div className="flex-1 grid place-content-center text-[13.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+              <div className="flex-1 grid place-content-center text-[13.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
                 Select a conversation
               </div>
             ) : (
@@ -156,7 +156,7 @@ export function WhatsAppInboxPanel({ conversations: initial }: { conversations: 
                     <div className="text-[14.5px]" style={{ fontFamily: "var(--font-heading)" }}>
                       {selected.studentName ?? "Unknown student"}
                     </div>
-                    <div className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 58%, transparent)" }}>
+                    <div className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                       {selected.phone}
                     </div>
                   </div>
@@ -176,7 +176,7 @@ export function WhatsAppInboxPanel({ conversations: initial }: { conversations: 
                       <div>{m.body}</div>
                       <div
                         className="text-[10.5px] mt-1"
-                        style={{ color: "color-mix(in srgb, var(--color-text) 50%, transparent)" }}
+                        style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
                       >
                         {formatTime(m.createdAt)}
                         {m.direction === "OUT" ? ` · ${m.status.toLowerCase()}` : ""}

@@ -240,7 +240,7 @@ export default async function Home() {
                 <h2 className="text-[clamp(28px,3.4vw,38px)] mt-4">Verified and ready to teach</h2>
                 <div
                   className="text-[12.5px] mt-1.5"
-                  style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                  style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
                 >
                   Rates shown in each tutor's local currency.
                 </div>

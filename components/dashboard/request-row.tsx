@@ -216,14 +216,14 @@ export function RequestRow({ request }: { request: RequestRowData }) {
               {isSpecific ? "Requested tutor" : "Custom request"}
             </Tag>
           </div>
-          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
             {isSpecific
               ? [request.subject, mode].filter(Boolean).join(" · ")
               : [mode, request.level, request.sessionsPerWeek ? `${request.sessionsPerWeek}x/week` : null]
                   .filter(Boolean)
                   .join(" · ") || "No preferences added"}
           </div>
-          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+          <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
             {isSpecific ? rate : `Budget: ${request.budgetPerHour ? `${currencySymbol(request.currency)}${request.budgetPerHour}/hr` : "Not set"}`}
           </div>
           {request.matchedTutor?.email && (

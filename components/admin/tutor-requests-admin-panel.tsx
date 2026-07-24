@@ -252,17 +252,17 @@ export function TutorRequestsAdminPanel({
                       {isSpecific ? "Requested tutor" : "Custom request"}
                     </Tag>
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     Student: {r.name} · {r.email}
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {isSpecific
                       ? [r.subject, mode].filter(Boolean).join(" · ")
                       : [mode, r.level, r.sessionsPerWeek ? `${r.sessionsPerWeek}x/week` : null]
                           .filter(Boolean)
                           .join(" · ") || "No preferences"}
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {isSpecific
                       ? tutorRateLabel(r)
                       : `Budget: ${r.budgetPerHour ? `${currencySymbol(r.currency)}${r.budgetPerHour}/hr` : "Not set"}`}

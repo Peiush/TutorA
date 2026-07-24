@@ -57,7 +57,7 @@ export function MatchedStudentsPanel({ requests }: { requests: MatchedRequestRow
                       {meta.label}
                     </Tag>
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {r.email} · {r.subject} · {[r.level, r.mode].filter(Boolean).join(" · ") || "No preferences"}
                   </div>
                 </div>

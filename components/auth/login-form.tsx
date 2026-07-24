@@ -24,7 +24,7 @@ export function LoginForm() {
           </form>
           <div className="flex items-center gap-3">
             <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />
-            <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+            <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
               or
             </span>
             <span className="h-px flex-1" style={{ background: "color-mix(in srgb, var(--color-text) 15%, transparent)" }} />

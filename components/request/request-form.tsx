@@ -251,7 +251,7 @@ export function RequestForm() {
     <>
       <div
         className="text-[12px] font-medium sm:hidden mb-2"
-        style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+        style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
       >
         Step {step} of {TOTAL_STEPS} — {STEP_LABELS[step - 1]}
       </div>
@@ -278,7 +278,7 @@ export function RequestForm() {
                 className="flex items-center gap-1.5 text-[11px] uppercase mt-2"
                 style={{
                   letterSpacing: "0.03em",
-                  color: n === step ? "var(--color-accent-700)" : "color-mix(in srgb, var(--color-text) 55%, transparent)",
+                  color: n === step ? "var(--color-accent-700)" : "color-mix(in srgb, var(--color-text) 67%, transparent)",
                 }}
               >
                 {done && (
@@ -426,7 +426,7 @@ export function RequestForm() {
               />
               <div
                 className="text-[13px] mt-1.5"
-                style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+                style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
               >
                 Around {currency === "USD" ? "$" : currency === "GBP" ? "£" : "€"}
                 {budget} / hour

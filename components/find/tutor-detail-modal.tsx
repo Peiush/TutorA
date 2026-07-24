@@ -114,7 +114,7 @@ export function TutorDetailModal({
             </div>
             <div
               className="text-[13.5px] mt-0.5"
-              style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+              style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
             >
               {tutor.meta}
             </div>
@@ -153,7 +153,7 @@ export function TutorDetailModal({
             {/\d/.test(tutor.price) ? (
               <>
                 {tutor.price.replace(/\s*\/\s*hr\s*$/i, "")}
-                <span className="text-[13px] font-[var(--font-body)] font-normal" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                <span className="text-[13px] font-[var(--font-body)] font-normal" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
                   /hr
                 </span>
               </>

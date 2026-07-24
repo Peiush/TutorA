@@ -230,14 +230,14 @@ export function CourseCard({
             </Link>
           </h3>
           {course.instructor && (
-            <p className="text-[12.5px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+            <p className="text-[12.5px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
               {course.instructor}
             </p>
           )}
           <div className="flex items-center gap-1.5 text-[12.5px]">
             <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
             <StarRating rating={course.rating} size={12} />
-            <span style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+            <span style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
               ({course.reviews.toLocaleString()})
             </span>
           </div>
@@ -251,7 +251,7 @@ export function CourseCard({
             {hasDiscount && (
               <span
                 className="text-[13px] font-[var(--font-body)] line-through"
-                style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
+                style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}
               >
                 {priceLabel(course.originalPriceCents!)}
               </span>
@@ -359,7 +359,7 @@ export function CourseCard({
         </div>
         <span
           className="text-[11px] text-center"
-          style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+          style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
         >
           {hasDiscount ? `${discountPct}% off · ` : ""}
           {primaryPrice}

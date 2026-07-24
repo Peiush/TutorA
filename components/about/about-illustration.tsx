@@ -92,7 +92,7 @@ export function AboutIllustration() {
       >
         <div
           className="text-[11px] uppercase font-[var(--font-heading)] font-semibold"
-          style={{ letterSpacing: "0.06em", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+          style={{ letterSpacing: "0.06em", color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
         >
           Tutor application
         </div>

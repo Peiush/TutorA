@@ -42,7 +42,7 @@ function TutorCard({ t, i, isClone }: { t: (typeof tutorsRaw)[number]; i: number
           </div>
           <div className="flex items-center gap-1.5 mt-0.5">
             <StarRating rating={t.rating} size={12} />
-            <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+            <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
               {t.rating.toFixed(1)}
             </span>
           </div>
@@ -53,7 +53,7 @@ function TutorCard({ t, i, isClone }: { t: (typeof tutorsRaw)[number]; i: number
       </Tag>
       <div
         className="text-[12.5px] mt-3 leading-[1.4]"
-        style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}
+        style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
       >
         {t.reviews} reviews · {t.city}
       </div>

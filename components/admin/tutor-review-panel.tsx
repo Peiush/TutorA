@@ -124,7 +124,7 @@ export function TutorReviewPanel({ profiles }: { profiles: TutorProfileRow[] }) 
                       {meta.label}
                     </Tag>
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {p.user.email} · {p.subjects} · {p.country}
                   </div>
                 </div>

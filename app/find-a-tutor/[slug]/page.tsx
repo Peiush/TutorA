@@ -146,7 +146,7 @@ export default async function TutorDetailPage({
           <TutorAvatar name={tutor.name} size={72} withBadge />
           <div className="min-w-0">
             <h1 className="font-[var(--font-heading)] text-[24px] m-0">{tutor.name}</h1>
-            <div className="text-[13.5px] mt-1" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+            <div className="text-[13.5px] mt-1" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
               {tutor.country}
               {tutor.yearsExperience != null ? ` · ${tutor.yearsExperience} yrs experience` : ""}
             </div>
@@ -201,7 +201,7 @@ export default async function TutorDetailPage({
                 <span className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
                   {related.name}
                 </span>
-                <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                   {related.subjectNames.slice(0, 2).join(", ")}
                   {related.country ? ` · ${related.country}` : ""}
                 </span>

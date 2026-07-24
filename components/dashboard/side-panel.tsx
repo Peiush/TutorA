@@ -31,7 +31,7 @@ export function SidePanel() {
               width={14}
               height={14}
               className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
+              style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}
             />
           </Link>
         ))}

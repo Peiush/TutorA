@@ -40,6 +40,18 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Vercel's permanent production alias — canonicalizes to the custom domain so it's
+      // never crawled/indexed as a separate duplicate of www.tutora.it.com.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "tutora-swart.vercel.app" }],
+        destination: "https://www.tutora.it.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   ...(allowedOrigins?.length ? { experimental: { serverActions: { allowedOrigins } } } : {}),
 };
 

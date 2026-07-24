@@ -138,7 +138,7 @@ export function CategorySelector({
               </span>
               <span
                 className="block text-[11.5px] mt-0.5"
-                style={{ color: active ? "rgba(255,255,255,0.8)" : "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                style={{ color: active ? "rgba(255,255,255,0.8)" : "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
               >
                 {count} course{count === 1 ? "" : "s"}
               </span>

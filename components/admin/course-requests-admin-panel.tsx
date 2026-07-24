@@ -115,10 +115,10 @@ export function CourseRequestsAdminPanel({ requests }: { requests: CourseRequest
                       {meta.label}
                     </Tag>
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     {r.studentName} · {r.studentEmail}
                   </div>
-                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                  <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                     Instructor: {r.instructor}
                   </div>
                 </div>

@@ -147,7 +147,7 @@ export function CourseDetailModal({
             </p>
           </div>
 
-          <div className="cdetail-stagger flex items-center gap-3 text-[13px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+          <div className="cdetail-stagger flex items-center gap-3 text-[13px] flex-wrap" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
             {course.instructor && (
               <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
             )}
@@ -197,7 +197,7 @@ export function CourseDetailModal({
               {hasDiscount && (
                 <span
                   className="text-[15px] font-[var(--font-body)] line-through"
-                  style={{ color: "color-mix(in srgb, var(--color-text) 45%, transparent)" }}
+                  style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}
                 >
                   {priceLabel(course.originalPriceCents!)}
                 </span>

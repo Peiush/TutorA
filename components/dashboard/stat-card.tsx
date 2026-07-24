@@ -74,7 +74,7 @@ export function StatCard({
           0
         </div>
       )}
-      <div className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+      <div className="text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
         {comingSoon ? hint : label}
       </div>
     </div>

@@ -85,7 +85,7 @@ export function CoursesAdminPanel({
                     </Tag>
                   )}
                 </div>
-                <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 62%, transparent)" }}>
+                <div className="text-[12.5px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
                   {c.instructor ? `${c.instructor} · ` : ""}{c.category} · {c.level}
                 </div>
               </div>

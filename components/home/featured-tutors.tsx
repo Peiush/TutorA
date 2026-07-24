@@ -177,7 +177,7 @@ export function FeaturedTutors({
                     </div>
                     <div
                       className="text-[12px] mt-0.5"
-                      style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                      style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
                     >
                       {t.meta.split(" · ").pop()}
                     </div>
