@@ -198,6 +198,12 @@ export const subjects = [
   "Computer Science", "Languages", "Music", "Economics", "Test Prep",
 ];
 
+export const popularSubjects = [
+  "Algebra I", "Algebra II", "Geometry", "Trigonometry", "Precalculus",
+  "Calculus", "Statistics", "AP Calculus AB", "AP Calculus BC",
+  "AP Physics 1", "AP Physics C", "AP Chemistry", "AP Biology",
+];
+
 export const tutorPerks = [
   "A steady stream of matched, ready students — no marketing needed.",
   "We handle vetting, introductions and fee negotiation.",

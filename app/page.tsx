@@ -3,7 +3,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
-import { TutorStrip } from "@/components/home/tutor-strip";
+import { TrustStrip } from "@/components/home/trust-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobile";
 import { HeroScrollCue } from "@/components/home/hero-scroll-cue";
@@ -25,7 +25,7 @@ import {
   steps,
   pipeline,
   testimonials,
-  subjects,
+  popularSubjects,
 } from "@/lib/mock-data";
 
 // Below-the-fold sections: split into separate chunks so their GSAP-driven JS isn't
@@ -119,7 +119,7 @@ export default async function Home() {
           </HeroMobileFx>
         </div>
         <HeroIllustration />
-        <TutorStrip />
+        <TrustStrip />
       </section>
 
       {/* Stats */}
@@ -284,7 +284,7 @@ export default async function Home() {
             Browse all tutors →
           </Link>
         </div>
-        <PopularSubjects subjects={subjects} />
+        <PopularSubjects subjects={popularSubjects} />
       </section>
 
       {/* CTA */}

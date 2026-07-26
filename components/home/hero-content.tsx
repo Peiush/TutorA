@@ -31,14 +31,26 @@ export function HeroHeading() {
 export function HeroCopy() {
   return (
     <>
-      <p
-        className="reveal-up d3 hero-copy-p text-[18px] leading-[1.62] max-w-[52ch] mt-6"
-        style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
-      >
-        TutorA sits between students and tutors so no one has to guess. You tell us what
-        you need; our team vets, matches and introduces — students and tutors never chase each
-        other, and no connection slips through unverified.
-      </p>
+      <div className="reveal-up d3 hero-copy-p mt-6 flex items-stretch gap-4">
+        <span
+          aria-hidden
+          className="w-[3px] flex-none rounded-full"
+          style={{ background: "linear-gradient(180deg, var(--color-accent-400), var(--color-accent-2-400))" }}
+        />
+        <p className="text-[18px] leading-[1.62] max-w-[46ch]">
+          <span className="font-medium" style={{ color: "var(--color-text)" }}>
+            TutorA sits between students and tutors so no one has to guess.
+          </span>{" "}
+          <span style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
+            You tell us what you need; our team{" "}
+            <span className="font-medium" style={{ color: "var(--color-accent-2-700)" }}>
+              vets, matches and introduces
+            </span>{" "}
+            — students and tutors never chase each other, and no connection slips through
+            unverified.
+          </span>
+        </p>
+      </div>
       <div className="reveal-up d4 flex gap-3 flex-wrap mt-8">
         <Link href="/find-a-tutor" className="hero-cta-btn btn btn-primary relative inline-block isolate">
           <span
