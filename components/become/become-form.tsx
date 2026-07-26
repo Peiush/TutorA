@@ -54,7 +54,7 @@ function SubmittedScreen() {
   return (
     <div
       ref={rootRef}
-      className="card elev-md gap-4 p-[var(--space-6)] text-center"
+      className="card elev-md gap-4 p-6 text-center"
       style={{ background: "var(--color-bg)" }}
     >
       <div
@@ -115,7 +115,7 @@ export function BecomeForm() {
     <form
       ref={formRef}
       action={action}
-      className="card elev-md gap-4 p-[var(--space-6)]"
+      className="card elev-md gap-4 p-6"
       style={{ background: "var(--color-bg)" }}
     >
       <div className="font-[var(--font-heading)] text-[22px]">Add a teacher</div>
@@ -148,7 +148,7 @@ export function BecomeForm() {
         <label>Subjects you teach</label>
         <input className="input" name="subjects" placeholder="e.g. Physics, Mathematics" required />
       </div>
-      <div className="grid grid-cols-2 gap-[var(--space-3)]">
+      <div className="grid grid-cols-2 gap-3">
         <div className="field">
           <label>Years of experience</label>
           <input className="input" name="yearsExperience" type="number" placeholder="8" />

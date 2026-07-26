@@ -79,6 +79,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${spaceGrotesk.variable} ${inter.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen flex flex-col">

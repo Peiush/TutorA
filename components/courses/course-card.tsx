@@ -76,10 +76,10 @@ export function CourseCard({
   const { contextSafe } = useGSAP(
     () => {
       if (!cardRef.current) return;
-      gsap.set(cardRef.current, { transformPerspective: 800 });
+      gsap.set(cardRef.current, { transformPerspective: 800, rotationX: 0, rotationY: 0 });
       if (!canHover() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      tiltX.current = gsap.quickTo(cardRef.current, "rotateX", { duration: 0.6, ease: "power3.out" });
-      tiltY.current = gsap.quickTo(cardRef.current, "rotateY", { duration: 0.6, ease: "power3.out" });
+      tiltX.current = gsap.quickTo(cardRef.current, "rotationX", { duration: 0.6, ease: "power3.out" });
+      tiltY.current = gsap.quickTo(cardRef.current, "rotationY", { duration: 0.6, ease: "power3.out" });
     },
     { scope: rootRef }
   );
