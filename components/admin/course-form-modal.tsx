@@ -55,10 +55,15 @@ export function CourseFormModal({
         </div>
         <div className="field">
           <label>Instructor</label>
-          <select className="input" name="instructorId" defaultValue={course?.instructorId ?? ""} required>
+          <select
+            className="input"
+            name="instructorId"
+            defaultValue={course ? (course.instructorId ?? "not-decided") : ""}
+          >
             <option value="" disabled>
               Select a tutor
             </option>
+            <option value="not-decided">Not decided</option>
             {instructorOptions.map((t) => (
               <option key={t.id} value={t.id}>
                 {t.name}
@@ -112,11 +117,11 @@ export function CourseFormModal({
         <div className="grid grid-cols-2 gap-3">
           <div className="field">
             <label>Duration (hours)</label>
-            <input className="input" name="durationHours" type="number" step="0.5" min="0.5" defaultValue={course?.durationHours ?? undefined} required />
+            <input className="input" name="durationHours" type="number" step="0.5" min="0.5" defaultValue={course?.durationHours ?? undefined} />
           </div>
           <div className="field">
             <label>Lecture count</label>
-            <input className="input" name="lectureCount" type="number" min="1" defaultValue={course?.lectureCount ?? undefined} required />
+            <input className="input" name="lectureCount" type="number" min="1" defaultValue={course?.lectureCount ?? undefined} />
           </div>
         </div>
 

@@ -8,7 +8,6 @@ import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobile";
 import { HeroScrollCue } from "@/components/home/hero-scroll-cue";
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
-import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
 import { HeroHeading, HeroCopy } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
@@ -290,7 +289,6 @@ export default async function Home() {
 
       {/* CTA */}
       <FinalCta />
-      <ScrollTriggerGuard />
     </div>
   );
 }

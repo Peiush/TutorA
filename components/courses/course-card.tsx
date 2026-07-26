@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -15,15 +15,20 @@ function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
+// Quiet "kicker" tags — a soft tint + colored dot rather than a solid filled
+// pill, so they read as a secondary label and don't compete with the bold
+// gold discount ribbon overlaid on the thumbnail for attention.
 function CourseBadge({ tone, children }: { tone: "gold" | "navy" | "green"; children: ReactNode }) {
-  const style =
-    tone === "gold"
-      ? { background: "linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600))", color: "var(--color-accent-2-900)" }
-      : tone === "navy"
-      ? { background: "var(--color-accent-2-800)", color: "var(--color-accent-300)" }
-      : { background: "var(--color-verified)", color: "#fff" };
+  const dot =
+    tone === "gold" ? "var(--color-accent-600)" : tone === "navy" ? "var(--color-accent-2-700)" : "var(--color-verified)";
+  const text =
+    tone === "gold" ? "var(--color-accent-800)" : tone === "navy" ? "var(--color-accent-2-800)" : "color-mix(in srgb, var(--color-verified) 70%, black)";
   return (
-    <span className="text-[10px] font-bold px-2 py-1 rounded-full shadow-sm" style={style}>
+    <span
+      className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide px-2 py-[3px] rounded-full"
+      style={{ background: `color-mix(in srgb, ${dot} 14%, var(--color-surface))`, color: text }}
+    >
+      <span className="rounded-full flex-none" style={{ width: 5, height: 5, background: dot }} aria-hidden />
       {children}
     </span>
   );
@@ -49,8 +54,11 @@ export function CourseCard({
   onOpen: (course: CourseRaw) => void;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const flyoutRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
+  const tiltX = useRef<((value: number) => void) | null>(null);
+  const tiltY = useRef<((value: number) => void) | null>(null);
   const [hovered, setHovered] = useState(false);
   const hasDiscount = course.priceCents != null && course.originalPriceCents != null;
   const discountPct = hasDiscount
@@ -65,7 +73,30 @@ export function CourseCard({
   const colors = CATEGORY_COLORS[course.category];
   const firstSaveRender = useRef(true);
 
-  const { contextSafe } = useGSAP({ scope: rootRef });
+  const { contextSafe } = useGSAP(
+    () => {
+      if (!cardRef.current) return;
+      gsap.set(cardRef.current, { transformPerspective: 800 });
+      if (!canHover() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      tiltX.current = gsap.quickTo(cardRef.current, "rotateX", { duration: 0.6, ease: "power3.out" });
+      tiltY.current = gsap.quickTo(cardRef.current, "rotateY", { duration: 0.6, ease: "power3.out" });
+    },
+    { scope: rootRef }
+  );
+
+  const handleTiltMove = contextSafe((e: MouseEvent<HTMLDivElement>) => {
+    if (!tiltX.current || !tiltY.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    tiltY.current(px * 8);
+    tiltX.current(-py * 8);
+  });
+
+  const resetTilt = contextSafe(() => {
+    tiltX.current?.(0);
+    tiltY.current?.(0);
+  });
 
   const openFlyout = contextSafe(() => {
     if (!canHover()) return;
@@ -135,6 +166,7 @@ export function CourseCard({
       onMouseLeave={closeFlyout}
     >
       <div
+        ref={cardRef}
         role="button"
         tabIndex={0}
         onClick={() => onOpen(course)}
@@ -144,27 +176,32 @@ export function CourseCard({
             onOpen(course);
           }
         }}
-        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-300 ease-out"
+        className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-300 ease-out will-change-transform"
         style={{
           borderColor: "var(--color-divider)",
           boxShadow: "var(--shadow-sm)",
         }}
+        onMouseMove={handleTiltMove}
         onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = `0 18px 36px -16px color-mix(in srgb, ${colors.solid} 45%, transparent), var(--shadow-md)`;
+          e.currentTarget.style.boxShadow = `0 20px 40px -18px color-mix(in srgb, ${colors.solid} 40%, transparent), var(--shadow-md)`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.boxShadow = "var(--shadow-sm)";
+          resetTilt();
         }}
       >
         <div
           className="relative aspect-[16/10] overflow-hidden"
-          style={{
-            background: `linear-gradient(160deg, ${colors.light} 0%, color-mix(in srgb, ${colors.solid} 14%, ${colors.light}) 100%)`,
-          }}
+          style={{ background: "linear-gradient(160deg, var(--color-bg) 0%, var(--color-surface) 100%)" }}
         >
           <span
-            className="pointer-events-none absolute rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-300"
-            style={{ width: 130, height: 130, background: colors.solid, top: "18%", left: "28%" }}
+            className="pointer-events-none absolute rounded-full blur-2xl opacity-[0.32] group-hover:opacity-[0.5] transition-opacity duration-300"
+            style={{ width: 140, height: 140, background: colors.solid, top: "8%", left: "16%" }}
+            aria-hidden
+          />
+          <span
+            className="pointer-events-none absolute rounded-full blur-2xl opacity-25 group-hover:opacity-40 transition-opacity duration-300"
+            style={{ width: 110, height: 110, background: "var(--color-accent-400)", bottom: "-6%", right: "10%" }}
             aria-hidden
           />
           <div ref={thumbRef} className="relative w-full h-full">
@@ -175,10 +212,15 @@ export function CourseCard({
             className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/40 opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[420%] group-hover:opacity-100"
             aria-hidden
           />
-          {/* bottom fade blending into card body */}
+          {/* bottom fade blending into card body, seamed with a thin category-tinted line */}
           <span
             className="pointer-events-none absolute inset-x-0 bottom-0 h-8"
             style={{ background: "linear-gradient(to bottom, transparent, var(--color-surface))" }}
+            aria-hidden
+          />
+          <span
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] opacity-70"
+            style={{ background: `linear-gradient(90deg, transparent, ${colors.solid}, var(--color-accent-400), transparent)` }}
             aria-hidden
           />
           {hasDiscount && discountPct > 0 && (
