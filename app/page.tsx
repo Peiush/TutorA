@@ -110,7 +110,7 @@ export default async function Home() {
             }}
           />
         </div>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(52px,7vw,96px)] pb-[clamp(20px,4vw,48px)] relative z-[1]">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(28px,4vw,56px)] pb-[clamp(20px,4vw,48px)] relative z-[1]">
           <HeroMobileFx>
             <HeroHeading />
             <HeroIllustrationMobile />

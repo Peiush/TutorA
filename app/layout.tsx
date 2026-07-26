@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
+import { AutoLoginPrompt } from "@/components/home/auto-login-prompt";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -96,6 +97,7 @@ export default async function RootLayout({
         <main id="main-content" className="flex-1">{children}</main>
         <SiteFooter />
         <ScrollTriggerGuard />
+        <AutoLoginPrompt isAuthenticated={Boolean(session?.user?.id)} />
       </body>
     </html>
   );
