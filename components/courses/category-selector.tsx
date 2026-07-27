@@ -75,7 +75,6 @@ export function CategorySelector({
   });
 
   const items: { label: string; count: number; unit: "course" | "subject" }[] = [
-    { label: ALL, count: total, unit: "course" },
     ...GRADE_BANDS.map((b) => ({ label: b.label, count: gradeBandCounts[b.key] ?? 0, unit: "subject" as const })),
     ...courseCategories.map((c) => ({ label: c, count: counts[c] ?? 0, unit: "course" as const })),
   ];

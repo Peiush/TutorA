@@ -11,7 +11,7 @@ import { SubjectCard } from "@/components/courses/subject-card";
 import { CourseDetailModal } from "@/components/courses/course-detail-modal";
 import { SubjectDetailModal } from "@/components/courses/subject-detail-modal";
 import { CategorySelector } from "@/components/courses/category-selector";
-import { SearchIcon } from "@/components/courses/course-icons";
+import { SearchIcon, XIcon } from "@/components/courses/course-icons";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { requestSubject } from "@/app/lib/actions/subject-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
@@ -26,6 +26,85 @@ gsap.registerPlugin(useGSAP, Flip);
 
 const SORTS = ["Most popular", "Highest rated", "Lowest price"] as const;
 const ALL = "All courses";
+
+// Curated subjects/courses shown on first load (no filter, no search) instead
+// of dumping all 39 courses — a more useful landing than an unsorted wall.
+const FEATURED_SUBJECT_NAMES = [
+  "Algebra I",
+  "Geometry",
+  "Trigonometry",
+  "Precalculus",
+  "Statistics",
+  "AP Calculus AB",
+  "AP Calculus BC",
+  "AP Physics 1",
+  "AP Physics C",
+  "IGCSE Maths",
+  "IGCSE Physics",
+  "PSLE Maths",
+  "PSLE Science",
+  "Cambridge English",
+  "British Curriculum",
+  "American Curriculum",
+  "International Baccalaureate (IB)",
+];
+
+const FEATURED_COURSE_TITLES = [
+  "Python Programming for Beginners",
+  "JavaScript Programming for Beginners",
+  "Computer Science",
+  "Data Science",
+  "AI & Machine Learning (Advanced)",
+];
+
+function RemoveFiltersButton({ onClick }: { onClick: () => void }) {
+  const rootRef = useRef<HTMLButtonElement>(null);
+
+  const { contextSafe } = useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      gsap.fromTo(rootRef.current, { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "back.out(2)" });
+    },
+    { scope: rootRef }
+  );
+
+  const handleEnter = contextSafe(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.to(rootRef.current, { scale: 1.05, duration: 0.2, ease: "power2.out" });
+    gsap.to(rootRef.current?.querySelector(".remove-filters-icon") ?? [], { rotate: 90, duration: 0.3, ease: "back.out(2.4)" });
+  });
+
+  const handleLeave = contextSafe(() => {
+    gsap.to(rootRef.current, { scale: 1, duration: 0.25, ease: "power2.out" });
+    gsap.to(rootRef.current?.querySelector(".remove-filters-icon") ?? [], { rotate: 0, duration: 0.25, ease: "power2.out" });
+  });
+
+  const handleClick = contextSafe(() => {
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.fromTo(rootRef.current, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.55)" });
+    }
+    onClick();
+  });
+
+  return (
+    <button
+      ref={rootRef}
+      type="button"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onClick={handleClick}
+      className="cb-reveal inline-flex items-center gap-1.5 cursor-pointer rounded-full pl-3 pr-3.5 py-2 text-[13.5px] font-semibold transition-colors duration-200"
+      style={{
+        background: "color-mix(in srgb, var(--color-danger, #d92d20) 10%, var(--color-surface))",
+        color: "var(--color-danger, #d92d20)",
+        border: "1px solid color-mix(in srgb, var(--color-danger, #d92d20) 28%, transparent)",
+      }}
+    >
+      <XIcon className="remove-filters-icon" width={14} height={14} strokeWidth={2.5} />
+      Remove filters
+    </button>
+  );
+}
 
 export function CourseBrowser({
   courses,
@@ -132,14 +211,35 @@ export function CourseBrowser({
   const filteredSubjects = useMemo(() => {
     if (!activeBand) return [];
     const q = query.trim().toLowerCase();
-    return subjects
-      .filter((s) => {
-        if (!matchesGradeBand(s.gradeLevel, activeBand)) return false;
-        if (q && !s.name.toLowerCase().includes(q) && !(s.curriculum ?? "").toLowerCase().includes(q)) return false;
-        return true;
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [subjects, activeBand, query]);
+    let list = subjects.filter((s) => {
+      if (!matchesGradeBand(s.gradeLevel, activeBand)) return false;
+      if (q && !s.name.toLowerCase().includes(q) && !(s.curriculum ?? "").toLowerCase().includes(q)) return false;
+      return true;
+    });
+    list = [...list].sort((a, b) => {
+      if (sort === "Lowest price") return (a.hourlyRateCents ?? Infinity) - (b.hourlyRateCents ?? Infinity);
+      return a.name.localeCompare(b.name);
+    });
+    return list;
+  }, [subjects, activeBand, query, sort]);
+
+  const isDefaultView = category === ALL && !activeBand && query.trim() === "";
+
+  const featuredSubjects = useMemo(() => {
+    return FEATURED_SUBJECT_NAMES.map((name) => subjects.find((s) => s.name === name)).filter(
+      (s): s is SubjectListing => s != null
+    );
+  }, [subjects]);
+
+  const featuredCourses = useMemo(() => {
+    return FEATURED_COURSE_TITLES.map((title) => courses.find((c) => c.title === title)).filter(
+      (c): c is CourseRaw => c != null
+    );
+  }, [courses]);
+
+  function bandForSubject(subject: SubjectListing) {
+    return GRADE_BANDS.find((b) => matchesGradeBand(subject.gradeLevel, b)) ?? GRADE_BANDS[GRADE_BANDS.length - 1];
+  }
 
   useGSAP(
     () => {
@@ -300,21 +400,30 @@ export function CourseBrowser({
               />
             </div>
           </div>
-          {!activeBand && (
+          <div className="flex items-center gap-3">
             <select
               className="cb-reveal input w-auto transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
               style={{ boxShadow: "var(--shadow-sm)" }}
-              value={sort}
+              value={activeBand && sort === "Highest rated" ? "Most popular" : sort}
               onChange={(e) => {
                 captureFlip();
                 setSort(e.target.value as (typeof SORTS)[number]);
               }}
             >
-              {SORTS.map((s) => (
+              {SORTS.filter((s) => !activeBand || s !== "Highest rated").map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
-          )}
+            {!isDefaultView && (
+              <RemoveFiltersButton
+                onClick={() => {
+                  captureFlip();
+                  setCategory(ALL);
+                  setQuery("");
+                }}
+              />
+            )}
+          </div>
         </div>
 
         <div className="cb-reveal">
@@ -332,13 +441,69 @@ export function CourseBrowser({
       </div>
 
       <p className="text-[14px] mb-4" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
-        {activeBand
-          ? `Showing ${filteredSubjects.length} subject${filteredSubjects.length === 1 ? "" : "s"} for ${activeBand.label}`
-          : `Showing ${filtered.length} course${filtered.length === 1 ? "" : "s"}`}
+        {isDefaultView
+          ? "Popular subjects and courses to get you started"
+          : activeBand
+            ? `Showing ${filteredSubjects.length} subject${filteredSubjects.length === 1 ? "" : "s"} for ${activeBand.label}`
+            : `Showing ${filtered.length} course${filtered.length === 1 ? "" : "s"}`}
       </p>
 
       <div ref={gridRef}>
-        {activeBand ? (
+        {isDefaultView ? (
+          <div className="flex flex-col gap-10">
+            {featuredSubjects.length > 0 && (
+              <div>
+                <h2 className="text-[18px] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+                  Popular subjects
+                </h2>
+                <div
+                  className="relative grid gap-6 items-start"
+                  style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                >
+                  {featuredSubjects.map((subject) => (
+                    <SubjectCard
+                      key={subject.id}
+                      subject={subject}
+                      band={bandForSubject(subject)}
+                      saved={savedSubjects.has(subject.id)}
+                      savePending={saveSubjectPending.has(subject.id)}
+                      requested={requestedSubjects.has(subject.id)}
+                      requestPending={requestingSubjectId === subject.id}
+                      onToggleSaved={handleToggleSavedSubject}
+                      onRequest={handleRequestSubject}
+                      onOpen={setOpenSubject}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            {featuredCourses.length > 0 && (
+              <div>
+                <h2 className="text-[18px] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+                  Popular programming courses
+                </h2>
+                <div
+                  className="relative grid gap-6 items-start"
+                  style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                >
+                  {featuredCourses.map((course) => (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      saved={saved.has(course.id)}
+                      savePending={savePending.has(course.id)}
+                      requested={requested.has(course.id)}
+                      requestPending={requestingId === course.id}
+                      onToggleSaved={handleToggleSaved}
+                      onRequest={handleRequestCourse}
+                      onOpen={setOpenCourse}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : activeBand ? (
           filteredSubjects.length > 0 ? (
             <div
               className="relative grid gap-6 items-start"
@@ -409,10 +574,10 @@ export function CourseBrowser({
           onClose={() => setOpenCourse(null)}
         />
       )}
-      {openSubject && activeBand && (
+      {openSubject && (
         <SubjectDetailModal
           subject={openSubject}
-          band={activeBand}
+          band={activeBand ?? bandForSubject(openSubject)}
           saved={savedSubjects.has(openSubject.id)}
           savePending={saveSubjectPending.has(openSubject.id)}
           requested={requestedSubjects.has(openSubject.id)}
