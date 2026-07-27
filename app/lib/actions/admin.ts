@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { logAdminAction } from "@/lib/audit-log";
@@ -39,6 +39,7 @@ export async function deleteTutorProfile(id: string): Promise<AdminActionState> 
   await logAdminAction(admin!, "tutor_profile.delete", "TutorProfile", id);
   revalidatePath("/admin");
   revalidatePath("/find-a-tutor");
+  updateTag("tutor-listings");
   return { ok: true };
 }
 
@@ -104,6 +105,7 @@ export async function updateTutorProfileByAdmin(
 
   revalidatePath("/admin");
   revalidatePath("/find-a-tutor");
+  updateTag("tutor-listings");
   return { message: "success" };
 }
 
@@ -117,6 +119,8 @@ export async function setTutorProfileStatus(
   await prisma.tutorProfile.update({ where: { id }, data: { status } });
   await logAdminAction(admin!, "tutor_profile.set_status", "TutorProfile", id, { status });
   revalidatePath("/admin");
+  revalidatePath("/find-a-tutor");
+  updateTag("tutor-listings");
   return { ok: true };
 }
 

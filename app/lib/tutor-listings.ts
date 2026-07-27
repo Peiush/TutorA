@@ -1,8 +1,9 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import type { TutorRaw } from "@/lib/mock-data";
 
-export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
+async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
   const [profiles, allSubjects] = await Promise.all([
     prisma.tutorProfile.findMany({
       where: { status: "APPROVED" },
@@ -95,6 +96,16 @@ export async function getApprovedTutorListings(): Promise<TutorRaw[]> {
 
   return cards;
 }
+
+/**
+ * Approved listings are shown on both "/" and "/find-a-tutor" and rebuilt from a
+ * full-table scan + joins each time; cache the result and invalidate via the
+ * "tutor-listings" tag whenever an admin action changes tutor profile status/data.
+ */
+export const getApprovedTutorListings = unstable_cache(fetchApprovedTutorListings, ["approved-tutor-listings"], {
+  tags: ["tutor-listings"],
+  revalidate: 60,
+});
 
 export interface TutorSubjectOffering {
   id: string;

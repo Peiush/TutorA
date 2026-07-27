@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin, type AdminActionState } from "@/app/lib/actions/admin";
 import { CATEGORY_LABEL_TO_DB, LEVEL_LABEL_TO_DB, courseCategories } from "@/lib/mock-courses";
@@ -92,6 +92,7 @@ async function saveCourse(_state: CourseFormState, formData: FormData, existingI
 
   revalidatePath("/admin");
   revalidatePath("/courses");
+  updateTag("published-courses");
   return { message: "success" };
 }
 
@@ -115,5 +116,6 @@ export async function deleteCourse(id: string): Promise<AdminActionState> {
   await logAdminAction(admin!, "course.delete", "Course", id);
   revalidatePath("/admin");
   revalidatePath("/courses");
+  updateTag("published-courses");
   return { ok: true };
 }

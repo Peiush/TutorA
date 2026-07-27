@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/app/lib/actions/admin";
 import { logAdminAction } from "@/lib/audit-log";
@@ -89,5 +89,6 @@ export async function submitTutorProfile(
 
   revalidatePath("/admin");
   revalidatePath("/find-a-tutor");
+  updateTag("tutor-listings");
   return { message: "success" };
 }

@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
 import {
@@ -39,7 +40,7 @@ function toCourseRaw(c: CourseWithInstructor): CourseRaw {
   };
 }
 
-export async function getPublishedCourses(): Promise<CourseRaw[]> {
+async function fetchPublishedCourses(): Promise<CourseRaw[]> {
   const courses = await prisma.course.findMany({
     where: { published: true },
     orderBy: { createdAt: "desc" },
@@ -48,6 +49,15 @@ export async function getPublishedCourses(): Promise<CourseRaw[]> {
 
   return courses.map(toCourseRaw);
 }
+
+/**
+ * Published courses are read on "/", "/courses", and the category showcase; cache
+ * the result and invalidate via the "published-courses" tag from course admin actions.
+ */
+export const getPublishedCourses = unstable_cache(fetchPublishedCourses, ["published-courses"], {
+  tags: ["published-courses"],
+  revalidate: 60,
+});
 
 export async function getCourseBySlug(slug: string): Promise<CourseRaw | null> {
   const course = await prisma.course.findUnique({

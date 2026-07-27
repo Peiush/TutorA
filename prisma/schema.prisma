@@ -149,6 +149,7 @@ model TutorProfile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([status, updatedAt])
   @@map("tutor_profiles")
 }
 
@@ -250,6 +251,8 @@ model Course {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([published, createdAt])
+  @@index([published, category, rating])
   @@map("courses")
 }
 

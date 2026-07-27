@@ -48,10 +48,24 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [approvedTutors, allCourses, session] = await Promise.all([
+  // auth() reads the JWT session cookie (no DB round trip), so resolving it first lets
+  // the tutor-request lookup below run inside the same Promise.all as the listing queries
+  // instead of waiting for them to finish first.
+  const session = await auth();
+
+  const [approvedTutors, allCourses, requestedTutors] = await Promise.all([
     getApprovedTutorListings(),
     getPublishedCourses(),
-    auth(),
+    session?.user?.id
+      ? prisma.tutorRequest.findMany({
+          where: {
+            userId: session.user.id,
+            status: { in: ["OPEN", "MATCHED"] },
+            requestedTutorProfileId: { not: null },
+          },
+          select: { requestedTutorProfileId: true },
+        })
+      : Promise.resolve([]),
   ]);
 
   const categoryCounts: CategoryCount[] = courseCategories.map((label) => ({
@@ -60,16 +74,6 @@ export default async function Home() {
   }));
   const featured = [...approvedTutors, ...tutorsRaw].slice(0, 3);
 
-  const requestedTutors = session?.user?.id
-    ? await prisma.tutorRequest.findMany({
-        where: {
-          userId: session.user.id,
-          status: { in: ["OPEN", "MATCHED"] },
-          requestedTutorProfileId: { not: null },
-        },
-        select: { requestedTutorProfileId: true },
-      })
-    : [];
   const requestedTutorProfileIds = requestedTutors
     .map((r) => r.requestedTutorProfileId)
     .filter((id): id is string => Boolean(id));
