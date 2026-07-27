@@ -3,9 +3,10 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { CodeBracketIcon, TargetIcon, GlobeIcon, PaletteIcon, MusicNoteIcon, GridIcon, CheckIcon } from "@/components/courses/course-icons";
+import { CodeBracketIcon, TargetIcon, GlobeIcon, PaletteIcon, MusicNoteIcon, GridIcon, GraduationCapIcon, CheckIcon } from "@/components/courses/course-icons";
 import { CATEGORY_COLORS } from "@/components/courses/course-illustrations";
 import { courseCategories, type CourseCategory } from "@/lib/mock-courses";
+import { GRADE_BANDS, GRADE_BAND_COLORS, type GradeBandKey } from "@/lib/grade-bands";
 
 gsap.registerPlugin(useGSAP);
 
@@ -24,11 +25,13 @@ export function CategorySelector({
   onSelect,
   counts,
   total,
+  gradeBandCounts,
 }: {
   category: string;
   onSelect: (category: string) => void;
   counts: Record<string, number>;
   total: number;
+  gradeBandCounts: Record<GradeBandKey, number>;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP(
@@ -71,21 +74,23 @@ export function CategorySelector({
     onSelect(value);
   });
 
-  const items: { label: string; count: number }[] = [
-    { label: ALL, count: total },
-    ...courseCategories.map((c) => ({ label: c, count: counts[c] ?? 0 })),
+  const items: { label: string; count: number; unit: "course" | "subject" }[] = [
+    { label: ALL, count: total, unit: "course" },
+    ...GRADE_BANDS.map((b) => ({ label: b.label, count: gradeBandCounts[b.key] ?? 0, unit: "subject" as const })),
+    ...courseCategories.map((c) => ({ label: c, count: counts[c] ?? 0, unit: "course" as const })),
   ];
 
   return (
     <div ref={rootRef} className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(140px,1fr))]">
-      {items.map(({ label, count }) => {
+      {items.map(({ label, count, unit }) => {
         const active = category === label;
         const isAll = label === ALL;
-        const colors = isAll ? null : CATEGORY_COLORS[label as CourseCategory];
-        const Icon = isAll ? GridIcon : CATEGORY_ICON[label as CourseCategory];
-        const solid = isAll ? "var(--color-accent-2-800)" : colors!.solid;
-        const light = isAll ? "var(--color-accent-2-100)" : colors!.light;
-        const text = isAll ? "var(--color-accent-2-800)" : colors!.text;
+        const gradeBand = GRADE_BANDS.find((b) => b.label === label);
+        const colors = isAll || gradeBand ? null : CATEGORY_COLORS[label as CourseCategory];
+        const Icon = isAll ? GridIcon : gradeBand ? GraduationCapIcon : CATEGORY_ICON[label as CourseCategory];
+        const solid = isAll ? "var(--color-accent-2-800)" : gradeBand ? GRADE_BAND_COLORS[gradeBand.key].solid : colors!.solid;
+        const light = isAll ? "var(--color-accent-2-100)" : gradeBand ? GRADE_BAND_COLORS[gradeBand.key].light : colors!.light;
+        const text = isAll ? "var(--color-accent-2-800)" : gradeBand ? GRADE_BAND_COLORS[gradeBand.key].text : colors!.text;
 
         return (
           <button
@@ -140,7 +145,7 @@ export function CategorySelector({
                 className="block text-[11.5px] mt-0.5"
                 style={{ color: active ? "rgba(255,255,255,0.8)" : "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
               >
-                {count} course{count === 1 ? "" : "s"}
+                {count} {unit}{count === 1 ? "" : "s"}
               </span>
             </span>
           </button>

@@ -84,7 +84,9 @@ model User {
   matchedRequests TutorRequest[]  @relation("MatchedTutorRequests")
   savedTutors     SavedTutor[]
   savedCourses    SavedCourse[]
+  savedSubjects   SavedSubject[]
   courseRequests  CourseRequest[]
+  subjectRequests SubjectRequest[]
   conversations   Conversation[]
 
   @@map("users")
@@ -159,7 +161,13 @@ model Subject {
   gradeLevel      String?
   curriculum      String?
   hourlyRateCents Int?
+  title           String?
+  subtitle        String?
+  durationLabel   String?
+  whatYoullLearn  String?
   tutorListings   TutorSubject[]
+  savedBy         SavedSubject[]
+  requests        SubjectRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -269,6 +277,19 @@ model SavedCourse {
   @@map("saved_courses")
 }
 
+model SavedSubject {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, subjectId])
+  @@map("saved_subjects")
+}
+
 model CourseRequest {
   id       String              @id @default(cuid())
   userId   String
@@ -282,6 +303,21 @@ model CourseRequest {
 
   @@unique([userId, courseId])
   @@map("course_requests")
+}
+
+model SubjectRequest {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject             @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  status    CourseRequestStatus @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, subjectId])
+  @@map("subject_requests")
 }
 
 model Conversation {

@@ -172,3 +172,17 @@ export async function setCourseRequestStatus(
   revalidatePath("/dashboard");
   return { ok: true };
 }
+
+export async function setSubjectRequestStatus(
+  id: string,
+  status: "OPEN" | "CLOSED"
+): Promise<AdminActionState> {
+  const { error, admin } = await requireAdmin();
+  if (error) return error;
+
+  await prisma.subjectRequest.update({ where: { id }, data: { status } });
+  await logAdminAction(admin!, "subject_request.set_status", "SubjectRequest", id, { status });
+  revalidatePath("/admin");
+  revalidatePath("/dashboard");
+  return { ok: true };
+}

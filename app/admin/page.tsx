@@ -5,6 +5,7 @@ import { TutorReviewPanel } from "@/components/admin/tutor-review-panel";
 import { TutorRequestsAdminPanel } from "@/components/admin/tutor-requests-admin-panel";
 import { CoursesAdminPanel } from "@/components/admin/courses-admin-panel";
 import { CourseRequestsAdminPanel } from "@/components/admin/course-requests-admin-panel";
+import { SubjectRequestsAdminPanel } from "@/components/admin/subject-requests-admin-panel";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { UsersIcon, GraduationCapIcon, ClipboardCheckIcon } from "@/components/tutor/tutor-icons";
@@ -24,7 +25,7 @@ export default async function AdminPage() {
   await requireFreshRole(["ADMIN"]);
   const user = await getUser();
 
-  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, mfaStatus, conversations] =
+  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, subjectRequests, mfaStatus, conversations] =
     await Promise.all([
       prisma.user.count({ where: { role: "STUDENT" } }),
       prisma.user.count({ where: { role: "TUTOR" } }),
@@ -45,6 +46,13 @@ export default async function AdminPage() {
         include: {
           user: { select: { name: true, email: true } },
           course: { include: { instructor: { include: { user: { select: { name: true } } } } } },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.subjectRequest.findMany({
+        include: {
+          user: { select: { name: true, email: true, phone: true } },
+          subject: true,
         },
         orderBy: { createdAt: "desc" },
       }),
@@ -74,6 +82,18 @@ export default async function AdminPage() {
     createdAt: r.createdAt,
   }));
 
+  const subjectRequestRows = subjectRequests.map((r) => ({
+    id: r.id,
+    studentName: r.user.name ?? "Student",
+    studentEmail: r.user.email,
+    studentPhone: r.user.phone,
+    subjectTitle: r.subject.title ?? r.subject.name,
+    gradeLevel: r.subject.gradeLevel,
+    hourlyRateCents: r.subject.hourlyRateCents,
+    status: r.status,
+    createdAt: r.createdAt,
+  }));
+
   return (
     <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,64px)] flex flex-col gap-7">
       <AdminHeader name={user?.name ?? "Admin"} email={user?.email ?? ""} />
@@ -95,6 +115,7 @@ export default async function AdminPage() {
       <TutorRequestsAdminPanel requests={requests} approvedTutors={approvedTutors} />
       <CoursesAdminPanel courses={courses} instructorOptions={instructorOptions} />
       <CourseRequestsAdminPanel requests={courseRequestRows} />
+      <SubjectRequestsAdminPanel requests={subjectRequestRows} />
     </div>
   );
 }

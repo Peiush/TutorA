@@ -26,7 +26,7 @@ export const CATEGORY_PALETTE: Record<CourseCategory, { bg: string; line: string
 // outer orbit in the category color. This is the one shared "premium" motif
 // every category renders inside, so the grid reads as one cohesive product
 // instead of a different colored blob per card.
-function Medallion({ solid, gradientId }: { solid: string; gradientId: string }) {
+export function Medallion({ solid, gradientId }: { solid: string; gradientId: string }) {
   return (
     <g>
       <circle cx="80" cy="80" r="63" fill="none" stroke={solid} strokeWidth="1.5" strokeDasharray="1.5 7" opacity="0.4" />

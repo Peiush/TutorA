@@ -6,6 +6,8 @@ import { RequestsPanel } from "@/components/dashboard/requests-panel";
 import { SavedTutorsPanel } from "@/components/dashboard/saved-tutors-panel";
 import { CourseRequestsPanel } from "@/components/dashboard/course-requests-panel";
 import { SavedCoursesPanel } from "@/components/dashboard/saved-courses-panel";
+import { SavedSubjectsPanel } from "@/components/dashboard/saved-subjects-panel";
+import { SubjectRequestsPanel } from "@/components/dashboard/subject-requests-panel";
 import { SidePanel } from "@/components/dashboard/side-panel";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TargetIcon, BookOpenIcon, SparkleIcon } from "@/components/dashboard/dashboard-icons";
@@ -75,7 +77,26 @@ export default async function DashboardPage() {
     courseRequests.filter((r) => r.status === "OPEN").map((r) => r.courseId)
   );
   const openCourseRequestCount = courseRequests.filter((r) => r.status === "OPEN").length;
-  const totalRequestCount = requests.length + courseRequests.length;
+
+  const subjectRequests = user?.id
+    ? await prisma.subjectRequest.findMany({
+        where: { userId: user.id },
+        include: { subject: true },
+        orderBy: { createdAt: "desc" },
+      })
+    : [];
+  const subjectRequestRows = subjectRequests.map((r) => ({
+    id: r.id,
+    subjectId: r.subjectId,
+    title: r.subject.title ?? r.subject.name,
+    gradeLevel: r.subject.gradeLevel,
+    hourlyRateCents: r.subject.hourlyRateCents,
+    status: r.status,
+    createdAt: r.createdAt,
+  }));
+  const openSubjectRequestCount = subjectRequests.filter((r) => r.status === "OPEN").length;
+
+  const totalRequestCount = requests.length + courseRequests.length + subjectRequests.length;
 
   const savedCourses = user?.id
     ? await prisma.savedCourse.findMany({
@@ -90,6 +111,20 @@ export default async function DashboardPage() {
     instructor: s.course.instructor?.user.name ?? "TutorA instructor",
     priceCents: s.course.priceCents,
     alreadyRequested: openCourseRequestIds.has(s.courseId),
+  }));
+
+  const savedSubjects = user?.id
+    ? await prisma.savedSubject.findMany({
+        where: { userId: user.id },
+        include: { subject: true },
+        orderBy: { createdAt: "desc" },
+      })
+    : [];
+  const savedSubjectRows = savedSubjects.map((s) => ({
+    subjectId: s.subjectId,
+    title: s.subject.title ?? s.subject.name,
+    gradeLevel: s.subject.gradeLevel,
+    hourlyRateCents: s.subject.hourlyRateCents,
   }));
 
   const memberSince = user?.createdAt
@@ -107,6 +142,7 @@ export default async function DashboardPage() {
       >
         <StatCard icon={<TargetIcon width={16} height={16} />} label="Active tutor requests" value={openCount} />
         <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Active course requests" value={openCourseRequestCount} />
+        <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Active subject requests" value={openSubjectRequestCount} />
         <StatCard icon={<SparkleIcon width={16} height={16} />} label="Matched tutors" value={matchedCount} />
         <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Total requests" value={totalRequestCount} />
       </StaggerReveal>
@@ -115,8 +151,10 @@ export default async function DashboardPage() {
         <div className="flex flex-col gap-6">
           <RequestsPanel requests={requests} />
           <CourseRequestsPanel requests={courseRequestRows} />
+          <SubjectRequestsPanel requests={subjectRequestRows} />
           <SavedTutorsPanel tutors={savedTutorRows} />
           <SavedCoursesPanel courses={savedCourseRows} />
+          <SavedSubjectsPanel subjects={savedSubjectRows} />
         </div>
         <SidePanel />
       </div>
