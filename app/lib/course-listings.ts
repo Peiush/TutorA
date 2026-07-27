@@ -37,6 +37,7 @@ function toCourseRaw(c: CourseWithInstructor): CourseRaw {
     isNew: c.isNew,
     subtitle: c.subtitle ?? "",
     whatYoullLearn: (c.whatYoullLearn ?? "").split("\n").filter(Boolean),
+    updatedAt: c.updatedAt,
   };
 }
 

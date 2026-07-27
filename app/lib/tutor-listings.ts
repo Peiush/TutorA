@@ -43,6 +43,7 @@ async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
         region: p.country,
         isNew: true,
         bio: p.bio ?? undefined,
+        updatedAt: p.updatedAt,
       });
       continue;
     }
@@ -66,6 +67,7 @@ async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
         region: p.country,
         isNew: true,
         bio: p.bio ?? undefined,
+        updatedAt: p.updatedAt,
       });
     }
   }

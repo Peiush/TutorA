@@ -17,6 +17,7 @@ export interface TutorRaw {
   isNew?: boolean;
   languages?: string[];
   bio?: string;
+  updatedAt?: Date;
 }
 
 export const tutorsRaw: TutorRaw[] = [

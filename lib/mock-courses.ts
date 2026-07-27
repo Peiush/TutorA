@@ -27,6 +27,7 @@ export interface CourseRaw {
   isNew?: boolean;
   subtitle: string;
   whatYoullLearn: string[];
+  updatedAt: Date;
 }
 
 export function priceLabel(cents: number) {
