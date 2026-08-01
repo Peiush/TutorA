@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { sendCourseRequestAdminAlert } from "@/lib/notify/whatsapp";
 import { priceLabel } from "@/lib/mock-courses";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -60,17 +60,18 @@ export async function requestCourse(courseId: string): Promise<RequestCourseStat
     data: { userId: user.id, courseId: course.id, status: "OPEN" },
   });
 
-  void sendAdminWhatsApp(
-    [
-      "New course request:",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Course: ${course.title}`,
-      `Instructor: ${course.instructor?.user.name ?? "N/A"}`,
-      `Price: ${course.priceCents != null ? priceLabel(course.priceCents) : course.originalPriceCents != null ? priceLabel(course.originalPriceCents) : "N/A"}`,
-    ].join("\n")
-  );
+  void sendCourseRequestAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    courseTitle: course.title,
+    price:
+      course.priceCents != null
+        ? priceLabel(course.priceCents)
+        : course.originalPriceCents != null
+          ? priceLabel(course.originalPriceCents)
+          : "N/A",
+  });
 
   revalidatePath("/dashboard");
   revalidatePath("/courses");

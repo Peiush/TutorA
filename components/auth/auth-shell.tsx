@@ -6,7 +6,7 @@ export function AuthShell({
   variant,
   children,
 }: {
-  variant: "login" | "signup";
+  variant: "login" | "signup" | "complete-profile";
   children: ReactNode;
 }) {
   return (

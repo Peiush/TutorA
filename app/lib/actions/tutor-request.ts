@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
+import { sendCustomTutorRequestAdminAlert, sendListedTutorRequestAdminAlert, formatMode } from "@/lib/notify/whatsapp";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const TutorRequestSchema = z.object({
@@ -48,25 +48,19 @@ export async function submitTutorRequest(input: TutorRequestInput): Promise<Tuto
   });
 
   const d = validated.data;
-  void sendAdminWhatsApp(
-    [
-      "New tutor request (custom form):",
-      `Student: ${d.name}`,
-      `Email: ${d.email}`,
-      `Phone: ${d.phone || "N/A"}`,
-      `Subject: ${d.subject}`,
-      `Mode: ${formatMode(d.mode)}`,
-      d.level && `Level: ${d.level}`,
-      d.goals && `Goals: ${d.goals}`,
-      d.sessionsPerWeek && `Sessions/week: ${d.sessionsPerWeek}`,
-      d.timezone && `Timezone: ${d.timezone}`,
-      (d.budgetPerHour || d.currency) &&
-        `Budget: ${d.budgetPerHour ?? "N/A"}${d.currency ? ` ${d.currency}/hr` : "/hr"}`,
-      d.notes && `Notes: ${d.notes}`,
-    ]
-      .filter(Boolean)
-      .join("\n")
-  );
+  void sendCustomTutorRequestAdminAlert({
+    name: d.name,
+    email: d.email,
+    phone: d.phone || "N/A",
+    subject: d.subject,
+    level: d.level || "N/A",
+    mode: formatMode(d.mode),
+    goals: d.goals || "N/A",
+    sessionsPerWeek: d.sessionsPerWeek || "N/A",
+    timezone: d.timezone || "N/A",
+    budget: d.budgetPerHour ? `${d.budgetPerHour}${d.currency ? ` ${d.currency}` : ""}/hr` : "N/A",
+    notes: d.notes || "N/A",
+  });
 
   return { ok: true };
 }
@@ -191,18 +185,14 @@ export async function requestSpecificTutor(
     },
   });
 
-  void sendAdminWhatsApp(
-    [
-      "New tutor request (from list):",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Tutor: ${tutorName}`,
-      `Subject: ${subject}`,
-      `Mode: ${formatMode(mode)}`,
-      `Price: ${tutorRate || "N/A"}`,
-    ].join("\n")
-  );
+  void sendListedTutorRequestAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    tutorName,
+    subject,
+    price: tutorRate || "N/A",
+  });
 
   revalidatePath("/dashboard");
   revalidatePath("/find-a-tutor");

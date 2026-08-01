@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { sendSavedSubjectAdminAlert } from "@/lib/notify/whatsapp";
 import { rateLimit } from "@/lib/rate-limit";
 
 const ToggleSavedSubjectSchema = z.object({
@@ -50,16 +50,13 @@ export async function toggleSavedSubject(subjectId: string): Promise<ToggleSaved
   });
 
   const subject = await prisma.subject.findUnique({ where: { id: validated.data.subjectId } });
-  void sendAdminWhatsApp(
-    [
-      "Subject saved:",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Subject: ${subject?.title ?? subject?.name ?? "Unknown"}`,
-      `Grade level: ${subject?.gradeLevel || "N/A"}`,
-    ].join("\n")
-  );
+  void sendSavedSubjectAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    subject: subject?.title ?? subject?.name ?? "Unknown",
+    gradeLevel: subject?.gradeLevel || "N/A",
+  });
 
   revalidatePath("/courses");
   revalidatePath("/dashboard");

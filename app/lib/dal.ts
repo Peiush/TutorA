@@ -19,8 +19,14 @@ export const getUser = cache(async () => {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, name: true, email: true, role: true, createdAt: true },
+    select: { id: true, name: true, email: true, role: true, phone: true, createdAt: true },
   });
+
+  // Google sign-ups never provide a phone number, but it's required for
+  // WhatsApp notifications — route them to fill it in before anything else.
+  if (user?.role === "STUDENT" && !user.phone) {
+    redirect("/complete-profile");
+  }
 
   return user;
 });

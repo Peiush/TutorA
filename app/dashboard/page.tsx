@@ -63,7 +63,6 @@ export default async function DashboardPage() {
         orderBy: { createdAt: "desc" },
       })
     : [];
-  console.log("DEBUG user?.id =", user?.id, "courseRequests.length =", courseRequests.length);
   const courseRequestRows = courseRequests.map((r) => ({
     id: r.id,
     courseId: r.courseId,

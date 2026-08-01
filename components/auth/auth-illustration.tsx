@@ -13,6 +13,7 @@ import {
   GlobeIcon,
   ShieldCheckIcon,
   ChatDotsIcon,
+  PhoneIcon,
 } from "@/components/auth/auth-icons";
 
 gsap.registerPlugin(useGSAP);
@@ -30,6 +31,12 @@ const COPY = {
     body: "Submit what you need — our team reviews it before any introduction is made.",
     bullets: [] as string[],
   },
+  "complete-profile": {
+    tag: "Almost there",
+    title: "One quick step before we can reach you.",
+    body: "Add your number and our team can respond to your matches and requests fast.",
+    bullets: ["Faster responses from our team", "Used only for match updates", "Never shared or sold"] as string[],
+  },
 } as const;
 
 const ORBIT_ICONS = [
@@ -41,8 +48,9 @@ const ORBIT_ICONS = [
 const SEAL_PETALS = Array.from({ length: 10 }, (_, i) => (360 / 10) * i);
 const SEAL_SPARKS = [-42, -14, 14, 42];
 
-export function AuthIllustration({ variant }: { variant: "login" | "signup" }) {
+export function AuthIllustration({ variant }: { variant: "login" | "signup" | "complete-profile" }) {
   const scope = useRef<HTMLDivElement>(null);
+  const connectorPathRef = useRef<SVGPathElement>(null);
   const copy = COPY[variant];
 
   useGSAP(
@@ -89,6 +97,65 @@ export function AuthIllustration({ variant }: { variant: "login" | "signup" }) {
             gsap.to(".auth-illo-orbit-icon", { rotation: -360, duration: 26, ease: "none", repeat: -1 });
             gsap.to(".auth-illo-card", { y: "+=8", rotate: -1, duration: 3.2, ease: "sine.inOut", repeat: -1, yoyo: true });
             gsap.to(".auth-illo-toast", { y: "-=6", duration: 2.6, ease: "sine.inOut", repeat: -1, yoyo: true });
+          });
+        } else if (variant === "complete-profile") {
+          tl.fromTo(
+            ".auth-illo-profile-card",
+            { autoAlpha: 0, y: -18, scale: 0.94 },
+            { autoAlpha: 1, y: 0, scale: 1, duration: 0.6 },
+            "-=0.2"
+          )
+            .fromTo(
+              ".auth-illo-phone-row",
+              { autoAlpha: 0, scale: 0.9 },
+              { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" },
+              "-=0.15"
+            )
+            .add(() => {
+              const path = connectorPathRef.current;
+              if (!path) return;
+              const length = path.getTotalLength();
+              gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+              gsap.to(path, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" });
+            })
+            .fromTo(
+              ".auth-illo-seal",
+              { autoAlpha: 0, scale: 0.5, rotate: -20 },
+              { autoAlpha: 1, scale: 1, rotate: -6, duration: 0.5, ease: "back.out(1.5)" },
+              "-=0.1"
+            )
+            .add(() => {
+              gsap.fromTo(
+                ".auth-illo-ripple",
+                { autoAlpha: 0.55, scale: 0.6 },
+                { autoAlpha: 0, scale: 2, duration: 0.65, ease: "power2.out" }
+              );
+              gsap.fromTo(
+                ".auth-illo-spark",
+                { autoAlpha: 1, x: 0, y: 0, scale: 1 },
+                {
+                  autoAlpha: 0,
+                  x: (i) => SEAL_SPARKS[i] * 0.9,
+                  y: (i) => -Math.abs(SEAL_SPARKS[i]) * 0.5 - 6,
+                  scale: 0.3,
+                  duration: 0.6,
+                  ease: "power2.out",
+                  stagger: 0.03,
+                }
+              );
+            })
+            .fromTo(".auth-illo-caption", { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.1")
+            .fromTo(
+              ".auth-illo-bullet",
+              { autoAlpha: 0, x: -14 },
+              { autoAlpha: 1, x: 0, duration: 0.45, stagger: 0.1 },
+              "-=0.2"
+            );
+
+          tl.add(() => {
+            gsap.to(".auth-illo-phone-row", { scale: 1.03, duration: 1.4, ease: "sine.inOut", repeat: -1, yoyo: true });
+            gsap.to(".auth-illo-profile-card", { y: "+=6", duration: 3, ease: "sine.inOut", repeat: -1, yoyo: true });
+            gsap.to(".auth-illo-seal", { rotate: -3, duration: 2.4, ease: "sine.inOut", repeat: -1, yoyo: true });
           });
         } else {
           tl.fromTo(
@@ -145,7 +212,7 @@ export function AuthIllustration({ variant }: { variant: "login" | "signup" }) {
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(
-          ".auth-illo-blob, .auth-illo-tag, .auth-illo-title, .auth-illo-body, .auth-illo-ring, .auth-illo-orbit-icon, .auth-illo-card, .auth-illo-toast, .auth-illo-bullet, .auth-illo-req-card, .auth-illo-seal, .auth-illo-caption",
+          ".auth-illo-blob, .auth-illo-tag, .auth-illo-title, .auth-illo-body, .auth-illo-ring, .auth-illo-orbit-icon, .auth-illo-card, .auth-illo-toast, .auth-illo-bullet, .auth-illo-req-card, .auth-illo-seal, .auth-illo-caption, .auth-illo-profile-card, .auth-illo-phone-row",
           { autoAlpha: 1 }
         );
         gsap.set(".auth-illo-ripple, .auth-illo-spark", { autoAlpha: 0 });
@@ -308,6 +375,107 @@ export function AuthIllustration({ variant }: { variant: "login" | "signup" }) {
             </div>
           </div>
         </div>
+      ) : variant === "complete-profile" ? (
+        <div className="relative z-[1] flex flex-col items-center my-8" aria-hidden>
+          <div
+            className="auth-illo-profile-card relative rounded-[18px] p-4"
+            style={{ width: 200, background: "var(--color-bg)", boxShadow: "0 20px 40px rgba(0,0,0,0.3)", color: "var(--color-text)" }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className="grid place-content-center rounded-full flex-none"
+                style={{
+                  width: 38,
+                  height: 38,
+                  background: "var(--color-accent-2-200)",
+                  color: "var(--color-accent-2-800)",
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 700,
+                  fontSize: 13,
+                }}
+              >
+                {initialsOf("New Student")}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="h-2 rounded-full" style={{ width: "78%", background: "var(--color-divider)" }} />
+                <div className="h-2 rounded-full mt-1.5" style={{ width: "52%", background: "var(--color-divider)" }} />
+              </div>
+            </div>
+            <div className="h-px my-3" style={{ background: "var(--color-divider)" }} />
+            <div
+              className="auth-illo-phone-row flex items-center gap-2 rounded-full px-2.5 py-2"
+              style={{ background: "var(--color-accent-100)" }}
+            >
+              <PhoneIcon width={14} height={14} style={{ color: "var(--color-accent-700)" }} />
+              <div className="h-1.5 rounded-full flex-1" style={{ background: "var(--color-accent-400)" }} />
+            </div>
+          </div>
+
+          <svg width="2" height="42" className="my-1" aria-hidden>
+            <path ref={connectorPathRef} d="M1 0 L1 42" fill="none" stroke="rgba(247,245,240,0.5)" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+
+          <div className="relative grid place-content-center" style={{ width: 96, height: 96 }}>
+            <div
+              className="auth-illo-ripple absolute rounded-full"
+              style={{ inset: 0, margin: "auto", width: 72, height: 72, border: "3px solid var(--color-accent-400)", opacity: 0 }}
+            />
+            {SEAL_SPARKS.map((_, i) => (
+              <span
+                key={i}
+                className="auth-illo-spark absolute rounded-full"
+                style={{
+                  width: 5,
+                  height: 5,
+                  top: "50%",
+                  left: "50%",
+                  marginLeft: -2.5,
+                  marginTop: -2.5,
+                  background: "var(--color-accent-300)",
+                  opacity: 0,
+                }}
+              />
+            ))}
+            <div className="auth-illo-seal relative" style={{ width: 96, height: 96 }}>
+              {SEAL_PETALS.map((angle) => (
+                <div
+                  key={angle}
+                  className="absolute rounded-full"
+                  style={{
+                    width: 20,
+                    height: 20,
+                    top: "50%",
+                    left: "50%",
+                    background: "var(--color-accent-300)",
+                    transform: `translate(-50%, -50%) rotate(${angle}deg) translate(38px) rotate(${-angle}deg)`,
+                  }}
+                />
+              ))}
+              <div
+                className="absolute grid place-content-center rounded-full"
+                style={{
+                  inset: 0,
+                  margin: "auto",
+                  width: 70,
+                  height: 70,
+                  background: "var(--color-accent-600)",
+                  boxShadow: "0 12px 26px rgba(0,0,0,0.35)",
+                }}
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="auth-illo-caption text-[19px] mt-3"
+            style={{ fontFamily: "var(--font-accent)", fontWeight: 600, color: "var(--color-accent-300)", transform: "rotate(-2deg)" }}
+          >
+            we&rsquo;ll reach you fast
+          </div>
+        </div>
       ) : (
         <div className="relative z-[1] flex flex-col items-center my-9" aria-hidden>
           <div className="relative grid place-content-center" style={{ width: 300, height: 260 }}>
@@ -411,7 +579,7 @@ export function AuthIllustration({ variant }: { variant: "login" | "signup" }) {
         </div>
       )}
 
-      {/* Bottom: trust bullets (login only) */}
+      {/* Bottom: trust bullets (variants with copy.bullets set) */}
       {copy.bullets.length > 0 && (
         <ul className="relative z-[1] flex flex-col gap-2.5 m-0 p-0 list-none">
           {copy.bullets.map((b) => (

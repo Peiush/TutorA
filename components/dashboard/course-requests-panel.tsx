@@ -5,7 +5,6 @@ import { CourseRequestRow } from "@/components/dashboard/course-request-row";
 import { CourseRequestRowData } from "@/components/dashboard/course-request-status";
 
 export function CourseRequestsPanel({ requests }: { requests: CourseRequestRowData[] }) {
-  console.log("DEBUG panel requests =", JSON.stringify(requests));
   return (
     <div className="card elev-sm gap-4 p-[clamp(18px,3vw,26px)]">
       <div className="flex items-center justify-between gap-3">

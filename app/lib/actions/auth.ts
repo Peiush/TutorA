@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { AuthError, CredentialsSignin } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/auth";
-import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { sendSignupAdminAlert } from "@/lib/notify/whatsapp";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const SignupSchema = z.object({
@@ -67,9 +67,7 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
     data: { name, email, phone, password: hashedPassword, role: "STUDENT" },
   });
 
-  void sendAdminWhatsApp(
-    ["New user signed up:", `Name: ${name}`, `Email: ${email}`, `Phone: ${phone || "N/A"}`].join("\n")
-  );
+  await sendSignupAdminAlert(name, email, phone || "N/A");
 
   await signIn("credentials", {
     email,

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { sendSubjectRequestAdminAlert } from "@/lib/notify/whatsapp";
 import { priceLabel } from "@/lib/mock-courses";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -59,17 +59,14 @@ export async function requestSubject(subjectId: string): Promise<RequestSubjectS
     data: { userId: user.id, subjectId: subject.id, status: "OPEN" },
   });
 
-  void sendAdminWhatsApp(
-    [
-      "New subject request:",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Subject: ${label}`,
-      `Grade level: ${subject.gradeLevel || "N/A"}`,
-      `Price: ${subject.hourlyRateCents != null ? `${priceLabel(subject.hourlyRateCents)}/hr` : "N/A"}`,
-    ].join("\n")
-  );
+  void sendSubjectRequestAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    subject: label,
+    gradeLevel: subject.gradeLevel || "N/A",
+    price: subject.hourlyRateCents != null ? `${priceLabel(subject.hourlyRateCents)}/hr` : "N/A",
+  });
 
   revalidatePath("/dashboard");
   revalidatePath("/courses");

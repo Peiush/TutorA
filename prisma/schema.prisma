@@ -36,6 +36,13 @@ enum CourseCategory {
   MUSIC_INSTRUMENTS
 }
 
+enum CourseGradeBand {
+  GRADE_6_8
+  GRADE_8_10
+  GRADE_11_12
+  ALL_GRADES
+}
+
 enum CourseLevel {
   BEGINNER
   INTERMEDIATE
@@ -88,6 +95,7 @@ model User {
   courseRequests  CourseRequest[]
   subjectRequests SubjectRequest[]
   conversations   Conversation[]
+  phoneOtp        PhoneOtp?
 
   @@map("users")
 }
@@ -241,6 +249,7 @@ model Course {
   instructor         TutorProfile?   @relation(fields: [instructorId], references: [id], onDelete: SetNull)
   category           CourseCategory
   level              CourseLevel     @default(ALL_LEVELS)
+  gradeBand          CourseGradeBand @default(ALL_GRADES)
   rating             Float           @default(4.8)
   reviewCount        Int             @default(0)
   priceCents         Int?
@@ -318,6 +327,20 @@ model SubjectRequest {
 
   @@unique([userId, subjectId])
   @@map("subject_requests")
+}
+
+model PhoneOtp {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone     String
+  codeHash  String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@map("phone_otps")
 }
 
 model Conversation {

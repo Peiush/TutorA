@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp, formatMode } from "@/lib/notify/whatsapp";
+import { sendSavedTutorAdminAlert, formatMode } from "@/lib/notify/whatsapp";
 import { rateLimit } from "@/lib/rate-limit";
 
 const ToggleSavedTutorSchema = z.object({
@@ -52,19 +52,16 @@ export async function toggleSavedTutor(tutorProfileId: string): Promise<ToggleSa
     where: { id: validated.data.tutorProfileId },
     include: { user: true },
   });
-  void sendAdminWhatsApp(
-    [
-      "Tutor saved:",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Tutor: ${tutorProfile?.user.name ?? "Unknown"}`,
-      `Tutor phone: ${tutorProfile?.user.phone || "N/A"}`,
-      `Subject: ${tutorProfile?.subjects ?? "N/A"}`,
-      `Mode: ${formatMode("Both")}`,
-      `Price: ${tutorProfile?.hourlyRateCents ? `$${Math.round(tutorProfile.hourlyRateCents / 100)}/hr` : "Rate on request"}`,
-    ].join("\n")
-  );
+  void sendSavedTutorAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    tutorName: tutorProfile?.user.name ?? "Unknown",
+    tutorPhone: tutorProfile?.user.phone || "N/A",
+    subject: tutorProfile?.subjects ?? "N/A",
+    mode: formatMode("Both"),
+    price: tutorProfile?.hourlyRateCents ? `$${Math.round(tutorProfile.hourlyRateCents / 100)}/hr` : "Rate on request",
+  });
 
   revalidatePath("/dashboard");
   return { ok: true, saved: true };

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendAdminWhatsApp } from "@/lib/notify/whatsapp";
+import { sendSavedCourseAdminAlert } from "@/lib/notify/whatsapp";
 import { rateLimit } from "@/lib/rate-limit";
 
 const ToggleSavedCourseSchema = z.object({
@@ -53,17 +53,12 @@ export async function toggleSavedCourse(courseId: string): Promise<ToggleSavedCo
     where: { id: validated.data.courseId },
     include: { instructor: { include: { user: true } } },
   });
-  void sendAdminWhatsApp(
-    [
-      "Course saved:",
-      `Student: ${user.name ?? "N/A"}`,
-      `Email: ${user.email}`,
-      `Phone: ${user.phone || "N/A"}`,
-      `Course: ${course?.title ?? "Unknown"}`,
-      `Instructor: ${course?.instructor?.user.name ?? "N/A"}`,
-      `Instructor phone: ${course?.instructor?.user.phone || "N/A"}`,
-    ].join("\n")
-  );
+  void sendSavedCourseAdminAlert({
+    name: user.name ?? "N/A",
+    email: user.email,
+    phone: user.phone || "N/A",
+    courseTitle: course?.title ?? "Unknown",
+  });
 
   revalidatePath("/dashboard");
   revalidatePath("/courses");
