@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Link from "next/link";
 import { Tag } from "@/components/ui/tag";
 import { RequestForm } from "@/components/request/request-form";
 import { RequestIllustration } from "@/components/request/request-illustration";
@@ -24,6 +25,7 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
           .from(".rq-tag", { autoAlpha: 0, y: -8, duration: 0.4 }, "-=0.9")
           .from(".rq-heading", { autoAlpha: 0, y: 18, duration: 0.55 }, "-=0.25")
           .from(".rq-sub", { autoAlpha: 0, y: 12, duration: 0.45 }, "-=0.3")
+          .from(".rq-summary", { autoAlpha: 0, y: 12, duration: 0.45 }, "-=0.3")
           .from(".rq-form", { autoAlpha: 0, y: 20, duration: 0.55 }, "-=0.25");
 
         return () => tl.kill();
@@ -69,14 +71,51 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
             Request a Tutor
           </Tag>
           <h1 className="rq-heading font-bold text-[clamp(30px,4vw,46px)] mt-4 mb-1">
-            Tell us what you&rsquo;re looking for
+            Request a tutor: tell us what you&rsquo;re looking for
           </h1>
           <p
-            className="rq-sub text-[16px] mb-7"
+            className="rq-sub text-[16px] mb-3"
             style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
           >
             Our team will review your request and personally match you within 24–48 hours.
           </p>
+          <p
+            className="rq-summary text-[14.5px] leading-[1.55] mb-4 max-w-[46ch]"
+            style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
+          >
+            A tutor request puts the search in our hands — for any subject, level, or budget —
+            instead of you browsing and messaging tutors yourself.
+          </p>
+          <div className="rq-summary flex flex-wrap gap-2 mb-7">
+            <Link
+              href="/find-a-tutor"
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium rounded-full transition-colors duration-200"
+              style={{
+                background: "var(--color-accent-2-100)",
+                color: "var(--color-accent-2-800)",
+                padding: "7px 14px",
+              }}
+            >
+              Compare with browsing tutors
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium rounded-full transition-colors duration-200"
+              style={{
+                background: "var(--color-neutral-200)",
+                color: "var(--color-text)",
+                padding: "7px 14px",
+              }}
+            >
+              See how matching works
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
           <div className="rq-form">
             <RequestForm />
           </div>
