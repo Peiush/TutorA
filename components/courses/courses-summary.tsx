@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, type MouseEvent } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Tag } from "@/components/ui/tag";
 import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { CheckIcon, ClockIcon, GraduationCapIcon, PlayCircleIcon } from "@/components/courses/course-icons";
@@ -17,17 +17,24 @@ const FACTS = [
   { icon: GraduationCapIcon, label: "Certificate on completion" },
 ];
 
-const FOOTER_STATS = [
-  { value: "5", label: "categories" },
-  { value: "4.9", label: "avg. rating" },
-  { value: "100%", label: "reviewed" },
-];
-
 function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-export function CoursesSummary() {
+export function CoursesSummary({
+  courseCount,
+  avgRating,
+  categoryCount,
+}: {
+  courseCount: number;
+  avgRating: number;
+  categoryCount: number;
+}) {
+  const footerStats = [
+    { value: String(categoryCount), label: "categories" },
+    { value: avgRating.toFixed(1), label: "avg. rating" },
+    { value: "100%", label: "reviewed" },
+  ];
   const rootRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
   const tiltX = useRef<((v: number) => void) | null>(null);
@@ -45,6 +52,7 @@ export function CoursesSummary() {
           .from(".cs-copy", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
           .from(".cs-citation", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.28")
           .from(".cs-fact", { autoAlpha: 0, y: 10, duration: 0.4, stagger: 0.08, ease: "power3.out" }, "-=0.2")
+          .from(".cs-cta", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.2")
           .from(".cs-panel", { autoAlpha: 0, y: 20, duration: 0.5, ease: "power3.out" }, "-=0.55")
           .from(".cs-mockup", { autoAlpha: 0, y: 24, scale: 0.92, duration: 0.55, ease: "back.out(1.4)" }, "-=0.25")
           .from(".cs-badge", { autoAlpha: 0, scale: 0.4, duration: 0.5, stagger: 0.1, ease: "back.out(2)" }, "-=0.25")
@@ -61,7 +69,7 @@ export function CoursesSummary() {
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(
-          ".cs-tag, .cs-heading, .cs-copy, .cs-citation, .cs-fact, .cs-panel, .cs-mockup, .cs-badge, .cs-footer-stat",
+          ".cs-tag, .cs-heading, .cs-copy, .cs-citation, .cs-fact, .cs-cta, .cs-panel, .cs-mockup, .cs-badge, .cs-footer-stat",
           { autoAlpha: 1, y: 0, scale: 1 }
         );
         gsap.set(".cs-progress", { width: "64%" });
@@ -87,13 +95,16 @@ export function CoursesSummary() {
   });
 
   return (
-    <div ref={rootRef} className="mb-16 md:mb-20">
+    <div ref={rootRef} id="about-courses" className="mb-16 md:mb-20 scroll-mt-24">
       <div className="cs-intro grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-stretch">
         <div className="flex flex-col">
-          <Tag variant="accent" className="cs-tag text-[12px] px-3.5 py-1.5 w-fit">
+          <p
+            className="cs-tag text-[11px] font-semibold uppercase tracking-wide mb-3"
+            style={{ color: "var(--color-accent-700)" }}
+          >
             About courses
-          </Tag>
-          <h2 className="cs-heading text-[clamp(24px,2.8vw,32px)] mt-4 mb-4 max-w-[20ch]">
+          </p>
+          <h2 className="cs-heading text-[clamp(24px,2.8vw,32px)] mb-4 max-w-[20ch]">
             What are TutorA courses?
           </h2>
           <p
@@ -109,42 +120,19 @@ export function CoursesSummary() {
             className="cs-citation flex items-start gap-2.5 mb-6 pl-3.5 py-1 max-w-[52ch]"
             style={{ borderLeft: "2px solid var(--color-accent-400)" }}
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--color-accent-700)"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mt-[3px] flex-none"
-              aria-hidden
-            >
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <path d="M15 3h6v6M10 14 21 3" />
-            </svg>
+            <CheckIcon width={14} height={14} className="mt-[3px] flex-none" style={{ color: "var(--color-accent-700)" }} />
             <p
               className="text-[14px] leading-relaxed m-0"
               style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}
             >
-              Self-paced online learning is a well-established format for building skills at your own tempo.{" "}
               <span className="font-semibold" style={{ color: "var(--color-text)" }}>
-                Source:
+                {courseCount} courses
               </span>{" "}
-              <a
-                href="https://en.wikipedia.org/wiki/Distance_education"
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                className="font-medium underline decoration-1 underline-offset-2"
-                style={{ color: "var(--color-accent-700)" }}
-              >
-                Distance education — Wikipedia
-              </a>
+              are live right now across {categoryCount} categories — every single one reviewed by our team before it publishes, no exceptions.
             </p>
           </div>
 
-          <div className="pt-5 mt-auto" style={{ borderTop: "1px solid var(--color-divider)" }}>
+          <div className="pt-5" style={{ borderTop: "1px solid var(--color-divider)" }}>
             <p
               className="text-[11px] font-semibold uppercase tracking-wide mb-3"
               style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
@@ -168,6 +156,12 @@ export function CoursesSummary() {
                 </span>
               ))}
             </div>
+          </div>
+
+          <div className="mt-auto pt-6">
+            <Link href="#browse" className="cs-cta btn btn-primary inline-block">
+              Browse all courses
+            </Link>
           </div>
         </div>
 
@@ -241,6 +235,15 @@ export function CoursesSummary() {
                     style={{ width: 56, height: 56, background: "var(--color-accent-2-300)", bottom: "12%", right: "14%" }}
                     aria-hidden
                   />
+                  <span className="absolute inset-0 grid place-content-center opacity-90" aria-hidden>
+                    <CourseIllustration category="Programming & Technology" className="w-16 h-16" />
+                  </span>
+                  <span
+                    className="absolute top-2 left-2 text-[9px] font-semibold px-1.5 py-0.5 rounded"
+                    style={{ background: "rgba(0,0,0,0.5)", color: "#fff" }}
+                  >
+                    Intro to Python
+                  </span>
                   <span className="cs-play absolute inset-0 grid place-content-center">
                     <span
                       className="w-11 h-11 rounded-full grid place-content-center"
@@ -325,7 +328,7 @@ export function CoursesSummary() {
           </div>
 
           <div className="relative grid grid-cols-3 gap-2 pt-4 mt-2" style={{ borderTop: "1px solid var(--color-divider)" }}>
-            {FOOTER_STATS.map((s) => (
+            {footerStats.map((s) => (
               <div key={s.label} className="cs-footer-stat text-center">
                 <div
                   className="text-[18px] font-bold"

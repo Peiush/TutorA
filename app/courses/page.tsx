@@ -62,14 +62,20 @@ const faqJsonLd = {
 export default async function CoursesPage() {
   const [courses, subjects] = await Promise.all([getPublishedCourses(), getSubjects()]);
 
+  const courseCount = courses.length;
+  const avgRating = courseCount ? courses.reduce((sum, c) => sum + c.rating, 0) / courseCount : 0;
+  const categoryCount = courseCategories.length;
+
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <CoursesHero />
-      <CoursesSummary />
-      <CourseBrowser courses={courses} subjects={subjects} />
+      <CoursesSummary courseCount={courseCount} avgRating={avgRating} categoryCount={categoryCount} />
+      <div id="browse">
+        <CourseBrowser courses={courses} subjects={subjects} />
+      </div>
       <CoursesFaq />
     </div>
   );
