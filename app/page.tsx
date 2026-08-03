@@ -27,6 +27,7 @@ import {
   testimonials,
   popularSubjects,
 } from "@/lib/mock-data";
+import { homepageFaqs } from "@/components/home/homepage-faq";
 
 // Below-the-fold sections: split into separate chunks so their GSAP-driven JS isn't
 // part of the critical bundle blocking first paint. Content still renders via SSR (ssr: true).
@@ -40,11 +41,46 @@ const PopularSubjects = dynamic(() =>
   import("@/components/home/popular-subjects").then((mod) => mod.PopularSubjects)
 );
 const FinalCta = dynamic(() => import("@/components/home/final-cta").then((mod) => mod.FinalCta));
+const HomepageFaq = dynamic(() =>
+  import("@/components/home/homepage-faq").then((mod) => mod.HomepageFaq)
+);
+
+const BASE_URL = "https://www.tutora.it.com";
 
 export const metadata: Metadata = {
   description:
     "Find a personally verified tutor or course on TutorA. Every student request and tutor listing is reviewed by our team before it's matched.",
   alternates: { canonical: "/" },
+};
+
+// Bump this when homepage copy changes materially — it's a real freshness signal for
+// search/AI crawlers, not a build timestamp, so it shouldn't move on every deploy.
+const HOMEPAGE_LAST_UPDATED = "2026-08-03";
+
+const webPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${BASE_URL}/#webpage`,
+  url: BASE_URL,
+  name: "TutorA — The right tutor, personally matched",
+  description:
+    "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+  inLanguage: "en-US",
+  dateModified: HOMEPAGE_LAST_UPDATED,
+  isPartOf: { "@type": "WebSite", url: BASE_URL, name: "TutorA" },
+  about: { "@type": "Organization", name: "TutorA", url: BASE_URL },
+  mainEntity: { "@id": `${BASE_URL}/#faq` },
+};
+
+const faqPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${BASE_URL}/#faq`,
+  mainEntity: homepageFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
 };
 
 export default async function Home() {
@@ -80,6 +116,9 @@ export default async function Home() {
 
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }} />
+
       {/* Hero */}
       <section
         className="relative"
@@ -124,6 +163,20 @@ export default async function Home() {
         </div>
         <HeroIllustration />
         <TrustStrip />
+      </section>
+
+      {/* Top summary — a direct, self-contained answer for search snippets and AI answer engines */}
+      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-2">
+        <p
+          className="text-[15px] leading-relaxed max-w-[72ch]"
+          style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}
+        >
+          <strong style={{ color: "var(--color-text)" }}>In short:</strong> TutorA is an online tutoring
+          marketplace for students, parents, and adult learners — matching you with a personally vetted tutor
+          or course instead of an open listing you have to gamble on. Every tutor and course is reviewed by
+          our team before it goes live: 1,200+ verified tutors across 40+ countries, with a typical match
+          proposed within 31 hours of a request.
+        </p>
       </section>
 
       {/* Stats */}
@@ -172,6 +225,39 @@ export default async function Home() {
             </div>
           </Reveal>
         </div>
+      </section>
+
+      {/* Who it's for */}
+      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(28px,5vw,64px)]">
+        <Reveal>
+          <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
+            Who it&apos;s for
+          </Tag>
+          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-6 max-w-[24ch]">
+            Built for anyone tired of guessing on a marketplace.
+          </h2>
+          <ul className="grid gap-4 sm:grid-cols-3 list-none p-0 m-0">
+            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
+              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+                <strong style={{ color: "var(--color-text)" }}>Students and parents</strong> looking for a subject
+                tutor — academic, test prep, or skill-based — who&apos;s already been vetted, not an open listing to
+                gamble on.
+              </p>
+            </li>
+            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
+              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+                <strong style={{ color: "var(--color-text)" }}>Adult learners</strong> picking up a new skill —
+                programming, a language, or an instrument — through structured, reviewed courses.
+              </p>
+            </li>
+            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
+              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+                <strong style={{ color: "var(--color-text)" }}>Tutors</strong> who want to be matched with serious
+                requests instead of competing in an open, unvetted marketplace.
+              </p>
+            </li>
+          </ul>
+        </Reveal>
       </section>
 
       {/* Course categories */}
@@ -245,7 +331,7 @@ export default async function Home() {
                   className="text-[12.5px] mt-1.5"
                   style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
                 >
-                  Rates shown in each tutor's local currency.
+                  Rates shown in each tutor&apos;s local currency.
                 </div>
               </div>
             </Reveal>
@@ -290,6 +376,9 @@ export default async function Home() {
         </div>
         <PopularSubjects subjects={popularSubjects} />
       </section>
+
+      {/* FAQ */}
+      <HomepageFaq />
 
       {/* CTA */}
       <FinalCta />
