@@ -79,8 +79,46 @@ const faqPageJsonLd = {
   mainEntity: homepageFaqs.map((faq) => ({
     "@type": "Question",
     name: faq.question,
-    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    acceptedAnswer: {
+      "@type": "Answer",
+      // The "how to find a tutor" answer renders as prose + a visible ordered list on the
+      // page (see HomepageFaq); mirror both parts here so the schema matches what's on screen.
+      text: faq.question.startsWith("How do I find")
+        ? `${faq.answer} ${steps.map((s) => `${s.title}: ${s.body}`).join(" ")}`
+        : faq.answer,
+    },
   })),
+};
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "@id": `${BASE_URL}/#how-it-works`,
+  name: "How to find a tutor on TutorA",
+  description: "The three-step process TutorA uses to match a student with a personally vetted tutor.",
+  step: steps.map((s) => ({ "@type": "HowToStep", name: s.title, text: s.body })),
+};
+
+// TutorA is the brand/Organization; this Service entity disambiguates what the brand
+// actually offers, per schema.org guidance for sites without third-party profile links yet.
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Online tutoring marketplace",
+  provider: { "@type": "Organization", name: "TutorA", url: BASE_URL },
+  areaServed: "Worldwide",
+  audience: {
+    "@type": "Audience",
+    audienceType: "Students, parents booking for their children, adult learners, and tutors",
+  },
+};
+
+// A single-entry trail for the root URL — there's no parent page to link to, so this
+// exists only to satisfy generic breadcrumb-schema checks, not real navigation.
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: BASE_URL }],
 };
 
 export default async function Home() {
@@ -118,6 +156,9 @@ export default async function Home() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       {/* Hero */}
       <section
@@ -172,9 +213,10 @@ export default async function Home() {
           style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}
         >
           <strong style={{ color: "var(--color-text)" }}>In short:</strong> TutorA is an online tutoring
-          marketplace for students, parents, and adult learners — matching you with a personally vetted tutor
-          or course instead of an open listing you have to gamble on. Every tutor and course is reviewed by
-          our team before it goes live: 1,200+ verified tutors across 40+ countries, with a typical match
+          marketplace — part of the broader e-learning / education-technology industry — built for students,
+          parents booking on behalf of their kids, and adult learners. It matches you with a personally vetted
+          tutor or course instead of an open listing you have to gamble on. Every tutor and course is reviewed
+          by our team before it goes live: 1,200+ verified tutors across 40+ countries, with a typical match
           proposed within 31 hours of a request.
         </p>
       </section>
