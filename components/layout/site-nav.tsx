@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { logout } from "@/app/lib/actions/auth";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { Logo } from "@/components/ui/logo";
@@ -129,7 +130,9 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-export function SiteNav({ user = null }: { user?: NavUser }) {
+export function SiteNav() {
+  const { data: session, status } = useSession();
+  const user: NavUser = status === "authenticated" ? session?.user ?? null : null;
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const links = [...LINKS, ...(user?.role === "ADMIN" ? ADMIN_LINKS : [])];

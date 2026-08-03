@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, Caveat } from "next/font/google";
 import "./globals.css";
-import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
@@ -70,13 +70,11 @@ const websiteJsonLd = {
   url: BASE_URL,
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html
       lang="en"
@@ -93,11 +91,16 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <SiteNav user={session?.user ?? null} />
-        <main id="main-content" className="flex-1">{children}</main>
-        <SiteFooter />
-        <ScrollTriggerGuard />
-        <AutoLoginPrompt isAuthenticated={Boolean(session?.user?.id)} />
+        {/* Session is read client-side (see SiteNav/AutoLoginPrompt) instead of via
+            server-side auth() here — that read used to force this layout, and every
+            route under it, to render dynamically with no-store caching. */}
+        <SessionProvider>
+          <SiteNav />
+          <main id="main-content" className="flex-1">{children}</main>
+          <SiteFooter />
+          <ScrollTriggerGuard />
+          <AutoLoginPrompt />
+        </SessionProvider>
       </body>
     </html>
   );
