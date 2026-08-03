@@ -9,6 +9,10 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    // Migrations need a direct (non-pooled) connection — Neon's pooled/PgBouncer
+    // endpoint doesn't support the session-level advisory lock `migrate deploy`
+    // takes, which causes it to time out (P1002). The Vercel-Neon integration
+    // auto-provides DATABASE_URL_UNPOOLED for exactly this case.
+    url: process.env["DATABASE_URL_UNPOOLED"] ?? process.env["DATABASE_URL"],
   },
 });
