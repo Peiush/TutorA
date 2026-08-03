@@ -6,8 +6,6 @@ import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
 import { courseCategories } from "@/lib/mock-courses";
 import { COURSE_FAQS } from "@/lib/course-faqs";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
 
 const BASE_URL = "https://www.tutora.it.com";
 
@@ -61,32 +59,8 @@ const faqJsonLd = {
   })),
 };
 
-export default async function CoursesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const [{ category }, courses, subjects, session] = await Promise.all([
-    searchParams,
-    getPublishedCourses(),
-    getSubjects(),
-    auth(),
-  ]);
-
-  const userId = session?.user?.id;
-  const [savedCourses, openRequests, savedSubjects, openSubjectRequests] = userId
-    ? await Promise.all([
-        prisma.savedCourse.findMany({ where: { userId }, select: { courseId: true } }),
-        prisma.courseRequest.findMany({ where: { userId, status: "OPEN" }, select: { courseId: true } }),
-        prisma.savedSubject.findMany({ where: { userId }, select: { subjectId: true } }),
-        prisma.subjectRequest.findMany({ where: { userId, status: "OPEN" }, select: { subjectId: true } }),
-      ])
-    : [[], [], [], []];
-
-  const savedCourseIds = savedCourses.map((s) => s.courseId);
-  const requestedCourseIds = openRequests.map((r) => r.courseId);
-  const savedSubjectIds = savedSubjects.map((s) => s.subjectId);
-  const requestedSubjectIds = openSubjectRequests.map((r) => r.subjectId);
+export default async function CoursesPage() {
+  const [courses, subjects] = await Promise.all([getPublishedCourses(), getSubjects()]);
 
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
@@ -95,15 +69,7 @@ export default async function CoursesPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <CoursesHero />
       <CoursesSummary />
-      <CourseBrowser
-        courses={courses}
-        subjects={subjects}
-        savedCourseIds={savedCourseIds}
-        requestedCourseIds={requestedCourseIds}
-        savedSubjectIds={savedSubjectIds}
-        requestedSubjectIds={requestedSubjectIds}
-        initialCategory={category}
-      />
+      <CourseBrowser courses={courses} subjects={subjects} />
       <CoursesFaq />
     </div>
   );

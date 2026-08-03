@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -21,18 +21,29 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Tutor = (typeof tutorsRaw)[number];
 
-export function FeaturedTutors({
-  tutors,
-  requestedTutorProfileIds = [],
-}: {
-  tutors: Tutor[];
-  requestedTutorProfileIds?: string[];
-}) {
+export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
   const router = useRouter();
   const gridRef = useRef<HTMLDivElement>(null);
   const [pendingName, setPendingName] = useState<string | null>(null);
   const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
-  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set(requestedTutorProfileIds));
+  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set());
+
+  // The homepage no longer calls auth() itself (that forced it to be dynamically
+  // re-rendered, uncached, on every request) — pick up which of these featured
+  // tutors the signed-in user already requested right after mount instead.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/me/tutor-state")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        setRequestedIds(new Set(data.requestedTutorProfileIds));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [detail, setDetail] = useState<{ tutor: Tutor; index: number } | null>(null);
   const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);

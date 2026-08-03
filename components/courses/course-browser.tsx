@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -109,33 +109,49 @@ function RemoveFiltersButton({ onClick }: { onClick: () => void }) {
 export function CourseBrowser({
   courses,
   subjects,
-  savedCourseIds = [],
-  requestedCourseIds = [],
-  savedSubjectIds = [],
-  requestedSubjectIds = [],
-  initialCategory,
 }: {
   courses: CourseRaw[];
   subjects: SubjectListing[];
-  savedCourseIds?: string[];
-  requestedCourseIds?: string[];
-  savedSubjectIds?: string[];
-  requestedSubjectIds?: string[];
-  initialCategory?: string;
 }) {
   const router = useRouter();
-  const [category, setCategory] = useState<string>(initialCategory ?? ALL);
+  const [category, setCategory] = useState<string>(ALL);
   const activeBand = GRADE_BANDS.find((b) => b.label === category) ?? null;
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<(typeof SORTS)[number]>("Most popular");
-  const [saved, setSaved] = useState<Set<string>>(new Set(savedCourseIds));
+  const [saved, setSaved] = useState<Set<string>>(new Set());
   const [savePending, setSavePending] = useState<Set<string>>(new Set());
-  const [savedSubjects, setSavedSubjects] = useState<Set<string>>(new Set(savedSubjectIds));
+  const [savedSubjects, setSavedSubjects] = useState<Set<string>>(new Set());
   const [saveSubjectPending, setSaveSubjectPending] = useState<Set<string>>(new Set());
-  const [requested, setRequested] = useState<Set<string>>(new Set(requestedCourseIds));
+  const [requested, setRequested] = useState<Set<string>>(new Set());
   const [requestingId, setRequestingId] = useState<string | null>(null);
-  const [requestedSubjects, setRequestedSubjects] = useState<Set<string>>(new Set(requestedSubjectIds));
+  const [requestedSubjects, setRequestedSubjects] = useState<Set<string>>(new Set());
   const [requestingSubjectId, setRequestingSubjectId] = useState<string | null>(null);
+
+  // The page itself no longer reads the `?category=` URL param or the signed-in
+  // user's saved/requested state server-side (both used to force /courses to be
+  // dynamically re-rendered, uncached, on every request). Pick both up here once,
+  // right after mount, instead — this is what keeps the page's own SSR/static
+  // shell (the actual course cards) free of any per-request or per-user work.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlCategory = params.get("category");
+    if (urlCategory) setCategory(urlCategory);
+
+    let cancelled = false;
+    fetch("/api/me/course-state")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        setSaved(new Set(data.savedCourseIds));
+        setRequested(new Set(data.requestedCourseIds));
+        setSavedSubjects(new Set(data.savedSubjectIds));
+        setRequestedSubjects(new Set(data.requestedSubjectIds));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const [openCourse, setOpenCourse] = useState<CourseRaw | null>(null);

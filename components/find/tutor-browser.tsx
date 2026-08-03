@@ -208,23 +208,9 @@ function SubjectMultiSelect({
   );
 }
 
-export function TutorBrowser({
-  tutors,
-  isAdmin = false,
-  savedTutorIds = [],
-  requestedTutorProfileIds = [],
-  initialSubject,
-}: {
-  tutors: TutorRaw[];
-  isAdmin?: boolean;
-  savedTutorIds?: string[];
-  requestedTutorProfileIds?: string[];
-  initialSubject?: string;
-}) {
+export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   const router = useRouter();
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>(
-    initialSubject ? [initialSubject] : []
-  );
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [mode, setMode] = useState("Online");
   const [curriculum, setCurriculum] = useState("All curricula");
   const [maxBudget, setMaxBudget] = useState(120);
@@ -232,7 +218,8 @@ export function TutorBrowser({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [pendingName, setPendingName] = useState<string | null>(null);
   const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
-  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set(requestedTutorProfileIds));
+  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set());
+  const [isAdmin, setIsAdmin] = useState(false);
   const launchPlane = usePlaneLaunch();
 
   function isAlreadyRequested(t: TutorRaw) {
@@ -244,8 +231,32 @@ export function TutorBrowser({
   const [editingTutor, setEditingTutor] = useState<TutorRaw | null>(null);
   const [deletingTutor, setDeletingTutor] = useState<TutorRaw | null>(null);
   const [deletePending, setDeletePending] = useState(false);
-  const [bookmarked, setBookmarked] = useState<Set<string>>(new Set(savedTutorIds));
+  const [bookmarked, setBookmarked] = useState<Set<string>>(new Set());
   const [bookmarkPending, setBookmarkPending] = useState<Set<string>>(new Set());
+
+  // The page itself no longer reads the `?subject=` URL param or the signed-in
+  // user's admin/saved/requested state server-side (both used to force
+  // /find-a-tutor to be dynamically re-rendered, uncached, on every request).
+  // Pick both up here once, right after mount, instead.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlSubject = params.get("subject");
+    if (urlSubject) setSelectedSubjects([urlSubject]);
+
+    let cancelled = false;
+    fetch("/api/me/tutor-state")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        setIsAdmin(Boolean(data.isAdmin));
+        setBookmarked(new Set(data.savedTutorIds));
+        setRequestedIds(new Set(data.requestedTutorProfileIds));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const [, startTransition] = useTransition();
   const gridRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);

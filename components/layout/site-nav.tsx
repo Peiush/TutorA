@@ -130,8 +130,10 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
+const PROTECTED_PREFIXES = ["/dashboard", "/tutor", "/admin"];
+
 export function SiteNav() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const user: NavUser = status === "authenticated" ? session?.user ?? null : null;
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -140,6 +142,16 @@ export function SiteNav() {
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  // Auth.js redirects after signup/login are client-side RSC navigations, so
+  // the root-level SessionProvider (which only fetches on mount/focus) keeps
+  // reporting "unauthenticated" even though the session cookie is now valid.
+  // Force a refetch when we land on a protected route while still stale.
+  useEffect(() => {
+    if (status === "unauthenticated" && PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
+      update();
+    }
+  }, [pathname, status, update]);
 
   useEffect(() => {
     if (!mobileOpen) return;

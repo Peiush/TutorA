@@ -19,8 +19,6 @@ import type { CategoryCount } from "@/components/home/course-categories-showcase
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { courseCategories } from "@/lib/mock-courses";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
 import {
   tutorsRaw,
   steps,
@@ -123,24 +121,9 @@ const breadcrumbJsonLd = {
 };
 
 export default async function Home() {
-  // auth() reads the JWT session cookie (no DB round trip), so resolving it first lets
-  // the tutor-request lookup below run inside the same Promise.all as the listing queries
-  // instead of waiting for them to finish first.
-  const session = await auth();
-
-  const [approvedTutors, allCourses, requestedTutors] = await Promise.all([
+  const [approvedTutors, allCourses] = await Promise.all([
     getApprovedTutorListings(),
     getPublishedCourses(),
-    session?.user?.id
-      ? prisma.tutorRequest.findMany({
-          where: {
-            userId: session.user.id,
-            status: { in: ["OPEN", "MATCHED"] },
-            requestedTutorProfileId: { not: null },
-          },
-          select: { requestedTutorProfileId: true },
-        })
-      : Promise.resolve([]),
   ]);
 
   const categoryCounts: CategoryCount[] = courseCategories.map((label) => ({
@@ -148,10 +131,6 @@ export default async function Home() {
     count: allCourses.filter((c) => c.category === label).length,
   }));
   const featured = [...approvedTutors, ...tutorsRaw].slice(0, 3);
-
-  const requestedTutorProfileIds = requestedTutors
-    .map((r) => r.requestedTutorProfileId)
-    .filter((id): id is string => Boolean(id));
 
   return (
     <div>
@@ -377,7 +356,7 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-          <FeaturedTutors tutors={featured} requestedTutorProfileIds={requestedTutorProfileIds} />
+          <FeaturedTutors tutors={featured} />
         </div>
       </section>
 
