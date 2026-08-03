@@ -22,11 +22,9 @@ function canHover() {
 }
 
 export function CoursesSummary({
-  courseCount,
   avgRating,
   categoryCount,
 }: {
-  courseCount: number;
   avgRating: number;
   categoryCount: number;
 }) {
@@ -50,7 +48,6 @@ export function CoursesSummary({
           .from(".cs-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".cs-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.2")
           .from(".cs-copy", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
-          .from(".cs-citation", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.28")
           .from(".cs-fact", { autoAlpha: 0, y: 10, duration: 0.4, stagger: 0.08, ease: "power3.out" }, "-=0.2")
           .from(".cs-cta", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.2")
           .from(".cs-panel", { autoAlpha: 0, y: 20, duration: 0.5, ease: "power3.out" }, "-=0.55")
@@ -69,7 +66,7 @@ export function CoursesSummary({
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(
-          ".cs-tag, .cs-heading, .cs-copy, .cs-citation, .cs-fact, .cs-cta, .cs-panel, .cs-mockup, .cs-badge, .cs-footer-stat",
+          ".cs-tag, .cs-heading, .cs-copy, .cs-fact, .cs-cta, .cs-panel, .cs-mockup, .cs-badge, .cs-footer-stat",
           { autoAlpha: 1, y: 0, scale: 1 }
         );
         gsap.set(".cs-progress", { width: "64%" });
@@ -95,7 +92,7 @@ export function CoursesSummary({
   });
 
   return (
-    <div ref={rootRef} id="about-courses" className="mb-16 md:mb-20 scroll-mt-24">
+    <div ref={rootRef} id="about-courses" className="mt-6 md:mt-8 mb-16 md:mb-20 scroll-mt-24">
       <div className="cs-intro grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-stretch">
         <div className="flex flex-col">
           <p
@@ -111,28 +108,11 @@ export function CoursesSummary({
             className="cs-copy text-[15.5px] leading-relaxed mb-4 max-w-[52ch]"
             style={{ color: "color-mix(in srgb, var(--color-text) 80%, transparent)" }}
           >
-            TutorA courses are self-paced video lessons taught by verified tutors, covering programming,
-            test prep, languages, creative skills, and music. Every course is reviewed by our team before
-            publishing, and you keep access — plus a certificate of completion — once you finish.
+            Self-paced video lessons from verified tutors, spanning programming, test prep, languages,
+            and more. Every course is team-reviewed before it goes live, and your certificate is yours to keep.
           </p>
 
-          <div
-            className="cs-citation flex items-start gap-2.5 mb-6 pl-3.5 py-1 max-w-[52ch]"
-            style={{ borderLeft: "2px solid var(--color-accent-400)" }}
-          >
-            <CheckIcon width={14} height={14} className="mt-[3px] flex-none" style={{ color: "var(--color-accent-700)" }} />
-            <p
-              className="text-[14px] leading-relaxed m-0"
-              style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}
-            >
-              <span className="font-semibold" style={{ color: "var(--color-text)" }}>
-                {courseCount} courses
-              </span>{" "}
-              are live right now across {categoryCount} categories — every single one reviewed by our team before it publishes, no exceptions.
-            </p>
-          </div>
-
-          <div className="pt-5" style={{ borderTop: "1px solid var(--color-divider)" }}>
+          <div className="pt-5 mt-2" style={{ borderTop: "1px solid var(--color-divider)" }}>
             <p
               className="text-[11px] font-semibold uppercase tracking-wide mb-3"
               style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}

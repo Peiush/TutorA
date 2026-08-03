@@ -72,7 +72,7 @@ export default async function CoursesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <CoursesHero />
-      <CoursesSummary courseCount={courseCount} avgRating={avgRating} categoryCount={categoryCount} />
+      <CoursesSummary avgRating={avgRating} categoryCount={categoryCount} />
       <div id="browse">
         <CourseBrowser courses={courses} subjects={subjects} />
       </div>
