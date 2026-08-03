@@ -56,7 +56,7 @@ export function CoursesHero() {
 
   return (
     <div ref={rootRef} className="relative overflow-hidden">
-      <div className="hidden sm:block absolute inset-0 pointer-events-none" aria-hidden>
+      <div className="hidden sm:block absolute top-0 right-0 w-[320px] h-[200px] pointer-events-none" aria-hidden>
         {FLOATERS.map((f) => (
           <div
             key={f.category}
@@ -73,7 +73,9 @@ export function CoursesHero() {
         <Tag variant="accent-2" className="ch-tag text-[12px] px-3.5 py-1.5">
           Courses
         </Tag>
-        <h1 className="ch-heading font-bold text-[clamp(30px,4vw,48px)] mt-4 mb-1">Learn on your own schedule</h1>
+        <h1 className="ch-heading font-bold text-[clamp(30px,4vw,48px)] mt-4 mb-1">
+          Self-paced courses, on your own schedule
+        </h1>
         <p
           className="ch-copy text-[16px] mb-8"
           style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
