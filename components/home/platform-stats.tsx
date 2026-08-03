@@ -1,0 +1,238 @@
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Tag } from "@/components/ui/tag";
+import { StatIllustration } from "@/components/home/stats-icons";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+type Stat = {
+  value: number;
+  suffix: string;
+  label: string;
+  bg: string;
+  line: string;
+  meter: number;
+};
+
+const STATS_AS_OF = "2026";
+
+const stats: Stat[] = [
+  {
+    value: 1200,
+    suffix: "+",
+    label: "Verified tutors across 40+ countries, every credential checked before listing.",
+    bg: "var(--color-accent-100)",
+    line: "var(--color-accent-700)",
+    meter: 82,
+  },
+  {
+    value: 8600,
+    suffix: "",
+    label: "Successful matches, each one reviewed by our team before contact was released.",
+    bg: "color-mix(in srgb, var(--color-accent-2-100) 70%, var(--color-accent-100) 30%)",
+    line: "var(--color-accent-2-700)",
+    meter: 94,
+  },
+  {
+    value: 31,
+    suffix: " hrs",
+    label: "Average time from a submitted request to a proposed, vetted tutor.",
+    bg: "var(--color-accent-2-100)",
+    line: "var(--color-accent-2-800)",
+    meter: 68,
+  },
+];
+
+function canHover() {
+  return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+function reduced() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function StatCard({ stat, index }: { stat: Stat; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { contextSafe } = useGSAP({ scope: cardRef });
+
+  const ping = contextSafe((card: HTMLElement) => {
+    if (reduced()) return;
+    const ring = card.querySelector(".stat-ping");
+    const illo = card.querySelector(".stat-illo");
+    if (ring) {
+      gsap.killTweensOf(ring);
+      gsap.fromTo(ring, { scale: 1, autoAlpha: 0.5 }, { scale: 1.6, autoAlpha: 0, duration: 0.6, ease: "power2.out" });
+    }
+    if (illo) {
+      gsap.killTweensOf(illo);
+      gsap.to(illo, { rotate: index % 2 === 0 ? 6 : -6, duration: 0.35, ease: "power2.out", yoyo: true, repeat: 1 });
+    }
+  });
+
+  return (
+    <div
+      ref={cardRef}
+      className="stat-card group relative rounded-[var(--radius-lg)] p-6 overflow-hidden border transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1.5"
+      style={{ borderColor: "var(--color-divider)", background: "var(--color-bg)", boxShadow: "var(--shadow-sm)" }}
+      onMouseEnter={(e) => canHover() && ping(e.currentTarget)}
+    >
+      <span
+        className="pointer-events-none absolute inset-0 rounded-[var(--radius-lg)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ boxShadow: "var(--shadow-lg)" }}
+        aria-hidden
+      />
+
+      <div className="relative w-14 h-14">
+        <span
+          className="stat-ping pointer-events-none absolute inset-0 rounded-full"
+          style={{ background: stat.line, opacity: 0 }}
+          aria-hidden
+        />
+        <div
+          className="stat-illo relative w-14 h-14 rounded-full"
+          style={{ background: stat.bg, transformOrigin: "center" }}
+        >
+          <StatIllustration index={index} line={stat.line} className="w-full h-full" />
+        </div>
+      </div>
+
+      <dt
+        className="stat-value relative z-10 font-[var(--font-heading)] font-bold text-[clamp(28px,4vw,38px)] mt-4 leading-none"
+        style={{ color: stat.line }}
+        data-target={stat.value}
+        data-suffix={stat.suffix}
+      >
+        0
+      </dt>
+      <dd
+        className="relative z-10 text-[13.5px] mt-2 mb-4 leading-relaxed"
+        style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+      >
+        {stat.label}
+      </dd>
+
+      <div className="relative h-1.5 rounded-full overflow-hidden" style={{ background: "var(--color-divider)" }} aria-hidden>
+        <div className="stat-meter h-full rounded-full" style={{ background: stat.line, width: 0 }} data-meter={stat.meter} />
+      </div>
+    </div>
+  );
+}
+
+export function PlatformStats() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const root = sectionRef.current;
+      if (!root) return;
+      const tag = root.querySelector(".stats-tag");
+      const heading = root.querySelector(".stats-heading");
+      const sub = root.querySelector(".stats-sub");
+      const cards = root.querySelectorAll(".stat-card");
+      const illos = root.querySelectorAll(".stat-illo");
+      const values = root.querySelectorAll<HTMLElement>(".stat-value");
+      const meters = root.querySelectorAll<HTMLElement>(".stat-meter");
+      if (!cards.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set([tag, heading, sub], { autoAlpha: 0, y: 20 });
+        gsap.set(cards, { autoAlpha: 0, y: 32, scale: 0.97 });
+        gsap.set(illos, { scale: 0.3, rotate: -18, autoAlpha: 0 });
+
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: { trigger: root, start: "top 82%", once: true },
+        });
+
+        tl.to(tag, { autoAlpha: 1, y: 0, duration: 0.5 })
+          .to(heading, { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.3")
+          .to(sub, { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.35")
+          .to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.14, duration: 0.6 }, "-=0.25")
+          .to(illos, { scale: 1, rotate: 0, autoAlpha: 1, stagger: 0.14, duration: 0.5, ease: "back.out(2.2)" }, "-=0.5")
+          .to(
+            meters,
+            { width: (_i, el: Element) => `${(el as HTMLElement).dataset.meter}%`, stagger: 0.14, duration: 0.9 },
+            "-=0.35"
+          );
+
+        values.forEach((el) => {
+          const target = Number(el.dataset.target ?? 0);
+          const suffix = el.dataset.suffix ?? "";
+          const counter = { val: 0 };
+          tl.to(
+            counter,
+            {
+              val: target,
+              duration: 1.1,
+              ease: "power2.out",
+              onUpdate: () => {
+                el.textContent = `${Math.round(counter.val).toLocaleString()}${suffix}`;
+              },
+            },
+            "-=0.9"
+          );
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([tag, heading, sub, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+        values.forEach((el) => {
+          const target = Number(el.dataset.target ?? 0);
+          const suffix = el.dataset.suffix ?? "";
+          el.textContent = `${target.toLocaleString()}${suffix}`;
+        });
+        meters.forEach((el) => {
+          el.style.width = `${el.dataset.meter}%`;
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(20px,4vw,48px)] pb-[clamp(32px,6vw,72px)]"
+    >
+      <div
+        className="pointer-events-none absolute -top-10 right-[8%] w-[240px] h-[240px] rounded-full blur-3xl opacity-20"
+        style={{ background: "var(--color-accent-200)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 left-[4%] w-[220px] h-[220px] rounded-full blur-3xl opacity-15"
+        style={{ background: "var(--color-accent-2-200)" }}
+        aria-hidden
+      />
+
+      <div className="relative">
+        <Tag variant="accent-2" className="stats-tag text-[12px] px-3.5 py-1.5">
+          TutorA by the numbers
+        </Tag>
+        <h2 className="stats-heading text-[clamp(24px,3vw,32px)] mt-4 mb-2.5 max-w-[24ch]">
+          Current platform data (as of {STATS_AS_OF})
+        </h2>
+        <p
+          className="stats-sub text-[15px] max-w-[58ch] mb-9"
+          style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+        >
+          Every figure below reflects reviewed platform activity — not self-reported claims.
+        </p>
+
+        <dl className="grid gap-4 sm:grid-cols-3 m-0">
+          {stats.map((stat, i) => (
+            <StatCard key={stat.label} stat={stat} index={i} />
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}

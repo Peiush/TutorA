@@ -13,6 +13,7 @@ import { StatsMarquee } from "@/components/home/stats-marquee";
 import { FeaturedTutors } from "@/components/home/featured-tutors";
 import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
 import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
+import { WhoItsFor } from "@/components/home/who-its-for";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import type { CategoryCount } from "@/components/home/course-categories-showcase";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
@@ -207,18 +208,36 @@ export default async function Home() {
       </section>
 
       {/* Top summary — a direct, self-contained answer for search snippets and AI answer engines */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-2">
-        <p
-          className="text-[15px] leading-relaxed max-w-[72ch]"
-          style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}
-        >
-          <strong style={{ color: "var(--color-text)" }}>In short:</strong> TutorA is an online tutoring
-          marketplace — part of the broader e-learning / education-technology industry — built for students,
-          parents booking on behalf of their kids, and adult learners. It matches you with a personally vetted
-          tutor or course instead of an open listing you have to gamble on. Every tutor and course is reviewed
-          by our team before it goes live: 1,200+ verified tutors across 40+ countries, with a typical match
-          proposed within 31 hours of a request.
-        </p>
+      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-6 pb-2">
+        <Reveal y={16}>
+          <div
+            className="relative flex flex-col items-center gap-4 text-center max-w-[820px] mx-auto rounded-[var(--radius-lg)] border p-6 sm:p-8 overflow-hidden"
+            style={{
+              background: "color-mix(in srgb, var(--color-accent-100) 70%, var(--color-surface))",
+              borderColor: "var(--color-divider)",
+              boxShadow: "var(--shadow-md)",
+            }}
+          >
+            <span
+              className="flex-none grid place-content-center w-10 h-10 rounded-full"
+              style={{ background: "var(--color-bg)", color: "var(--color-accent-700)", boxShadow: "var(--shadow-sm)" }}
+              aria-hidden
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2l2.4 6.5L21 11l-6.6 2.5L12 20l-2.4-6.5L3 11l6.6-2.5L12 2Z" />
+              </svg>
+            </span>
+            <p
+              className="text-[15px] leading-relaxed m-0"
+              style={{ color: "color-mix(in srgb, var(--color-text) 82%, transparent)" }}
+            >
+              <strong style={{ color: "var(--color-accent-700)" }}>In short:</strong> TutorA is an online tutoring
+              marketplace that personally matches students, parents booking for their kids, and adult learners with
+              a vetted tutor or reviewed course — never an open, unverified listing. Every tutor passes ID
+              verification, a background check, and a live video interview before being matched.
+            </p>
+          </div>
+        </Reveal>
       </section>
 
       {/* Stats */}
@@ -270,37 +289,7 @@ export default async function Home() {
       </section>
 
       {/* Who it's for */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(28px,5vw,64px)]">
-        <Reveal>
-          <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
-            Who it&apos;s for
-          </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-6 max-w-[24ch]">
-            Built for anyone tired of guessing on a marketplace.
-          </h2>
-          <ul className="grid gap-4 sm:grid-cols-3 list-none p-0 m-0">
-            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                <strong style={{ color: "var(--color-text)" }}>Students and parents</strong> looking for a subject
-                tutor — academic, test prep, or skill-based — who&apos;s already been vetted, not an open listing to
-                gamble on.
-              </p>
-            </li>
-            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                <strong style={{ color: "var(--color-text)" }}>Adult learners</strong> picking up a new skill —
-                programming, a language, or an instrument — through structured, reviewed courses.
-              </p>
-            </li>
-            <li className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                <strong style={{ color: "var(--color-text)" }}>Tutors</strong> who want to be matched with serious
-                requests instead of competing in an open, unvetted marketplace.
-              </p>
-            </li>
-          </ul>
-        </Reveal>
-      </section>
+      <WhoItsFor />
 
       {/* Course categories */}
       <section className="relative overflow-hidden">

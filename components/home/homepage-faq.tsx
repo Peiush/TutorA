@@ -1,11 +1,13 @@
-import { Reveal } from "@/components/ui/reveal";
-import { Tag } from "@/components/ui/tag";
+import { ComparisonShowdown } from "@/components/home/comparison-showdown";
+import { FaqShowcase } from "@/components/home/faq-showcase";
+import { PlatformStats } from "@/components/home/platform-stats";
 import { steps } from "@/lib/mock-data";
 
 export type Faq = { question: string; answer: string };
 
-// Kept as plain, always-visible Q&A (no collapse/JS) so both search crawlers and
-// AI answer engines can read question + answer as adjacent, static HTML.
+// Rendered as an accordion (see FaqShowcase) — question + answer still exist in the
+// static HTML (just visually collapsed), and the full text also feeds the FAQPage
+// JSON-LD in app/page.tsx, so crawlers and AI answer engines can read it either way.
 export const homepageFaqs: Faq[] = [
   {
     question: "What is TutorA?",
@@ -39,134 +41,17 @@ export const homepageFaqs: Faq[] = [
   },
 ];
 
-const STATS_AS_OF = "2026";
-
-const comparisonRows = [
-  { aspect: "Tutor vetting", open: "Anyone can list themselves", tutora: "Every tutor manually reviewed before publishing" },
-  { aspect: "Pricing visibility", open: "Often unclear until you make contact", tutora: "Hourly rate shown upfront on every profile" },
-  { aspect: "Who reviews requests", open: "No review — first response wins", tutora: "Our team reviews every request before matching" },
-  { aspect: "Typical time to a match", open: "You search and vet candidates yourself", tutora: "~31 hours average, pre-verified tutors" },
-];
-
 export function HomepageFaq() {
   return (
     <>
       {/* Stats — structured, dated, and separated from prose so it's easy for both readers and AI extraction to lift */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(20px,4vw,48px)]">
-        <Reveal>
-          <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-            TutorA by the numbers
-          </Tag>
-          <h2 className="text-[clamp(24px,3vw,32px)] mt-4 mb-5 max-w-[24ch]">
-            Current platform data (as of {STATS_AS_OF})
-          </h2>
-        </Reveal>
-        <dl className="grid gap-4 sm:grid-cols-3 m-0">
-          <div className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-            <dt className="font-[var(--font-heading)] font-bold text-[26px]" style={{ color: "var(--color-accent-700)" }}>1,200+</dt>
-            <dd className="text-[13.5px] mt-1 m-0" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>
-              Verified tutors across 40+ countries, every credential checked before listing.
-            </dd>
-          </div>
-          <div className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-            <dt className="font-[var(--font-heading)] font-bold text-[26px]" style={{ color: "var(--color-accent-700)" }}>8,600</dt>
-            <dd className="text-[13.5px] mt-1 m-0" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>
-              Successful matches, each one reviewed by our team before contact was released.
-            </dd>
-          </div>
-          <div className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-            <dt className="font-[var(--font-heading)] font-bold text-[26px]" style={{ color: "var(--color-accent-700)" }}>31 hrs</dt>
-            <dd className="text-[13.5px] mt-1 m-0" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>
-              Average time from a submitted request to a proposed, vetted tutor.
-            </dd>
-          </div>
-        </dl>
-      </section>
+      <PlatformStats />
 
       {/* Comparison — decision-support content: open marketplace vs. TutorA's reviewed model */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(28px,5vw,56px)]">
-        <Reveal>
-          <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
-            Why it&apos;s different
-          </Tag>
-          <h2 className="text-[clamp(24px,3vw,32px)] mt-4 mb-5 max-w-[28ch]">
-            An open marketplace vs. TutorA&apos;s reviewed model
-          </h2>
-        </Reveal>
-        <div className="overflow-x-auto">
-          <table className="w-full text-[14px] border-collapse">
-            <caption className="sr-only">Comparison of a typical open tutor marketplace against TutorA</caption>
-            <thead>
-              <tr style={{ borderBottom: "1px solid var(--color-divider)" }}>
-                <th scope="col" className="text-left py-2.5 pr-4 font-semibold">Decision factor</th>
-                <th scope="col" className="text-left py-2.5 pr-4 font-semibold">Open marketplace</th>
-                <th scope="col" className="text-left py-2.5 font-semibold" style={{ color: "var(--color-accent-700)" }}>TutorA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonRows.map((row) => (
-                <tr key={row.aspect} style={{ borderBottom: "1px solid var(--color-divider)" }}>
-                  <th scope="row" className="text-left py-2.5 pr-4 font-medium">{row.aspect}</th>
-                  <td className="py-2.5 pr-4" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>{row.open}</td>
-                  <td className="py-2.5" style={{ color: "color-mix(in srgb, var(--color-text) 90%, transparent)" }}>{row.tutora}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <ComparisonShowdown />
 
       {/* FAQ */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,80px)]">
-        <Reveal>
-          <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
-            Common questions
-          </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-8 max-w-[24ch]">
-            Frequently asked questions
-          </h2>
-        </Reveal>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          {homepageFaqs.map((faq) => (
-            <div key={faq.question} className="card elev-sm p-5" style={{ borderColor: "var(--color-divider)" }}>
-              <h3 className="text-[16px] font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                {faq.question}
-              </h3>
-              <p
-                className="text-[14.5px] leading-relaxed m-0"
-                style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}
-              >
-                {faq.answer}
-                {faq.question.startsWith("What subjects") && (
-                  <>
-                    {" "}
-                    <a
-                      href="https://ies.ed.gov/learn/blog/how-high-quality-small-group-tutoring-can-accelerate-learning"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline font-medium"
-                      style={{ color: "var(--color-accent-2-700)" }}
-                    >
-                      Read the IES research on high-quality tutoring
-                    </a>
-                    .
-                  </>
-                )}
-              </p>
-              {faq.question.startsWith("How do I find") && (
-                <ol className="mt-2.5 pl-5 flex flex-col gap-1 text-[14.5px] leading-relaxed" style={{ color: "color-mix(in srgb, var(--color-text) 76%, transparent)" }}>
-                  {steps.map((s) => (
-                    <li key={s.n}>
-                      <strong style={{ color: "var(--color-text)" }}>{s.title}.</strong> {s.body}
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <FaqShowcase faqs={homepageFaqs} steps={steps} />
     </>
   );
 }
