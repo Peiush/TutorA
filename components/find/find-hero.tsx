@@ -109,7 +109,7 @@ export function FindHero({
             style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
           >
             {typeof tutorCount === "number" && tutorCount > 0
-              ? `${tutorCount} verified tutor${tutorCount === 1 ? "" : "s"}${
+              ? `Verified tutor${tutorCount === 1 ? "" : "s"}${
                   typeof subjectCount === "number" && subjectCount > 0 ? ` across ${subjectCount} subjects` : ""
                 }. `
               : ""}
