@@ -2,15 +2,19 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== "production";
 
+// Only relaxed when GA is actually configured, so environments without the
+// measurement ID (e.g. preview deploys) keep the stricter default CSP.
+const gaEnabled = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   // React's dev mode uses eval() for debugging (stack traces, Fast Refresh);
   // never enabled in production builds.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${gaEnabled ? " https://www.googletagmanager.com" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  `connect-src 'self'${gaEnabled ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com" : ""}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

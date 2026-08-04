@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
 import { AutoLoginPrompt } from "@/components/home/auto-login-prompt";
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -101,6 +104,7 @@ export default function RootLayout({
           <ScrollTriggerGuard />
           <AutoLoginPrompt />
         </SessionProvider>
+        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
       </body>
     </html>
   );
