@@ -13,6 +13,7 @@ import { SegmentedControl } from "@/components/ui/segmented";
 import { SubjectIcon } from "@/components/ui/subject-icons";
 import { subjectAccent } from "@/components/ui/subject-accent";
 import { SearchEmptyIllustration, RequestSendIllustration } from "@/components/find/illustrations";
+import { SubjectSearchBox } from "@/components/find/subject-search-box";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
@@ -532,6 +533,20 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
 
   return (
     <>
+    <SubjectSearchBox
+      options={subjectOptions}
+      tutors={tutors}
+      value={selectedSubjects.length === 1 ? selectedSubjects[0] : ""}
+      onSelect={(subject) => {
+        captureFlip();
+        setSelectedSubjects([subject]);
+        gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }}
+      onClear={() => {
+        captureFlip();
+        setSelectedSubjects([]);
+      }}
+    />
     <div className="grid gap-8 items-start [grid-template-columns:260px_1fr] max-[860px]:[grid-template-columns:1fr]">
       <div className="flex flex-col gap-3">
         <button
