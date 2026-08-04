@@ -1,0 +1,119 @@
+{
+  "url": "https://www.tutora.it.com/",
+  "status_code": 200,
+  "content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\" style=\"scroll-behavior: smooth;\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"preload\" href=\"/_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"><link rel=\"preload\" href=\"/_next/static/me...",
+  "raw_content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><h...",
+  "is_spa": false,
+  "extracted_text": "Every match personally verified\nThe right tutor, personally matched.\nTutorA sits between students and tutors so no one has to guess. You tell us what you need; our team vets, matches and introduces \u2014 students and tutors never chase each other, and no connection slips through unverified.\nVerified by our team, not an algorithm\nEvery tutor earns four checkmarks before they meet you\nNo shortcuts, no bots \u2014 our team personally reviews every step below.\nID verifiedGovernment ID confirmed\nBackground ch...",
+  "publication_date": "2026-08-03",
+  "accessibility_tree": null,
+  "headers": {
+    "age": "53",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "content-encoding": "br",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    "content-type": "text/html; charset=utf-8",
+    "date": "Tue, 04 Aug 2026 09:17:45 GMT",
+    "etag": "W/\"to01do5ux15705\"",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "server": "Vercel",
+    "set-cookie": "__Host-authjs.csrf-token=744e63bdc592bb29436fd4c3bad55aba82fff1bd8c0c16ee4cf9700b340cabd2%7C02f3f950b2b74b4592b8aa5501e9d7b84ac62489624865833790c64814beaeaf; Path=/; HttpOnly; Secure; SameSite=Lax\n__Secure-authjs.callback-url=https%3A%2F%2Fwww.tutora.it.com; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "x-matched-path": "/",
+    "x-nextjs-prerender": "1",
+    "x-nextjs-stale-time": "300",
+    "x-powered-by": "Next.js",
+    "x-vercel-cache": "HIT",
+    "x-vercel-id": "bom1::iad1::g5c2z-1785835119930-02f9c4f5eb8b"
+  },
+  "redirect_chain": [],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": "playwright-chromium",
+  "render_ms": 23545.46579199814,
+  "mode_used": "rendered",
+  "error": null,
+  "structured_data": {
+    "block_count": 7,
+    "processed_count": 7,
+    "total_bytes": 5001,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 234,
+        "valid": true,
+        "types": [
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 2,
+        "size_bytes": 101,
+        "valid": true,
+        "types": [
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 3,
+        "size_bytes": 579,
+        "valid": true,
+        "types": [
+          "Organization",
+          "WebPage",
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 4,
+        "size_bytes": 2859,
+        "valid": true,
+        "types": [
+          "Answer",
+          "FAQPage",
+          "Question"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 5,
+        "size_bytes": 739,
+        "valid": true,
+        "types": [
+          "HowTo",
+          "HowToStep"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 6,
+        "size_bytes": 328,
+        "valid": true,
+        "types": [
+          "Audience",
+          "Organization",
+          "Service"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 7,
+        "size_bytes": 161,
+        "valid": true,
+        "types": [
+          "BreadcrumbList",
+          "ListItem"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

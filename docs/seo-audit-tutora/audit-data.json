@@ -1,0 +1,196 @@
+{
+  "summary": {
+    "health_score": 51,
+    "business_type": "Online tutoring marketplace",
+    "top_findings": [
+      "97% of indexable URLs (44 course pages + 26 tutor profiles) are severely templated, thin content (136-210 words) - the primary blocker to ranking 100+ keywords",
+      "Sitewide Core Web Vitals failure: homepage Total Blocking Time 6.3s, Time to Interactive 19.6s on mobile, caused by a single shared JS component doing forced-synchronous-layout",
+      "Course pages are the wrong page type for their target keywords - Google rewards Service/Hybrid or marketplace-grid pages, TutorA ships thin product listings",
+      "Homepage trust stats ('1,200+ verified tutors') render as literal '0' to non-JS crawlers/AI systems - confirmed independently by 2 specialist audits",
+      "Course pages show '4.8 star' ratings with zero backing reviews - a falsifiable trust claim, also a schema manual-action risk if AggregateRating is ever added to match it"
+    ],
+    "quick_wins": [
+      "Server-render real trust-stat numbers instead of '0' (one component fix)",
+      "Suppress star-rating badge when review count is 0",
+      "Remove deprecated HowTo schema block from homepage",
+      "Add rel=nofollow to /admin and /dashboard footer links (present on every page, disallowed in robots.txt)",
+      "Add logo and sameAs to Organization schema",
+      "Fix broken template splice on Python course page",
+      "Publish a public /become-a-tutor recruiting landing page"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 81,
+      "what_works": [
+        "Valid, correctly-declared sitemap (71 URLs)",
+        "Clean self-canonicalizing URLs including query-filtered pages",
+        "Correct protocol/host redirect consolidation",
+        "Full modern security-header suite sitewide",
+        "100% server-rendered content, zero console errors",
+        "Fast TTFB (120-480ms), lightweight Brotli-compressed pages (9-36KB)"
+      ],
+      "findings": [
+        {"title": "Auth-gated /admin and /dashboard links present in footer of every page while disallowed in robots.txt", "severity": "High", "description": "Every sampled page's server-rendered footer links to /admin and /dashboard, both Disallow'd in robots.txt - a sitewide crawl-budget waste pattern.", "recommendation": "Add rel=nofollow, or render only after client-side auth hydration, or replace with a JS onClick router push."},
+        {"title": "66 of 71 pages missing og:image and page-specific Twitter Card metadata", "severity": "Medium", "description": "Course and tutor pages have og:title/description populated but no og:image, and Twitter Card falls back to generic homepage copy.", "recommendation": "Extend the homepage's opengraph-image route pattern with [slug] params for course/tutor templates."},
+        {"title": "/courses hub ItemList schema mislabels category filters as Course entities", "severity": "Medium", "description": "5 category-filter links are typed as schema.org Course when they are filter URLs, not bookable courses.", "recommendation": "Retype as CollectionPage/WebPage/Thing, reserve Course typing for the 44 real course-detail pages."},
+        {"title": "CSP allows unsafe-inline for scripts and styles", "severity": "Medium", "description": "script-src 'self' 'unsafe-inline' undercuts CSP's XSS protection.", "recommendation": "Adopt Next.js middleware-based CSP nonce pattern."},
+        {"title": "No public, indexable tutor-recruitment landing page", "severity": "High", "description": "/become-a-tutor correctly redirects to /login and is disallowed, but no public page anywhere pitches tutor recruitment.", "recommendation": "Publish a public landing page for the tutor-recruitment funnel, keep the application flow gated behind login."},
+        {"title": "Sitemap lastmod timestamps cluster in generation-order windows, not genuine edit dates", "severity": "Medium", "description": "64 course/tutor lastmod values sit in two ~10-minute sequential windows, suggesting seed timestamps rather than real content changes.", "recommendation": "Tie lastmod to genuine content-revision events."},
+        {"title": "Organization schema missing logo and sameAs", "severity": "Low", "description": "Only name/url/description present.", "recommendation": "Add logo and verified social profile sameAs links."}
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 33,
+      "what_works": [
+        "Homepage carries genuine, valid JSON-LD (7 schema blocks)",
+        "Clear, coherent value proposition copy",
+        "Legitimate vetting-process claims (ID check, background check, video interview)",
+        "Tutor cards contain concrete, specific data points",
+        "Course pages have a consistent, scannable UX scaffold"
+      ],
+      "findings": [
+        {"title": "All sampled course pages share one verbatim trust sentence and near-identical 136-155 word template", "severity": "Critical", "description": "10 sampled course pages across dance, guitar, design, language, test-prep, and coding categories all use the exact same sentence skeleton with only nouns swapped, including a word-for-word repeated trust sentence.", "recommendation": "Rewrite with subject-specific depth: real syllabus, example lesson structure, prerequisite guidance - target 300-400+ unique words per page."},
+        {"title": "Tutor profile pages restate the same 3 facts twice in ~75 words", "severity": "Critical", "description": "All 6 sampled tutor profiles use an identical 3-clause template that repeats name/subjects/years within the same short page.", "recommendation": "Add genuine differentiating content: headshot, teaching philosophy, credentials, sample lesson video, real reviews."},
+        {"title": "Star ratings shown with zero reviews", "severity": "High", "description": "Every sampled course page shows '4.8 (0)' or '5.0 (0)' - a precise rating with no reviews backing it.", "recommendation": "Suppress rating display until real reviews exist; show 'No reviews yet'."},
+        {"title": "Homepage trust statistics render as literal 0 in crawlable HTML", "severity": "High", "description": "JS count-up animation with no server-rendered fallback value means non-JS crawlers see '0 verified tutors, 0 successful matches'.", "recommendation": "Server-render actual numeric values, layer animation as progressive enhancement."},
+        {"title": "About page lacks named accountability/authorship signals", "severity": "Medium", "description": "215 words, no founder/team names, no company history, no address, despite the page being central to the platform's 'personally vetted' trust claim.", "recommendation": "Add named team members with bios, credentials, photos, company history."},
+        {"title": "Tutor pages don't surface the 4-checkmark vetting claims made on the homepage", "severity": "Medium", "description": "The homepage's core differentiator (ID verification, background check, video interview) isn't shown on the page where trust actually needs to be proven.", "recommendation": "Surface verification badges directly on tutor profile pages."},
+        {"title": "Broken template splice on Python course page", "severity": "Medium", "description": "Literal unedited fragment: 'you'll be able to python Programming for Beginners'.", "recommendation": "Manually review all 44 course pages for similar template-splicing errors."}
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 42,
+      "what_works": [
+        "Unique, well-formed titles and meta descriptions per page/template"
+      ],
+      "findings": [
+        {"title": "/find-a-tutor has no H2 heading structure below H1", "severity": "Medium", "description": "Only one H3 exists on the page; no 'how it works' section, no structural hierarchy.", "recommendation": "Add proper H2-led sections including an aggregate trust-stat bar and how-matching-works explainer."},
+        {"title": "Course pages lack FAQ/comparison/objection-handling content", "severity": "Medium", "description": "Competing pages in the same SERPs dedicate FAQ sections to guarantees, trial terms, and scheduling.", "recommendation": "Add a 3-5 item FAQ block per course page with FAQPage schema."},
+        {"title": "Duplicate anchor links per tutor card on /find-a-tutor", "severity": "Medium", "description": "Each tutor's profile link is repeated once per subject tag, inflating boilerplate and diluting internal-link signal.", "recommendation": "Consolidate multi-subject tutors into a single card with subject tags."}
+      ]
+    },
+    {
+      "name": "Schema / Structured Data",
+      "score": 80,
+      "what_works": [
+        "JSON-LD used exclusively, correct schema.org context, absolute URLs",
+        "Valid Organization, WebSite, Course (with offers), Person (with knowsAbout/worksFor), BreadcrumbList",
+        "No fabricated/placeholder values found anywhere sampled"
+      ],
+      "findings": [
+        {"title": "Deprecated HowTo schema on homepage", "severity": "High", "description": "Google removed HowTo rich results in September 2023; this block provides zero SERP benefit.", "recommendation": "Remove entirely, or replace with a plain ItemList if structural markup is still wanted."},
+        {"title": "Organization schema missing logo and sameAs", "severity": "Medium", "description": "Blocks Knowledge Panel eligibility and entity-graph consolidation.", "recommendation": "Add logo (>=112x112px) and sameAs social profile links."},
+        {"title": "Course schema missing recommended hasCourseInstance", "severity": "Medium", "description": "Duration and mode data already shown on-page isn't reflected in schema.", "recommendation": "Add hasCourseInstance with courseMode/courseWorkload."},
+        {"title": "Do not add AggregateRating until real reviews exist", "severity": "Medium", "description": "On-page rating displays '4.8 (0)' - adding matching schema would violate Google's non-genuine-review policy.", "recommendation": "Fix the front-end display first; only add AggregateRating once ratingCount >= 1."},
+        {"title": "BreadcrumbList missing on /about", "severity": "Low", "description": "Course/tutor pages have correct 3-level breadcrumbs; /about has none.", "recommendation": "Add a 2-level breadcrumb to /about."}
+      ]
+    },
+    {
+      "name": "Performance (Core Web Vitals)",
+      "score": 30,
+      "what_works": [
+        "CLS excellent sitewide (0-0.012)",
+        "Fast TTFB (~30ms server time)",
+        "Light total page weight (480-508KB) across all templates",
+        "Zero image-weight risk - no image bytes loaded anywhere"
+      ],
+      "findings": [
+        {"title": "Severe main-thread blocking from forced synchronous layout, sitewide", "severity": "Critical", "description": "Two shared JS chunks cause forced reflows on every page tested, driving homepage Total Blocking Time to 6,340ms and Time to Interactive to 19.6s on mobile lab tests.", "recommendation": "Identify the shared scroll-reveal/animation component; replace synchronous DOM geometry reads with IntersectionObserver or CSS-only animation."},
+        {"title": "LCP dominated by render delay, not network", "severity": "Critical", "description": "92-96% of total LCP time is render delay across all four pages tested - main thread too busy to paint content that's already downloaded.", "recommendation": "Fixing the forced-reflow issue should resolve most of this; audit script evaluation cost of the two large chunks."},
+        {"title": "Total Blocking Time fails Poor threshold on all four pages tested", "severity": "Critical", "description": "6,340ms on homepage down to 810ms on the lightest course-detail page, all exceeding the 500ms Poor INP threshold by a wide margin.", "recommendation": "Break up long tasks, defer/lazy-hydrate below-the-fold sections."},
+        {"title": "Excessive DOM size on /find-a-tutor (4,544 elements)", "severity": "High", "description": "Nearly 3x the 1,500-element guideline, compounding the reflow cost from the animation issue.", "recommendation": "Paginate or virtualize the tutor card list."},
+        {"title": "Render-blocking CSS with no font preload hints on hub pages", "severity": "Medium", "description": "13.6KB CSS chunk blocks render on home/courses/find-a-tutor; three woff2 fonts (~120KB total) load without preload hints.", "recommendation": "Preload above-the-fold fonts, inline critical CSS."}
+      ]
+    },
+    {
+      "name": "AI Search Readiness",
+      "score": 54,
+      "what_works": [
+        "Homepage and About open with direct, self-contained, LLM-extractable definitions",
+        "Course pages land almost exactly in the ideal 134-167 word citation range",
+        "Fully server-rendered - non-JS AI crawlers see full content",
+        "robots.txt permissively allows all AI crawlers via wildcard"
+      ],
+      "findings": [
+        {"title": "Headline trust statistics render as 0 for non-JS AI crawlers", "severity": "High", "description": "Confirmed via both raw curl and Playwright render diffing - the site's strongest citable proof-point block is currently invisible to GPTBot, ClaudeBot, and PerplexityBot.", "recommendation": "Server-render the actual numeric values as visible text nodes."},
+        {"title": "No llms.txt file", "severity": "Medium", "description": "Returns 404. ChatGPT and Perplexity crawlers reportedly consult it where present.", "recommendation": "Publish a concise llms.txt listing key pages and a summary of the vetting/matching model."},
+        {"title": "Zero images anywhere on the site", "severity": "Medium", "description": "No tutor headshots, no course thumbnails, no video - nothing for multimodal answer engines to surface.", "recommendation": "Add tutor profile photos and course thumbnail images with descriptive alt text."},
+        {"title": "No entity/brand signals off-page or in schema", "severity": "Medium", "description": "No sameAs, no social links, no named founder, zero YouTube presence (the strongest brand-citation correlator per GEO research).", "recommendation": "Add sameAs links, visible footer social links, named founder with Person schema."}
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 10,
+      "what_works": [
+        "Confirmed absence keeps page weight low and CLS excellent"
+      ],
+      "findings": [
+        {"title": "Zero <img> elements found anywhere on the site", "severity": "High", "description": "Independently confirmed by four separate specialist audits (Technical, Content, Performance, GEO). All visuals are CSS-drawn gradients or initials-only avatars - no tutor photos, no course images.", "recommendation": "Add real tutor profile photos and course thumbnails with descriptive alt text, using next/image to preserve current performance profile."}
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Server-render real trust-stat numbers instead of '0'",
+          "Suppress star-rating badge when review count is 0",
+          "Fix broken template splice on Python course page (and audit remaining 43)",
+          "Add rel=nofollow to /admin and /dashboard footer links",
+          "Remove deprecated HowTo schema block",
+          "Fix the shared JS component causing forced-synchronous-layout (highest leverage item in the audit)"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Add logo and sameAs to Organization schema",
+          "Add page-specific og:image/Twitter Card metadata to course and tutor templates",
+          "Publish a public /become-a-tutor landing page",
+          "Fix /courses hub ItemList schema mislabeling",
+          "Add hasCourseInstance to Course schema",
+          "Virtualize/paginate the /find-a-tutor grid and consolidate duplicate anchors",
+          "Publish llms.txt",
+          "Add named team/founder info to /about",
+          "Surface verification badges on tutor profile pages"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority Rebuild",
+        "timeframe": "Month 2",
+        "items": [
+          "Rewrite all 44 course pages with genuine subject-specific depth (300-400+ words each)",
+          "Rebuild the test-prep cluster as Service/Hybrid pages with guarantees and testimonials",
+          "Embed subject-filtered tutor-card grids on course pages",
+          "Rewrite all tutor profile bios with genuine differentiation and real photos",
+          "Add tutor photos sitewide with alt text and Person.image schema",
+          "Run seo-cluster to formally map 100+ keyword targets before further content build",
+          "Add FAQ blocks with FAQPage schema to course pages",
+          "Begin free/low-cost backlink acquisition plan"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "Configure free Moz API key for real Backlink Health Score",
+          "Configure GSC/PSI/GA4 credentials for real field data",
+          "Capture SEO drift baseline",
+          "Re-run seo-backlinks in 3-6 months",
+          "Re-run full audit after Phase 1-2 ship"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

@@ -34,6 +34,16 @@ export function priceLabel(cents: number) {
   return `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
 }
 
+// Guards against a real data-entry mistake seen in production: an instructor pastes the
+// course title into the first "what you'll learn" outcome instead of an actual outcome
+// phrase, which then reads as broken prose wherever outcomes are spliced into a sentence
+// (e.g. "you'll be able to Python Programming for Beginners"). Filtering it out here
+// protects every course page from this class of bug, not just the one it was caught on.
+export function learningOutcomes(course: Pick<CourseRaw, "title" | "whatYoullLearn">): string[] {
+  const title = course.title.trim().toLowerCase();
+  return course.whatYoullLearn.filter((item) => item.trim().toLowerCase() !== title);
+}
+
 export const courseCategories: CourseCategory[] = [
   "Programming & Technology",
   "Test Preparation",

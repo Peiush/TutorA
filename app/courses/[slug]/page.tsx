@@ -7,7 +7,7 @@ import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon } from "@/components/courses/course-icons";
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
-import { priceLabel, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, learningOutcomes, type CourseRaw } from "@/lib/mock-courses";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -15,8 +15,9 @@ const BASE_URL = "https://www.tutora.it.com";
 
 function courseDescription(course: CourseRaw): string {
   if (course.subtitle) return course.subtitle;
-  if (course.whatYoullLearn.length > 0) {
-    return `Learn ${course.whatYoullLearn.slice(0, 3).join(", ")} — a ${course.level.toLowerCase()} course on TutorA.`;
+  const outcomes = learningOutcomes(course);
+  if (outcomes.length > 0) {
+    return `Learn ${outcomes.slice(0, 3).join(", ")} — a ${course.level.toLowerCase()} course on TutorA.`;
   }
   const levelLower = course.level.toLowerCase();
   const article = /^[aeiou]/.test(levelLower) ? "An" : "A";
@@ -41,9 +42,10 @@ function aboutCourseParagraph(course: CourseRaw): string {
     sentences.push(`Course format: ${course.lectureCountLabel}.`);
   }
 
-  if (course.whatYoullLearn.length > 0) {
+  const outcomes = learningOutcomes(course);
+  if (outcomes.length > 0) {
     sentences.push(
-      `By the end, you'll be able to ${course.whatYoullLearn
+      `By the end, you'll be able to ${outcomes
         .map((s) => s.charAt(0).toLowerCase() + s.slice(1))
         .join("; ")}.`
     );
@@ -204,11 +206,15 @@ export default async function CourseDetailPage({
             {course.instructor && (
               <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
             )}
-            <span className="inline-flex items-center gap-1">
-              <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
-              <StarRating rating={course.rating} size={13} />
-              <span>({course.reviews.toLocaleString()})</span>
-            </span>
+            {course.reviews > 0 ? (
+              <span className="inline-flex items-center gap-1">
+                <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
+                <StarRating rating={course.rating} size={13} />
+                <span>({course.reviews.toLocaleString()})</span>
+              </span>
+            ) : (
+              <span>No reviews yet</span>
+            )}
             {course.durationHours != null && (
               <span className="inline-flex items-center gap-1.5">
                 <ClockIcon width={14} height={14} />
@@ -237,13 +243,13 @@ export default async function CourseDetailPage({
             </p>
           </div>
 
-          {course.whatYoullLearn.length > 0 && (
+          {learningOutcomes(course).length > 0 && (
             <div className="rounded-[var(--radius-md)] p-4" style={{ background: "var(--color-surface)" }}>
               <h2 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
                 What you&rsquo;ll learn
               </h2>
               <ul className="flex flex-col gap-2 m-0 p-0 list-none">
-                {course.whatYoullLearn.map((item) => (
+                {learningOutcomes(course).map((item) => (
                   <li key={item} className="flex items-start gap-1.5 text-[14px] leading-snug">
                     <CheckIcon width={15} height={15} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
                     <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>
@@ -298,7 +304,8 @@ export default async function CourseDetailPage({
                   {related.title}
                 </span>
                 <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
-                  {related.level} · {related.rating.toFixed(1)}★
+                  {related.level}
+                  {related.reviews > 0 && ` · ${related.rating.toFixed(1)}★`}
                 </span>
               </Link>
             ))}

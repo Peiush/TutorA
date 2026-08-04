@@ -277,11 +277,17 @@ export function CourseCard({
             </p>
           )}
           <div className="flex items-center gap-1.5 text-[12.5px]">
-            <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
-            <StarRating rating={course.rating} size={12} />
-            <span style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
-              ({course.reviews.toLocaleString()})
-            </span>
+            {course.reviews > 0 ? (
+              <>
+                <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
+                <StarRating rating={course.rating} size={12} />
+                <span style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
+                  ({course.reviews.toLocaleString()})
+                </span>
+              </>
+            ) : (
+              <span style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>No reviews yet</span>
+            )}
           </div>
           <div
             className="flex items-center gap-1 mt-auto pt-1 font-[var(--font-heading)]"

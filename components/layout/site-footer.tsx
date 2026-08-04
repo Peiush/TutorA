@@ -16,10 +16,13 @@ const EXPLORE_LINKS = [
   { href: "/about", label: "About Us" },
 ];
 
+// nofollow: these are auth-gated app routes, not public content — without it they'd be
+// both linked (crawlable) and disallowed in robots.txt on every page site-wide, wasting
+// crawl budget and risking an "indexed though blocked by robots.txt" warning in GSC.
 const DASHBOARD_LINKS = [
-  { href: "/dashboard", label: "Student" },
+  { href: "/dashboard", label: "Student", rel: "nofollow" },
   // { href: "/tutor", label: "Tutor" },
-  { href: "/admin", label: "Admin" },
+  { href: "/admin", label: "Admin", rel: "nofollow" },
 ];
 
 const ACCOUNT_LINKS = [
@@ -216,7 +219,13 @@ function OrbitMatchIllustration() {
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { href: string; label: string; rel?: string }[];
+}) {
   return (
     <div className="footer-col text-[14px] w-[130px] flex-none">
       <div
@@ -230,6 +239,7 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
           <li key={link.label}>
             <Link
               href={link.href}
+              rel={link.rel}
               className="group relative inline-flex items-center cursor-pointer"
               style={{ color: "rgba(255,255,255,0.72)" }}
             >

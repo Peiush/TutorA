@@ -1,0 +1,86 @@
+{
+  "url": "https://www.tutora.it.com/courses/ui-ux-design-85bad5a6",
+  "status_code": 200,
+  "content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0qdwiklpss0d3.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/20tuuqvsddgn2.js\"/><script src=\"...",
+  "raw_content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><h...",
+  "is_spa": false,
+  "extracted_text": "UI/UX Design\nLearn to design intuitive, user-friendly digital products from research to prototype.\n4.8(0)35hFlexibleAll Levels\nAbout this course\nThis all levels creative skills course offers 35 hours of instruction. By the end, you'll be able to understand core UX research and design principles; learn wireframing and prototyping fundamentals; practice designing user flows and interfaces; build a small UI/UX project from scratch. Every course on TutorA is reviewed by our team before it's publishe...",
+  "publication_date": "2026-01-01",
+  "accessibility_tree": null,
+  "headers": {
+    "Age": "0",
+    "Cache-Control": "private, no-cache, no-store, max-age=0, must-revalidate",
+    "Content-Encoding": "br",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Tue, 04 Aug 2026 09:17:03 GMT",
+    "Link": "</_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/a24d9e981578d580-s.p.2dim39isyjvqg.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/chunks/0qdwiklpss0d3.css>; rel=preload; as=\"style\"",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Server": "Vercel",
+    "Set-Cookie": "__Host-authjs.csrf-token=45e118875297f520f7e2c1132f3fd9b29c27dc401cd9a45534f582665c8dfad5%7C423085ea23cb333bcccb889606009b6c606c9acc0aa420d26693024d126ab8bb; Path=/; HttpOnly; Secure; SameSite=Lax, __Secure-authjs.callback-url=https%3A%2F%2Fwww.tutora.it.com; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-Matched-Path": "/courses/[slug]",
+    "X-Powered-By": "Next.js",
+    "X-Vercel-Cache": "MISS",
+    "X-Vercel-Id": "bom1::iad1::rhfdk-1785835023817-490546e675f6",
+    "Transfer-Encoding": "chunked"
+  },
+  "redirect_chain": [],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": null,
+  "render_ms": null,
+  "mode_used": "raw",
+  "error": null,
+  "structured_data": {
+    "block_count": 4,
+    "processed_count": 4,
+    "total_bytes": 1211,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 234,
+        "valid": true,
+        "types": [
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 2,
+        "size_bytes": 101,
+        "valid": true,
+        "types": [
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 3,
+        "size_bytes": 500,
+        "valid": true,
+        "types": [
+          "Course",
+          "Offer",
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 4,
+        "size_bytes": 376,
+        "valid": true,
+        "types": [
+          "BreadcrumbList",
+          "ListItem"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

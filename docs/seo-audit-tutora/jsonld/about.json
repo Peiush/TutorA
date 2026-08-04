@@ -1,0 +1,96 @@
+{
+  "block_count": 3,
+  "processed_count": 3,
+  "total_bytes": 1595,
+  "truncated": false,
+  "blocks": [
+    {
+      "index": 1,
+      "size_bytes": 234,
+      "valid": true,
+      "types": [
+        "Organization"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com",
+        "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+      }
+    },
+    {
+      "index": 2,
+      "size_bytes": 101,
+      "valid": true,
+      "types": [
+        "WebSite"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com"
+      }
+    },
+    {
+      "index": 3,
+      "size_bytes": 1260,
+      "valid": true,
+      "types": [
+        "Answer",
+        "FAQPage",
+        "Question"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can I contact a tutor directly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not until a match is confirmed. Every introduction is made by our team — it keeps both sides safe and every match accountable. The moment you and the tutor both confirm, we release full contact details."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does it cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browsing and requesting are free. TutorA charges a percentage-based success fee once a match is confirmed — never before."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How are tutors verified?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every tutor uploads qualifications and experience, which our team reviews before a profile goes live. Reviews from students are published openly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly will I be matched?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most students receive proposed tutors within 24–48 hours of submitting a request."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is TutorA available in my country?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — we operate internationally, with multi-currency pricing and time-zone-aware matching for online tutoring."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

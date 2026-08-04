@@ -89,13 +89,20 @@ const faqPageJsonLd = {
   })),
 };
 
-const howToJsonLd = {
+// Google retired HowTo rich results in Sept 2023, so this deliberately isn't typed as
+// HowTo (that markup would just be dead weight now) — a plain ItemList still gives AI/GEO
+// crawlers a structured read of the three-step process without claiming a stale rich result.
+const howItWorksJsonLd = {
   "@context": "https://schema.org",
-  "@type": "HowTo",
+  "@type": "ItemList",
   "@id": `${BASE_URL}/#how-it-works`,
-  name: "How to find a tutor on TutorA",
-  description: "The three-step process TutorA uses to match a student with a personally vetted tutor.",
-  step: steps.map((s) => ({ "@type": "HowToStep", name: s.title, text: s.body })),
+  name: "How TutorA matches you with a tutor",
+  itemListElement: steps.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: s.title,
+    description: s.body,
+  })),
 };
 
 // TutorA is the brand/Organization; this Service entity disambiguates what the brand
@@ -136,7 +143,7 @@ export default async function Home() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howItWorksJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 

@@ -1,0 +1,102 @@
+{
+  "url": "https://www.tutora.it.com/courses",
+  "status_code": 200,
+  "content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" href=\"/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s...",
+  "raw_content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><h...",
+  "is_spa": false,
+  "extracted_text": "Courses taught by verified tutors, not anonymous uploads\nEvery course is reviewed by our team before it goes live. Pick a subject, learn at your own pace, and keep a certificate when you finish.\nAbout courses\nWhat are TutorA courses?\nSelf-paced video lessons from verified tutors, spanning programming, test prep, languages, and more. Every course is team-reviewed before it goes live, and your certificate is yours to keep.\nQuick facts\nPopular right now\nPopular subjects and courses to get you start...",
+  "publication_date": "2026-08-04",
+  "accessibility_tree": null,
+  "headers": {
+    "Age": "61",
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "Content-Encoding": "br",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Tue, 04 Aug 2026 09:16:46 GMT",
+    "Etag": "W/\"13vzzirtx837ny2\"",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Server": "Vercel",
+    "Set-Cookie": "__Host-authjs.csrf-token=b9946272e7c1daefe0390380aa6d5201aed458b676451654c72b13ae7077345a%7Ce4c6696fdf54a1ab47a7da1ba048dcd3315a11f67474dc1031ff759672993138; Path=/; HttpOnly; Secure; SameSite=Lax, __Secure-authjs.callback-url=https%3A%2F%2Fwww.tutora.it.com; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-Matched-Path": "/courses",
+    "X-Nextjs-Prerender": "1",
+    "X-Nextjs-Stale-Time": "300",
+    "X-Powered-By": "Next.js",
+    "X-Vercel-Cache": "STALE",
+    "X-Vercel-Id": "bom1::iad1::m856q-1785835068276-2dc9a5fcafa4",
+    "Transfer-Encoding": "chunked"
+  },
+  "redirect_chain": [],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": null,
+  "render_ms": null,
+  "mode_used": "raw",
+  "error": null,
+  "structured_data": {
+    "block_count": 5,
+    "processed_count": 5,
+    "total_bytes": 4099,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 234,
+        "valid": true,
+        "types": [
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 2,
+        "size_bytes": 101,
+        "valid": true,
+        "types": [
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 3,
+        "size_bytes": 255,
+        "valid": true,
+        "types": [
+          "BreadcrumbList",
+          "ListItem"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 4,
+        "size_bytes": 1766,
+        "valid": true,
+        "types": [
+          "CollectionPage",
+          "Course",
+          "ItemList",
+          "ListItem",
+          "Organization",
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 5,
+        "size_bytes": 1743,
+        "valid": true,
+        "types": [
+          "Answer",
+          "FAQPage",
+          "Question"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

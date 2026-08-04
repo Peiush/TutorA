@@ -47,6 +47,10 @@ const stats: Stat[] = [
   },
 ];
 
+function formatStatValue(stat: Stat) {
+  return `${stat.value.toLocaleString()}${stat.suffix}`;
+}
+
 function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
@@ -103,10 +107,8 @@ function StatCard({ stat, index }: { stat: Stat; index: number }) {
       <dt
         className="stat-value relative z-10 font-[var(--font-heading)] font-bold text-[clamp(28px,4vw,38px)] mt-4 leading-none"
         style={{ color: stat.line }}
-        data-target={stat.value}
-        data-suffix={stat.suffix}
       >
-        0
+        {formatStatValue(stat)}
       </dt>
       <dd
         className="relative z-10 text-[13.5px] mt-2 mb-4 leading-relaxed"
@@ -134,7 +136,6 @@ export function PlatformStats() {
       const sub = root.querySelector(".stats-sub");
       const cards = root.querySelectorAll(".stat-card");
       const illos = root.querySelectorAll(".stat-illo");
-      const values = root.querySelectorAll<HTMLElement>(".stat-value");
       const meters = root.querySelectorAll<HTMLElement>(".stat-meter");
       if (!cards.length) return;
 
@@ -160,33 +161,10 @@ export function PlatformStats() {
             { width: (_i, el: Element) => `${(el as HTMLElement).dataset.meter}%`, stagger: 0.14, duration: 0.9 },
             "-=0.35"
           );
-
-        values.forEach((el) => {
-          const target = Number(el.dataset.target ?? 0);
-          const suffix = el.dataset.suffix ?? "";
-          const counter = { val: 0 };
-          tl.to(
-            counter,
-            {
-              val: target,
-              duration: 1.1,
-              ease: "power2.out",
-              onUpdate: () => {
-                el.textContent = `${Math.round(counter.val).toLocaleString()}${suffix}`;
-              },
-            },
-            "-=0.9"
-          );
-        });
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set([tag, heading, sub, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
-        values.forEach((el) => {
-          const target = Number(el.dataset.target ?? 0);
-          const suffix = el.dataset.suffix ?? "";
-          el.textContent = `${target.toLocaleString()}${suffix}`;
-        });
         meters.forEach((el) => {
           el.style.width = `${el.dataset.meter}%`;
         });

@@ -8,7 +8,7 @@ import { Tag } from "@/components/ui/tag";
 import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, HeartIcon, SendIcon, CheckIcon, XIcon } from "@/components/courses/course-icons";
-import { priceLabel, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, learningOutcomes, type CourseRaw } from "@/lib/mock-courses";
 
 gsap.registerPlugin(useGSAP);
 
@@ -151,11 +151,15 @@ export function CourseDetailModal({
             {course.instructor && (
               <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>By {course.instructor}</span>
             )}
-            <span className="inline-flex items-center gap-1">
-              <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
-              <StarRating rating={course.rating} size={12} />
-              <span>({course.reviews.toLocaleString()})</span>
-            </span>
+            {course.reviews > 0 ? (
+              <span className="inline-flex items-center gap-1">
+                <span style={{ color: "var(--color-accent-700)", fontWeight: 700 }}>{course.rating.toFixed(1)}</span>
+                <StarRating rating={course.rating} size={12} />
+                <span>({course.reviews.toLocaleString()})</span>
+              </span>
+            ) : (
+              <span>No reviews yet</span>
+            )}
             {course.durationHours != null && (
               <span className="inline-flex items-center gap-1.5">
                 <ClockIcon width={13} height={13} />
@@ -172,7 +176,7 @@ export function CourseDetailModal({
             </span>
           </div>
 
-          {course.whatYoullLearn.length > 0 && (
+          {learningOutcomes(course).length > 0 && (
             <div
               className="cdetail-stagger rounded-[var(--radius-md)] p-3"
               style={{ background: "var(--color-surface)" }}
@@ -181,7 +185,7 @@ export function CourseDetailModal({
                 What you&rsquo;ll learn
               </div>
               <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
-                {course.whatYoullLearn.map((item) => (
+                {learningOutcomes(course).map((item) => (
                   <li key={item} className="flex items-start gap-1.5 text-[13px] leading-snug">
                     <CheckIcon width={14} height={14} className="flex-none mt-0.5" style={{ color: "var(--color-verified)" }} />
                     <span style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>{item}</span>

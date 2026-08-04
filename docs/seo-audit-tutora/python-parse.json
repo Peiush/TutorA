@@ -1,0 +1,212 @@
+{
+  "title": "Python Programming for Beginners \u2014 TutorA",
+  "meta_description": "Learn to code in Python from the ground up \u2014 no experience required.",
+  "meta_robots": null,
+  "canonical": "https://www.tutora.it.com/courses/python-ff654450",
+  "h1": [
+    "Python Programming for Beginners"
+  ],
+  "h2": [
+    "About this course",
+    "What you\u2019ll learn",
+    "Related courses inProgramming & Technology"
+  ],
+  "h3": [],
+  "images": [],
+  "links": {
+    "internal": [
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "TutorA",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Find a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/request-a-tutor",
+        "text": "Request a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/about",
+        "text": "About Us",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/login",
+        "text": "Sign in",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Get started",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "Home",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses?category=Programming%20%26%20Technology",
+        "text": "Browse moreProgramming & Technologycourses \u2192",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/c-95361960",
+        "text": "C++ Programming for BeginnersAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/javascript-ac5adb0a",
+        "text": "JavaScript Programming for BeginnersAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/java-48483b48",
+        "text": "Java Programming FundamentalsAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "TutorA",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Find a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/request-a-tutor",
+        "text": "Request a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/about",
+        "text": "About Us",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/dashboard",
+        "text": "Student",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/admin",
+        "text": "Admin",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/login",
+        "text": "Log in",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/signup",
+        "text": "Sign up",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/terms",
+        "text": "Terms",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/privacy",
+        "text": "Privacy",
+        "rel": []
+      }
+    ],
+    "external": []
+  },
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "TutorA",
+      "url": "https://www.tutora.it.com",
+      "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "TutorA",
+      "url": "https://www.tutora.it.com"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Python Programming for Beginners",
+      "description": "Learn to code in Python from the ground up \u2014 no experience required.",
+      "url": "https://www.tutora.it.com/courses/python-ff654450",
+      "provider": {
+        "@type": "Organization",
+        "name": "TutorA",
+        "sameAs": "https://www.tutora.it.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "45.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.tutora.it.com/courses/python-ff654450"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.tutora.it.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Courses",
+          "item": "https://www.tutora.it.com/courses"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Python Programming for Beginners",
+          "item": "https://www.tutora.it.com/courses/python-ff654450"
+        }
+      ]
+    }
+  ],
+  "open_graph": {
+    "og:title": "Python Programming for Beginners",
+    "og:description": "Learn to code in Python from the ground up \u2014 no experience required.",
+    "og:url": "https://www.tutora.it.com/courses/python-ff654450",
+    "og:type": "website"
+  },
+  "twitter_card": {
+    "twitter:card": "summary_large_image",
+    "twitter:title": "TutorA \u2014 The right tutor, personally matched",
+    "twitter:description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+  },
+  "word_count": 204,
+  "hreflang": []
+}

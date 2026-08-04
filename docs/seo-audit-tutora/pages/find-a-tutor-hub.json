@@ -1,0 +1,67 @@
+{
+  "url": "https://www.tutora.it.com/find-a-tutor",
+  "status_code": 200,
+  "content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" href=\"/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s...",
+  "raw_content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><h...",
+  "is_spa": false,
+  "extracted_text": "Browse verified tutors\n25 verified tutors across 78 subjects. Contact details stay private. Request a tutor and our team makes the introduction.\nChemistry and biology educator focused on building strong foundational understanding before moving to exam-level application. With 8+ years teaching AP Chemistry, General Chemistry, and Biology, Sudipto helps students connect core scientific concepts across both subjects.\nSimplifies complex chemistry concepts with interactive teaching methods and person...",
+  "publication_date": "2026-07-27",
+  "accessibility_tree": null,
+  "headers": {
+    "Age": "171",
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "Content-Encoding": "br",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Tue, 04 Aug 2026 08:36:39 GMT",
+    "Etag": "W/\"10511vu9gpmd37w\"",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Server": "Vercel",
+    "Set-Cookie": "__Host-authjs.csrf-token=aa213d04272654ab98ea0665fdadb9de5d93502ef52a832bbee46be34de20abc%7C83f9045f354066bfa774a1ed7c3405372c603faaaa0fe21a30e48c9647690c5a; Path=/; HttpOnly; Secure; SameSite=Lax, __Secure-authjs.callback-url=https%3A%2F%2Fwww.tutora.it.com; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-Matched-Path": "/find-a-tutor",
+    "X-Nextjs-Prerender": "1",
+    "X-Nextjs-Stale-Time": "300",
+    "X-Powered-By": "Next.js",
+    "X-Vercel-Cache": "STALE",
+    "X-Vercel-Id": "bom1::iad1::p9q8w-1785835007385-0719066c7149",
+    "Transfer-Encoding": "chunked"
+  },
+  "redirect_chain": [],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": null,
+  "render_ms": null,
+  "mode_used": "raw",
+  "error": null,
+  "structured_data": {
+    "block_count": 2,
+    "processed_count": 2,
+    "total_bytes": 335,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 234,
+        "valid": true,
+        "types": [
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 2,
+        "size_bytes": 101,
+        "valid": true,
+        "types": [
+          "WebSite"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

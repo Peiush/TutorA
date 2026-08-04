@@ -1,0 +1,212 @@
+{
+  "title": "SAT Prep Course \u2014 TutorA",
+  "meta_description": "Structured, focused preparation to help you raise your SAT score with confidence.",
+  "meta_robots": null,
+  "canonical": "https://www.tutora.it.com/courses/sat-c5d2749b",
+  "h1": [
+    "SAT Prep Course"
+  ],
+  "h2": [
+    "About this course",
+    "What you\u2019ll learn",
+    "Related courses inTest Preparation"
+  ],
+  "h3": [],
+  "images": [],
+  "links": {
+    "internal": [
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "TutorA",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Find a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/request-a-tutor",
+        "text": "Request a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/about",
+        "text": "About Us",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/login",
+        "text": "Sign in",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Get started",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "Home",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses?category=Test%20Preparation",
+        "text": "Browse moreTest Preparationcourses \u2192",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/gmat-d7e5eb9d",
+        "text": "GMAT Preparation CourseAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/act-dccdc694",
+        "text": "ACT Prep CourseAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses/toefl-3a2e48ed",
+        "text": "TOEFL Preparation CourseAll Levels\u00b74.8\u2605",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/",
+        "text": "TutorA",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/courses",
+        "text": "Courses",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/find-a-tutor",
+        "text": "Find a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/request-a-tutor",
+        "text": "Request a Tutor",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/about",
+        "text": "About Us",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/dashboard",
+        "text": "Student",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/admin",
+        "text": "Admin",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/login",
+        "text": "Log in",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/signup",
+        "text": "Sign up",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/terms",
+        "text": "Terms",
+        "rel": []
+      },
+      {
+        "href": "https://www.tutora.it.com/privacy",
+        "text": "Privacy",
+        "rel": []
+      }
+    ],
+    "external": []
+  },
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "TutorA",
+      "url": "https://www.tutora.it.com",
+      "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "TutorA",
+      "url": "https://www.tutora.it.com"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "SAT Prep Course",
+      "description": "Structured, focused preparation to help you raise your SAT score with confidence.",
+      "url": "https://www.tutora.it.com/courses/sat-c5d2749b",
+      "provider": {
+        "@type": "Organization",
+        "name": "TutorA",
+        "sameAs": "https://www.tutora.it.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "35.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.tutora.it.com/courses/sat-c5d2749b"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.tutora.it.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Courses",
+          "item": "https://www.tutora.it.com/courses"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "SAT Prep Course",
+          "item": "https://www.tutora.it.com/courses/sat-c5d2749b"
+        }
+      ]
+    }
+  ],
+  "open_graph": {
+    "og:title": "SAT Prep Course",
+    "og:description": "Structured, focused preparation to help you raise your SAT score with confidence.",
+    "og:url": "https://www.tutora.it.com/courses/sat-c5d2749b",
+    "og:type": "website"
+  },
+  "twitter_card": {
+    "twitter:card": "summary_large_image",
+    "twitter:title": "TutorA \u2014 The right tutor, personally matched",
+    "twitter:description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+  },
+  "word_count": 191,
+  "hreflang": []
+}

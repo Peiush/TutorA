@@ -1,0 +1,85 @@
+{
+  "url": "https://www.tutora.it.com/find-a-tutor/sudipto-ffbf5742",
+  "status_code": 200,
+  "content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0qdwiklpss0d3.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/20tuuqvsddgn2.js\"/><script src=\"...",
+  "raw_content": "<!DOCTYPE html><html lang=\"en\" data-scroll-behavior=\"smooth\" class=\"space_grotesk_44a0d8b8-module__tGMMGq__variable inter_7a7ef1f4-module__jjo8ZG__variable caveat_d93226c1-module__O9iHuG__variable\"><h...",
+  "is_spa": false,
+  "extracted_text": "S\nSudipto\nIndia \u00b7 8 yrs experience\nAP ChemistryChemistryBiology\nChemistry and biology educator focused on building strong foundational understanding before moving to exam-level application. With 8+ years teaching AP Chemistry, General Chemistry, and Biology, Sudipto helps students connect core scientific concepts across both subjects. Sudipto teaches AP Chemistry, Chemistry and Biology on TutorA, based in India, with 8 years of experience.\nSubjects taught\nAP Chemistry\nAP \u00b7 Grades 11\u201312\n$35/hr\nCh...",
+  "publication_date": "2026-01-01",
+  "accessibility_tree": null,
+  "headers": {
+    "Age": "0",
+    "Cache-Control": "private, no-cache, no-store, max-age=0, must-revalidate",
+    "Content-Encoding": "br",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Tue, 04 Aug 2026 09:16:52 GMT",
+    "Link": "</_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/a24d9e981578d580-s.p.2dim39isyjvqg.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/chunks/0qdwiklpss0d3.css>; rel=preload; as=\"style\"",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Server": "Vercel",
+    "Set-Cookie": "__Host-authjs.csrf-token=b5b1e674fb87786d77df96eac3b4c8353fabdbdf2935e6567235e7fb0c928875%7Caa315280b5c549ad1e504621a379752efeeeeee4ab6069eb73717040de354371; Path=/; HttpOnly; Secure; SameSite=Lax, __Secure-authjs.callback-url=https%3A%2F%2Fwww.tutora.it.com; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-Matched-Path": "/find-a-tutor/[slug]",
+    "X-Powered-By": "Next.js",
+    "X-Vercel-Cache": "MISS",
+    "X-Vercel-Id": "bom1::iad1::hcwvv-1785835012022-124fcbfde76b",
+    "Transfer-Encoding": "chunked"
+  },
+  "redirect_chain": [],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": null,
+  "render_ms": null,
+  "mode_used": "raw",
+  "error": null,
+  "structured_data": {
+    "block_count": 4,
+    "processed_count": 4,
+    "total_bytes": 1277,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 234,
+        "valid": true,
+        "types": [
+          "Organization"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 2,
+        "size_bytes": 101,
+        "valid": true,
+        "types": [
+          "WebSite"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 3,
+        "size_bytes": 561,
+        "valid": true,
+        "types": [
+          "Organization",
+          "Person"
+        ],
+        "types_truncated": false
+      },
+      {
+        "index": 4,
+        "size_bytes": 381,
+        "valid": true,
+        "types": [
+          "BreadcrumbList",
+          "ListItem"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

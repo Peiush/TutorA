@@ -1,0 +1,103 @@
+{
+  "block_count": 4,
+  "processed_count": 4,
+  "total_bytes": 1174,
+  "truncated": false,
+  "blocks": [
+    {
+      "index": 1,
+      "size_bytes": 234,
+      "valid": true,
+      "types": [
+        "Organization"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com",
+        "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+      }
+    },
+    {
+      "index": 2,
+      "size_bytes": 101,
+      "valid": true,
+      "types": [
+        "WebSite"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com"
+      }
+    },
+    {
+      "index": 3,
+      "size_bytes": 467,
+      "valid": true,
+      "types": [
+        "Course",
+        "Offer",
+        "Organization"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Guitar Lessons",
+        "description": "Learn to play guitar, from first chords to playing full songs.",
+        "url": "https://www.tutora.it.com/courses/guitar-a7d7f6aa",
+        "provider": {
+          "@type": "Organization",
+          "name": "TutorA",
+          "sameAs": "https://www.tutora.it.com"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "50.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.tutora.it.com/courses/guitar-a7d7f6aa"
+        }
+      }
+    },
+    {
+      "index": 4,
+      "size_bytes": 372,
+      "valid": true,
+      "types": [
+        "BreadcrumbList",
+        "ListItem"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.tutora.it.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Courses",
+            "item": "https://www.tutora.it.com/courses"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Guitar Lessons",
+            "item": "https://www.tutora.it.com/courses/guitar-a7d7f6aa"
+          }
+        ]
+      }
+    }
+  ]
+}

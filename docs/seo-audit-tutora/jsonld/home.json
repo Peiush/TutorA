@@ -1,0 +1,221 @@
+{
+  "block_count": 7,
+  "processed_count": 7,
+  "total_bytes": 5001,
+  "truncated": false,
+  "blocks": [
+    {
+      "index": 1,
+      "size_bytes": 234,
+      "valid": true,
+      "types": [
+        "Organization"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com",
+        "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
+      }
+    },
+    {
+      "index": 2,
+      "size_bytes": 101,
+      "valid": true,
+      "types": [
+        "WebSite"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TutorA",
+        "url": "https://www.tutora.it.com"
+      }
+    },
+    {
+      "index": 3,
+      "size_bytes": 579,
+      "valid": true,
+      "types": [
+        "Organization",
+        "WebPage",
+        "WebSite"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://www.tutora.it.com/#webpage",
+        "url": "https://www.tutora.it.com",
+        "name": "TutorA — The right tutor, personally matched",
+        "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+        "inLanguage": "en-US",
+        "dateModified": "2026-08-03",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://www.tutora.it.com",
+          "name": "TutorA"
+        },
+        "about": {
+          "@type": "Organization",
+          "name": "TutorA",
+          "url": "https://www.tutora.it.com"
+        },
+        "mainEntity": {
+          "@id": "https://www.tutora.it.com/#faq"
+        }
+      }
+    },
+    {
+      "index": 4,
+      "size_bytes": 2859,
+      "valid": true,
+      "types": [
+        "Answer",
+        "FAQPage",
+        "Question"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": "https://www.tutora.it.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is TutorA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TutorA is an online tutoring marketplace in the e-learning / education-technology space. It matches students, parents booking for their kids, and adult learners with personally vetted tutors and courses — spanning programming, test prep, languages, music, and academic subjects like math and science. Every tutor listing and course is reviewed by our team before it goes live, so you're never guessing who you're working with."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I find a tutor on TutorA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse verified tutors on the Find a Tutor page, or send a private request describing what you need — nothing is posted publicly. From there: You tell us: Browse verified tutors or send a private request. Nothing is posted publicly and no tutor sees your details. We verify & match: Our team vets every tutor, sources the right fit and relays messages — the trusted bridge between both sides. You connect: Once you and the tutor both confirm, we release contact details immediately and step aside. Learning begins."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does TutorA verify its tutors?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every tutor application is manually reviewed by our team before the profile is approved and published — we check subject expertise and experience, and no listing goes live unvetted. That review step is what separates TutorA from an open marketplace where anyone can list themselves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a fee to browse tutors or submit a request?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No — browsing tutors and courses, and submitting a request, doesn't cost anything upfront. Tutors set their own hourly rates, shown directly on each profile, so you know the price before you ever connect."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does it take to get matched with a tutor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "On average, TutorA proposes a vetted tutor within 31 hours of a submitted request. For example: a parent requesting an AP Calculus tutor for their 11th grader typically gets a reviewed, vetted match proposed within a day or two — no cold-messaging strangers and no unverified listings to sort through."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What subjects and courses does TutorA cover?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TutorA covers academic subjects (math, sciences, test prep like AP courses) alongside programming, languages, and music — both as one-on-one tutor matches and structured courses. High-dosage, personally-vetted tutoring is well documented as one of the more effective interventions for accelerating student learning outcomes."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "size_bytes": 739,
+      "valid": true,
+      "types": [
+        "HowTo",
+        "HowToStep"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "@id": "https://www.tutora.it.com/#how-it-works",
+        "name": "How to find a tutor on TutorA",
+        "description": "The three-step process TutorA uses to match a student with a personally vetted tutor.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "You tell us",
+            "text": "Browse verified tutors or send a private request. Nothing is posted publicly and no tutor sees your details."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "We verify & match",
+            "text": "Our team vets every tutor, sources the right fit and relays messages — the trusted bridge between both sides."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "You connect",
+            "text": "Once you and the tutor both confirm, we release contact details immediately and step aside. Learning begins."
+          }
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "size_bytes": 328,
+      "valid": true,
+      "types": [
+        "Audience",
+        "Organization",
+        "Service"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Online tutoring marketplace",
+        "provider": {
+          "@type": "Organization",
+          "name": "TutorA",
+          "url": "https://www.tutora.it.com"
+        },
+        "areaServed": "Worldwide",
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "Students, parents booking for their children, adult learners, and tutors"
+        }
+      }
+    },
+    {
+      "index": 7,
+      "size_bytes": 161,
+      "valid": true,
+      "types": [
+        "BreadcrumbList",
+        "ListItem"
+      ],
+      "types_truncated": false,
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.tutora.it.com"
+          }
+        ]
+      }
+    }
+  ]
+}
