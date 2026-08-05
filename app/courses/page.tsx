@@ -1,6 +1,5 @@
-import { CoursesHero } from "@/components/courses/courses-hero";
+import { CoursesIntro } from "@/components/courses/courses-intro";
 import { CourseBrowser } from "@/components/courses/course-browser";
-import { CoursesSummary } from "@/components/courses/courses-summary";
 import { CoursesFaq } from "@/components/courses/courses-faq";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
@@ -62,17 +61,12 @@ const faqJsonLd = {
 export default async function CoursesPage() {
   const [courses, subjects] = await Promise.all([getPublishedCourses(), getSubjects()]);
 
-  const courseCount = courses.length;
-  const avgRating = courseCount ? courses.reduce((sum, c) => sum + c.rating, 0) / courseCount : 0;
-  const categoryCount = courseCategories.length;
-
   return (
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <CoursesHero />
-      <CoursesSummary avgRating={avgRating} categoryCount={categoryCount} />
+      <CoursesIntro />
       <div id="browse">
         <CourseBrowser courses={courses} subjects={subjects} />
       </div>

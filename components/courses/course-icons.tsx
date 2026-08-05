@@ -171,6 +171,33 @@ export function VideoIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function MicIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="9" y="2.5" width="6" height="11" rx="3" />
+      <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" />
+      <path d="M12 18v3.5M8.5 21.5h7" />
+    </svg>
+  );
+}
+
+export function CameraIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="2.5" y="6" width="13" height="12" rx="2" />
+      <path d="M15.5 10.5 21 7.3v9.4l-5.5-3.2Z" />
+    </svg>
+  );
+}
+
+export function PhoneOffIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M4.5 15.5c1.6-2 4.5-3.3 7.5-3.3s5.9 1.3 7.5 3.3l-3 3-2-2c-.7.3-1.6.5-2.5.5s-1.8-.2-2.5-.5l-2 2Z" />
+    </svg>
+  );
+}
+
 export function GridIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)} aria-hidden>
