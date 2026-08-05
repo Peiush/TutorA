@@ -152,6 +152,25 @@ export function MusicNoteIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function UserCheckIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <circle cx="9.5" cy="8" r="3.5" />
+      <path d="M2.8 19.5c.6-3.4 3.3-5.5 6.7-5.5s6.1 2.1 6.7 5.5" />
+      <path d="m16 12.5 2 2 3.5-3.8" />
+    </svg>
+  );
+}
+
+export function VideoIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <rect x="2.5" y="6" width="13" height="12" rx="2" />
+      <path d="M15.5 10.5 21 7.3v9.4l-5.5-3.2Z" />
+    </svg>
+  );
+}
+
 export function GridIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)} aria-hidden>

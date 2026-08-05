@@ -76,13 +76,13 @@ export function CoursesHero() {
           Courses
         </Tag>
         <h1 className="ch-heading font-bold text-[clamp(30px,4vw,48px)] mt-4 mb-1">
-          Courses taught by verified tutors, not anonymous uploads
+          Personalized Online Learning with Expert Indian Teachers
         </h1>
         <p
-          className="ch-copy text-[16px] mb-6"
+          className="ch-copy text-[16px] mt-4 mb-6"
           style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
         >
-          Every course is reviewed by our team before it goes live. Pick a subject, learn at your own pace, and keep a certificate when you finish.
+          Live 1-on-1 and small-group classes for Grades 6-12, SAT prep, coding, and more — taught by experienced, verified Indian tutors matched to your goals, wherever you are in the world.
         </p>
         <div className="ch-cta flex flex-wrap gap-3">
           <Link href="#browse" className="btn btn-primary inline-block">

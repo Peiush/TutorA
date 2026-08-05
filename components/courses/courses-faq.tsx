@@ -63,7 +63,7 @@ export function CoursesFaq() {
               className="cf-copy text-[15px] leading-relaxed max-w-[54ch] mx-auto"
               style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
             >
-              Everything you need to know before starting a self-paced course on TutorA.
+              Everything you need to know before getting matched with a tutor on TutorA.
             </p>
           </div>
 

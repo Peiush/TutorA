@@ -6,7 +6,6 @@ import { Tag } from "@/components/ui/tag";
 import { TrustStrip } from "@/components/home/trust-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobile";
-import { HeroScrollCue } from "@/components/home/hero-scroll-cue";
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
 import { HeroHeading, HeroCopy } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
@@ -186,7 +185,6 @@ export default async function Home() {
             <HeroHeading />
             <HeroIllustrationMobile />
             <HeroCopy />
-            <HeroScrollCue />
           </HeroMobileFx>
         </div>
         <HeroIllustration />

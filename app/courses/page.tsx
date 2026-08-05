@@ -10,9 +10,9 @@ import { COURSE_FAQS } from "@/lib/course-faqs";
 const BASE_URL = "https://www.tutora.it.com";
 
 export const metadata = {
-  title: "Online Courses: Programming, Test Prep & More",
+  title: "Online Courses by Expert Indian Teachers | Programming, Test Prep & More",
   description:
-    "Browse verified courses in programming, test prep, languages, music, and creative skills — every course is reviewed by our team before it goes live.",
+    "Live 1-on-1 and small-group classes for Grades 6-12, SAT prep, coding, and more — taught by experienced, verified Indian tutors matched to your goals, wherever you are in the world.",
   alternates: { canonical: "/courses" },
 };
 

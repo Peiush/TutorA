@@ -1,21 +1,22 @@
 "use client";
 
 import { useRef, type MouseEvent } from "react";
-import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { StarRating } from "@/components/ui/tutor-avatar";
-import { CourseIllustration } from "@/components/courses/course-illustrations";
-import { CheckIcon, ClockIcon, GraduationCapIcon, PlayCircleIcon } from "@/components/courses/course-icons";
+import { CheckIcon, LayersIcon, UserCheckIcon, VideoIcon } from "@/components/courses/course-icons";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const FACTS = [
-  { icon: ClockIcon, label: "Self-paced, watch anytime" },
-  { icon: CheckIcon, label: "Every course team-reviewed" },
-  { icon: GraduationCapIcon, label: "Certificate on completion" },
+  { icon: LayersIcon, label: "Grouped by grade & subject" },
+  { icon: UserCheckIcon, label: "Matched with a verified tutor" },
+  { icon: VideoIcon, label: "Live, 1:1 sessions" },
 ];
+
+const REQUEST_SUBJECTS = ["Math", "Science", "English", "+4 more"];
+const TUTOR_SUBJECTS = ["Math", "Science"];
 
 function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -31,7 +32,7 @@ export function CoursesSummary({
   const footerStats = [
     { value: String(categoryCount), label: "categories" },
     { value: avgRating.toFixed(1), label: "avg. rating" },
-    { value: "100%", label: "reviewed" },
+    { value: "100%", label: "verified tutors" },
   ];
   const rootRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
@@ -49,13 +50,16 @@ export function CoursesSummary({
           .from(".cs-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.2")
           .from(".cs-copy", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
           .from(".cs-fact", { autoAlpha: 0, y: 10, duration: 0.4, stagger: 0.08, ease: "power3.out" }, "-=0.2")
-          .from(".cs-cta", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.2")
-          .from(".cs-panel", { autoAlpha: 0, y: 20, duration: 0.5, ease: "power3.out" }, "-=0.55")
-          .from(".cs-mockup", { autoAlpha: 0, y: 24, scale: 0.92, duration: 0.55, ease: "back.out(1.4)" }, "-=0.25")
-          .from(".cs-badge", { autoAlpha: 0, scale: 0.4, duration: 0.5, stagger: 0.1, ease: "back.out(2)" }, "-=0.25")
-          .to(".cs-progress", { width: "64%", duration: 0.7, ease: "power2.out" }, "-=0.15")
-          .from(".cs-footer-stat", { autoAlpha: 0, y: 8, duration: 0.35, stagger: 0.06, ease: "power2.out" }, "-=0.3")
-          .fromTo(".cs-play", { scale: 0.7 }, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.45)" }, "-=0.5");
+          .from(".cs-panel", { autoAlpha: 0, y: 20, duration: 0.5, ease: "power3.out" }, "-=0.4")
+          .from(".cs-request-card", { autoAlpha: 0, y: -12, duration: 0.5, ease: "power3.out" }, "-=0.25")
+          .from(".cs-request-chip", { autoAlpha: 0, y: 6, scale: 0.85, duration: 0.3, stagger: 0.06, ease: "back.out(2)" }, "-=0.25")
+          .fromTo(".cs-connector-line", { height: "0%" }, { height: "100%", duration: 0.55, ease: "power2.inOut" }, "-=0.05")
+          .fromTo(".cs-connector-dot", { top: "0%" }, { top: "100%", duration: 0.55, ease: "power2.inOut" }, "<")
+          .fromTo(".cs-connector-ping", { autoAlpha: 0.6, scale: 1 }, { autoAlpha: 0, scale: 2.2, duration: 0.5, ease: "power2.out" }, "-=0.1")
+          .from(".cs-mockup", { autoAlpha: 0, y: 16, scale: 0.94, duration: 0.5, ease: "back.out(1.5)" }, "-=0.35")
+          .fromTo(".cs-avatar", { scale: 0.7 }, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.45)" }, "-=0.3")
+          .from(".cs-matched-badge", { autoAlpha: 0, scale: 0.4, y: -6, duration: 0.45, ease: "back.out(2.2)" }, "-=0.1")
+          .from(".cs-footer-stat", { autoAlpha: 0, y: 8, duration: 0.35, stagger: 0.06, ease: "power2.out" }, "-=0.15");
 
         if (canHover() && mockupRef.current) {
           gsap.set(mockupRef.current, { transformPerspective: 900, transformStyle: "preserve-3d" });
@@ -66,10 +70,12 @@ export function CoursesSummary({
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(
-          ".cs-tag, .cs-heading, .cs-copy, .cs-fact, .cs-cta, .cs-panel, .cs-mockup, .cs-badge, .cs-footer-stat",
+          ".cs-tag, .cs-heading, .cs-copy, .cs-fact, .cs-panel, .cs-request-card, .cs-request-chip, .cs-mockup, .cs-avatar, .cs-matched-badge, .cs-footer-stat",
           { autoAlpha: 1, y: 0, scale: 1 }
         );
-        gsap.set(".cs-progress", { width: "64%" });
+        gsap.set(".cs-connector-line", { height: "100%" });
+        gsap.set(".cs-connector-dot", { top: "100%" });
+        gsap.set(".cs-connector-ping", { autoAlpha: 0 });
       });
 
       return () => mm.revert();
@@ -92,8 +98,8 @@ export function CoursesSummary({
   });
 
   return (
-    <div ref={rootRef} id="about-courses" className="mt-6 md:mt-8 mb-16 md:mb-20 scroll-mt-24">
-      <div className="cs-intro grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-stretch">
+    <div ref={rootRef} id="about-courses" className="mt-5 mb-7 md:mt-8 md:mb-12 scroll-mt-24">
+      <div className="cs-intro grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-start">
         <div className="flex flex-col">
           <p
             className="cs-tag text-[11px] font-semibold uppercase tracking-wide mb-3"
@@ -102,14 +108,15 @@ export function CoursesSummary({
             About courses
           </p>
           <h2 className="cs-heading text-[clamp(24px,2.8vw,32px)] mb-4 max-w-[20ch]">
-            What are TutorA courses?
+            How TutorA courses work
           </h2>
           <p
             className="cs-copy text-[15.5px] leading-relaxed mb-4 max-w-[52ch]"
             style={{ color: "color-mix(in srgb, var(--color-text) 80%, transparent)" }}
           >
-            Self-paced video lessons from verified tutors, spanning programming, test prep, languages,
-            and more. Every course is team-reviewed before it goes live, and your certificate is yours to keep.
+            Courses are organized by grade and subject — a Grade 6–8 bundle, for example, can span 7
+            subjects at once. Tell us what you need, and we match you with a verified tutor for live,
+            personalized sessions in every subject.
           </p>
 
           <div className="pt-5 mt-2" style={{ borderTop: "1px solid var(--color-divider)" }}>
@@ -119,29 +126,23 @@ export function CoursesSummary({
             >
               Quick facts
             </p>
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2.5">
               {FACTS.map(({ icon: Icon, label }) => (
                 <span
                   key={label}
-                  className="cs-fact inline-flex items-center gap-2 rounded-full pl-2 pr-3.5 py-1.5 text-[13px] font-medium"
+                  className="cs-fact inline-flex items-center gap-1.5 sm:gap-2 rounded-full pl-1.5 sm:pl-2 pr-2.5 sm:pr-3.5 py-1 sm:py-1.5 text-[11.5px] sm:text-[13px] font-medium"
                   style={{ background: "var(--color-surface)", border: "1px solid var(--color-divider)" }}
                 >
                   <span
-                    className="w-6 h-6 rounded-full grid place-content-center flex-none"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-full grid place-content-center flex-none"
                     style={{ background: "var(--color-accent-100)", color: "var(--color-accent-700)" }}
                   >
-                    <Icon width={13} height={13} />
+                    <Icon width={11} height={11} />
                   </span>
                   {label}
                 </span>
               ))}
             </div>
-          </div>
-
-          <div className="mt-auto pt-6">
-            <Link href="#browse" className="cs-cta btn btn-primary inline-block">
-              Browse all courses
-            </Link>
           </div>
         </div>
 
@@ -173,136 +174,154 @@ export function CoursesSummary({
             aria-hidden
           />
 
-          <div className="relative flex-1 flex items-center justify-center py-3" style={{ perspective: 900 }}>
-            <div className="relative w-full max-w-[260px]" aria-hidden>
+          <div className="relative flex-1 flex items-center justify-center py-4" style={{ perspective: 900 }}>
+            <div className="relative w-full max-w-[248px] flex flex-col items-center" aria-hidden>
               <div
-                ref={mockupRef}
-                className="cs-mockup relative rounded-2xl border overflow-hidden will-change-transform"
+                className="cs-request-card relative z-10 w-full rounded-2xl border p-3.5"
                 style={{
                   background: "var(--color-bg)",
                   borderColor: "var(--color-divider)",
-                  boxShadow: "0 32px 60px -22px rgba(20,16,8,0.25)",
+                  boxShadow: "var(--shadow-sm)",
+                }}
+              >
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <span
+                    className="w-6 h-6 rounded-full grid place-content-center flex-none"
+                    style={{ background: "var(--color-accent-100)", color: "var(--color-accent-700)" }}
+                  >
+                    <LayersIcon width={12} height={12} />
+                  </span>
+                  <span
+                    className="text-[10.5px] font-semibold uppercase tracking-wide"
+                    style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                  >
+                    Your request
+                  </span>
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[12px] font-semibold">Grade 6-8 bundle</span>
+                  <span className="text-[10px] font-semibold" style={{ color: "var(--color-accent-800)" }}>
+                    7 subjects
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {REQUEST_SUBJECTS.map((s) => (
+                    <span
+                      key={s}
+                      className="cs-request-chip inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium"
+                      style={{ background: "var(--color-surface)", border: "1px solid var(--color-divider)" }}
+                    >
+                      {s !== "+4 more" && <CheckIcon width={8} height={8} style={{ color: "var(--color-verified)" }} />}
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative w-full flex justify-center" style={{ height: 64 }}>
+                <span
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] rounded-full"
+                  style={{
+                    height: "100%",
+                    backgroundImage: "repeating-linear-gradient(to bottom, var(--color-accent-400) 0 4px, transparent 4px 9px)",
+                    opacity: 0.55,
+                  }}
+                  aria-hidden
+                />
+                <span
+                  className="cs-connector-line absolute top-0 left-1/2 -translate-x-1/2 w-[2px] rounded-full"
+                  style={{ background: "var(--color-accent-600)" }}
+                />
+                <span
+                  className="cs-connector-ping absolute left-1/2 -translate-x-1/2 top-full w-4 h-4 -mt-2 rounded-full"
+                  style={{ background: "color-mix(in srgb, var(--color-accent-600) 45%, transparent)" }}
+                />
+                <span
+                  className="cs-connector-dot absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 -mt-[5px] rounded-full"
+                  style={{
+                    background: "var(--color-accent-600)",
+                    boxShadow: "0 0 0 4px color-mix(in srgb, var(--color-accent-600) 20%, transparent)",
+                  }}
+                />
+                <span
+                  className="cs-matched-badge absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 inline-flex items-center gap-1.5 rounded-full pl-1.5 pr-3 py-1.5 whitespace-nowrap"
+                  style={{
+                    background: "var(--color-bg)",
+                    border: "1px solid var(--color-divider)",
+                    boxShadow: "var(--shadow-md)",
+                  }}
+                >
+                  <span
+                    className="w-5 h-5 rounded-full grid place-content-center flex-none"
+                    style={{ background: "color-mix(in srgb, var(--color-verified) 18%, var(--color-bg))", color: "var(--color-verified)" }}
+                  >
+                    <CheckIcon width={11} height={11} />
+                  </span>
+                  <span className="text-[10.5px] font-semibold">Matched!</span>
+                </span>
+              </div>
+
+              <div
+                ref={mockupRef}
+                className="cs-mockup relative z-10 w-full rounded-2xl border p-4 will-change-transform"
+                style={{
+                  background: "var(--color-bg)",
+                  borderColor: "var(--color-divider)",
+                  boxShadow: "0 28px 50px -20px rgba(20,16,8,0.28)",
                 }}
                 onMouseMove={handleTiltMove}
                 onMouseLeave={resetTilt}
               >
-                <div
-                  className="flex items-center gap-1.5 px-3 py-2.5"
-                  style={{ borderBottom: "1px solid var(--color-divider)" }}
-                >
-                  <span className="w-2 h-2 rounded-full" style={{ background: "#E4A2A2" }} />
-                  <span className="w-2 h-2 rounded-full" style={{ background: "var(--color-accent-300)" }} />
-                  <span className="w-2 h-2 rounded-full" style={{ background: "var(--color-verified)" }} />
+                <div className="flex items-center gap-2.5 mb-2.5">
                   <span
-                    className="ml-2 text-[10px] truncate"
-                    style={{ color: "color-mix(in srgb, var(--color-text) 50%, transparent)" }}
+                    className="cs-avatar w-9 h-9 rounded-full grid place-content-center flex-none text-[12px] font-bold"
+                    style={{ background: "var(--color-accent-600)", color: "#fff" }}
                   >
-                    tutora.it.com/courses
+                    RS
                   </span>
-                </div>
-
-                <div
-                  className="relative aspect-[16/10] overflow-hidden"
-                  style={{ background: "linear-gradient(135deg, var(--color-accent-100), var(--color-accent-2-100))" }}
-                >
-                  <span
-                    className="absolute rounded-full blur-xl opacity-50"
-                    style={{ width: 70, height: 70, background: "var(--color-accent-300)", top: "10%", left: "8%" }}
-                    aria-hidden
-                  />
-                  <span
-                    className="absolute rounded-full blur-xl opacity-40"
-                    style={{ width: 56, height: 56, background: "var(--color-accent-2-300)", bottom: "12%", right: "14%" }}
-                    aria-hidden
-                  />
-                  <span className="absolute inset-0 grid place-content-center opacity-90" aria-hidden>
-                    <CourseIllustration category="Programming & Technology" className="w-16 h-16" />
-                  </span>
-                  <span
-                    className="absolute top-2 left-2 text-[9px] font-semibold px-1.5 py-0.5 rounded"
-                    style={{ background: "rgba(0,0,0,0.5)", color: "#fff" }}
-                  >
-                    Intro to Python
-                  </span>
-                  <span className="cs-play absolute inset-0 grid place-content-center">
-                    <span
-                      className="w-11 h-11 rounded-full grid place-content-center"
-                      style={{ background: "var(--color-accent-600)", boxShadow: "0 8px 20px -6px rgba(0,0,0,0.35)" }}
-                    >
-                      <PlayCircleIcon width={22} height={22} stroke="#fff" style={{ color: "#fff" }} />
-                    </span>
-                  </span>
-                  <span
-                    className="absolute bottom-2 right-2 text-[10px] font-semibold px-1.5 py-0.5 rounded"
-                    style={{ background: "rgba(0,0,0,0.55)", color: "#fff" }}
-                  >
-                    12:40
-                  </span>
-                </div>
-
-                <div className="h-[3px] w-full" style={{ background: "var(--color-divider)" }}>
-                  <div className="cs-progress h-full" style={{ width: "0%", background: "var(--color-accent-600)" }} />
-                </div>
-
-                <div className="p-3.5 pr-10 flex flex-col gap-2">
-                  <div className="h-2.5 rounded-full" style={{ width: "82%", background: "var(--color-accent-100)" }} />
-                  <div className="h-2 rounded-full" style={{ width: "54%", background: "var(--color-divider)" }} />
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="flex items-center gap-1.5">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[13px] font-semibold truncate">Riya S.</span>
+                      <UserCheckIcon width={12} height={12} style={{ color: "var(--color-verified)", flexShrink: 0 }} />
+                    </div>
+                    <div className="flex items-center gap-1.5 mt-0.5">
                       <StarRating rating={4.9} size={11} />
                       <span className="text-[11px] font-semibold" style={{ color: "var(--color-accent-800)" }}>
                         4.9
                       </span>
                     </div>
-                    <span
-                      className="text-[10.5px] whitespace-nowrap"
-                      style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}
-                    >
-                      2,340 students
-                    </span>
                   </div>
                 </div>
-              </div>
-
-              <div
-                className="cs-badge absolute -top-4 -left-5 flex items-center gap-1.5 rounded-full pl-1.5 pr-3 py-1.5"
-                style={{
-                  background: "var(--color-bg)",
-                  border: "1px solid var(--color-divider)",
-                  boxShadow: "var(--shadow-md)",
-                }}
-              >
-                <span
-                  className="w-6 h-6 rounded-full grid place-content-center flex-none"
-                  style={{ background: "var(--color-accent-100)", color: "var(--color-accent-700)" }}
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {TUTOR_SUBJECTS.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+                      style={{ background: "var(--color-accent-100)", color: "var(--color-accent-700)" }}
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <div
+                  className="flex items-center justify-between pt-2.5"
+                  style={{ borderTop: "1px solid var(--color-divider)" }}
                 >
-                  <GraduationCapIcon width={13} height={13} />
-                </span>
-                <span className="text-[11px] font-semibold">Certificate</span>
-              </div>
-
-              <div
-                className="cs-badge absolute -top-3 -right-6 flex items-center gap-1.5 rounded-full pl-1.5 pr-3 py-1.5"
-                style={{
-                  background: "var(--color-bg)",
-                  border: "1px solid var(--color-divider)",
-                  boxShadow: "var(--shadow-md)",
-                }}
-              >
-                <span
-                  className="w-6 h-6 rounded-full grid place-content-center flex-none"
-                  style={{ background: "color-mix(in srgb, var(--color-verified) 18%, var(--color-bg))", color: "var(--color-verified)" }}
-                >
-                  <CheckIcon width={12} height={12} />
-                </span>
-                <span className="text-[11px] font-semibold">Verified tutor</span>
-              </div>
-
-              <div
-                className="cs-badge absolute -bottom-8 -right-8 w-14 h-14 rounded-full"
-                style={{ filter: "drop-shadow(0 14px 22px rgba(20,16,8,0.18))" }}
-              >
-                <CourseIllustration category="Music & Instruments" className="w-full h-full" />
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[10.5px] font-medium"
+                    style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-verified)" }} />
+                    Online now
+                  </span>
+                  <span
+                    className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-full"
+                    style={{ background: "color-mix(in srgb, var(--color-verified) 14%, var(--color-bg))", color: "var(--color-verified)" }}
+                  >
+                    <VideoIcon width={10} height={10} />
+                    Live 1:1
+                  </span>
+                </div>
               </div>
             </div>
           </div>

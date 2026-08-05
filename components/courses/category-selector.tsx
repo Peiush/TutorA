@@ -127,7 +127,7 @@ export function CategorySelector({
         >
           Popular right now
         </p>
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(210px,1fr))]">
+        <div className="grid gap-2.5 grid-cols-2 sm:gap-4 sm:[grid-template-columns:repeat(auto-fill,minmax(210px,1fr))]">
           {priorityItems.map((item) => {
             const active = category === item.label;
             return (
@@ -138,7 +138,7 @@ export function CategorySelector({
                 onMouseLeave={(e) => handleLeave(e.currentTarget, item.solid, active)}
                 onClick={(e) => handleClick(e.currentTarget, item.label)}
                 aria-pressed={active}
-                className="cat-card cat-card-priority group relative flex flex-col justify-between gap-3 cursor-pointer overflow-hidden rounded-[22px] border p-5 text-left transition-[border-color] duration-250 ease-out min-h-[192px]"
+                className="cat-card cat-card-priority group relative flex flex-col justify-between gap-2 sm:gap-3 cursor-pointer overflow-hidden rounded-[16px] sm:rounded-[22px] border p-3 sm:p-5 text-left transition-[border-color] duration-250 ease-out min-h-[128px] sm:min-h-[192px]"
                 style={{
                   background: active
                     ? `linear-gradient(145deg, ${item.solid} 0%, color-mix(in srgb, ${item.solid} 78%, black 22%) 100%)`
@@ -155,15 +155,15 @@ export function CategorySelector({
 
                 {active && (
                   <span
-                    className="absolute top-3 right-3 grid place-content-center rounded-full z-10"
-                    style={{ width: 22, height: 22, background: "var(--color-accent-500)", color: "var(--color-accent-2-900)" }}
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 grid place-content-center rounded-full z-10"
+                    style={{ width: 18, height: 18, background: "var(--color-accent-500)", color: "var(--color-accent-2-900)" }}
                   >
-                    <CheckIcon width={12} height={12} strokeWidth={3} />
+                    <CheckIcon width={10} height={10} strokeWidth={3} />
                   </span>
                 )}
 
                 <span
-                  className="relative w-fit text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full"
+                  className="relative w-fit text-[9px] sm:text-[10px] font-bold uppercase tracking-wide px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full"
                   style={{
                     background: active ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.65)",
                     color: active ? "#fff" : item.text,
@@ -173,7 +173,7 @@ export function CategorySelector({
                 </span>
 
                 <span
-                  className="cat-icon pointer-events-none absolute -right-4 -bottom-4 w-28 h-28 transition-transform duration-300"
+                  className="cat-icon pointer-events-none absolute -right-2 -bottom-2 w-16 h-16 sm:-right-4 sm:-bottom-4 sm:w-28 sm:h-28 transition-transform duration-300"
                   style={{ filter: "drop-shadow(0 12px 20px rgba(20,16,8,0.16))" }}
                   aria-hidden
                 >
@@ -184,15 +184,15 @@ export function CategorySelector({
                   )}
                 </span>
 
-                <span className="relative mt-auto max-w-[62%]">
+                <span className="relative mt-auto max-w-[70%] sm:max-w-[62%]">
                   <span
-                    className="block text-[16px] font-bold leading-snug font-[var(--font-heading)]"
+                    className="block text-[13px] sm:text-[16px] font-bold leading-snug font-[var(--font-heading)]"
                     style={{ color: active ? "#fff" : "var(--color-text)" }}
                   >
                     {item.label}
                   </span>
                   <span
-                    className="block text-[12px] mt-1"
+                    className="block text-[10.5px] sm:text-[12px] mt-0.5 sm:mt-1"
                     style={{ color: active ? "rgba(255,255,255,0.85)" : "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
                   >
                     {item.count} {item.unit}
@@ -211,7 +211,7 @@ export function CategorySelector({
           style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
         >
         </p>
-        <div className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(140px,1fr))]">
+        <div className="grid gap-2 sm:gap-3 grid-cols-2 sm:[grid-template-columns:repeat(auto-fill,minmax(140px,1fr))]">
           {secondaryItems.map((item) => {
             const active = category === item.label;
             const Icon = CATEGORY_ICON[item.category!];
@@ -224,7 +224,7 @@ export function CategorySelector({
                 onMouseLeave={(e) => handleLeave(e.currentTarget, item.solid, active)}
                 onClick={(e) => handleClick(e.currentTarget, item.label)}
                 aria-pressed={active}
-                className="cat-card cat-card-secondary group relative flex flex-col items-start gap-2.5 cursor-pointer overflow-hidden rounded-[var(--radius-lg)] border p-4 text-left transition-[border-color] duration-250 ease-out"
+                className="cat-card cat-card-secondary group relative flex flex-col items-start gap-2 sm:gap-2.5 cursor-pointer overflow-hidden rounded-[var(--radius-lg)] border p-3 sm:p-4 text-left transition-[border-color] duration-250 ease-out"
                 style={{
                   background: active
                     ? `linear-gradient(140deg, ${item.solid} 0%, color-mix(in srgb, ${item.solid} 78%, black 22%) 100%)`

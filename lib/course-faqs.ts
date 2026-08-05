@@ -1,23 +1,23 @@
 export const COURSE_FAQS: { q: string; a: string }[] = [
   {
     q: "What courses does TutorA offer?",
-    a: "TutorA offers self-paced courses across five categories — Programming & Technology, Test Preparation, Languages, Creative Skills, and Music & Instruments. Every course is reviewed by our team before it's published.",
+    a: "TutorA courses are grade- and subject-based bundles across five categories — Programming & Technology, Test Preparation, Languages, Creative Skills, and Music & Instruments. A single bundle, like Grade 6-8, can span several subjects at once.",
   },
   {
     q: "Are TutorA courses self-paced or live?",
-    a: "Every course listed on this page is self-paced: you watch on your own schedule and keep access after you finish. If you'd rather work live with someone, you can request a matched tutor instead.",
+    a: "Live. Once you pick a course or subject, we match you with a verified tutor for personalized, live 1:1 sessions — there are no pre-recorded video lessons.",
   },
   {
     q: "How much do courses cost?",
-    a: "Pricing varies by course and instructor — some are priced per hour, others as a one-time full-course fee. Exact pricing is shown on each course's page before you request access.",
+    a: "Pricing varies by subject and tutor — most are priced per hour. Exact pricing is shown on each course's page before you request a tutor.",
   },
   {
     q: "Do I get a certificate after finishing a course?",
-    a: "Yes. Self-paced courses on TutorA include a certificate of completion once you finish the material.",
+    a: "No. TutorA courses are live tutoring, not self-paced video lessons, so there's no certificate of completion — the focus is on real progress with your tutor.",
   },
   {
     q: "How does TutorA verify course quality?",
-    a: "Our team reviews every course and instructor before it goes live, checking credentials and course content — nothing is published unverified.",
+    a: "Our team reviews every tutor's credentials and subject expertise before they're matched with students — nothing is published unverified.",
   },
   {
     q: "Can I request a course that isn't listed yet?",

@@ -11,7 +11,8 @@ import { SubjectCard } from "@/components/courses/subject-card";
 import { CourseDetailModal } from "@/components/courses/course-detail-modal";
 import { SubjectDetailModal } from "@/components/courses/subject-detail-modal";
 import { CategorySelector } from "@/components/courses/category-selector";
-import { SearchIcon, XIcon } from "@/components/courses/course-icons";
+import { CourseSearchBox } from "@/components/courses/course-search-box";
+import { XIcon } from "@/components/courses/course-icons";
 import { requestCourse } from "@/app/lib/actions/course-request";
 import { requestSubject } from "@/app/lib/actions/subject-request";
 import { toggleSavedCourse } from "@/app/lib/actions/saved-course";
@@ -224,11 +225,15 @@ export function CourseBrowser({
     return list;
   }, [courses, category, query, sort, activeBand]);
 
+  // Subjects only browse inside a grade band by default (matching the "Grade 6-8"
+  // style category cards). But a free-text search should also surface matching
+  // subjects even with no band selected — otherwise typing e.g. "Biology" (a
+  // subject, not a top-level course) came back empty despite existing on the site.
   const filteredSubjects = useMemo(() => {
-    if (!activeBand) return [];
     const q = query.trim().toLowerCase();
+    if (!activeBand && !q) return [];
     let list = subjects.filter((s) => {
-      if (!matchesGradeBand(s.gradeLevel, activeBand)) return false;
+      if (activeBand && !matchesGradeBand(s.gradeLevel, activeBand)) return false;
       if (q && !s.name.toLowerCase().includes(q) && !(s.curriculum ?? "").toLowerCase().includes(q)) return false;
       return true;
     });
@@ -240,6 +245,7 @@ export function CourseBrowser({
   }, [subjects, activeBand, query, sort]);
 
   const isDefaultView = category === ALL && !activeBand && query.trim() === "";
+  const isSearchAll = category === ALL && !activeBand && query.trim() !== "";
 
   const featuredSubjects = useMemo(() => {
     return FEATURED_SUBJECT_NAMES.map((name) => subjects.find((s) => s.name === name)).filter(
@@ -397,51 +403,7 @@ export function CourseBrowser({
 
   return (
     <>
-      <div ref={filterBarRef} className="flex flex-col gap-4 mb-6">
-        <div className="flex gap-3 flex-wrap items-center justify-between">
-          <div className="cb-reveal flex items-center gap-2 flex-1 min-w-[220px] max-w-[360px]">
-            <div
-              className="field-icon w-full rounded-full transition-shadow duration-300 focus-within:shadow-[0_0_0_4px_color-mix(in_srgb,var(--color-accent-400)_28%,transparent)]"
-              style={{ boxShadow: "var(--shadow-sm)" }}
-            >
-              <SearchIcon width={16} height={16} />
-              <input
-                className="input"
-                placeholder={activeBand ? "Search subjects" : "Search courses or instructors"}
-                value={query}
-                onChange={(e) => {
-                  captureFlip();
-                  setQuery(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <select
-              className="cb-reveal input w-auto transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
-              style={{ boxShadow: "var(--shadow-sm)" }}
-              value={activeBand && sort === "Highest rated" ? "Most popular" : sort}
-              onChange={(e) => {
-                captureFlip();
-                setSort(e.target.value as (typeof SORTS)[number]);
-              }}
-            >
-              {SORTS.filter((s) => !activeBand || s !== "Highest rated").map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-            {!isDefaultView && (
-              <RemoveFiltersButton
-                onClick={() => {
-                  captureFlip();
-                  setCategory(ALL);
-                  setQuery("");
-                }}
-              />
-            )}
-          </div>
-        </div>
-
+      <div ref={filterBarRef} className="flex flex-col gap-5 mb-6">
         <div className="cb-reveal">
           <CategorySelector
             category={category}
@@ -454,6 +416,41 @@ export function CourseBrowser({
             gradeBandCounts={gradeBandCounts}
           />
         </div>
+
+        <CourseSearchBox
+          subjects={subjects}
+          featured={featuredSubjects}
+          value={query}
+          onQueryChange={(q) => {
+            captureFlip();
+            setQuery(q);
+          }}
+        />
+
+        <div className="cb-reveal flex items-center justify-end gap-3">
+          <select
+            className="input w-auto transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
+            style={{ boxShadow: "var(--shadow-sm)" }}
+            value={activeBand && sort === "Highest rated" ? "Most popular" : sort}
+            onChange={(e) => {
+              captureFlip();
+              setSort(e.target.value as (typeof SORTS)[number]);
+            }}
+          >
+            {SORTS.filter((s) => !activeBand || s !== "Highest rated").map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
+          {!isDefaultView && (
+            <RemoveFiltersButton
+              onClick={() => {
+                captureFlip();
+                setCategory(ALL);
+                setQuery("");
+              }}
+            />
+          )}
+        </div>
       </div>
 
       <p className="text-[14px] mb-4" style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
@@ -461,7 +458,9 @@ export function CourseBrowser({
           ? "Popular subjects and courses to get you started"
           : activeBand
             ? `Showing ${filteredSubjects.length} subject${filteredSubjects.length === 1 ? "" : "s"} for ${activeBand.label}`
-            : `Showing ${filtered.length} course${filtered.length === 1 ? "" : "s"}`}
+            : isSearchAll
+              ? `Showing ${filteredSubjects.length + filtered.length} result${filteredSubjects.length + filtered.length === 1 ? "" : "s"} for "${query.trim()}"`
+              : `Showing ${filtered.length} course${filtered.length === 1 ? "" : "s"}`}
       </p>
 
       <div ref={gridRef}>
@@ -545,6 +544,69 @@ export function CourseBrowser({
               <h3 className="text-[22px]">No subjects match those filters</h3>
               <p className="text-[15px] mx-auto mt-2.5 mb-0 max-w-[44ch]" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>
                 Try a different grade band or search term.
+              </p>
+            </div>
+          )
+        ) : isSearchAll ? (
+          filteredSubjects.length > 0 || filtered.length > 0 ? (
+            <div className="flex flex-col gap-10">
+              {filteredSubjects.length > 0 && (
+                <div>
+                  <h2 className="text-[18px] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+                    Subjects
+                  </h2>
+                  <div
+                    className="relative grid gap-6 items-start"
+                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                  >
+                    {filteredSubjects.map((subject) => (
+                      <SubjectCard
+                        key={subject.id}
+                        subject={subject}
+                        band={bandForSubject(subject)}
+                        saved={savedSubjects.has(subject.id)}
+                        savePending={saveSubjectPending.has(subject.id)}
+                        requested={requestedSubjects.has(subject.id)}
+                        requestPending={requestingSubjectId === subject.id}
+                        onToggleSaved={handleToggleSavedSubject}
+                        onRequest={handleRequestSubject}
+                        onOpen={setOpenSubject}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              {filtered.length > 0 && (
+                <div>
+                  <h2 className="text-[18px] mb-4" style={{ fontFamily: "var(--font-heading)" }}>
+                    Courses
+                  </h2>
+                  <div
+                    className="relative grid gap-6 items-start"
+                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                  >
+                    {filtered.map((course) => (
+                      <CourseCard
+                        key={course.id}
+                        course={course}
+                        saved={saved.has(course.id)}
+                        savePending={savePending.has(course.id)}
+                        requested={requested.has(course.id)}
+                        requestPending={requestingId === course.id}
+                        onToggleSaved={handleToggleSaved}
+                        onRequest={handleRequestCourse}
+                        onOpen={setOpenCourse}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="rounded-[var(--radius-lg)] p-8 text-center" style={{ background: "var(--color-accent-2-100)" }}>
+              <h3 className="text-[22px]">No subjects or courses match &ldquo;{query.trim()}&rdquo;</h3>
+              <p className="text-[15px] mx-auto mt-2.5 mb-0 max-w-[44ch]" style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}>
+                Try a different search term.
               </p>
             </div>
           )
