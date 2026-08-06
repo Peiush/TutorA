@@ -30,9 +30,17 @@ export const authConfig = {
       // Admins can access any gated area; otherwise role must match.
       return auth.user.role === "ADMIN" || auth.user.role === requiredRole;
     },
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
       if (user) {
         token.role = user.role;
+      }
+      // `useSession().update(data)` on the client re-invokes this callback with
+      // trigger "update" and the passed data as `session` — merge it into the
+      // token so the JWT (and therefore session.user) reflects the edit without
+      // requiring a fresh login.
+      if (trigger === "update" && session) {
+        if (session.name) token.name = session.name;
+        if (session.email) token.email = session.email;
       }
       return token;
     },

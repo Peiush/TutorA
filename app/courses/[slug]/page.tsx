@@ -7,7 +7,7 @@ import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon } from "@/components/courses/course-icons";
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
-import { priceLabel, learningOutcomes, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -95,6 +95,11 @@ export async function generateMetadata({
       description,
       url: `${BASE_URL}/courses/${course.slug}`,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: course.title,
+      description,
+    },
   };
 }
 
@@ -138,6 +143,13 @@ export default async function CourseDetailPage({
     url: canonicalUrl,
     provider: { "@type": "Organization", name: "TutorA", sameAs: BASE_URL },
     ...(course.instructor && { instructor: { "@type": "Person", name: course.instructor } }),
+    ...(course.durationHours != null && {
+      hasCourseInstance: {
+        "@type": "CourseInstance",
+        courseMode: "Online",
+        courseWorkload: courseWorkloadISO8601(course.durationHours),
+      },
+    }),
     ...(course.reviews > 0 && {
       aggregateRating: {
         "@type": "AggregateRating",

@@ -76,6 +76,11 @@ export async function generateMetadata({
       description,
       url: `${BASE_URL}/find-a-tutor/${tutor.slug}`,
     },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 

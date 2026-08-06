@@ -1,6 +1,7 @@
 import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { TutorHeader } from "@/components/tutor/tutor-header";
+import { PendingEmailChangeBanner } from "@/components/profile/pending-email-change-banner";
 import { ProfilePanel } from "@/components/tutor/profile-panel";
 import { MatchedStudentsPanel } from "@/components/tutor/matched-students-panel";
 import { TutorSidePanel } from "@/components/tutor/tutor-side-panel";
@@ -55,6 +56,7 @@ export default async function TutorDashboardPage() {
             : null
         }
       />
+      <PendingEmailChangeBanner />
 
       <StaggerReveal
         className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"

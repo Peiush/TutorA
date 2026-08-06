@@ -1,0 +1,27 @@
+# TutorA
+
+> TutorA is an online tutoring marketplace that personally matches students, parents booking for their kids, and adult learners with tutors and courses that TutorA's team has reviewed before they go live — not an open marketplace where anyone can list themselves.
+
+TutorA covers academic subjects (math, sciences, test prep), programming, languages, music, and creative skills, offered both as one-on-one tutor matches and structured courses. Every tutor application and course is manually reviewed before publishing. Browsing tutors/courses and submitting a request is free; TutorA charges a single success fee only after both sides confirm a match — never before. On average, TutorA proposes a vetted tutor within about 31 hours of a submitted request.
+
+## Core Pages
+
+- [Home](https://www.tutora.it.com/): Overview, how matching works, and platform trust stats.
+- [About & How It Works](https://www.tutora.it.com/about): The vetting process, fees, and FAQs.
+- [Find a Tutor](https://www.tutora.it.com/find-a-tutor): Browse personally verified tutors by subject.
+- [Request a Tutor](https://www.tutora.it.com/request-a-tutor): Submit a private request instead of browsing.
+- [Courses](https://www.tutora.it.com/courses): Structured, self-paced and live courses by subject.
+- [Teach on TutorA](https://www.tutora.it.com/teach): How to become a tutor on TutorA.
+
+## Course Categories (representative pages)
+
+- [Python Programming for Beginners](https://www.tutora.it.com/courses/python-ff654450): Programming & Technology
+- [SAT Prep Course](https://www.tutora.it.com/courses/sat-c5d2749b): Test Preparation
+- [Spanish Language Course](https://www.tutora.it.com/courses/spanish-2dd27e6e): Languages
+- [UI/UX Design](https://www.tutora.it.com/courses/ui-ux-design-85bad5a6): Creative Skills
+- [Guitar Lessons](https://www.tutora.it.com/courses/guitar-a7d7f6aa): Music & Instruments
+
+## Optional
+
+- [Terms of Service](https://www.tutora.it.com/terms)
+- [Privacy Policy](https://www.tutora.it.com/privacy)

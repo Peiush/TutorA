@@ -1,6 +1,7 @@
 import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { PendingEmailChangeBanner } from "@/components/profile/pending-email-change-banner";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { RequestsPanel } from "@/components/dashboard/requests-panel";
 import { SavedTutorsPanel } from "@/components/dashboard/saved-tutors-panel";
@@ -133,6 +134,7 @@ export default async function DashboardPage() {
   return (
     <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,64px)] flex flex-col gap-7">
       <DashboardHeader name={user?.name ?? "Student"} email={user?.email ?? ""} memberSince={memberSince} />
+      <PendingEmailChangeBanner />
 
       <StaggerReveal
         className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"

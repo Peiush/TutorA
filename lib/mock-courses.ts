@@ -44,6 +44,13 @@ export function learningOutcomes(course: Pick<CourseRaw, "title" | "whatYoullLea
   return course.whatYoullLearn.filter((item) => item.trim().toLowerCase() !== title);
 }
 
+// ISO 8601 duration for Course.hasCourseInstance.courseWorkload (e.g. 33.5 -> "PT33H30M").
+export function courseWorkloadISO8601(hours: number): string {
+  const wholeHours = Math.floor(hours);
+  const minutes = Math.round((hours - wholeHours) * 60);
+  return minutes > 0 ? `PT${wholeHours}H${minutes}M` : `PT${wholeHours}H`;
+}
+
 export const courseCategories: CourseCategory[] = [
   "Programming & Technology",
   "Test Preparation",

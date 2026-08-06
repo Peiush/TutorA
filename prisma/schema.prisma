@@ -96,6 +96,7 @@ model User {
   subjectRequests SubjectRequest[]
   conversations   Conversation[]
   phoneOtp        PhoneOtp?
+  emailChangeRequest EmailChangeRequest?
 
   @@map("users")
 }
@@ -341,6 +342,24 @@ model PhoneOtp {
   createdAt DateTime @default(now())
 
   @@map("phone_otps")
+}
+
+// Admin-initiated email changes: the admin proposes a new address, the target
+// user gets a WhatsApp code, and only entering it flips User.email. Keeps a
+// login-identifying field from being changed unilaterally by anyone but the
+// account owner, even though the admin is the one who initiates the change.
+model EmailChangeRequest {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  newEmail  String
+  codeHash  String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@map("email_change_requests")
 }
 
 model Conversation {

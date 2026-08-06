@@ -2,6 +2,10 @@ import { LegalHero } from "@/components/legal/legal-hero";
 import { LegalContent } from "@/components/legal/legal-content";
 import { PRIVACY_SECTIONS } from "@/components/legal/privacy-sections";
 
+// Bump when this page's content changes materially — reused as the sitemap's lastmod
+// (app/sitemap.ts), same convention as HOMEPAGE_LAST_UPDATED in app/page.tsx.
+export const PRIVACY_LAST_UPDATED = "2026-07-23";
+
 export const metadata = {
   title: "Privacy Policy",
   description:

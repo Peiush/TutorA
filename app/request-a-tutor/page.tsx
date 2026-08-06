@@ -7,6 +7,10 @@ import { REQUEST_FAQS } from "@/lib/request-faqs";
 
 const BASE_URL = "https://www.tutora.it.com";
 
+// Bump when this page's content changes materially — reused as the sitemap's lastmod
+// (app/sitemap.ts), same convention as HOMEPAGE_LAST_UPDATED in app/page.tsx.
+export const REQUEST_A_TUTOR_LAST_UPDATED = "2026-08-03";
+
 export const metadata = {
   title: "Request a Tutor Online: Get Matched Fast",
   description:

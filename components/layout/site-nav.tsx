@@ -7,12 +7,14 @@ import { useSession } from "next-auth/react";
 import { logout } from "@/app/lib/actions/auth";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { Logo } from "@/components/ui/logo";
+import { EditProfileModal } from "@/components/profile/edit-profile-modal";
 
 const LINKS = [
   { href: "/courses", label: "Courses" },
   { href: "/find-a-tutor", label: "Find a Tutor" },
   { href: "/request-a-tutor", label: "Request a Tutor" },
   { href: "/about", label: "About Us" },
+  { href: "/teach", label: "Become a Teacher" },
 ];
 
 const ADMIN_LINKS = [{ href: "/become-a-tutor", label: "Add a Teacher" }];
@@ -29,7 +31,7 @@ type NavUser = {
   role?: string;
 } | null;
 
-function UserMenu({ user }: { user: NonNullable<NavUser> }) {
+function UserMenu({ user, onEditProfile }: { user: NonNullable<NavUser>; onEditProfile: (rect: DOMRect | null) => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dashboardHref = DASHBOARD_HREF[user.role ?? ""] ?? "/dashboard";
@@ -96,6 +98,18 @@ function UserMenu({ user }: { user: NonNullable<NavUser> }) {
           >
             Dashboard
           </Link>
+          <button
+            type="button"
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setOpen(false);
+              onEditProfile(rect);
+            }}
+            className="w-full text-left text-[14px] px-3 py-2 rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150 hover:bg-[rgba(21,33,58,0.06)]"
+            style={{ color: "var(--color-text)" }}
+          >
+            Edit Profile
+          </button>
           <form action={logout}>
             <button
               type="submit"
@@ -137,7 +151,20 @@ export function SiteNav() {
   const user: NavUser = status === "authenticated" ? session?.user ?? null : null;
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [editProfileRect, setEditProfileRect] = useState<DOMRect | null>(null);
+  const [editProfileUser, setEditProfileUser] = useState<NavUser>(null);
   const links = [...LINKS, ...(user?.role === "ADMIN" ? ADMIN_LINKS : [])];
+
+  function openEditProfile(rect: DOMRect | null) {
+    // Snapshot the user rather than reading the live `user` derived above:
+    // saving inside the modal calls the session's update(), which briefly
+    // flips useSession() status to "loading" — if the modal stayed keyed to
+    // that live value it would unmount mid-submit and lose the in-flight
+    // save (and its success animation).
+    setEditProfileUser(user);
+    setEditProfileRect(rect);
+    setMobileOpen(false);
+  }
 
   useEffect(() => {
     setMobileOpen(false);
@@ -194,7 +221,7 @@ export function SiteNav() {
       <span className="hidden md:block w-px h-5" style={{ background: "var(--color-divider)" }} />
       <div className="hidden md:flex items-center gap-[clamp(10px,2.4vw,26px)]">
         {user ? (
-          <UserMenu user={user} />
+          <UserMenu user={user} onEditProfile={openEditProfile} />
         ) : (
           <>
             <Link href="/login" className="btn btn-ghost">
@@ -264,6 +291,14 @@ export function SiteNav() {
               >
                 Dashboard
               </Link>
+              <button
+                type="button"
+                onClick={(e) => openEditProfile(e.currentTarget.getBoundingClientRect())}
+                className="w-full text-left text-[15px] px-3 py-2.5 rounded-[var(--radius-sm)] cursor-pointer transition-colors duration-150"
+                style={{ color: "var(--color-text)" }}
+              >
+                Edit Profile
+              </button>
               <form action={logout}>
                 <button
                   type="submit"
@@ -285,6 +320,14 @@ export function SiteNav() {
             </div>
           )}
         </div>
+      )}
+
+      {editProfileUser && (
+        <EditProfileModal
+          user={editProfileUser}
+          originRect={editProfileRect}
+          onClose={() => setEditProfileUser(null)}
+        />
       )}
     </nav>
   );

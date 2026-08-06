@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { logAdminAction } from "@/lib/audit-log";
 import { logSecurityEvent } from "@/lib/security-log";
+import { generateOtpCode, hashOtpCode, OTP_TTL_MS } from "@/lib/otp";
+import { sendPhoneOtpWhatsApp } from "@/lib/notify/whatsapp";
 
 export type AdminActionState = { ok: boolean; message?: string };
 export type AdminSession = { id: string; email: string };
@@ -184,5 +186,66 @@ export async function setSubjectRequestStatus(
   await logAdminAction(admin!, "subject_request.set_status", "SubjectRequest", id, { status });
   revalidatePath("/admin");
   revalidatePath("/dashboard");
+  return { ok: true };
+}
+
+const NewEmailSchema = z.string().trim().toLowerCase().email("Enter a valid email address.");
+
+// Admins can't set a user's email directly — it's the login identifier, so a
+// silent admin-side write would let anyone with admin access take over an
+// account. Instead this proposes the change and texts the target user a code
+// via WhatsApp; the change only lands once they enter it (confirmEmailChange
+// in app/lib/actions/email-change.ts).
+export async function requestEmailChange(userId: string, newEmailRaw: string): Promise<AdminActionState> {
+  const { error, admin } = await requireAdmin();
+  if (error) return error;
+
+  const parsed = NewEmailSchema.safeParse(newEmailRaw);
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Enter a valid email address." };
+  }
+  const newEmail = parsed.data;
+
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, email: true, phone: true } });
+  if (!target) return { ok: false, message: "User not found." };
+  if (target.email.toLowerCase() === newEmail) {
+    return { ok: false, message: "That's already their current email." };
+  }
+  if (!target.phone) {
+    return { ok: false, message: "This user has no phone on file — confirmation is sent via WhatsApp, so add a phone number first." };
+  }
+
+  const emailTaken = await prisma.user.findUnique({ where: { email: newEmail } });
+  if (emailTaken) return { ok: false, message: "Another account already uses that email." };
+
+  const code = generateOtpCode();
+  const codeHash = await hashOtpCode(code);
+  const expiresAt = new Date(Date.now() + OTP_TTL_MS);
+
+  await prisma.emailChangeRequest.upsert({
+    where: { userId: target.id },
+    update: { newEmail, codeHash, attempts: 0, expiresAt },
+    create: { userId: target.id, newEmail, codeHash, attempts: 0, expiresAt },
+  });
+  await logAdminAction(admin!, "user.request_email_change", "User", target.id, { newEmail });
+  revalidatePath("/admin");
+
+  const sendResult = await sendPhoneOtpWhatsApp(target.phone, code);
+  if (!sendResult.ok) {
+    return {
+      ok: true,
+      message: `Request saved, but the WhatsApp message to ${target.phone} may not have sent — check delivery before relying on it.`,
+    };
+  }
+  return { ok: true, message: `Verification code sent to ${target.phone}.` };
+}
+
+export async function cancelEmailChangeRequest(userId: string): Promise<AdminActionState> {
+  const { error, admin } = await requireAdmin();
+  if (error) return error;
+
+  await prisma.emailChangeRequest.deleteMany({ where: { userId } });
+  await logAdminAction(admin!, "user.cancel_email_change", "User", userId);
+  revalidatePath("/admin");
   return { ok: true };
 }

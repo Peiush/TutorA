@@ -53,7 +53,9 @@ export const metadata: Metadata = {
 
 // Bump this when homepage copy changes materially — it's a real freshness signal for
 // search/AI crawlers, not a build timestamp, so it shouldn't move on every deploy.
-const HOMEPAGE_LAST_UPDATED = "2026-08-03";
+// Exported for reuse as the sitemap's lastmod for "/" (app/sitemap.ts) — one true value
+// instead of two dates that can drift apart.
+export const HOMEPAGE_LAST_UPDATED = "2026-08-03";
 
 const webPageJsonLd = {
   "@context": "https://schema.org",

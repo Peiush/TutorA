@@ -10,6 +10,10 @@ import { TestimonialCards } from "@/components/about/testimonial-cards";
 import { PricingTable } from "@/components/about/pricing-table";
 import { ContactCta } from "@/components/about/contact-cta";
 
+// Bump when this page's content changes materially — reused as the sitemap's lastmod
+// (app/sitemap.ts), same convention as HOMEPAGE_LAST_UPDATED in app/page.tsx.
+export const ABOUT_LAST_UPDATED = "2026-07-23";
+
 export const metadata = {
   title: "About & How It Works",
   description:

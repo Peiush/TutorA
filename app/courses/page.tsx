@@ -35,13 +35,16 @@ const collectionPageJsonLd = {
   about: { "@type": "Organization", name: "TutorA", url: BASE_URL },
   mainEntity: {
     "@type": "ItemList",
+    // These are category filter links (e.g. /courses?category=...), not individual
+    // bookable courses — typing them as CollectionPage (not Course) avoids a schema.org
+    // type mismatch. Course markup is reserved for the actual course-detail pages, which
+    // already carry their own valid Course JSON-LD.
     itemListElement: courseCategories.map((category, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {
-        "@type": "Course",
+        "@type": "CollectionPage",
         name: category,
-        provider: { "@type": "Organization", name: "TutorA", url: BASE_URL },
         url: `${BASE_URL}/courses?category=${encodeURIComponent(category)}`,
       },
     })),

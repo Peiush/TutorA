@@ -2,6 +2,7 @@ import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { TutorReviewPanel } from "@/components/admin/tutor-review-panel";
+import { UsersAdminPanel } from "@/components/admin/users-admin-panel";
 import { TutorRequestsAdminPanel } from "@/components/admin/tutor-requests-admin-panel";
 import { CoursesAdminPanel } from "@/components/admin/courses-admin-panel";
 import { CourseRequestsAdminPanel } from "@/components/admin/course-requests-admin-panel";
@@ -25,10 +26,21 @@ export default async function AdminPage() {
   await requireFreshRole(["ADMIN"]);
   const user = await getUser();
 
-  const [totalStudents, totalTutors, profiles, requests, courses, courseRequests, subjectRequests, mfaStatus, conversations] =
+  const [totalStudents, totalTutors, allUsers, profiles, requests, courses, courseRequests, subjectRequests, mfaStatus, conversations] =
     await Promise.all([
       prisma.user.count({ where: { role: "STUDENT" } }),
       prisma.user.count({ where: { role: "TUTOR" } }),
+      prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          role: true,
+          emailChangeRequest: { select: { newEmail: true, expiresAt: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
       prisma.tutorProfile.findMany({
         include: { user: { select: { name: true, email: true } } },
         orderBy: { createdAt: "desc" },
@@ -82,6 +94,17 @@ export default async function AdminPage() {
     createdAt: r.createdAt,
   }));
 
+  const userRows = allUsers.map((u) => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    phone: u.phone,
+    role: u.role,
+    pendingEmailChange: u.emailChangeRequest
+      ? { newEmail: u.emailChangeRequest.newEmail, expiresAt: u.emailChangeRequest.expiresAt }
+      : null,
+  }));
+
   const subjectRequestRows = subjectRequests.map((r) => ({
     id: r.id,
     studentName: r.user.name ?? "Student",
@@ -110,6 +133,7 @@ export default async function AdminPage() {
       </StaggerReveal>
 
       <TwoFactorPanel initialEnabled={mfaStatus.enabled} />
+      <UsersAdminPanel users={userRows} />
       <WhatsAppInboxPanel conversations={conversations} />
       <TutorReviewPanel profiles={profiles} />
       <TutorRequestsAdminPanel requests={requests} approvedTutors={approvedTutors} />
