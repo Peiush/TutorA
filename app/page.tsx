@@ -9,10 +9,7 @@ import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobi
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
 import { HeroHeading, HeroCopy } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
-import { FeaturedTutors } from "@/components/home/featured-tutors";
-import { FeaturedTutorsIllustration } from "@/components/home/featured-tutors-illustration";
 import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
-import { WhoItsFor } from "@/components/home/who-its-for";
 import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import type { CategoryCount } from "@/components/home/course-categories-showcase";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
@@ -31,6 +28,13 @@ import { homepageFaqs } from "@/components/home/homepage-faq";
 // part of the critical bundle blocking first paint. Content still renders via SSR (ssr: true).
 const CourseCategoriesShowcase = dynamic(() =>
   import("@/components/home/course-categories-showcase").then((mod) => mod.CourseCategoriesShowcase)
+);
+const WhoItsFor = dynamic(() => import("@/components/home/who-its-for").then((mod) => mod.WhoItsFor));
+const FeaturedTutors = dynamic(() =>
+  import("@/components/home/featured-tutors").then((mod) => mod.FeaturedTutors)
+);
+const FeaturedTutorsIllustration = dynamic(() =>
+  import("@/components/home/featured-tutors-illustration").then((mod) => mod.FeaturedTutorsIllustration)
 );
 const TestimonialsSection = dynamic(() =>
   import("@/components/home/testimonials-section").then((mod) => mod.TestimonialsSection)
