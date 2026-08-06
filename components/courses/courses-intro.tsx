@@ -88,7 +88,7 @@ export function CoursesIntro() {
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap
-          .timeline({ scrollTrigger: { trigger: rootRef.current, start: "top 78%", once: true } })
+          .timeline({ delay: 0.05 })
           // Hero
           .from(".ci-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".ci-heading", { autoAlpha: 0, y: 18, duration: 0.55, ease: "power3.out" }, "-=0.2")

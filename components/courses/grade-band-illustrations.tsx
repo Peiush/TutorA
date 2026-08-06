@@ -4,8 +4,8 @@ import { GRADE_BAND_COLORS, type GradeBandKey } from "@/lib/grade-bands";
 
 export const GRADE_BAND_PALETTE: Record<GradeBandKey, { bg: string; line: string; dot: string }> = {
   GRADE_6_8: { bg: GRADE_BAND_COLORS.GRADE_6_8.light, line: GRADE_BAND_COLORS.GRADE_6_8.text, dot: GRADE_BAND_COLORS.GRADE_6_8.solid },
-  GRADE_8_10: { bg: GRADE_BAND_COLORS.GRADE_8_10.light, line: GRADE_BAND_COLORS.GRADE_8_10.text, dot: GRADE_BAND_COLORS.GRADE_8_10.solid },
-  GRADE_10_12: { bg: GRADE_BAND_COLORS.GRADE_10_12.light, line: GRADE_BAND_COLORS.GRADE_10_12.text, dot: GRADE_BAND_COLORS.GRADE_10_12.solid },
+  GRADE_9_10: { bg: GRADE_BAND_COLORS.GRADE_9_10.light, line: GRADE_BAND_COLORS.GRADE_9_10.text, dot: GRADE_BAND_COLORS.GRADE_9_10.solid },
+  GRADE_11_12: { bg: GRADE_BAND_COLORS.GRADE_11_12.light, line: GRADE_BAND_COLORS.GRADE_11_12.text, dot: GRADE_BAND_COLORS.GRADE_11_12.solid },
 };
 
 function GradeMotif({ band, line, dot }: { band: GradeBandKey; line: string; dot: string }) {
@@ -23,7 +23,7 @@ function GradeMotif({ band, line, dot }: { band: GradeBandKey; line: string; dot
                 <path d="M112 40l2.6 6.4L121 49l-6.4 2.6L112 58l-2.6-6.4L103 49l6.4-2.6Z" fill={dot} stroke="none" />
               </g>
             );
-          case "GRADE_8_10":
+          case "GRADE_9_10":
             // stacked books + pencil — junior-high workload
             return (
               <g fill="none" stroke={line} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -34,7 +34,7 @@ function GradeMotif({ band, line, dot }: { band: GradeBandKey; line: string; dot
                 <circle cx="122" cy="52" r="2.2" fill={dot} stroke="none" />
               </g>
             );
-          case "GRADE_10_12":
+          case "GRADE_11_12":
             // graduation cap + diploma scroll — senior-secondary milestone
             return (
               <g fill="none" stroke={line} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

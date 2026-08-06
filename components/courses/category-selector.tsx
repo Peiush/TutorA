@@ -12,7 +12,7 @@ import { GRADE_BANDS, GRADE_BAND_COLORS, type GradeBandKey } from "@/lib/grade-b
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const PRIORITY_LABELS = new Set(["Grade 6-8", "Grade 8-10", "Grade 10-12", "Programming & Technology"]);
+const PRIORITY_LABELS = new Set(["Grade 6-8", "Grade 9-10", "Grade 11-12", "Programming & Technology"]);
 
 const CATEGORY_ICON: Record<CourseCategory, typeof CodeBracketIcon> = {
   "Programming & Technology": CodeBracketIcon,

@@ -1,7 +1,7 @@
 export const GRADE_BANDS = [
   { key: "GRADE_6_8", label: "Grade 6-8", min: 6, max: 8 },
-  { key: "GRADE_8_10", label: "Grade 8-10", min: 8, max: 10 },
-  { key: "GRADE_10_12", label: "Grade 10-12", min: 10, max: 12 },
+  { key: "GRADE_9_10", label: "Grade 9-10", min: 9, max: 10 },
+  { key: "GRADE_11_12", label: "Grade 11-12", min: 11, max: 12 },
 ] as const;
 
 export type GradeBandKey = (typeof GRADE_BANDS)[number]["key"];
@@ -9,8 +9,8 @@ export type GradeBand = (typeof GRADE_BANDS)[number];
 
 export const GRADE_BAND_COLORS: Record<GradeBandKey, { solid: string; light: string; text: string }> = {
   GRADE_6_8: { solid: "#4A7C82", light: "#EAF3F3", text: "#25474B" },
-  GRADE_8_10: { solid: "#A65A6B", light: "#F6EAEC", text: "#5C2E38" },
-  GRADE_10_12: { solid: "#5B6EA8", light: "#ECEFF7", text: "#2E3A63" },
+  GRADE_9_10: { solid: "#A65A6B", light: "#F6EAEC", text: "#5C2E38" },
+  GRADE_11_12: { solid: "#5B6EA8", light: "#ECEFF7", text: "#2E3A63" },
 };
 
 // Subject.gradeLevel is free text imported from spreadsheets ("Grades 6–8",
