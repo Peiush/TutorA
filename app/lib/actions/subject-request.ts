@@ -52,6 +52,7 @@ export async function requestSubject(subjectId: string): Promise<RequestSubjectS
     }
     revalidatePath("/dashboard");
     revalidatePath("/courses");
+    revalidatePath("/subjects/[slug]", "page");
     return { ok: true, alreadyRequested: true, message: `Your request for "${label}" has been sent.` };
   }
 
@@ -70,6 +71,7 @@ export async function requestSubject(subjectId: string): Promise<RequestSubjectS
 
   revalidatePath("/dashboard");
   revalidatePath("/courses");
+  revalidatePath("/subjects/[slug]", "page");
   return { ok: true, message: `Your request for "${label}" has been sent.` };
 }
 
@@ -89,5 +91,6 @@ export async function cancelSubjectRequest(id: string): Promise<SubjectRequestAc
   await prisma.subjectRequest.delete({ where: { id } });
   revalidatePath("/dashboard");
   revalidatePath("/courses");
+  revalidatePath("/subjects/[slug]", "page");
   return { ok: true };
 }

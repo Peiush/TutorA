@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "subjects" ALTER COLUMN "slug" SET NOT NULL;

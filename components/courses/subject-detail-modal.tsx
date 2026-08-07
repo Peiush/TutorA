@@ -91,6 +91,9 @@ export function SubjectDetailModal({
     >
       <div
         ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="subject-detail-modal-title"
         className="card elev-lg gap-4 w-full max-w-[560px] my-4 relative p-0 max-h-[94vh]"
         style={{ background: "var(--color-bg)", overflowY: "auto", overflowX: "hidden" }}
       >
@@ -143,7 +146,7 @@ export function SubjectDetailModal({
                 )}
               </div>
             )}
-            <h2 className="text-[19px] leading-snug mb-1">{title}</h2>
+            <h2 id="subject-detail-modal-title" className="text-[19px] leading-snug mb-1">{title}</h2>
             {subject.subtitle && (
               <p className="text-[13px] m-0" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
                 {subject.subtitle}

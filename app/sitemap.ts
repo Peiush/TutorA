@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
+import { getSubjects } from "@/app/lib/subject-listings";
 import { HOMEPAGE_LAST_UPDATED } from "@/app/page";
 import { ABOUT_LAST_UPDATED } from "@/app/about/page";
 import { REQUEST_A_TUTOR_LAST_UPDATED } from "@/app/request-a-tutor/page";
@@ -23,7 +24,11 @@ function latestOrFallback(dates: (Date | string | null | undefined)[], fallback:
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [courses, tutors] = await Promise.all([getPublishedCourses(), getApprovedTutorListings()]);
+  const [courses, tutors, subjects] = await Promise.all([
+    getPublishedCourses(),
+    getApprovedTutorListings(),
+    getSubjects(),
+  ]);
 
   // A tutor can appear as multiple listing cards (one per subject); keep the most recent
   // updatedAt per slug so the sitemap emits one entry per tutor profile, not per listing.
@@ -79,6 +84,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: "weekly" as const,
       priority: 0.7,
+    })),
+    ...subjects.map((s) => ({
+      url: `${BASE_URL}/subjects/${s.slug}`,
+      lastModified: s.updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
     })),
   ];
 }

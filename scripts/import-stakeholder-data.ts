@@ -2,7 +2,7 @@ import "dotenv/config";
 import ExcelJS from "exceljs";
 import { prisma } from "@/lib/prisma";
 import { CATEGORY_LABEL_TO_DB, type CourseCategory } from "@/lib/mock-courses";
-import { makeSlug } from "@/lib/slug";
+import { makeSlug, slugify as urlSlugify } from "@/lib/slug";
 
 // Known-safe aliases: teacher's free-text subject -> canonical catalog name (Subjects sheet or Courses sheet title).
 // Only pairs where the mapping is unambiguous (same subject, different spelling) live here.
@@ -102,7 +102,13 @@ async function importSubjects(sheet: ExcelJS.Worksheet | undefined) {
   for (const s of subjectRows) {
     await prisma.subject.upsert({
       where: { name: s.name },
-      create: { name: s.name, gradeLevel: s.gradeLevel, curriculum: s.curriculum, hourlyRateCents: s.hourlyRateCents },
+      create: {
+        name: s.name,
+        slug: urlSlugify(s.name),
+        gradeLevel: s.gradeLevel,
+        curriculum: s.curriculum,
+        hourlyRateCents: s.hourlyRateCents,
+      },
       update: { gradeLevel: s.gradeLevel, curriculum: s.curriculum, hourlyRateCents: s.hourlyRateCents },
     });
     summary.subjectsUpserted++;
@@ -338,7 +344,7 @@ async function importTeachers(
         } else {
           const subject = await prisma.subject.upsert({
             where: { name: item.name },
-            create: { name: item.name, hourlyRateCents: item.hourlyRateCents },
+            create: { name: item.name, slug: urlSlugify(item.name), hourlyRateCents: item.hourlyRateCents },
             update: { hourlyRateCents: item.hourlyRateCents },
           });
           noPriceSubjectCache.set(cacheKey, subject.id);

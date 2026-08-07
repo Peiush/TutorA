@@ -11,6 +11,7 @@ import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/l
 import { getTutorsMatchingPrefixes } from "@/app/lib/tutor-listings";
 import { priceLabel, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
 import { courseSubjectContent, TEST_PREP_TUTOR_MATCH } from "@/lib/course-subject-content";
+import { COURSE_TO_SUBJECT_SLUGS } from "@/lib/subject-course-links";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -139,9 +140,17 @@ export default async function CourseDetailPage({
   const description = courseDescription(course);
   const subjectContent = courseSubjectContent[course.slug];
   const tutorMatch = TEST_PREP_TUTOR_MATCH[course.slug];
+  const relatedSubjectSlugs = COURSE_TO_SUBJECT_SLUGS[course.slug] ?? [];
   const testPrepTutors = tutorMatch
     ? await getTutorsMatchingPrefixes(tutorMatch.include, tutorMatch.exclude)
     : [];
+  const relatedSubjects =
+    relatedSubjectSlugs.length > 0
+      ? await prisma.subject.findMany({
+          where: { slug: { in: relatedSubjectSlugs } },
+          select: { slug: true, title: true, name: true, gradeLevel: true },
+        })
+      : [];
 
   const courseJsonLd = {
     "@context": "https://schema.org",
@@ -384,6 +393,22 @@ export default async function CourseDetailPage({
           <Link href={`/courses?category=${encodeURIComponent(course.category)}`} className="text-[13.5px] hover:underline mt-2">
             Browse more {course.category} courses →
           </Link>
+
+          {relatedSubjects.length > 0 && (
+            <div className="flex flex-col gap-1">
+              <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+                Looking for grade-specific tutoring instead?
+              </span>
+              <div className="flex flex-wrap gap-x-3 gap-y-1">
+                {relatedSubjects.map((s) => (
+                  <Link key={s.slug} href={`/subjects/${s.slug}`} className="text-[13px] hover:underline">
+                    {s.title ?? s.name}
+                    {s.gradeLevel ? ` (${s.gradeLevel})` : ""} →
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

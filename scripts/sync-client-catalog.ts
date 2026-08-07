@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { makeSlug } from "@/lib/slug";
+import { makeSlug, slugify } from "@/lib/slug";
 
 /**
  * One-time sync against the client's subject/course list. Two things happen here:
@@ -839,6 +839,7 @@ async function upsertSubject(s: SubjectContent) {
     where: { name: s.name },
     create: {
       name: s.name,
+      slug: slugify(s.name),
       gradeLevel: s.gradeLevel,
       curriculum: s.curriculum,
       hourlyRateCents: s.hourlyRateCents,

@@ -41,6 +41,7 @@ export async function toggleSavedSubject(subjectId: string): Promise<ToggleSaved
   if (existing) {
     await prisma.savedSubject.delete({ where: { id: existing.id } });
     revalidatePath("/courses");
+    revalidatePath("/subjects/[slug]", "page");
     revalidatePath("/dashboard");
     return { ok: true, saved: false };
   }
@@ -59,6 +60,7 @@ export async function toggleSavedSubject(subjectId: string): Promise<ToggleSaved
   });
 
   revalidatePath("/courses");
+  revalidatePath("/subjects/[slug]", "page");
   revalidatePath("/dashboard");
   return { ok: true, saved: true };
 }

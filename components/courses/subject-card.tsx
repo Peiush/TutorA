@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type MouseEvent, type ReactNode } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SubjectIllustration } from "@/components/courses/subject-illustration";
@@ -48,7 +49,7 @@ export function SubjectCard({
   onOpen: (subject: SubjectListing) => void;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const flyoutRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const tiltX = useRef<((value: number) => void) | null>(null);
@@ -70,7 +71,7 @@ export function SubjectCard({
     { scope: rootRef }
   );
 
-  const handleTiltMove = contextSafe((e: MouseEvent<HTMLDivElement>) => {
+  const handleTiltMove = contextSafe((e: MouseEvent<HTMLAnchorElement>) => {
     if (!tiltX.current || !tiltY.current) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width - 0.5;
@@ -145,17 +146,9 @@ export function SubjectCard({
 
   return (
     <div ref={rootRef} className="course-card group relative" style={{ zIndex: 1 }} onMouseEnter={openFlyout} onMouseLeave={closeFlyout}>
-      <div
+      <Link
         ref={cardRef}
-        role="button"
-        tabIndex={0}
-        onClick={() => onOpen(subject)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onOpen(subject);
-          }
-        }}
+        href={`/subjects/${subject.slug}`}
         className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-300 ease-out will-change-transform"
         style={{ borderColor: "var(--color-divider)", boxShadow: "var(--shadow-sm)" }}
         onMouseMove={handleTiltMove}
@@ -210,6 +203,7 @@ export function SubjectCard({
             aria-pressed={saved}
             disabled={savePending}
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               onToggleSaved(subject);
             }}
@@ -255,7 +249,7 @@ export function SubjectCard({
             </span>
           </div>
         </div>
-      </div>
+      </Link>
 
       <div
         ref={flyoutRef}
