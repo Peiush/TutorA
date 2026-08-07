@@ -79,3 +79,36 @@ export const getRelatedSubjects = unstable_cache(fetchRelatedSubjects, ["related
   tags: ["subject-listings"],
   revalidate: 60,
 });
+
+export interface SubjectTutor {
+  name: string;
+  slug: string;
+  country: string;
+  yearsExperience: number | null;
+  bio: string | null;
+}
+
+async function fetchTutorsForSubject(subjectId: string): Promise<SubjectTutor[]> {
+  const listings = await prisma.tutorSubject.findMany({
+    where: { subjectId, tutorProfile: { status: "APPROVED" } },
+    include: { tutorProfile: { include: { user: { select: { name: true } } } } },
+  });
+
+  return listings.map((l) => ({
+    name: l.tutorProfile.user.name ?? "Verified tutor",
+    slug: l.tutorProfile.slug,
+    country: l.tutorProfile.country,
+    yearsExperience: l.tutorProfile.yearsExperience,
+    bio: l.tutorProfile.bio,
+  }));
+}
+
+/**
+ * Real, live-queried tutors for a subject page — a direct Subject<->TutorSubject relation,
+ * so (unlike the Course pages' prefix-matching heuristic) this never shows a tutor who
+ * isn't actually linked to this exact subject. Cached like the other tutor-listing queries.
+ */
+export const getTutorsForSubject = unstable_cache(fetchTutorsForSubject, ["tutors-for-subject"], {
+  tags: ["tutor-listings", "subject-listings"],
+  revalidate: 60,
+});
