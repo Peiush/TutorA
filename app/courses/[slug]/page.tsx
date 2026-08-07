@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Tag } from "@/components/ui/tag";
+import { FaqAccordion } from "@/components/about/faq-accordion";
 import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon } from "@/components/courses/course-icons";
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
+import { getTutorsMatchingPrefixes } from "@/app/lib/tutor-listings";
 import { priceLabel, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
+import { courseSubjectContent, TEST_PREP_TUTOR_MATCH } from "@/lib/course-subject-content";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -134,6 +137,11 @@ export default async function CourseDetailPage({
 
   const canonicalUrl = `${BASE_URL}/courses/${course.slug}`;
   const description = courseDescription(course);
+  const subjectContent = courseSubjectContent[course.slug];
+  const tutorMatch = TEST_PREP_TUTOR_MATCH[course.slug];
+  const testPrepTutors = tutorMatch
+    ? await getTutorsMatchingPrefixes(tutorMatch.include, tutorMatch.exclude)
+    : [];
 
   const courseJsonLd = {
     "@context": "https://schema.org",
@@ -178,10 +186,26 @@ export default async function CourseDetailPage({
     ],
   };
 
+  const faqJsonLd = subjectContent
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${canonicalUrl}#faq`,
+        mainEntity: subjectContent.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null;
+
   return (
     <div className="max-w-[860px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      )}
 
       <nav aria-label="Breadcrumb" className="text-[13px] mb-5" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
         <ol className="flex items-center gap-1.5 flex-wrap list-none m-0 p-0">
@@ -255,6 +279,70 @@ export default async function CourseDetailPage({
             </p>
           </div>
 
+          {subjectContent && (
+            <div>
+              <h2 className="text-[15px] font-semibold mb-1.5" style={{ fontFamily: "var(--font-heading)" }}>
+                Why a TutorA tutor
+              </h2>
+              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+                {subjectContent.differentiation}
+              </p>
+              {tutorMatch && (
+                <Link
+                  href="/guarantee"
+                  className="inline-flex items-center gap-1 text-[13px] font-medium mt-2 hover:underline"
+                  style={{ color: "var(--color-accent-700)" }}
+                >
+                  Backed by our Tutor Match Guarantee
+                  <span aria-hidden>→</span>
+                </Link>
+              )}
+            </div>
+          )}
+
+          {tutorMatch && (
+            <div className="rounded-[var(--radius-md)] p-4" style={{ background: "var(--color-surface)" }}>
+              <h2 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                Tutors for {course.title}
+              </h2>
+              {testPrepTutors.length > 0 ? (
+                <div className="flex flex-col gap-3">
+                  {testPrepTutors.map((t) => (
+                    <Link
+                      key={t.slug}
+                      href={`/find-a-tutor/${t.slug}`}
+                      className="flex flex-col gap-1 p-3 rounded-[var(--radius-sm)] border hover:shadow-[var(--shadow-sm)] transition-shadow duration-200"
+                      style={{ borderColor: "var(--color-divider)", background: "var(--color-bg)" }}
+                    >
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <span className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                          {t.name}
+                        </span>
+                        <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
+                          {t.country}
+                          {t.yearsExperience != null && ` · ${t.yearsExperience} yrs experience`}
+                        </span>
+                      </div>
+                      <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
+                        Teaches {t.matchedSubjects.join(", ")}
+                      </span>
+                      {t.bio && (
+                        <p className="text-[13px] leading-relaxed m-0 mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}>
+                          {t.bio}
+                        </p>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[13.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 72%, transparent)" }}>
+                  We don&rsquo;t have a tutor actively teaching {course.title} yet — send a request and we&rsquo;ll
+                  match one for you.
+                </p>
+              )}
+            </div>
+          )}
+
           {learningOutcomes(course).length > 0 && (
             <div className="rounded-[var(--radius-md)] p-4" style={{ background: "var(--color-surface)" }}>
               <h2 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
@@ -322,6 +410,15 @@ export default async function CourseDetailPage({
               </Link>
             ))}
           </div>
+        </div>
+      )}
+
+      {subjectContent && (
+        <div className="mt-8">
+          <h2 className="text-[16px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
+            {course.title} tutoring FAQ
+          </h2>
+          <FaqAccordion faqs={subjectContent.faqs} />
         </div>
       )}
     </div>

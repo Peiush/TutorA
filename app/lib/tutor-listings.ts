@@ -171,6 +171,68 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
   };
 }
 
+export interface TestPrepTutor {
+  name: string;
+  slug: string;
+  country: string;
+  yearsExperience: number | null;
+  bio: string | null;
+  matchedSubjects: string[];
+}
+
+async function fetchTutorsMatchingPrefixes(
+  includePrefixes: string[],
+  excludePrefixes: string[] = []
+): Promise<TestPrepTutor[]> {
+  const profiles = await prisma.tutorProfile.findMany({
+    where: { status: "APPROVED" },
+    include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
+  });
+
+  const includeUpper = includePrefixes.map((p) => p.toUpperCase());
+  const excludeUpper = excludePrefixes.map((p) => p.toUpperCase());
+
+  const matchesPrefix = (subjectName: string) => {
+    const upper = subjectName.toUpperCase();
+    if (excludeUpper.some((p) => upper.startsWith(p))) return false;
+    return includeUpper.some((p) => upper.startsWith(p));
+  };
+
+  const results: TestPrepTutor[] = [];
+
+  for (const p of profiles) {
+    const listingSubjects = p.subjectListings.map((l) => l.subject.name);
+    const legacySubjects = p.subjects.split(",").map((s) => s.trim()).filter(Boolean);
+    const allSubjects = listingSubjects.length > 0 ? listingSubjects : legacySubjects;
+
+    const matchedSubjects = allSubjects.filter(matchesPrefix);
+    if (matchedSubjects.length === 0) continue;
+
+    results.push({
+      name: p.user.name ?? "Verified tutor",
+      slug: p.slug,
+      country: p.country,
+      yearsExperience: p.yearsExperience,
+      bio: p.bio,
+      matchedSubjects,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Real, live-queried tutors for a test-prep subject's course page — deliberately not a
+ * static/hardcoded list, so a page never shows a tutor who's since been unapproved, and
+ * automatically picks up newly approved tutors without a code change. Cached like the
+ * other tutor-listing queries and invalidated by the same "tutor-listings" tag.
+ */
+export const getTutorsMatchingPrefixes = unstable_cache(
+  fetchTutorsMatchingPrefixes,
+  ["test-prep-tutors-by-prefix"],
+  { tags: ["tutor-listings"], revalidate: 60 }
+);
+
 export interface RelatedTutor {
   slug: string;
   name: string;

@@ -15,6 +15,7 @@ const EXPLORE_LINKS = [
   { href: "/request-a-tutor", label: "Request a Tutor" },
   { href: "/about", label: "About Us" },
   { href: "/teach", label: "Teach on TutorA" },
+  { href: "/guarantee", label: "Tutor Match Guarantee" },
 ];
 
 // nofollow: these are auth-gated app routes, not public content — without it they'd be

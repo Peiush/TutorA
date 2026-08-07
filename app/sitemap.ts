@@ -7,6 +7,7 @@ import { REQUEST_A_TUTOR_LAST_UPDATED } from "@/app/request-a-tutor/page";
 import { TERMS_LAST_UPDATED } from "@/app/terms/page";
 import { PRIVACY_LAST_UPDATED } from "@/app/privacy/page";
 import { TEACH_LAST_UPDATED } from "@/app/teach/page";
+import { GUARANTEE_LAST_UPDATED } from "@/app/guarantee/page";
 
 const BASE_URL = "https://www.tutora.it.com";
 
@@ -59,6 +60,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     { url: `${BASE_URL}/teach`, lastModified: new Date(TEACH_LAST_UPDATED), changeFrequency: "monthly", priority: 0.6 },
+    {
+      url: `${BASE_URL}/guarantee`,
+      lastModified: new Date(GUARANTEE_LAST_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
     { url: `${BASE_URL}/terms`, lastModified: new Date(TERMS_LAST_UPDATED), changeFrequency: "yearly", priority: 0.2 },
     { url: `${BASE_URL}/privacy`, lastModified: new Date(PRIVACY_LAST_UPDATED), changeFrequency: "yearly", priority: 0.2 },
     ...courses.map((c) => ({
