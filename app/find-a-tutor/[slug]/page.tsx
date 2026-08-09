@@ -12,6 +12,7 @@ import {
   getRelatedTutors,
   type TutorProfileDetail,
 } from "@/app/lib/tutor-listings";
+import { SUBJECT_TO_COURSE_SLUG } from "@/lib/subject-course-links";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -105,6 +106,20 @@ export default async function TutorDetailPage({
       ])
     : [null, null, await getRelatedTutors(tutor.id, subjectNamesForMatch)];
 
+  // Subject/course cross-links: prior to this, tutor profile pages linked out only to other
+  // tutor profiles — the internal-linking audit (2026-08-09) flagged this as a one-directional
+  // gap (subject/course pages already link to tutors, but tutors never linked back).
+  const relatedSubjectLinks = tutor.subjects.filter(
+    (s): s is typeof s & { subjectSlug: string } => Boolean(s.subjectSlug)
+  );
+  const relatedCourseSlugs = Array.from(
+    new Set(
+      relatedSubjectLinks
+        .map((s) => SUBJECT_TO_COURSE_SLUG[s.subjectSlug])
+        .filter((slug): slug is string => Boolean(slug))
+    )
+  );
+
   const canonicalUrl = `${BASE_URL}/find-a-tutor/${tutor.slug}`;
   const subjectNames = tutor.subjects.map((s) => s.subjectName).join(", ");
   const description =
@@ -184,6 +199,26 @@ export default async function TutorDetailPage({
           initialSaved={Boolean(savedTutor)}
           initialRequested={Boolean(openRequest)}
         />
+
+        {(relatedSubjectLinks.length > 0 || relatedCourseSlugs.length > 0) && (
+          <div className="flex flex-col gap-1">
+            <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+              Subjects & courses {tutor.name} teaches
+            </span>
+            <div className="flex flex-wrap gap-x-3 gap-y-1">
+              {relatedSubjectLinks.map((s) => (
+                <Link key={s.id} href={`/subjects/${s.subjectSlug}`} className="text-[13px] hover:underline">
+                  {s.subjectName} →
+                </Link>
+              ))}
+              {relatedCourseSlugs.map((slug) => (
+                <Link key={slug} href={`/courses/${slug}`} className="text-[13px] hover:underline">
+                  Full prep course →
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         <Link href="/find-a-tutor" className="text-[13.5px] hover:underline mt-2">
           ← Back to all tutors

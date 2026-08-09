@@ -59,6 +59,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/courses`, lastModified: coursesHubLastModified, changeFrequency: "daily", priority: 0.9 },
     { url: `${BASE_URL}/find-a-tutor`, lastModified: findATutorHubLastModified, changeFrequency: "daily", priority: 0.9 },
     {
+      url: `${BASE_URL}/subjects`,
+      lastModified: latestOrFallback(
+        subjects.map((s) => s.updatedAt),
+        HOMEPAGE_LAST_UPDATED
+      ),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/request-a-tutor`,
       lastModified: new Date(REQUEST_A_TUTOR_LAST_UPDATED),
       changeFrequency: "monthly",

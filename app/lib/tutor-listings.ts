@@ -113,6 +113,7 @@ export interface TutorSubjectOffering {
   id: string;
   subjectId: string;
   subjectName: string;
+  subjectSlug: string | null;
   curriculum: string | null;
   gradeLevel: string | null;
   priceLabel: string;
@@ -142,6 +143,7 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
           id: listing.id,
           subjectId: listing.subjectId,
           subjectName: listing.subject.name,
+          subjectSlug: listing.subject.slug,
           curriculum: listing.subject.curriculum,
           gradeLevel: listing.subject.gradeLevel,
           priceLabel:
@@ -155,6 +157,7 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
             id: subjectName,
             subjectId: subjectName,
             subjectName,
+            subjectSlug: null,
             curriculum: null,
             gradeLevel: null,
             priceLabel: p.hourlyRateCents != null ? `$${Math.round(p.hourlyRateCents / 100)}/hr` : "Rate on request",

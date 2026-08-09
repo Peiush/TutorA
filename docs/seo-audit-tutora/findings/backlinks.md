@@ -5,6 +5,23 @@
 Only Common Crawl web graph data and the local verification crawler were available for
 this audit.
 
+## Phase 4 re-check (2026-08-08)
+
+Re-ran `commoncrawl_graph.py tutora.it.com` before starting outreach. Same result:
+`in_crawl: false`, `in_rankings: false` — no change from the original audit. This is
+expected, not a regression: Common Crawl reflects who links *to* the site, which is
+unrelated to the substantial on-page content shipped since the original audit (Phase 3's
+53 course pages + 103 subject pages). No link-building has happened yet at the time of
+this re-check — that's the point of Phase 4, not yet executed. Still Tier 0 — Moz and
+Bing Webmaster Tools keys remain unconfigured (free signup, see the Phase 4 outreach doc
+for links). Re-check again after real outreach activity, not before.
+
+Real, ready-to-send outreach templates (HARO, guest post pitches, PTA/school outreach,
+directory list) are in `docs/seo-audit-tutora/phase4-backlinks/outreach-materials.md`.
+IndexNow re-submitted with the current full sitemap (190 URLs, up from 86) so Bing/Yandex
+discover the new course and subject pages faster once outreach starts driving crawl
+interest.
+
 ## Category Score: INSUFFICIENT DATA (not a numeric score)
 
 Per Tier 0 methodology, a numeric 0–100 Backlink Health Score requires data on at least

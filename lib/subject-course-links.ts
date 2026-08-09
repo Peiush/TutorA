@@ -32,6 +32,28 @@ export const SUBJECT_TO_COURSE_SLUG: Record<string, string> = {
   "igcse-chemistry": "igcse-preparation-course-5ed7859f",
   "igcse-maths": "igcse-preparation-course-5ed7859f",
   "igcse-physics": "igcse-preparation-course-5ed7859f",
+  // Test-prep pillar<->spoke pairs added by the internal-linking audit (2026-08-09): these
+  // subject pages already existed and were live in the sitemap, but had zero link either
+  // direction to/from their exam's course page — an orphaned-spoke gap, not a missing-page
+  // gap. Mirrors the GCSE/IGCSE pattern above, extended to SAT/ACT/A-Level/IB/AP.
+  "sat-math": "sat-c5d2749b",
+  "sat-english": "sat-c5d2749b",
+  "act-math": "act-dccdc694",
+  "a-level-maths": "a-level-preparation-course-6ede4ec7",
+  "a-level-further-maths": "a-level-preparation-course-6ede4ec7",
+  "a-level-chemistry": "a-level-preparation-course-6ede4ec7",
+  "a-level-physics": "a-level-preparation-course-6ede4ec7",
+  "ib-math": "ib-diploma-preparation-course-9e537a20",
+  "ib-physics": "ib-diploma-preparation-course-9e537a20",
+  "ib-chemistry": "ib-diploma-preparation-course-9e537a20",
+  "ap-calculus": "ap-exam-preparation-course-cceffa19",
+  "ap-calculus-ab": "ap-exam-preparation-course-cceffa19",
+  "ap-calculus-bc": "ap-exam-preparation-course-cceffa19",
+  "ap-physics": "ap-exam-preparation-course-cceffa19",
+  "ap-physics-1": "ap-exam-preparation-course-cceffa19",
+  "ap-physics-c": "ap-exam-preparation-course-cceffa19",
+  "ap-biology": "ap-exam-preparation-course-cceffa19",
+  "ap-chemistry": "ap-exam-preparation-course-cceffa19",
 };
 
 // Reverse map, used on the course page to link back to its related subject(s).
