@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { AudienceIllustration } from "@/components/home/who-its-for-illustrations";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -130,6 +131,14 @@ export function WhoItsFor() {
           .to(heading, { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.3")
           .to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.14, duration: 0.6 }, "-=0.25")
           .to(illos, { scale: 1, rotate: 0, autoAlpha: 1, stagger: 0.14, duration: 0.5, ease: "back.out(2.2)" }, "-=0.5");
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set([tag, heading, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

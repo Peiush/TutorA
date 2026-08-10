@@ -9,6 +9,7 @@ import { CATEGORY_COLORS, CourseIllustration } from "@/components/courses/course
 import { GradeBandIllustration } from "@/components/courses/grade-band-illustrations";
 import { courseCategories, type CourseCategory } from "@/lib/mock-courses";
 import { GRADE_BANDS, GRADE_BAND_COLORS, type GradeBandKey } from "@/lib/grade-bands";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -53,14 +54,25 @@ export function CategorySelector({
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = rootRef.current;
         gsap
-          .timeline({ scrollTrigger: { trigger: rootRef.current, start: "top 88%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 88%", once: true } })
           .from(".cat-card-priority", { autoAlpha: 0, y: 26, scale: 0.92, duration: 0.6, stagger: 0.09, ease: "back.out(1.5)" })
           .from(
             ".cat-card-secondary",
             { autoAlpha: 0, y: 16, scale: 0.94, duration: 0.45, stagger: 0.06, ease: "back.out(1.5)" },
             "-=0.3"
           );
+
+        if (!root) return;
+        const priorityCard = root.querySelector(".cat-card-priority");
+        return scrollRevealSafetyNet(
+          root,
+          () => priorityCard != null && isGsapHidden(priorityCard),
+          () => {
+            gsap.set(".cat-card-priority, .cat-card-secondary", { autoAlpha: 1, y: 0, scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { initialsOf } from "@/components/ui/tutor-avatar";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -37,6 +38,15 @@ export function FounderStory() {
           .from(".fs-role", { autoAlpha: 0, y: 10, duration: 0.45 }, "-=0.3")
           .from(".fs-mark", { autoAlpha: 0, scale: 0.7, rotate: -12, duration: 0.5, ease: "back.out(2)" }, "-=0.2")
           .from(".fs-para", { autoAlpha: 0, y: 16, duration: 0.55, stagger: 0.14 }, "-=0.15");
+
+        const avatar = root.querySelector(".fs-avatar");
+        return scrollRevealSafetyNet(
+          root,
+          () => avatar != null && isGsapHidden(avatar),
+          () => {
+            gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-mark, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

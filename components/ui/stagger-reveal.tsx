@@ -4,6 +4,7 @@ import { ReactNode, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -45,6 +46,12 @@ export function StaggerReveal({
             stagger: { each: stagger, from: "start" },
             scrollTrigger: { trigger: el, start: "top 85%", once: true },
           }
+        );
+
+        return scrollRevealSafetyNet(
+          el,
+          () => isGsapHidden(items[0]),
+          () => gsap.set(items, { autoAlpha: 1, y: 0, scale: 1 })
         );
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {

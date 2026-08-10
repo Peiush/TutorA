@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SubjectIcon } from "@/components/ui/subject-icons";
 import { subjectAccent } from "@/components/ui/subject-accent";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -41,6 +42,15 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
             stagger: 0.045,
             ease: "back.out(2.6)",
           }, 0.08);
+
+        return scrollRevealSafetyNet(
+          row,
+          () => isGsapHidden(pills[0]),
+          () => {
+            gsap.set(pills, { autoAlpha: 1, y: 0 });
+            gsap.set(row.querySelectorAll(".subject-pill-icon"), { autoAlpha: 1, scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

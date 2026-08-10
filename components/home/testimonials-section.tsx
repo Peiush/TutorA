@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import type { testimonials as testimonialsList } from "@/lib/mock-data";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -85,6 +86,17 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
             stagger: 0.12,
             ease: "back.out(2.4)",
           }, 0.3);
+
+        return scrollRevealSafetyNet(
+          grid,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set(cards, { autoAlpha: 1 });
+            gsap.set(grid.querySelectorAll(".testimonial-bar"), { scaleX: 1 });
+            gsap.set(grid.querySelectorAll(".testimonial-quote-icon"), { autoAlpha: 1, scale: 1 });
+            gsap.set(grid.querySelectorAll(".testimonial-avatar"), { autoAlpha: 1, scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Logo } from "@/components/ui/logo";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -124,6 +125,15 @@ function OrbitMatchIllustration() {
             ease: "sine.inOut",
           });
         });
+
+        return scrollRevealSafetyNet(
+          svg,
+          () => hub != null && gsap.getProperty(hub, "scale") === 0,
+          () => {
+            gsap.set(".om-arc", { strokeDashoffset: 0 });
+            gsap.set(".om-node, .om-hub", { scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -272,6 +282,7 @@ export function SiteFooter() {
         });
 
         const btn = topBtnRef.current;
+        let btnCleanup: (() => void) | undefined;
         if (btn) {
           const xTo = gsap.quickTo(btn, "x", { duration: 0.35, ease: "power3.out" });
           const yTo = gsap.quickTo(btn, "y", { duration: 0.35, ease: "power3.out" });
@@ -286,11 +297,29 @@ export function SiteFooter() {
           };
           btn.addEventListener("mousemove", handleMove);
           btn.addEventListener("mouseleave", handleLeave);
-          return () => {
+          btnCleanup = () => {
             btn.removeEventListener("mousemove", handleMove);
             btn.removeEventListener("mouseleave", handleLeave);
           };
         }
+
+        const brand = root.querySelector(".footer-brand");
+        const safetyCleanup = scrollRevealSafetyNet(
+          root,
+          () => brand != null && isGsapHidden(brand),
+          () => {
+            gsap.set(".footer-brand, .footer-illustration, .footer-col, .footer-social, .footer-bottom", {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+            });
+          }
+        );
+
+        return () => {
+          btnCleanup?.();
+          safetyCleanup();
+        };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

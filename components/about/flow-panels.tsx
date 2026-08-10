@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -86,7 +87,21 @@ function FlowPanel({
           yoyo: true,
           repeat: -1,
         });
-        return () => float.kill();
+
+        const safetyCleanup = scrollRevealSafetyNet(
+          root,
+          () => illo != null && isGsapHidden(illo),
+          () => {
+            gsap.set([rows, nums], { autoAlpha: 1, x: 0, scale: 1, rotate: 0 });
+            gsap.set(line, { scaleY: 1 });
+            gsap.set(illo, { autoAlpha: 1, y: 0, scale: 1 });
+          }
+        );
+
+        return () => {
+          float.kill();
+          safetyCleanup();
+        };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

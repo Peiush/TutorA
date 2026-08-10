@@ -14,6 +14,7 @@ import {
   DashCircleIcon,
   StarIcon,
 } from "@/components/home/comparison-icons";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -116,6 +117,17 @@ export function ComparisonShowdown() {
             { autoAlpha: 1, scale: 1, stagger: 0.08, duration: 0.4, ease: "back.out(2.8)" },
             "-=0.4"
           );
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(panels[0]),
+          () => {
+            gsap.set(
+              [tag, heading, sub, ...panels, ...headerCells, ...badge, ...rows, ...rowIcons, ...mcards, ...mIcons, ...winIcons],
+              { autoAlpha: 1, x: 0, y: 0, scale: 1, rotate: 0 }
+            );
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

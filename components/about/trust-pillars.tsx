@@ -4,6 +4,7 @@ import { ReactNode, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -80,6 +81,14 @@ export function TrustPillars({ pillars }: { pillars: Pillar[] }) {
           card.addEventListener("pointerenter", () => tl.play());
           card.addEventListener("pointerleave", () => tl.reverse());
         });
+
+        return scrollRevealSafetyNet(
+          grid,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set(cards, { autoAlpha: 1, y: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

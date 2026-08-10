@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { FIND_TUTOR_FAQS } from "@/lib/find-tutor-faqs";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -18,12 +19,23 @@ export function FindTutorFaq() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = sectionRef.current;
         gsap
-          .timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 78%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 78%", once: true } })
           .from(".ftf-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".ftf-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.25")
           .from(".ftf-copy", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.3")
           .from(".ftf-item", { autoAlpha: 0, y: 22, duration: 0.5, stagger: 0.08, ease: "power3.out" }, "-=0.2");
+
+        if (!root) return;
+        const item = root.querySelector(".ftf-item");
+        return scrollRevealSafetyNet(
+          root,
+          () => item != null && isGsapHidden(item),
+          () => {
+            gsap.set(".ftf-tag, .ftf-heading, .ftf-copy, .ftf-item", { autoAlpha: 1, y: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

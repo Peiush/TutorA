@@ -8,6 +8,7 @@ import { Tag } from "@/components/ui/tag";
 import { FaqIllustration } from "@/components/about/faq-illustration";
 import { InfoIcon, CompassIcon, ShieldCheckIcon, TagIcon, ClockIcon, BookIcon } from "@/components/home/faq-icons";
 import type { Faq } from "@/components/home/homepage-faq";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -172,6 +173,14 @@ export function FaqShowcase({
           .to(heading, { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.3")
           .to(panel, { autoAlpha: 1, y: 0, scale: 1, duration: 0.6 }, "-=0.3")
           .to(items, { autoAlpha: 1, y: 0, stagger: 0.09, duration: 0.5 }, "-=0.35");
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(items[0]),
+          () => {
+            gsap.set([tag, heading, panel, ...items], { autoAlpha: 1, y: 0, scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

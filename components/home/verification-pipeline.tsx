@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -84,6 +85,16 @@ export function VerificationPipeline({
             "-=0.2"
           );
         }
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(nodes[0]),
+          () => {
+            gsap.set(nodes, { autoAlpha: 1, scale: 1 });
+            gsap.set(labels, { autoAlpha: 1, y: 0 });
+            gsap.set(lines, { scaleX: (_i, el) => parseFloat(el.dataset.fill ?? "1") });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

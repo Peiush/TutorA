@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { Tag } from "@/components/ui/tag";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -46,12 +47,23 @@ export function RequestComparison() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = sectionRef.current;
         gsap
-          .timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 80%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 80%", once: true } })
           .from(".rc-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".rc-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.25")
           .from(".rc-copy", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.3")
           .from(".rc-card", { autoAlpha: 0, y: 24, duration: 0.5, stagger: 0.14, ease: "power3.out" }, "-=0.2");
+
+        if (!root) return;
+        const card = root.querySelector(".rc-card");
+        return scrollRevealSafetyNet(
+          root,
+          () => card != null && isGsapHidden(card),
+          () => {
+            gsap.set(".rc-tag, .rc-heading, .rc-copy, .rc-card", { autoAlpha: 1, y: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

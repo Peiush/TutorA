@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -19,9 +20,10 @@ export function BecomeTestimonials({
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = rootRef.current;
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: rootRef.current,
+            trigger: root,
             start: "top 82%",
             once: true,
           },
@@ -32,7 +34,22 @@ export function BecomeTestimonials({
           { autoAlpha: 0, y: 24, stagger: 0.12, duration: 0.5 },
           "-=0.25"
         );
-        return () => tl.kill();
+
+        const heading = root?.querySelector(".bt-heading") ?? null;
+        const safetyCleanup = root
+          ? scrollRevealSafetyNet(
+              root,
+              () => heading != null && isGsapHidden(heading),
+              () => {
+                gsap.set(".bt-heading, .bt-card", { autoAlpha: 1, y: 0 });
+              }
+            )
+          : undefined;
+
+        return () => {
+          tl.kill();
+          safetyCleanup?.();
+        };
       });
 
       return () => mm.revert();

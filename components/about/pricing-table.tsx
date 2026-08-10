@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -85,7 +86,21 @@ export function PricingTable() {
           );
 
         const float = gsap.to(badge, { y: -7, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1 });
-        return () => float.kill();
+
+        const safetyCleanup = scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(rows[0]),
+          () => {
+            gsap.set([rows, icons], { autoAlpha: 1, x: 0, scale: 1, rotate: 0 });
+            gsap.set(line, { scaleY: 1 });
+            gsap.set(badge, { autoAlpha: 1, scale: 1, rotate: 6 });
+          }
+        );
+
+        return () => {
+          float.kill();
+          safetyCleanup();
+        };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

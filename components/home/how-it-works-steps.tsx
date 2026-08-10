@@ -207,6 +207,35 @@ export function HowItWorksSteps({ steps }: { steps: Step[] }) {
           );
           tl.to(illos[i + 1], { scale: 1.12, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1 }, t + 0.42);
         });
+
+        // Safety net: this scrollTrigger's start position is calculated once and can
+        // go stale if web fonts reflow layout afterward (see ScrollTriggerGuard) or if
+        // something interrupts GSAP before it fires, leaving the cards/icons stuck at
+        // their hidden initial state (autoAlpha:0, scale:0.3) forever. A plain
+        // IntersectionObserver doesn't depend on any cached scroll math, so once the
+        // row is actually on screen, give the timeline a moment to run, then force the
+        // finished state if it hasn't.
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries[0].isIntersecting) return;
+            io.disconnect();
+            window.setTimeout(() => {
+              if (gsap.getProperty(cards[0], "autoAlpha") === 0) {
+                gsap.set(cards, { autoAlpha: 1, y: 0 });
+                gsap.set(illos, { scale: 1, rotate: 0, autoAlpha: 1 });
+                gsap.set(connectorPaths, { drawSVG: "0% 100%" });
+                connectorDots.forEach((dot, i) => {
+                  gsap.set(dot, {
+                    motionPath: { path: connectorPaths[i], align: connectorPaths[i], alignOrigin: [0.5, 0.5], start: 0, end: 1 },
+                  });
+                });
+              }
+            }, 1200);
+          },
+          { threshold: 0.01 }
+        );
+        io.observe(row);
+        return () => io.disconnect();
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { CheckBadge } from "@/components/ui/verified-badge";
 import { MailIcon, UserIcon, ChatDotsIcon } from "@/components/auth/auth-icons";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -36,7 +37,20 @@ export function ContactCta() {
           .to(plane, { autoAlpha: 1, scale: 1, rotate: -8, duration: 0.6, ease: "back.out(2.2)" }, 0.5);
 
         const float = gsap.to(plane, { y: -8, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.6 });
-        return () => float.kill();
+
+        const safetyCleanup = scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(reveal[0]),
+          () => {
+            gsap.set([reveal, fields], { autoAlpha: 1, y: 0 });
+            gsap.set(plane, { autoAlpha: 1, scale: 1, rotate: -8 });
+          }
+        );
+
+        return () => {
+          float.kill();
+          safetyCleanup();
+        };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

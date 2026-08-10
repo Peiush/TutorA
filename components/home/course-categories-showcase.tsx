@@ -14,6 +14,7 @@ import {
   GridIcon,
 } from "@/components/courses/course-icons";
 import type { CourseCategory } from "@/lib/mock-courses";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -416,6 +417,14 @@ export function CourseCategoriesShowcase({
             stagger: 0.09,
             ease: "back.out(1.5)",
             scrollTrigger: { trigger: root, start: "top 85%", once: true },
+          }
+        );
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set(cards, { autoAlpha: 1, y: 0, scale: 1 });
           }
         );
       });

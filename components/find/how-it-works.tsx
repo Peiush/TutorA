@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { FilterStepIcon, SendStepIcon, ShieldStepIcon, LessonStepIcon } from "@/components/find/find-tutor-icons";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -40,8 +41,9 @@ export function HowItWorks() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = sectionRef.current;
         gsap
-          .timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 78%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 78%", once: true } })
           .from(".hiw-blob", { autoAlpha: 0, scale: 0.6, duration: 0.8, ease: "power2.out" })
           .from(".hiw-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" }, "-=0.5")
           .from(".hiw-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.25")
@@ -65,6 +67,19 @@ export function HowItWorks() {
 
         gsap.to(".hiw-blob-a", { y: 16, x: 10, duration: 7, ease: "sine.inOut", yoyo: true, repeat: -1 });
         gsap.to(".hiw-blob-b", { y: -14, x: -8, duration: 8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+
+        if (!root) return;
+        const step = root.querySelector(".hiw-step");
+        return scrollRevealSafetyNet(
+          root,
+          () => step != null && isGsapHidden(step),
+          () => {
+            gsap.set(
+              ".hiw-blob, .hiw-tag, .hiw-heading, .hiw-copy, .hiw-step, .hiw-connector, .hiw-number",
+              { autoAlpha: 1, y: 0, x: 0, scale: 1, scaleX: 1 }
+            );
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -43,11 +44,12 @@ export function RequestHowItWorks() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const line = sectionRef.current?.querySelector(".rhw-line") ?? null;
+        const root = sectionRef.current;
+        const line = root?.querySelector(".rhw-line") ?? null;
         gsap.set(line, { scaleY: 0, transformOrigin: "top" });
 
         gsap
-          .timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 78%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 78%", once: true } })
           .from(".rhw-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".rhw-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.25")
           .from(".rhw-answer", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
@@ -62,6 +64,23 @@ export function RequestHowItWorks() {
             { scale: 0, rotate: -20, duration: 0.4, stagger: 0.15, ease: "back.out(2.6)" },
             "-=0.9"
           );
+
+        if (!root) return;
+        const step = root.querySelector(".rhw-step");
+        return scrollRevealSafetyNet(
+          root,
+          () => step != null && isGsapHidden(step),
+          () => {
+            gsap.set(".rhw-tag, .rhw-heading, .rhw-answer, .rhw-step, .rhw-num", {
+              autoAlpha: 1,
+              y: 0,
+              x: 0,
+              scale: 1,
+              rotate: 0,
+            });
+            gsap.set(".rhw-line", { scaleY: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -25,6 +26,14 @@ export function FaqAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
         gsap
           .timeline({ scrollTrigger: { trigger: list, start: "top 85%", once: true } })
           .to(items, { autoAlpha: 1, y: 0, stagger: 0.09, duration: 0.5, ease: "power3.out" });
+
+        return scrollRevealSafetyNet(
+          list,
+          () => isGsapHidden(items[0]),
+          () => {
+            gsap.set(items, { autoAlpha: 1, y: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

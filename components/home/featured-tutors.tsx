@@ -16,6 +16,7 @@ import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import type { tutorsRaw } from "@/lib/mock-data";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -121,6 +122,17 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
             duration: 0.25,
             stagger: 0.02,
           }, 0.3);
+
+        return scrollRevealSafetyNet(
+          grid,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set(cards, { autoAlpha: 1 });
+            gsap.set(grid.querySelectorAll(".tutor-card-bar"), { scaleX: 1 });
+            gsap.set(grid.querySelectorAll(".tutor-avatar-wrap"), { autoAlpha: 1, scale: 1 });
+            gsap.set(grid.querySelectorAll(".tutor-tag-chip"), { autoAlpha: 1, y: 0 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

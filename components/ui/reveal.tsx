@@ -42,6 +42,27 @@ export function Reveal({
             scrollTrigger: { trigger: el, start: "top 88%", once: true },
           }
         );
+
+        // Safety net: ScrollTrigger's start position is calculated once and can go
+        // stale if web fonts swap in and reflow layout after that calculation (see
+        // ScrollTriggerGuard) or if something else on the page interrupts GSAP before
+        // it fires. A plain IntersectionObserver doesn't depend on any cached scroll
+        // math, so it's a reliable backstop: once the element is actually on screen,
+        // give the GSAP reveal a moment to run, then force it visible if it hasn't.
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries[0].isIntersecting) return;
+            io.disconnect();
+            window.setTimeout(() => {
+              if (gsap.getProperty(el, "autoAlpha") === 0) {
+                gsap.set(el, { autoAlpha: 1, y: 0, scale: 1 });
+              }
+            }, 1000);
+          },
+          { threshold: 0.01 }
+        );
+        io.observe(el);
+        return () => io.disconnect();
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(el, { autoAlpha: 1 });

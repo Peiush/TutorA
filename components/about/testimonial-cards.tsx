@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -46,6 +47,15 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
             { scale: 1, stagger: 0.12, duration: 0.4, ease: "back.out(2.4)" },
             0.3
           );
+
+        return scrollRevealSafetyNet(
+          grid,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set(cards, { autoAlpha: 1, y: 0, rotate: 0 });
+            gsap.set(grid.querySelectorAll(".tm-quote, .tm-avatar"), { scale: 1, autoAlpha: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

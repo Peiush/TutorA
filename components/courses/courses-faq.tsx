@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { COURSE_FAQS } from "@/lib/course-faqs";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -19,13 +20,24 @@ export function CoursesFaq() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const root = sectionRef.current;
         gsap
-          .timeline({ scrollTrigger: { trigger: sectionRef.current, start: "top 78%", once: true } })
+          .timeline({ scrollTrigger: { trigger: root, start: "top 78%", once: true } })
           .from(".cf-blob", { autoAlpha: 0, scale: 0.6, duration: 0.8, ease: "power2.out" })
           .from(".cf-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" }, "-=0.5")
           .from(".cf-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.25")
           .from(".cf-copy", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.3")
           .from(".faq-item", { autoAlpha: 0, y: 22, duration: 0.5, stagger: 0.08, ease: "power3.out" }, "-=0.2");
+
+        if (!root) return;
+        const faqItem = root.querySelector(".faq-item");
+        return scrollRevealSafetyNet(
+          root,
+          () => faqItem != null && isGsapHidden(faqItem),
+          () => {
+            gsap.set(".cf-blob, .cf-tag, .cf-heading, .cf-copy, .faq-item", { autoAlpha: 1, y: 0, scale: 1 });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

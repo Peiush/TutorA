@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { StatIllustration } from "@/components/home/stats-icons";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -161,6 +162,17 @@ export function PlatformStats() {
             { width: (_i, el: Element) => `${(el as HTMLElement).dataset.meter}%`, stagger: 0.14, duration: 0.9 },
             "-=0.35"
           );
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(cards[0]),
+          () => {
+            gsap.set([tag, heading, sub, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+            meters.forEach((el) => {
+              el.style.width = `${el.dataset.meter}%`;
+            });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {

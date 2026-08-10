@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { RequestIcon, ShieldMatchIcon, HandshakeIcon } from "@/components/home/step-icons";
+import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -82,6 +83,19 @@ export function FinalCta() {
             btn.removeEventListener("mouseleave", handleLeave);
           };
         });
+
+        return scrollRevealSafetyNet(
+          root,
+          () => isGsapHidden(root),
+          () => {
+            gsap.set(root, { autoAlpha: 1, y: 0, scale: 1 });
+            gsap.set(root.querySelectorAll(".cta-blob, .cta-eyebrow, .cta-heading, .cta-copy, .cta-trust-item, .cta-btn"), {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+            });
+          }
+        );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
