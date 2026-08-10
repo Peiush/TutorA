@@ -171,7 +171,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's AP Physics 1 tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based.",
       },
     ],
   },
@@ -202,7 +202,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's AP Physics C tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess.",
       },
     ],
   },
@@ -273,7 +273,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's AP Chemistry tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio.",
       },
     ],
   },
@@ -283,7 +283,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "AP Biology Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 AP Biology tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "AP Biology weighs data analysis and experimental design alongside content knowledge more heavily than a typical high school biology course, and is frequently used for intro-biology college credit at a score of 4 or 5. A TutorA tutor for this subject is matched to you individually, reviewed by our team before being approved, and works with you in live sessions rather than a fixed video curriculum. Pricing is shown before you book, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "AP Biology weighs data analysis and experimental design alongside content knowledge more heavily than a typical high school biology course, and is frequently used for intro-biology college credit at a score of 4 or 5. A TutorA tutor for this subject is matched to you individually, reviewed by our team before being approved, and works with you in live sessions rather than a fixed video curriculum. Pricing is shown before you book, and our guarantee covers a free rematch if your first tutor isn't the right fit. For AP Biology, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       {
         q: "Is AP Biology mostly memorization?",
@@ -297,7 +297,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Does AP Biology help with pre-med prep?",
         a: "It's a common early building block for students considering pre-med tracks, though it isn't a substitute for college-level biology coursework.",
       },
-      { q: "Are TutorA's AP Biology tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's AP Biology tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "gcse-chemistry": {
@@ -327,7 +327,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's GCSE Chemistry tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based.",
       },
     ],
   },
@@ -358,7 +358,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's GCSE Physics tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book.",
       },
     ],
   },
@@ -368,7 +368,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "GCSE Maths Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 GCSE Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "GCSE Maths shows essentially zero overlap with IGCSE Maths in practice — two genuinely separate provider ecosystems, not one artificially split page — so this page can speak directly to the UK domestic GCSE syllabus without hedging. A TutorA tutor for GCSE Maths is matched to you individually and reviewed by our team beforehand, working with you live rather than through fixed video content. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "GCSE Maths shows essentially zero overlap with IGCSE Maths in practice — two genuinely separate provider ecosystems, not one artificially split page — so this page can speak directly to the UK domestic GCSE syllabus without hedging. A TutorA tutor for GCSE Maths is matched to you individually and reviewed by our team beforehand, working with you live rather than through fixed video content. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's GCSE Maths tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       {
         q: "Foundation or Higher tier — does it matter for tutoring?",
@@ -386,7 +386,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "When should GCSE Maths tutoring start?",
         a: "Many students start well before Year 11 to build a strong Year 10 foundation, though exam-focused tutoring in the final months is also common.",
       },
-      { q: "Are TutorA's GCSE Maths tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's GCSE Maths tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "igcse-chemistry": {
@@ -412,7 +412,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's IGCSE Chemistry tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based.",
       },
     ],
   },
@@ -439,7 +439,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's IGCSE Physics tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book.",
       },
     ],
   },
@@ -449,7 +449,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "IGCSE Maths Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 IGCSE Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "IGCSE Maths is the internationally-administered equivalent of GCSE Maths and, in practice, shows zero overlap with GCSE Maths — a fully independent syllabus and tutor ecosystem, not a near-duplicate of the UK domestic exam. TutorA tutors teaching IGCSE Maths are reviewed by our team before being matched, work with you live and 1:1, and show real pricing before you book. If your first match isn't right, our guarantee covers a free rematch. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "IGCSE Maths is the internationally-administered equivalent of GCSE Maths and, in practice, shows zero overlap with GCSE Maths — a fully independent syllabus and tutor ecosystem, not a near-duplicate of the UK domestic exam. TutorA tutors teaching IGCSE Maths are reviewed by our team before being matched, work with you live and 1:1, and show real pricing before you book. If your first match isn't right, our guarantee covers a free rematch. The tutor you're matched with for IGCSE Maths is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       {
         q: "Is IGCSE Maths the same as GCSE Maths?",
@@ -463,7 +463,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Which exam board does TutorA cover?",
         a: "Coverage depends on the tutor matched to you — mention your board, such as Cambridge or Edexcel, when requesting a tutor.",
       },
-      { q: "Are TutorA's IGCSE Maths tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's IGCSE Maths tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "a-level-chemistry": {
@@ -493,7 +493,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's A-Level Chemistry tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess.",
       },
     ],
   },
@@ -520,7 +520,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's A-Level Physics tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based.",
       },
     ],
   },
@@ -530,7 +530,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "A-Level Maths Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 A-Level Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "A-Level Maths is a two-year UK qualification (Years 12–13) combining pure maths, statistics, and mechanics as one qualification, graded A*–E. Many students also take A-Level Further Maths alongside it for additional depth. A TutorA tutor for A-Level Maths is matched to you individually, reviewed by our team beforehand, and works with you live rather than through pre-recorded content. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "A-Level Maths is a two-year UK qualification (Years 12–13) combining pure maths, statistics, and mechanics as one qualification, graded A*–E. Many students also take A-Level Further Maths alongside it for additional depth. A TutorA tutor for A-Level Maths is matched to you individually, reviewed by our team beforehand, and works with you live rather than through pre-recorded content. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. TutorA matches most A-Level Maths students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       {
         q: "What's the difference between A-Level Maths and Further Maths?",
@@ -548,7 +548,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "When should A-Level Maths tutoring start?",
         a: "Many students start at the beginning of Year 12 given how cumulative the subject is.",
       },
-      { q: "Are TutorA's A-Level Maths tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's A-Level Maths tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "gcse-biology": {
@@ -557,7 +557,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "GCSE Biology Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 GCSE Biology tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "GCSE Biology has its own dedicated tutor ecosystem, genuinely distinct from GCSE Science (Combined Science) — it can also be studied as a standalone Triple Science subject depending on your school. On TutorA, tutors teaching GCSE Biology are reviewed by our team before being matched and work with you live and 1:1. Pricing is shown before booking, and if your first tutor isn't the right fit, our guarantee covers a free rematch. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "GCSE Biology has its own dedicated tutor ecosystem, genuinely distinct from GCSE Science (Combined Science) — it can also be studied as a standalone Triple Science subject depending on your school. On TutorA, tutors teaching GCSE Biology are reviewed by our team before being matched and work with you live and 1:1. Pricing is shown before booking, and if your first tutor isn't the right fit, our guarantee covers a free rematch. TutorA matches most GCSE Biology students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       {
         q: "Is GCSE Biology the same as GCSE Science?",
@@ -571,7 +571,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "How is GCSE Biology graded?",
         a: "On the 9–1 numerical scale.",
       },
-      { q: "Are TutorA's GCSE Biology tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's GCSE Biology tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "gcse-science": {
@@ -580,7 +580,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "GCSE Combined Science Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 GCSE Combined Science tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "GCSE Science (Combined Science) bundles Biology, Chemistry, and Physics into a single qualification, usually worth two GCSEs and awarded as a double grade — a genuinely different product from taking GCSE Biology on its own via the Triple Science route. A TutorA tutor for GCSE Science is matched to you individually and reviewed by our team beforehand. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "GCSE Science (Combined Science) bundles Biology, Chemistry, and Physics into a single qualification, usually worth two GCSEs and awarded as a double grade — a genuinely different product from taking GCSE Biology on its own via the Triple Science route. A TutorA tutor for GCSE Science is matched to you individually and reviewed by our team beforehand. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. The tutor you're matched with for GCSE Combined Science is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       {
         q: "Is GCSE Science the same as GCSE Biology?",
@@ -594,7 +594,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Which topics does GCSE Combined Science cover?",
         a: "A condensed version of Biology, Chemistry, and Physics content compared to the Triple Science route — the exact syllabus depends on your exam board.",
       },
-      { q: "Are TutorA's GCSE Combined Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's GCSE Combined Science tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "gcse-english": {
@@ -603,7 +603,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "GCSE English Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 GCSE English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "GCSE English is typically split into GCSE English Language and GCSE English Literature, sometimes tutored together and sometimes separately depending on what a student needs. Tutors teaching GCSE English on TutorA are reviewed by our team before being matched and work with you live rather than through a fixed video curriculum. Pricing is shown before you book, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "GCSE English is typically split into GCSE English Language and GCSE English Literature, sometimes tutored together and sometimes separately depending on what a student needs. Tutors teaching GCSE English on TutorA are reviewed by our team before being matched and work with you live rather than through a fixed video curriculum. Pricing is shown before you book, and our guarantee covers a free rematch if your first tutor isn't the right fit. The tutor you're matched with for GCSE English is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       {
         q: "Does GCSE English cover Language and Literature both?",
@@ -617,7 +617,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "What set texts does GCSE English Literature cover?",
         a: "This depends on your exam board and school — mention your set texts when requesting a tutor so sessions target the right material.",
       },
-      { q: "Are TutorA's GCSE English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's GCSE English tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "a-level-further-maths": {
@@ -626,7 +626,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "A-Level Further Maths Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 A-Level Further Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "A-Level Further Maths is a separate, additional qualification typically taken alongside A-Level Maths, not instead of it — covering more advanced pure, statistics, and mechanics content for students continuing beyond the standard course. A TutorA tutor for Further Maths is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "A-Level Further Maths is a separate, additional qualification typically taken alongside A-Level Maths, not instead of it — covering more advanced pure, statistics, and mechanics content for students continuing beyond the standard course. A TutorA tutor for Further Maths is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. The tutor you're matched with for A-Level Further Maths is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       {
         q: "Do I need A-Level Maths before taking Further Maths?",
@@ -640,7 +640,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "What does Further Maths add beyond standard A-Level Maths?",
         a: "More advanced pure mathematics topics plus further statistics and mechanics content, depending on your exam board's optional modules.",
       },
-      { q: "Are TutorA's A-Level Further Maths tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's A-Level Further Maths tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "ib-math": {
@@ -649,7 +649,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "IB Mathematics Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 IB Mathematics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "IB Diploma Math is offered in two strands — Analysis & Approaches (AA) and Applications & Interpretation (AI) — each available at Higher Level (HL) or Standard Level (SL), with a fully separate tutor ecosystem from IB Physics or Chemistry. A TutorA tutor for IB Math is matched to you individually and reviewed by our team beforehand, working with you live rather than through pre-recorded content. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "IB Diploma Math is offered in two strands — Analysis & Approaches (AA) and Applications & Interpretation (AI) — each available at Higher Level (HL) or Standard Level (SL), with a fully separate tutor ecosystem from IB Physics or Chemistry. A TutorA tutor for IB Math is matched to you individually and reviewed by our team beforehand, working with you live rather than through pre-recorded content. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's IB Mathematics tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       {
         q: "What's the difference between IB Math AA and AI?",
@@ -667,7 +667,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Do I need IB Math for university?",
         a: "Requirements vary by course and institution, and by whether AA or AI is required for specific degree programs — check your target university's published entry requirements.",
       },
-      { q: "Are TutorA's IB Mathematics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's IB Mathematics tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "ib-physics": {
@@ -693,7 +693,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's IB Physics tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio.",
       },
     ],
   },
@@ -720,7 +720,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's IB Chemistry tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess.",
       },
     ],
   },
@@ -754,7 +754,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "SAT Math Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 SAT Math tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "The SAT Math section is scored as part of the overall 400–1600 SAT scale, and the tutors who specialize in it tend to be math-focused specialists rather than the broad test-prep brands behind full-SAT courses. A TutorA tutor for SAT Math is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1 on the sections you actually need. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "The SAT Math section is scored as part of the overall 400–1600 SAT scale, and the tutors who specialize in it tend to be math-focused specialists rather than the broad test-prep brands behind full-SAT courses. A TutorA tutor for SAT Math is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1 on the sections you actually need. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. For SAT Math, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       {
         q: "How is SAT Math scored?",
@@ -768,7 +768,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "What's the difference between SAT Math and ACT Math tutoring?",
         a: "Content overlaps significantly, but format and pacing differ — see our ACT Math page if you're deciding between the two tests.",
       },
-      { q: "Are TutorA's SAT Math tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's SAT Math tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "sat-english": {
@@ -777,7 +777,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "SAT Reading & Writing Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 SAT Reading & Writing tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "The SAT's Reading & Writing section covers reading comprehension, grammar and editing, and evidence-based writing skills, combined into a single scored section on the current SAT. If Reading & Writing is your specific weak area, a TutorA tutor matched to that section specifically can be more efficient than generic full-test prep. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book — with a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "The SAT's Reading & Writing section covers reading comprehension, grammar and editing, and evidence-based writing skills, combined into a single scored section on the current SAT. If Reading & Writing is your specific weak area, a TutorA tutor matched to that section specifically can be more efficient than generic full-test prep. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book — with a free rematch if your first tutor isn't the right fit. The tutor you're matched with for SAT Reading & Writing is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       {
         q: "What does the SAT English/Reading & Writing section cover?",
@@ -791,7 +791,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "How is SAT English scored?",
         a: "As part of the overall 400–1600 SAT composite.",
       },
-      { q: "Are TutorA's SAT Reading & Writing tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's SAT Reading & Writing tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "act-math": {
@@ -800,7 +800,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "ACT Math Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 ACT Math tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "The ACT Math section is scored on the 1–36 ACT scale and overlaps significantly with SAT Math content, though the ACT moves at a faster pace with more questions in less time and includes some trigonometry. A TutorA tutor for ACT Math is matched to you individually and reviewed by our team beforehand, working with you live rather than through fixed video content. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "The ACT Math section is scored on the 1–36 ACT scale and overlaps significantly with SAT Math content, though the ACT moves at a faster pace with more questions in less time and includes some trigonometry. A TutorA tutor for ACT Math is matched to you individually and reviewed by our team beforehand, working with you live rather than through fixed video content. Pricing is shown before booking, and our guarantee covers a free rematch if your first tutor isn't the right fit. For ACT Math, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       {
         q: "How is ACT Math different from SAT Math?",
@@ -814,7 +814,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Should I take the SAT or ACT?",
         a: "It depends on your strengths and target schools' preferences — many students take a practice test of each to decide. TutorA tutors can help with either.",
       },
-      { q: "Are TutorA's ACT Math tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's ACT Math tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "cambridge-english": {
@@ -823,7 +823,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "Cambridge English Exam Tutor (FCE/CAE/CPE)",
     metaDescriptionOverride: "1:1 Cambridge English Exam tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Cambridge English refers to the Cambridge Assessment English exam suite — B2 First (FCE), C1 Advanced (CAE), and C2 Proficiency (CPE) — internationally recognized English-proficiency qualifications, not related to Cambridge University admissions or the city of Cambridge. Unlike IELTS or TOEFL, these qualifications don't expire once earned. A TutorA tutor for this exam suite is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Cambridge English refers to the Cambridge Assessment English exam suite — B2 First (FCE), C1 Advanced (CAE), and C2 Proficiency (CPE) — internationally recognized English-proficiency qualifications, not related to Cambridge University admissions or the city of Cambridge. Unlike IELTS or TOEFL, these qualifications don't expire once earned. A TutorA tutor for this exam suite is matched to you individually, reviewed by our team beforehand, and works with you live and 1:1. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. For Cambridge English Exam, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       {
         q: "What is Cambridge English (FCE/CAE/CPE)?",
@@ -841,7 +841,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Do these exams expire?",
         a: "No — Cambridge English qualifications don't expire, unlike IELTS or TOEFL scores, which are typically valid for two years.",
       },
-      { q: "Are TutorA's Cambridge English Exam tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Cambridge English Exam tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "ielts": {
@@ -850,7 +850,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaTitleOverride: "IELTS Preparation Tutor — India-Based, Team-Vetted",
     metaDescriptionOverride: "1:1 IELTS Preparation tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "IELTS (International English Language Testing System) is scored on a 9-band scale across Listening, Reading, Writing, and Speaking, with two versions — Academic (for university admission) and General Training (for immigration or work) — testing the same skills with different task content. A TutorA tutor for IELTS is matched to you individually and reviewed by our team beforehand, working with you live across all four skills rather than through a fixed video course. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "IELTS (International English Language Testing System) is scored on a 9-band scale across Listening, Reading, Writing, and Speaking, with two versions — Academic (for university admission) and General Training (for immigration or work) — testing the same skills with different task content. A TutorA tutor for IELTS is matched to you individually and reviewed by our team beforehand, working with you live across all four skills rather than through a fixed video course. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. For IELTS Preparation, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       {
         q: "Academic or General Training IELTS?",
@@ -868,7 +868,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "What's the difference between IELTS and Cambridge English (FCE/CAE/CPE)?",
         a: "Different exam bodies and formats, though both prove English proficiency — see our Cambridge English page if that's the specific qualification you need instead.",
       },
-      { q: "Are TutorA's IELTS Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's IELTS Preparation tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
 
@@ -878,7 +878,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "javascript": {
     template: "practical-mentor",
     differentiation:
-      "JavaScript has no shortage of free, self-paced options — tutorial sites, video courses, browser-based exercises. Those work well for typing along with a lesson, but they can't tell you why your specific code is behaving differently than the example. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're actually stuck, instead of moving you through a fixed track. Every tutor is reviewed by TutorA's team before being matched, and pricing is shown up front. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "JavaScript has no shortage of free, self-paced options — tutorial sites, video courses, browser-based exercises. Those work well for typing along with a lesson, but they can't tell you why your specific code is behaving differently than the example. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're actually stuck, instead of moving you through a fixed track. Every tutor is reviewed by TutorA's team before being matched, and pricing is shown up front. The JavaScript tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     faqs: [
       {
         q: "JavaScript for kids?",
@@ -892,7 +892,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Do I get a certificate after JavaScript tutoring?",
         a: "No — TutorA sessions are live 1:1 tutoring, not a self-paced video course, so there's no certificate of completion.",
       },
-      { q: "Are TutorA's JavaScript tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's JavaScript tutors based in India?", a: "Generally, yes — most of TutorA's coding tutors are based in India. Each one is reviewed by our team before being matched, and their profile lists their actual programming background rather than a generic bio." },
     ],
   },
   "python": {
@@ -914,14 +914,14 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       },
       {
         q: "Are TutorA's Python tutors based in India?",
-        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book.",
+        a: "Yes, most of them. TutorA's coding tutors are predominantly India-based, with real project and language experience listed on their own profile — reviewed by our team before ever being matched.",
       },
     ],
   },
   "c": {
     template: "practical-mentor",
     differentiation:
-      "Free tutorials cover the basics of C++ well, but they can't look at your actual code and explain why your specific memory-management bug is happening. A TutorA C++ tutor works with your real project or assignment in live 1:1 sessions — useful whether you're in an intro course, tackling data structures, or debugging a systems-programming assignment. Every tutor is reviewed by TutorA's team before being matched, with pricing shown before you book rather than folded into a subscription. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Free tutorials cover the basics of C++ well, but they can't look at your actual code and explain why your specific memory-management bug is happening. A TutorA C++ tutor works with your real project or assignment in live 1:1 sessions — useful whether you're in an intro course, tackling data structures, or debugging a systems-programming assignment. Every tutor is reviewed by TutorA's team before being matched, with pricing shown before you book rather than folded into a subscription. Most C++ tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     faqs: [
       {
         q: "Is C++ harder than Python or JavaScript?",
@@ -935,13 +935,13 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Do I get a certificate after C++ tutoring?",
         a: "No — TutorA is live 1:1 tutoring, not a self-paced course, so there's no certificate of completion.",
       },
-      { q: "Are TutorA's C++ tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's C++ tutors based in India?", a: "Yes, most of them. TutorA's coding tutors are predominantly India-based, with real project and language experience listed on their own profile — reviewed by our team before ever being matched." },
     ],
   },
   "sql": {
     template: "practical-mentor",
     differentiation:
-      "SQL tutorials are everywhere for free, and structured courses can walk you through the syntax — but they can't look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, whether you're learning fundamentals, prepping for a data-analyst interview, or debugging a specific problem. Every tutor is reviewed by TutorA before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "SQL tutorials are everywhere for free, and structured courses can walk you through the syntax — but they can't look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, whether you're learning fundamentals, prepping for a data-analyst interview, or debugging a specific problem. Every tutor is reviewed by TutorA before being matched, and pricing is shown before you book. TutorA's SQL tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     faqs: [
       {
         q: "Is SQL good for beginners in tech?",
@@ -955,13 +955,13 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Is there a certificate for completing SQL tutoring?",
         a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion.",
       },
-      { q: "Are TutorA's SQL tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's SQL tutors based in India?", a: "Yes, most of them. TutorA's coding tutors are predominantly India-based, with real project and language experience listed on their own profile — reviewed by our team before ever being matched." },
     ],
   },
   "java": {
     template: "practical-mentor",
     differentiation:
-      "Java has long-established free tutorials and self-paced tracks — fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving as expected. A TutorA Java tutor works through your real code with you in live 1:1 sessions, whether you're in a school course, working toward AP Computer Science A, or prepping for technical interviews. Every tutor is reviewed before being matched, and pricing is shown up front. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Java has long-established free tutorials and self-paced tracks — fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving as expected. A TutorA Java tutor works through your real code with you in live 1:1 sessions, whether you're in a school course, working toward AP Computer Science A, or prepping for technical interviews. Every tutor is reviewed before being matched, and pricing is shown up front. TutorA's Java tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     faqs: [
       {
         q: "Is Java a good first programming language?",
@@ -975,13 +975,13 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Do I need Java installed already, or will my tutor help with setup?",
         a: "Your tutor can help you get your development environment set up as part of your sessions if you haven't already.",
       },
-      { q: "Are TutorA's Java tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Java tutors based in India?", a: "In most cases, yes. Our tutor pool skews heavily India-based, and every profile lists that tutor's actual programming background rather than a generic bio." },
     ],
   },
   "html": {
     template: "practical-mentor",
     differentiation:
-      "HTML is one of the most thoroughly documented topics online for free, which makes this the weakest commercial tutor-marketplace category in our whole catalog — most people genuinely can learn it from free tutorials alone. What a live 1:1 tutor adds isn't better content, it's someone who can look at your actual page and answer your specific stuck point fast. HTML and CSS are almost always learned together — mention if you want both covered when requesting a tutor. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "HTML is one of the most thoroughly documented topics online for free, which makes this the weakest commercial tutor-marketplace category in our whole catalog — most people genuinely can learn it from free tutorials alone. What a live 1:1 tutor adds isn't better content, it's someone who can look at your actual page and answer your specific stuck point fast. HTML and CSS are almost always learned together — mention if you want both covered when requesting a tutor. Most HTML & CSS tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     faqs: [
       {
         q: "Do I need to learn CSS too?",
@@ -995,7 +995,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Is there a certificate for HTML tutoring?",
         a: "No — TutorA is live 1:1 tutoring, not a self-paced video course, so there's no certificate of completion.",
       },
-      { q: "Are TutorA's HTML & CSS tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's HTML & CSS tutors based in India?", a: "Generally, yes — most of TutorA's coding tutors are based in India. Each one is reviewed by our team before being matched, and their profile lists their actual programming background rather than a generic bio." },
     ],
   },
 
@@ -1005,7 +1005,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "ai-basics": {
     template: "informational",
     differentiation:
-      "AI Basics means practical, beginner-level understanding of how AI and machine learning tools actually work — not a computer-science degree topic, and not the same as our more advanced AI & Machine Learning course for students ready to go further. This is a newer subject area for TutorA, and honestly a newer category for 1:1 tutoring generally — most of what's out there is blogs and tutorials rather than tutor marketplaces. Because the field moves quickly, a live tutor who can answer current questions is arguably more useful here than a static course. Coverage may be more limited than for long-established subjects, but if you're curious about learning AI basics 1:1, tell us what you're trying to understand and we'll do our best to match you. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "AI Basics means practical, beginner-level understanding of how AI and machine learning tools actually work — not a computer-science degree topic, and not the same as our more advanced AI & Machine Learning course for students ready to go further. This is a newer subject area for TutorA, and honestly a newer category for 1:1 tutoring generally — most of what's out there is blogs and tutorials rather than tutor marketplaces. Because the field moves quickly, a live tutor who can answer current questions is arguably more useful here than a static course. Coverage may be more limited than for long-established subjects, but if you're curious about learning AI basics 1:1, tell us what you're trying to understand and we'll do our best to match you. TutorA's Artificial Intelligence Basics tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     faqs: [
       {
         q: "Do I need a technical background to learn AI Basics?",
@@ -1019,7 +1019,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         q: "Is 1:1 tutoring available for AI topics?",
         a: "Yes — though this is a newer subject area for TutorA, and coverage may be more limited than for long-established subjects. Tell us what you're trying to understand and we'll do our best to match you.",
       },
-      { q: "Are TutorA's Artificial Intelligence Basics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Artificial Intelligence Basics tutors based in India?", a: "Generally, yes — most of TutorA's coding tutors are based in India. Each one is reviewed by our team before being matched, and their profile lists their actual programming background rather than a generic bio." },
     ],
   },
 
@@ -1030,48 +1030,48 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     metaDescriptionOverride: "1:1 Astronomy tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Astronomy sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives astronomy its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for All Levels, and pricing is shown before you book rather than buried in a subscription. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Astronomy sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives astronomy its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for All Levels, and pricing is shown before you book rather than buried in a subscription. Most of TutorA's Astronomy tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Is Astronomy tutoring available for all grade levels?", a: "This subject page is positioned for All Levels — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Astronomy tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Astronomy tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Astronomy tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Astronomy tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "genetics": {
     template: "standard",
     metaDescriptionOverride: "1:1 Genetics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Genetics tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for All Levels, and pricing is shown up front before you request a session. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Genetics tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for All Levels, and pricing is shown up front before you request a session. TutorA matches most Genetics students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "Is Genetics tutoring available for all grade levels?", a: "This subject page is positioned for All Levels — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Genetics tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Genetics tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Genetics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Genetics tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "human-anatomy": {
     template: "standard",
     metaDescriptionOverride: "1:1 Human Anatomy tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Human Anatomy tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for All Levels. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Human Anatomy tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for All Levels. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. For Human Anatomy, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       { q: "Is Human Anatomy tutoring available for all grade levels?", a: "This subject page is positioned for All Levels — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Human Anatomy tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Human Anatomy tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Human Anatomy tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Human Anatomy tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "calculus": {
     template: "standard",
     metaDescriptionOverride: "1:1 Calculus tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Calculus its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grade 11–College, and pricing is shown before booking, never a flat invented rate. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Calculus its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grade 11–College, and pricing is shown before booking, never a flat invented rate. TutorA matches most Calculus students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "Is Calculus tutoring available for all grade levels?", a: "This subject page is positioned for Grade 11–College — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Calculus tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Calculus tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Calculus tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Calculus tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "physics": {
@@ -1084,19 +1084,19 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "Is Physics tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9–12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Physics tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Physics tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Physics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Physics tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "mathematics": {
     template: "standard",
     metaDescriptionOverride: "1:1 Mathematics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Mathematics tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for All Levels, and pricing is shown up front before you request a session. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Mathematics tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for All Levels, and pricing is shown up front before you request a session. TutorA matches most Mathematics students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "Is Mathematics tutoring available for all grade levels?", a: "This subject page is positioned for All Levels — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Mathematics tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Mathematics tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Mathematics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Mathematics tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "mechanics": {
@@ -1119,19 +1119,19 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "Is Organic Chemistry tutoring available for all grade levels?", a: "This subject page is positioned for All Levels — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Organic Chemistry tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Organic Chemistry tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Organic Chemistry tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Organic Chemistry tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "biology": {
     template: "standard",
     metaDescriptionOverride: "1:1 Biology tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Biology sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Biology its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 9–12, and pricing is shown before you book rather than buried in a subscription. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Biology sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Biology its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 9–12, and pricing is shown before you book rather than buried in a subscription. The tutor you're matched with for Biology is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Biology tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9–12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Biology tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Biology tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Biology tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Biology tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "chemistry": {
@@ -1144,126 +1144,126 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "Is Chemistry tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9–12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Chemistry tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Chemistry tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Chemistry tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Chemistry tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "geometry": {
     template: "standard",
     metaDescriptionOverride: "1:1 Geometry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Geometry tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grade 9–10. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Geometry tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grade 9–10. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. TutorA matches most Geometry students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "Is Geometry tutoring available for all grade levels?", a: "This subject page is positioned for Grade 9–10 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Geometry tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Geometry tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Geometry tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Geometry tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "trigonometry": {
     template: "standard",
     metaDescriptionOverride: "1:1 Trigonometry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Trigonometry its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grade 10–11, and pricing is shown before booking, never a flat invented rate. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Trigonometry its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grade 10–11, and pricing is shown before booking, never a flat invented rate. For Trigonometry, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       { q: "Is Trigonometry tutoring available for all grade levels?", a: "This subject page is positioned for Grade 10–11 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Trigonometry tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Trigonometry tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Trigonometry tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Trigonometry tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "advanced-algebra": {
     template: "standard",
     metaDescriptionOverride: "1:1 Advanced Algebra tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Advanced Algebra sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Advanced Algebra its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 11-12, and pricing is shown before you book rather than buried in a subscription. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Advanced Algebra sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Advanced Algebra its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 11-12, and pricing is shown before you book rather than buried in a subscription. The tutor you're matched with for Advanced Algebra is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Advanced Algebra tutoring available for all grade levels?", a: "This subject page is positioned for Grades 11-12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Advanced Algebra tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Advanced Algebra tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Advanced Algebra tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Advanced Algebra tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "algebra-i": {
     template: "standard",
     metaDescriptionOverride: "1:1 Algebra I tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Algebra I tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for Grade 8–9, and pricing is shown up front before you request a session. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Algebra I tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for Grade 8–9, and pricing is shown up front before you request a session. Most of TutorA's Algebra I tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Is Algebra I tutoring available for all grade levels?", a: "This subject page is positioned for Grade 8–9 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Algebra I tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Algebra I tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Algebra I tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Algebra I tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "algebra-ii": {
     template: "standard",
     metaDescriptionOverride: "1:1 Algebra II tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Algebra II tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grade 9–10. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Algebra II tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grade 9–10. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. The tutor you're matched with for Algebra II is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Algebra II tutoring available for all grade levels?", a: "This subject page is positioned for Grade 9–10 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Algebra II tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Algebra II tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Algebra II tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Algebra II tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "pre-algebra": {
     template: "standard",
     differentiation:
-      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Pre-Algebra its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grades 6-8, and pricing is shown before booking, never a flat invented rate. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Pre-Algebra its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grades 6-8, and pricing is shown before booking, never a flat invented rate. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "Is Pre-Algebra tutoring available for all grade levels?", a: "This subject page is positioned for Grades 6-8 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Pre-Algebra tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Pre-Algebra tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "In most cases, yes. Our team reviews every tutor before they're matched with your child, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "probability": {
     template: "standard",
     metaDescriptionOverride: "1:1 Probability tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Probability sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Probability its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 11-12, and pricing is shown before you book rather than buried in a subscription. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Probability sits alongside a handful of large homework-help platforms — Tutor.com, Princeton Review, UPchieve, Wyzant — each of which gives Probability its own dedicated page rather than a shared listing. TutorA does the same, but goes further: instead of routing you to whoever's online, you're matched with a specific tutor reviewed by our team beforehand. Sessions are live and 1:1, positioned for Grades 11-12, and pricing is shown before you book rather than buried in a subscription. The tutor you're matched with for Probability is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Probability tutoring available for all grade levels?", a: "This subject page is positioned for Grades 11-12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Probability tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Probability tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Probability tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Probability tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "precalculus": {
     template: "standard",
     metaDescriptionOverride: "1:1 Precalculus tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Precalculus tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for Grades 9-11, and pricing is shown up front before you request a session. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Homework-help aggregators like Tutor.com, Princeton Review, and UPchieve route you to whichever tutor happens to be online. A TutorA Precalculus tutor is different — matched to you specifically, reviewed by our team before being approved, and working with you live rather than through a queue. This subject is positioned for Grades 9-11, and pricing is shown up front before you request a session. The tutor you're matched with for Precalculus is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Precalculus tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9-11 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Precalculus tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Precalculus tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Precalculus tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Precalculus tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
   "statistics": {
     template: "standard",
     metaDescriptionOverride: "1:1 Statistics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Statistics tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grades 9-12. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Statistics tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for Grades 9-12. Pricing is shown before you book, whether you need ongoing support or help with a specific unit. For Statistics, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       { q: "Is Statistics tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9-12 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Statistics tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can a Statistics tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Statistics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Statistics tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "environmental-science": {
     template: "standard",
     metaDescriptionOverride: "1:1 Environmental Science tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Environmental Science its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grades 9-10, and pricing is shown before booking, never a flat invented rate. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Environmental Science its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grades 9-10, and pricing is shown before booking, never a flat invented rate. The tutor you're matched with for Environmental Science is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Environmental Science tutoring available for all grade levels?", a: "This subject page is positioned for Grades 9-10 — mention your specific grade or course when requesting a tutor so we match appropriately." },
       { q: "How much does Environmental Science tutoring cost?", a: "Pricing varies by tutor and is shown before booking — TutorA doesn't publish one flat rate." },
       { q: "Can an Environmental Science tutor help with exam prep, not just homework?", a: "Yes — mention whether you need ongoing homework support, a specific unit review, or exam prep when requesting a tutor." },
-      { q: "Are TutorA's Environmental Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Environmental Science tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
 
@@ -1274,105 +1274,105 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     metaDescriptionOverride: "1:1 English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "A broad entry point for students not yet sure which specific English skill they need — grammar, vocabulary, essay writing, literature, or general reading and writing support. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for All Levels — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "A broad entry point for students not yet sure which specific English skill they need — grammar, vocabulary, essay writing, literature, or general reading and writing support. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for All Levels — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's English tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How is English different from other English subjects on TutorA?", a: "A broad entry point for students not yet sure which specific English skill they need — grammar, vocabulary, essay writing, literature, or general reading and writing support." },
       { q: "What grade level is English for?", a: "This subject is positioned for All Levels — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's English tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "academic-english": {
     template: "standard",
     metaDescriptionOverride: "1:1 Academic English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Language-for-study skills aimed at students, often non-native speakers, who need English specifically for academic coursework, distinct from conversational Spoken English. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 11-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Language-for-study skills aimed at students, often non-native speakers, who need English specifically for academic coursework, distinct from conversational Spoken English. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 11-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA matches most Academic English students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "How is Academic English different from other English subjects on TutorA?", a: "Language-for-study skills aimed at students, often non-native speakers, who need English specifically for academic coursework, distinct from conversational Spoken English." },
       { q: "What grade level is Academic English for?", a: "This subject is positioned for Grades 11-12 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's Academic English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Academic English tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "academic-writing": {
     template: "standard",
     metaDescriptionOverride: "1:1 Academic Writing tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Structured, thesis-driven writing for older students — essays, reports, research papers — distinct from creative writing's open-ended format. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 9-10 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Structured, thesis-driven writing for older students — essays, reports, research papers — distinct from creative writing's open-ended format. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 9-10 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA matches most Academic Writing students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     faqs: [
       { q: "How is Academic Writing different from other English subjects on TutorA?", a: "Structured, thesis-driven writing for older students — essays, reports, research papers — distinct from creative writing's open-ended format." },
       { q: "What grade level is Academic Writing for?", a: "This subject is positioned for Grades 9-10 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's Academic Writing tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Academic Writing tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "essay-writing": {
     template: "standard",
     metaDescriptionOverride: "1:1 Essay Writing tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Structure, argument, and exam-style essay skills — a genuinely distinct category confirmed by real search demand, separate from creative or academic writing. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Structure, argument, and exam-style essay skills — a genuinely distinct category confirmed by real search demand, separate from creative or academic writing. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's Essay Writing tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How is Essay Writing different from other English subjects on TutorA?", a: "Structure, argument, and exam-style essay skills — a genuinely distinct category confirmed by real search demand, separate from creative or academic writing." },
       { q: "What grade level is Essay Writing for?", a: "This subject is positioned for Grades 6-12 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's Essay Writing tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Essay Writing tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "creative-writing": {
     template: "standard",
     differentiation:
-      "Open-ended narrative, fiction, and poetry skills — a genuinely distinct category confirmed by real search demand, separate from structured academic writing. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Open-ended narrative, fiction, and poetry skills — a genuinely distinct category confirmed by real search demand, separate from structured academic writing. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "How is Creative Writing different from other English subjects on TutorA?", a: "Open-ended narrative, fiction, and poetry skills — a genuinely distinct category confirmed by real search demand, separate from structured academic writing." },
       { q: "What grade level is Creative Writing for?", a: "This subject is positioned for Grades 6-8 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "In most cases, yes. Our team reviews every tutor before they're matched with your child, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "grammar": {
     template: "standard",
     metaDescriptionOverride: "1:1 Grammar tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Mechanics and rules — sentence structure, tenses, punctuation — a narrower, more foundational skill than essay writing or literature analysis. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-10 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Mechanics and rules — sentence structure, tenses, punctuation — a narrower, more foundational skill than essay writing or literature analysis. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-10 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. For Grammar, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     faqs: [
       { q: "How is Grammar different from other English subjects on TutorA?", a: "Mechanics and rules — sentence structure, tenses, punctuation — a narrower, more foundational skill than essay writing or literature analysis." },
       { q: "What grade level is Grammar for?", a: "This subject is positioned for Grades 6-10 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's Grammar tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Grammar tutors based in India?", a: "Generally, yes — the majority of TutorA's tutors are based in India. Each one goes through our team's review process before being matched, and their individual profile lists their real subject background rather than a generic bio." },
     ],
   },
   "vocabulary": {
     template: "standard",
     differentiation:
-      "Word-building and usage, often paired with reading comprehension for younger students or exam prep for older ones. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Word-building and usage, often paired with reading comprehension for younger students or exam prep for older ones. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "How is Vocabulary different from other English subjects on TutorA?", a: "Word-building and usage, often paired with reading comprehension for younger students or exam prep for older ones." },
       { q: "What grade level is Vocabulary for?", a: "This subject is positioned for Grades 6-8 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
   "reading-comprehension": {
     template: "standard",
     differentiation:
-      "Extraction and inference skills — understanding and analyzing what a text says — distinct from vocabulary's word-level focus. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Extraction and inference skills — understanding and analyzing what a text says — distinct from vocabulary's word-level focus. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
     faqs: [
       { q: "How is Reading Comprehension different from other English subjects on TutorA?", a: "Extraction and inference skills — understanding and analyzing what a text says — distinct from vocabulary's word-level focus." },
       { q: "What grade level is Reading Comprehension for?", a: "This subject is positioned for Grades 6-8 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "literature": {
     template: "standard",
     metaDescriptionOverride: "1:1 Literature tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Analysis of texts, often tied to set-text requirements for GCSE- or AP-adjacent courses — distinct from the mechanics-focused Grammar and Vocabulary subjects. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 9-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Analysis of texts, often tied to set-text requirements for GCSE- or AP-adjacent courses — distinct from the mechanics-focused Grammar and Vocabulary subjects. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 9-12 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. The tutor you're matched with for Literature is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "How is Literature different from other English subjects on TutorA?", a: "Analysis of texts, often tied to set-text requirements for GCSE- or AP-adjacent courses — distinct from the mechanics-focused Grammar and Vocabulary subjects." },
       { q: "What grade level is Literature for?", a: "This subject is positioned for Grades 9-12 — mention your specific grade or need when requesting a tutor." },
       { q: "Can a tutor help with a specific assignment, not just general skills?", a: "Yes — mention your specific assignment or goal when requesting a tutor so sessions can focus on it directly." },
-      { q: "Are TutorA's Literature tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Literature tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
 
@@ -1382,12 +1382,12 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "biology-basics": {
     template: "standard",
     differentiation:
-      "Biology Basics tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Biology Basics tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
     faqs: [
       { q: "What age is Biology Basics for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
   "chemistry-basics": {
@@ -1398,7 +1398,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "What age is Chemistry Basics for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "physics-basics": {
@@ -1409,51 +1409,51 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "What age is Physics Basics for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "general-mathematics": {
     template: "standard",
     differentiation:
-      "For Grades 6-8 students, General Mathematics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "For Grades 6-8 students, General Mathematics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
     faqs: [
       { q: "What age is General Mathematics for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
   "general-science": {
     template: "standard",
     differentiation:
-      "General Science tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "General Science tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
     faqs: [
       { q: "What age is General Science for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
   "geometry-basics": {
     template: "standard",
     differentiation:
-      "For Grades 6-8 students, Geometry Basics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "For Grades 6-8 students, Geometry Basics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. In most cases, your child's tutor will be based in India and already reviewed by our team beforehand — their profile shows their specific background and experience.",
     faqs: [
       { q: "What age is Geometry Basics for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "middle-school-math": {
     template: "standard",
     differentiation:
-      "Middle School Math tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Middle School Math tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
     faqs: [
       { q: "What age is Middle School Math for?", a: "This subject is positioned for Grades 6-8 — mention your child's grade when requesting a tutor." },
       { q: "How is this different from the high-school-level version of this subject?", a: "This page covers middle-school-level content — for more advanced coverage, check whether TutorA has a dedicated page for the relevant exam or grade band, such as GCSE or AP." },
       { q: "Can tutoring help build confidence, not just grades?", a: "Yes — many parents request middle-school tutoring specifically to build foundational confidence before high school, not only to fix a specific grade problem." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
 
@@ -1583,12 +1583,12 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     metaDescriptionOverride: "1:1 Spoken English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Spoken English tutoring on TutorA focuses specifically on conversational speaking and listening practice — a genuinely distinct skill from grammar, writing, or literature-focused English tutoring. Unlike conversation-practice apps that connect you with whoever's online for a quick chat, TutorA matches you with a specific tutor for ongoing, consistent practice, reviewed by our team beforehand. Pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Spoken English tutoring on TutorA focuses specifically on conversational speaking and listening practice — a genuinely distinct skill from grammar, writing, or literature-focused English tutoring. Unlike conversation-practice apps that connect you with whoever's online for a quick chat, TutorA matches you with a specific tutor for ongoing, consistent practice, reviewed by our team beforehand. Pricing is shown before you book. The tutor you're matched with for Spoken English is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     faqs: [
       { q: "Is Spoken English different from general English tutoring?", a: "Yes — this subject focuses specifically on conversational speaking and listening practice, distinct from grammar, writing, or literature-focused English tutoring." },
       { q: "Is this for non-native speakers only?", a: "It's commonly used by non-native speakers building fluency and confidence, but anyone wanting focused speaking practice can request a tutor." },
       { q: "How much does Spoken English tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Spoken English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Spoken English tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
     ],
   },
 
@@ -1609,12 +1609,12 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     metaDescriptionOverride: "1:1 O-Level Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "O-Level Maths tutoring on TutorA is positioned for Grades 10-11, aligned to Singapore's O-Level national secondary examination system administered in line with MOE and Cambridge-aligned syllabuses. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "O-Level Maths tutoring on TutorA is positioned for Grades 10-11, aligned to Singapore's O-Level national secondary examination system administered in line with MOE and Cambridge-aligned syllabuses. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most of TutorA's O-Level Maths tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Is O-Level Maths tutoring aligned to the Singapore MOE syllabus?", a: "Coverage depends on the tutor matched to you — mention your school and syllabus when requesting a tutor so we match appropriately." },
       { q: "What grade level is O-Level Maths for?", a: "This subject is positioned for Grades 10-11." },
       { q: "Do tutors understand Singapore's exam banding system?", a: "Mention your specific banding or scoring concerns when requesting a tutor — coverage depends on the individual tutor matched to you." },
-      { q: "Are TutorA's O-Level Maths tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's O-Level Maths tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
   "o-level-physics": {
@@ -1630,23 +1630,23 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "psle-maths": {
     template: "standard",
     differentiation:
-      "PSLE Maths tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "PSLE Maths tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "Is PSLE Maths tutoring aligned to the Singapore MOE syllabus?", a: "Coverage depends on the tutor matched to you — mention your school and syllabus when requesting a tutor so we match appropriately." },
       { q: "What grade level is PSLE Maths for?", a: "This subject is positioned for Grade 6." },
       { q: "Do tutors understand Singapore's exam banding system?", a: "Mention your specific banding or scoring concerns when requesting a tutor — coverage depends on the individual tutor matched to you." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "In most cases, yes. Our team reviews every tutor before they're matched with your child, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "psle-science": {
     template: "standard",
     differentiation:
-      "PSLE Science tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "PSLE Science tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
     faqs: [
       { q: "Is PSLE Science tutoring aligned to the Singapore MOE syllabus?", a: "Coverage depends on the tutor matched to you — mention your school and syllabus when requesting a tutor so we match appropriately." },
       { q: "What grade level is PSLE Science for?", a: "This subject is positioned for Grade 6." },
       { q: "Do tutors understand Singapore's exam banding system?", a: "Mention your specific banding or scoring concerns when requesting a tutor — coverage depends on the individual tutor matched to you." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
 
@@ -1656,23 +1656,23 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "11-english": {
     template: "standard",
     differentiation:
-      "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ English tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ English tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
     faqs: [
       { q: "What is the 11+ exam?", a: "A UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11." },
       { q: "Does 11+ English tutoring cover a specific exam board (CEM, GL Assessment)?", a: "Coverage depends on the tutor matched to you — mention which exam board your target school uses when requesting a tutor." },
       { q: "When should 11+ tutoring start?", a: "Many families start a year or more ahead of the exam, though this varies by target school and starting point." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "11-maths": {
     template: "standard",
     differentiation:
-      "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ Maths tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ Maths tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "What is the 11+ exam?", a: "A UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11." },
       { q: "Does 11+ Maths tutoring cover a specific exam board (CEM, GL Assessment)?", a: "Coverage depends on the tutor matched to you — mention which exam board your target school uses when requesting a tutor." },
       { q: "When should 11+ tutoring start?", a: "Many families start a year or more ahead of the exam, though this varies by target school and starting point." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
 
@@ -1706,45 +1706,45 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "algorithms": {
     template: "standard",
     differentiation:
-      "Algorithms tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Algorithms tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's Algorithms tutors are based in India, and each profile shows their specific programming background, so you know who you'd be working with before you book.",
     faqs: [
       { q: "Is Algorithms tutoring for beginners or advanced students?", a: "Mention your current level and specific goal — course support, project help, interview prep — when requesting a tutor." },
       { q: "Does Algorithms tutoring cover a specific language or framework?", a: "Coverage depends on the tutor matched to you — mention your specific language, framework, or course when requesting a tutor." },
       { q: "How much does Algorithms tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Algorithms tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Algorithms tutors based in India?", a: "Generally, yes — most of TutorA's coding tutors are based in India. Each one is reviewed by our team before being matched, and their profile lists their actual programming background rather than a generic bio." },
     ],
   },
   "computer-science": {
     template: "standard",
     differentiation:
-      "Computer Science tutoring on TutorA matches you with a specific, reviewed tutor rather than routing you to whoever's available — unlike large CS-focused aggregators such as Wyzant, Princeton Review, or Varsity Tutors. Sessions are live and 1:1, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Computer Science tutoring on TutorA matches you with a specific, reviewed tutor rather than routing you to whoever's available — unlike large CS-focused aggregators such as Wyzant, Princeton Review, or Varsity Tutors. Sessions are live and 1:1, and pricing is shown before you book. TutorA's Computer Science tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     faqs: [
       { q: "Is Computer Science tutoring for beginners or advanced students?", a: "Mention your current level and specific goal — course support, project help, interview prep — when requesting a tutor." },
       { q: "Does Computer Science tutoring cover a specific language or framework?", a: "Coverage depends on the tutor matched to you — mention your specific language, framework, or course when requesting a tutor." },
       { q: "How much does Computer Science tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Computer Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Computer Science tutors based in India?", a: "In most cases, yes. Our tutor pool skews heavily India-based, and every profile lists that tutor's actual programming background rather than a generic bio." },
     ],
   },
   "data-structures": {
     template: "standard",
     differentiation:
-      "Data Structures tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Data Structures tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most Data Structures tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     faqs: [
       { q: "Is Data Structures tutoring for beginners or advanced students?", a: "Mention your current level and specific goal — course support, project help, interview prep — when requesting a tutor." },
       { q: "Does Data Structures tutoring cover a specific language or framework?", a: "Coverage depends on the tutor matched to you — mention your specific language, framework, or course when requesting a tutor." },
       { q: "How much does Data Structures tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Data Structures tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Data Structures tutors based in India?", a: "In most cases, yes. Our tutor pool skews heavily India-based, and every profile lists that tutor's actual programming background rather than a generic bio." },
     ],
   },
   "web-development": {
     template: "standard",
     differentiation:
-      "Web Development tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
+      "Web Development tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. TutorA's Web Development Basics tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     faqs: [
       { q: "Is Web Development tutoring for beginners or advanced students?", a: "Mention your current level and specific goal — course support, project help, interview prep — when requesting a tutor." },
       { q: "Does Web Development tutoring cover a specific language or framework?", a: "Coverage depends on the tutor matched to you — mention your specific language, framework, or course when requesting a tutor." },
       { q: "How much does Web Development tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Web Development Basics tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Web Development Basics tutors based in India?", a: "Yes, most of them. TutorA's coding tutors are predominantly India-based, with real project and language experience listed on their own profile — reviewed by our team before ever being matched." },
     ],
   },
 
@@ -1755,23 +1755,23 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   "coding-for-kids": {
     template: "standard",
     differentiation:
-      "Coding for Kids on TutorA is a broad entry point for parents who aren't sure which specific tool is right yet for their child — a matched tutor can help decide between Scratch, Python Basics, or another approach based on age and interest. TutorA reviews tutors before they're matched, the same review process used sitewide — sessions are live and 1:1, positioned for Grades 6-8. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Coding for Kids on TutorA is a broad entry point for parents who aren't sure which specific tool is right yet for their child — a matched tutor can help decide between Scratch, Python Basics, or another approach based on age and interest. TutorA reviews tutors before they're matched, the same review process used sitewide — sessions are live and 1:1, positioned for Grades 6-8. In most cases, your child's tutor will be based in India and already reviewed by our team beforehand — their profile shows their specific background and experience.",
     faqs: [
       { q: "How is this different from Scratch Programming or Python Basics?", a: "This page is a broader entry point for parents who aren't sure which specific tool is right yet — a matched tutor can help decide between Scratch, Python Basics, or another approach based on your child's age and interest." },
       { q: "What age is Coding for Kids for?", a: "This subject is positioned for Grades 6-8 — mention your child's age when requesting a tutor so we match appropriately." },
       { q: "Does my child need a computer already?", a: "Sessions are held online, so a computer or tablet with internet access is needed — specific software requirements depend on the tutor and tool used." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "In most cases, yes. Our team reviews every tutor before they're matched with your child, and their profile shows their real background — most happen to be India-based." },
     ],
   },
   "scratch-programming": {
     template: "standard",
     differentiation:
-      "Scratch is a free, block-based visual programming language created by MIT specifically for kids — no typed code required, making it a common first step before text-based languages like Python. TutorA reviews tutors before they're matched, the same process used sitewide, and sessions are live and 1:1, positioned for Grades 6-8. Pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
+      "Scratch is a free, block-based visual programming language created by MIT specifically for kids — no typed code required, making it a common first step before text-based languages like Python. TutorA reviews tutors before they're matched, the same process used sitewide, and sessions are live and 1:1, positioned for Grades 6-8. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
     faqs: [
       { q: "What is Scratch?", a: "A free, block-based visual programming language created by MIT specifically for kids — no typed code required, which makes it a common first step before text-based languages like Python." },
       { q: "What age is Scratch Programming for?", a: "This subject is positioned for Grades 6-8, though younger and older kids can also benefit depending on prior experience." },
       { q: "What comes after Scratch?", a: "Many kids move on to Python Basics or another beginner text-based language once they're comfortable with programming concepts." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Generally, yes — most of TutorA's tutors are based in India, and every one is reviewed by our team before being matched with your child. Their profile shows their real background and experience." },
     ],
   },
   "python-basics": {
@@ -1782,7 +1782,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       { q: "What age is Python Basics for?", a: "This subject is positioned for Grades 6-8 — mention your child's age and any prior coding experience when requesting a tutor." },
       { q: "How is this different from the general Python subject page?", a: "Python Basics serves a genuinely different, kids-coding audience than our general Python page — this page is written for parents, with age-appropriate framing throughout." },
       { q: "Does my child need any coding experience first?", a: "No — this is designed as an entry point, though a tutor can also work with kids who already know some basics." },
-      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
+      { q: "Where are TutorA's tutors based?", a: "Most of TutorA's tutors are India-based, vetted by our team beforehand — you can check their profile for their actual background before the first session." },
     ],
   },
 
@@ -1793,12 +1793,12 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     metaDescriptionOverride: "1:1 Science tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
-      "Science on TutorA is a broader, ungraded option — positioned for All Levels — distinct from our more specific General Science (Grades 6-8) and GCSE Science (Combined Science) pages. If either of those matches your need better, we'd point you there first; this page covers general science tutoring requests that don't fit a specific grade band or exam. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
+      "Science on TutorA is a broader, ungraded option — positioned for All Levels — distinct from our more specific General Science (Grades 6-8) and GCSE Science (Combined Science) pages. If either of those matches your need better, we'd point you there first; this page covers general science tutoring requests that don't fit a specific grade band or exam. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's Science tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Is this the same as GCSE Science or General Science (Grades 6-8)?", a: "No — those are separate, more specific pages. This page is a broader, ungraded Science tutoring option; see our GCSE Science or General Science pages if either matches your specific need better." },
       { q: "What topics does Science tutoring cover here?", a: "Coverage depends on the tutor matched to you — mention your specific grade, curriculum, and topics when requesting a tutor." },
       { q: "How much does Science tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
-      { q: "Are TutorA's Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
+      { q: "Are TutorA's Science tutors based in India?", a: "Yes, most of them. TutorA's tutors are predominantly based in India and go through our team's review process before ever being matched — their profile lists their real background, so nothing about who you're working with is a guess." },
     ],
   },
 };

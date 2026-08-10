@@ -98,7 +98,13 @@ export default async function SubjectDetailPage({
   const band = resolveBand(subject.gradeLevel);
   const colors = GRADE_BAND_COLORS[band.key];
   const canonicalUrl = `${BASE_URL}/subjects/${subject.slug}`;
-  const title = content?.metaTitleOverride ?? subject.title ?? subject.name;
+  // Deliberately NOT using content?.metaTitleOverride here — that's SEO-tag-style text
+  // ("X Tutor — India-Based, Team-Vetted") meant only for the <title> element/OpenGraph/
+  // Twitter card (see generateMetadata above), not for reader-facing content. This `title`
+  // backs the H1, breadcrumbs, JSON-LD entity name, and inline copy ("{title} FAQ", etc.) —
+  // using the override here leaked meta-tag text into the visible page and was flagged by
+  // Bing Webmaster Tools as a content-quality issue on /subjects/ib-math (2026-08-08).
+  const title = subject.title ?? subject.name;
   const description = content?.metaDescriptionOverride ?? subjectDescription(subject);
   const price = subject.hourlyRateCents != null ? `${priceLabelUSD(subject.hourlyRateCents)}/hr` : "Price on request";
   const relatedCourseSlug = SUBJECT_TO_COURSE_SLUG[subject.slug];
