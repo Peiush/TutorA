@@ -32,7 +32,23 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
         gsap.set(".hero-cta-btn", { autoAlpha: 0, y: 18, scale: 0.9 });
         gsap.set(".hero-cta-glow", { autoAlpha: 0, scale: 1 });
 
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        // Safety net: if the timeline never completes (script interrupted mid-run by a
+        // dropped connection, a low-memory tab kill, or an unrelated JS error elsewhere
+        // on the page), the elements above would otherwise stay stuck at autoAlpha:0
+        // forever since nothing else ever sets them visible. Force them visible after a
+        // generous timeout so a failed animation degrades to "no animation", not "no content".
+        const safety = window.setTimeout(() => {
+          gsap.set(".hero-tag, .hero-word, .hero-cta-btn, .hero-cta-glow", {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+          });
+        }, 4000);
+
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          onComplete: () => window.clearTimeout(safety),
+        });
 
         tl.to(".hero-tag", { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(2)" })
           .to(".hero-word", { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.09 }, "-=0.25")
@@ -51,6 +67,8 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
             repeat: -1,
           });
         });
+
+        return () => window.clearTimeout(safety);
       });
 
       mm.add(`${MOBILE} and (prefers-reduced-motion: reduce)`, () => {
