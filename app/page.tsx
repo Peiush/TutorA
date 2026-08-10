@@ -26,14 +26,13 @@ import { homepageFaqs } from "@/components/home/homepage-faq";
 const CourseCategoriesShowcase = dynamic(() =>
   import("@/components/home/course-categories-showcase").then((mod) => mod.CourseCategoriesShowcase)
 );
-// These three are visually near/below the fold, but were previously statically imported,
+// These two are visually near/below the fold, but were previously statically imported,
 // so their module-scope gsap.registerPlugin(ScrollTrigger / DrawSVGPlugin / MotionPathPlugin)
 // calls got bundled into the same eager chunk that gates hero hydration — the heaviest
 // GSAP plugin combo on the page (how-it-works-steps' decorative connector-line animation)
 // was fully downloaded/parsed/executed before the hero could even become interactive,
 // adding real render-delay to LCP with zero above-the-fold visual benefit
 // (RE-AUDIT-REPORT.md, 2026-08-10). Splitting them out doesn't change what's server-rendered.
-const TrustStrip = dynamic(() => import("@/components/home/trust-strip").then((mod) => mod.TrustStrip));
 const HowItWorksSteps = dynamic(() =>
   import("@/components/home/how-it-works-steps").then((mod) => mod.HowItWorksSteps)
 );
@@ -216,48 +215,9 @@ export default async function Home() {
           </HeroMobileFx>
         </div>
         <HeroIllustration />
-        <TrustStrip />
       </section>
 
-      {/* Top summary — a direct, self-contained answer for search snippets and AI answer engines */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-6 pb-2">
-        <Reveal y={16}>
-          <div
-            className="relative flex flex-col items-center gap-4 text-center max-w-[820px] mx-auto rounded-[var(--radius-lg)] border p-6 sm:p-8 overflow-hidden"
-            style={{
-              background: "color-mix(in srgb, var(--color-accent-100) 70%, var(--color-surface))",
-              borderColor: "var(--color-divider)",
-              boxShadow: "var(--shadow-md)",
-            }}
-          >
-            <span
-              className="flex-none grid place-content-center w-10 h-10 rounded-full"
-              style={{ background: "var(--color-bg)", color: "var(--color-accent-700)", boxShadow: "var(--shadow-sm)" }}
-              aria-hidden
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2l2.4 6.5L21 11l-6.6 2.5L12 20l-2.4-6.5L3 11l6.6-2.5L12 2Z" />
-              </svg>
-            </span>
-            <p
-              className="text-[15px] leading-relaxed m-0"
-              style={{ color: "color-mix(in srgb, var(--color-text) 82%, transparent)" }}
-            >
-              <strong style={{ color: "var(--color-accent-700)" }}>In short:</strong> TutorA is an online tutoring
-              marketplace that personally matches students, parents booking for their kids, and adult learners with
-              a vetted tutor or reviewed course — never an open, unverified listing. Every tutor passes ID
-              verification, a background check, and a live video interview before being matched.
-            </p>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Stats */}
-      <div className="mt-9 sm:mt-11">
-        <StatsMarquee />
-      </div>
-
-       {/* How it works */}
+      {/* How it works */}
       <section className="relative overflow-hidden" style={{ background: "var(--color-surface)" }}>
         <div
           className="pointer-events-none absolute -top-16 right-[8%] w-[360px] h-[360px] rounded-full blur-3xl opacity-25"
@@ -299,6 +259,11 @@ export default async function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* Stats */}
+      <div className="mt-9 sm:mt-11">
+        <StatsMarquee />
+      </div>
 
       {/* Who it's for */}
       <WhoItsFor />
