@@ -19,7 +19,7 @@ const MAILTO_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
 export const TEACH_LAST_UPDATED = "2026-08-06";
 
 export const metadata: Metadata = {
-  title: "Become an Online Tutor — Teach on TutorA",
+  title: "Become an Online Tutor",
   description:
     "Teach students online on TutorA. Set your own rate, get matched with students who need your subjects, and join a personally vetted roster of tutors — not an open marketplace.",
   alternates: { canonical: "/teach" },

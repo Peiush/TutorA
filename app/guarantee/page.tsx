@@ -13,7 +13,7 @@ const BASE_URL = "https://www.tutora.it.com";
 export const GUARANTEE_LAST_UPDATED = "2026-08-07";
 
 export const metadata: Metadata = {
-  title: "Tutor Match Guarantee — TutorA",
+  title: "Tutor Match Guarantee",
   description:
     "If your first tutor isn't the right fit, TutorA matches you with someone else for the same subject at no extra cost. See how our rematch guarantee works.",
   alternates: { canonical: "/guarantee" },

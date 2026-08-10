@@ -18,6 +18,19 @@ import { prisma } from "@/lib/prisma";
 
 const BASE_URL = "https://www.tutora.it.com";
 
+// Google truncates SERP snippets around ~155-160 chars; admin-written bios run
+// unbounded (548 chars on a sampled profile — RE-AUDIT-REPORT-2026-08-10-POSTFIX.md,
+// action 6), so the <meta description>/og/twitter tags need a hard cap. Cuts at the
+// last whole word under the limit rather than mid-word.
+const META_DESCRIPTION_MAX = 155;
+
+function truncateMetaDescription(text: string, max = META_DESCRIPTION_MAX): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
+}
+
 // Keeps the <title> tag within Google's ~60-char display limit even for tutors with many subject listings.
 function titleSubjectLabel(tutor: TutorProfileDetail): string {
   const names = tutor.subjects.map((s) => s.subjectName);
@@ -63,11 +76,12 @@ export async function generateMetadata({
   if (!tutor) return {};
 
   const subjectNames = tutor.subjects.map((s) => s.subjectName).join(", ");
-  const description =
+  const description = truncateMetaDescription(
     tutor.bio ||
-    `${tutor.name} is a personally verified tutor on TutorA teaching ${subjectNames || "multiple subjects"}${
-      tutor.country ? ` from ${tutor.country}` : ""
-    }.`;
+      `${tutor.name} is a personally verified tutor on TutorA teaching ${subjectNames || "multiple subjects"}${
+        tutor.country ? ` from ${tutor.country}` : ""
+      }.`
+  );
   const title = `${tutor.name} — ${titleSubjectLabel(tutor)}`;
 
   return {

@@ -1,177 +1,21 @@
-# Schema.org / Structured Data Audit — tutora.it.com
+# Schema Markup Audit — TutorA (tutora.it.com)
 
-**Category Score: 80 / 100**
+**Audit type:** Re-audit after 2026-08-10 fixes
+**Data source:** 100% LIVE fetch on 2026-08-10 via `render_page.py --mode auto --json-ld-output` for 8 representative page types, plus a live parallel `curl` sweep of all 191 URLs in the fresh sitemap (`reaudit-2026-08-10-sitemap.xml`) for HowTo residue.
+**Explicitly NOT used:** `docs/seo-audit-tutora/archive-2026-08-04/` or any other cached/stale local artifact. The only pre-supplied files used were the fresh sitemap and `reaudit-2026-08-10-home.json` as an initial pointer — every schema claim below was independently re-verified via live fetch/parse in this session.
 
-Pages sampled (raw HTML fetch, server-rendered — confirmed identical in `content` vs `raw_content`, not a client-side-only SPA injection):
-- Homepage — `https://www.tutora.it.com/`
-- `/about`
-- Course detail — `/courses/guitar-a7d7f6aa`
-- Tutor profile — `/find-a-tutor/sudipto-ffbf5742`
+## Category Score: 88 / 100
 
-All JSON-LD blocks found across these pages are syntactically valid (`valid: true`), use `https://schema.org` as `@context`, and use absolute URLs. This is a well above-average structured data implementation for the site type — the deductions below are refinements, not fundamental breakage.
+---
 
-## What Works
+## 1. Verification of Requested Fixes
 
-- **JSON-LD used exclusively** — no Microdata/RDFa found; correct format per Google's preference.
-- **`https://schema.org` context** (not `http`) on every block — correct.
-- **Absolute URLs** throughout (`https://www.tutora.it.com/...`) — no relative paths found.
-- **`Organization`** schema present sitewide with `name`, `url`, `description` — valid, no placeholder text.
-- **`WebSite`** schema present sitewide — valid, minimal but correct.
-- **`Course`** schema on course pages includes required `name`, `description`, `provider.name`, plus recommended `offers` (price, currency, availability, url) — this is above the minimum bar for Google's Course structured data.
-- **`Person`** schema on tutor pages includes `name`, `description`, `url`, `knowsAbout` (subject list), and `worksFor` — good entity coverage for AI/GEO and Knowledge Graph purposes.
-- **`BreadcrumbList`** present on course and tutor pages with correct 3-level hierarchy (Home → Category → Detail), `position` integers, and absolute `item` URLs — valid and passes Google's Rich Results Test requirements.
-- **No fabricated/placeholder values** — spot-checked names, descriptions, and prices all reflect real page content (e.g., Course price `$50.00`, tutor `knowsAbout` matches on-page subjects).
-- **`WebPage`** block on homepage correctly links `isPartOf` (WebSite) and `mainEntity` (`@id` reference to the FAQPage) — proper use of `@id` linking rather than duplicating data.
+### 1a. HowTo schema fully removed sitewide — CONFIRMED ✅
+- Live JSON-LD extraction on homepage, /about, /courses, /courses/[slug], /find-a-tutor, /find-a-tutor/[slug], /subjects, /subjects/[slug]: **zero HowTo blocks** in any sample.
+- Live parallel `curl` sweep of **all 191 URLs** in the current sitemap, grepping raw HTML for the literal string `HowTo`: **0 matches**. Fully clean sitewide, not just on the homepage.
+- The former "How TutorA matches you with a tutor" 3-step process on the homepage is now correctly implemented as `ItemList` (block `#how-it-works`), not `HowTo`. `ItemList` is a valid, non-deprecated type — good replacement choice.
 
-## Findings
-
-### 1. Deprecated `HowTo` schema on homepage
-**Severity:** High
-
-The homepage ships a `HowTo` JSON-LD block (`@id: https://www.tutora.it.com/#how-it-works`) marking up the "You tell us → We verify & match → You connect" 3-step explainer using `HowTo`/`HowToStep`.
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  "@id": "https://www.tutora.it.com/#how-it-works",
-  "name": "How to find a tutor on TutorA",
-  "step": [ ... ]
-}
-```
-
-Google removed `HowTo` rich results in September 2023. This markup provides zero SERP benefit today and is flagged as deprecated in Google's structured data documentation — shipping it signals stale implementation and adds unnecessary page weight/parse cost for no return.
-
-**Recommendation:** Remove the `HowTo` block entirely. The visual "how it works" content on the page does not need to be a HowTo — it's a value-proposition explainer, not an instructional/repair guide, so there's no schema type to substitute it with for rich-result purposes. If structural markup is still desired for AI/GEO entity understanding, a plain `ItemList` of `ListItem`s is acceptable (no rich-result eligibility, but harmless and not deprecated):
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "How TutorA matches you with a tutor",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "You tell us", "description": "Browse verified tutors or send a private request. Nothing is posted publicly and no tutor sees your details." },
-    { "@type": "ListItem", "position": 2, "name": "We verify & match", "description": "Our team vets every tutor, sources the right fit and relays messages." },
-    { "@type": "ListItem", "position": 3, "name": "You connect", "description": "Once you and the tutor both confirm, we release contact details immediately." }
-  ]
-}
-```
-
-### 2. `FAQPage` schema present on homepage and `/about` — no Google SERP benefit
-**Severity:** Info
-
-Both the homepage (`#faq`, 6 Q&As) and `/about` (5 Q&As, different questions) carry valid `FAQPage` markup. Per current Google policy, FAQ rich results were retired for all sites (superseding the earlier Aug 2023 gov/health-only restriction) — this markup will not produce a SERP FAQ dropdown for any site anymore.
-
-The markup itself is technically well-formed (correct `Question`/`acceptedAnswer`/`Answer` nesting, real content, no placeholders), so this is not "broken," just no longer functional for its original purpose.
-
-**Recommendation:** No urgent action required. Options:
-- Leave in place if you're comfortable with the caveat that any AI/GEO (LLM-answer-engine) benefit from FAQPage markup is unconfirmed — some crawlers/assistants may still use it as a content-understanding signal even without a Google SERP feature.
-- If simplifying, it's safe to remove without SEO loss, since there is no rich-result feature to lose.
-- Do not invest further effort adding *new* FAQPage blocks to other pages expecting a Google SERP feature — there isn't one.
-
-### 3. `Organization` schema missing `logo` and `sameAs`
-**Severity:** Medium
-
-The `Organization` block (repeated identically on every page sampled) only has `name`, `url`, `description`:
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "TutorA",
-  "url": "https://www.tutora.it.com",
-  "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team."
-}
-```
-
-`logo` and `sameAs` (social profile URLs) are the two properties Google explicitly recommends for `Organization` to become eligible for a Knowledge Panel logo and to consolidate entity signals across social profiles. Neither is present.
-
-**Recommendation:** Add `logo` (pointing to a real, square-ish, min-112×112px hosted image per Google's Organization logo guidelines) and `sameAs` with the brand's actual social/profile URLs. Replace placeholders below with TutorA's real assets before shipping:
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "TutorA",
-  "url": "https://www.tutora.it.com",
-  "description": "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
-  "logo": "https://www.tutora.it.com/logo.png",
-  "sameAs": [
-    "https://www.linkedin.com/company/tutora",
-    "https://www.instagram.com/tutora",
-    "https://twitter.com/tutora"
-  ]
-}
-```
-*(Do not ship this snippet with the example URLs above — substitute TutorA's actual logo path and verified social profile URLs before deployment.)*
-
-### 4. `Course` schema missing recommended `hasCourseInstance` (and `image`)
-**Severity:** Medium
-
-The sampled course page (`/courses/guitar-a7d7f6aa`) displays on-page course-mode details that aren't reflected in the schema: duration ("33.5h"), scheduling ("Flexible"), and level ("All Levels"). The `Course` JSON-LD currently only has `name`, `description`, `url`, `provider`, `offers` — no `hasCourseInstance`.
-
-Google's Course structured data guidelines list `hasCourseInstance` (with `courseMode`, `courseWorkload`, and/or `courseSchedule`) as a strongly recommended property for full Course rich-result eligibility, alongside an `image`.
-
-**Recommendation:** Add a `hasCourseInstance` block using the data already displayed on the page (duration 33.5h → ISO 8601 `PT33H30M`; mode online; flexible schedule):
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "Guitar Lessons",
-  "description": "Learn to play guitar, from first chords to playing full songs.",
-  "url": "https://www.tutora.it.com/courses/guitar-a7d7f6aa",
-  "provider": {
-    "@type": "Organization",
-    "name": "TutorA",
-    "sameAs": "https://www.tutora.it.com"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "Online",
-    "courseWorkload": "PT33H30M",
-    "courseSchedule": {
-      "@type": "Schedule",
-      "repeatFrequency": "P1W",
-      "byDay": []
-    }
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "50.00",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock",
-    "url": "https://www.tutora.it.com/courses/guitar-a7d7f6aa"
-  }
-}
-```
-Note: `courseSchedule` is optional and only worth including if there's an actual recurring schedule; for "Flexible" self-paced courses it's fine to omit `courseSchedule` entirely and rely on `courseWorkload` + `courseMode` alone.
-
-### 5. Do not add `AggregateRating` to Course schema — on-page rating has zero review count
-**Severity:** Medium (data-integrity flag, not a markup error)
-
-The course page's extracted content shows the rating displayed as **"4.8 (0)"** — i.e., a 4.8-star rating with a review count of 0. This is a content/UI issue outside of schema markup itself, but it is directly relevant here: if `AggregateRating` schema is added to match this displayed value, it would violate Google's structured data guidelines, which require `ratingCount`/`reviewCount` to reflect a real, non-zero number of actual reviews. Shipping `AggregateRating` with `ratingCount: 0` (or omitting it while still using a non-zero `ratingValue`) can trigger a manual action for non-genuine review markup, and even without schema, showing "4.8 (0)" to users is misleading.
-
-**Recommendation:**
-- Do **not** add `AggregateRating` to `Course` (or `Person`) schema until there is a genuine, non-zero count of collected reviews.
-- Flag the front-end display of "4.8 (0)" to the product team — either suppress the star rating entirely when `reviewCount === 0`, or default to "No reviews yet" copy. This should also be raised in the Content/UX section of the full audit, not fixed via schema.
-- Once real reviews exist (with genuine `ratingCount` ≥ 1), the aggregate rating can be added like this:
-
-```json
-"aggregateRating": {
-  "@type": "AggregateRating",
-  "ratingValue": "4.8",
-  "reviewCount": "12"
-}
-```
-
-### 6. `BreadcrumbList` missing on `/about`
-**Severity:** Low
-
-Course and tutor detail pages carry a correct 3-level `BreadcrumbList`. The homepage carries a 1-item `BreadcrumbList` (just "Home" — technically valid but not meaningful for rich results, which require the hierarchy to demonstrate a path). The `/about` page has no `BreadcrumbList` at all.
-
-**Recommendation:** Add a 2-level breadcrumb to `/about` for consistency with the rest of the site's IA, and consider dropping the single-item breadcrumb on the homepage (Google's breadcrumb rich result is meant to show navigational depth; a lone "Home" item adds no value and is unlikely to render).
-
+### 1b. `/about` BreadcrumbList — CONFIRMED, valid ✅
 ```json
 {
   "@context": "https://schema.org",
@@ -182,47 +26,105 @@ Course and tutor detail pages carry a correct 3-level `BreadcrumbList`. The home
   ]
 }
 ```
+Sequential positions (1, 2), absolute URLs, correct hierarchy. No issues.
 
-### 7. `WebSite` schema is minimal — no `SearchAction` (optional)
-**Severity:** Info
-
-The `WebSite` block only has `name` and `url`. If the site has an internal search feature (e.g., a course/tutor search bar), adding `potentialAction: SearchAction` makes the site eligible for the Sitelinks Search Box in Google results.
-
-**Recommendation:** Only add if a genuine, working search URL pattern exists (e.g., `/find-a-tutor?q={query}` or `/courses?search={query}`). Do not add a placeholder `SearchAction` pointing at a URL pattern that doesn't actually work — verify with engineering first:
-
+### 1c. `founder` Person nested in sitewide Organization JSON-LD — CONFIRMED, valid ✅
+Verified identical on homepage, /about, /courses, /courses/[slug], /find-a-tutor, /find-a-tutor/[slug], /subjects, /subjects/[slug] (sitewide layout injection, as expected):
 ```json
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
+  "@type": "Organization",
   "name": "TutorA",
   "url": "https://www.tutora.it.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://www.tutora.it.com/find-a-tutor?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+  "logo": "https://www.tutora.it.com/logo.png",
+  "founder": {
+    "@type": "Person",
+    "name": "Nancy Gupta",
+    "jobTitle": "Founder"
+  },
+  "areaServed": [
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "United Kingdom" },
+    { "@type": "Country", "name": "Canada" },
+    { "@type": "Country", "name": "Singapore" },
+    { "@type": "Country", "name": "United Arab Emirates" },
+    "Worldwide"
+  ]
+}
+```
+`founder` is correctly nested as a direct property of `Organization` with a proper `Person` object (not a bare string, not sibling-level). This is a valid, Google-neutral (no rich result tied to `founder`, but it's correct structured data and useful for Knowledge Panel / entity disambiguation).
+
+**Minor note (not a defect):** `"Worldwide"` is a bare string mixed into an array otherwise made of `Country` objects. Schema.org's `areaServed` range permits `Text`, so this validates, but for consistency consider replacing with `{"@type":"Place","name":"Worldwide"}` or dropping it since the five countries plus "Worldwide" is redundant/contradictory (implies both scoped and global service).
+
+### 1d. `/subjects/[slug]` per-slug og:image — Out of scope for this audit ℹ️
+Confirmed this is a meta-tag concern (Open Graph), not JSON-LD/structured data. Not evaluated here; flag for the meta/technical-SEO audit instead.
+
+---
+
+## 2. Schema Inventory by Page Type (all live-fetched, all blocks `valid: true`)
+
+| Page | Types present | Notes |
+|---|---|---|
+| Homepage `/` | Organization (+founder Person), WebSite, WebPage, FAQPage, ItemList, Service, BreadcrumbList | 7 blocks, all valid |
+| `/about` | Organization (+founder Person), WebSite, BreadcrumbList, FAQPage | 4 blocks, all valid |
+| `/courses` (hub) | Organization (+founder), WebSite, BreadcrumbList, CollectionPage/ItemList (category list), FAQPage | 5 blocks, all valid |
+| `/courses/sat-c5d2749b` (real slug) | Organization (+founder), WebSite, **Course** + CourseInstance + Offer, BreadcrumbList, FAQPage | 5 blocks, all valid |
+| `/find-a-tutor` (hub) | Organization (+founder), WebSite, BreadcrumbList, CollectionPage/ItemList of Service entries, FAQPage | 5 blocks, all valid |
+| `/find-a-tutor/sudipto-ffbf5742` (real slug) | Organization (+founder), WebSite, **Person** (tutor) + worksFor, BreadcrumbList | 4 blocks, all valid |
+| `/subjects` (hub) | Organization (+founder), WebSite, BreadcrumbList, CollectionPage/ItemList (all subject URLs) | 4 blocks, all valid — **page confirmed to exist**, did not exist in prior audit |
+| `/subjects/mathematics` (real slug) | Organization (+founder), WebSite, **Course** + Offer, BreadcrumbList, FAQPage | 5 blocks, all valid syntactically, **1 logical defect below** |
+
+`/subjects` hub existence is a genuine new addition since the last audit and is correctly wired with CollectionPage + ItemList + BreadcrumbList, matching the pattern used on `/courses` and `/find-a-tutor`.
+
+---
+
+## 3. Validation Issues Found
+
+### Issue 1 — Breadcrumb hierarchy mismatch on `/subjects/[slug]` (Moderate)
+On `/subjects/mathematics`, the `BreadcrumbList` reads:
+```json
+{ "position": 2, "name": "Courses", "item": "https://www.tutora.it.com/courses" }
+```
+This is wrong — the page lives under `/subjects`, not `/courses`. The breadcrumb should be `Home > Subjects > Mathematics` pointing to `/subjects`, matching the actual URL path and the pattern already used correctly on `/courses/[slug]` and `/find-a-tutor/[slug]`. As shipped, this tells Google the page's hierarchical parent is a URL that doesn't contain it, which can cause Google to ignore or misrender the breadcrumb rich result, and is inconsistent with the page's own canonical URL.
+
+**Fix (recommended JSON-LD):**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.tutora.it.com" },
+    { "@type": "ListItem", "position": 2, "name": "Subjects", "item": "https://www.tutora.it.com/subjects" },
+    { "@type": "ListItem", "position": 3, "name": "Mathematics", "item": "https://www.tutora.it.com/subjects/mathematics" }
+  ]
 }
 ```
 
-### 8. `Person` (tutor) schema — solid, minor enhancement opportunity
-**Severity:** Info
+### Issue 2 — Course schema inconsistent between `/courses/[slug]` and `/subjects/[slug]` (Minor)
+`/courses/[slug]` includes `hasCourseInstance` (`courseMode`, `courseWorkload`), which `/subjects/[slug]` omits (it has `educationalLevel` instead). Not a hard requirement, but for consistency and to maximize eligibility for Google's Course rich result, add `hasCourseInstance` with `courseMode: "Online"` to the `/subjects/[slug]` template too.
 
-The `Person` block on tutor pages is well-formed and free of placeholders. Two optional enhancements, only worth doing if the underlying data genuinely exists:
-- **`image`**: the tutor page renders an initial-letter avatar ("S") rather than a real photo for this profile, so `image` should only be added for tutors who have an actual uploaded photo — do not point `image` at a generated avatar/initial graphic.
-- **`makesOffer`**: the page displays per-subject hourly pricing (e.g., "$35/hr" for AP Chemistry) that isn't reflected in the `Person` schema. This is optional (no Google rich-result tied to it) but can strengthen entity/pricing signals for AI answer engines:
+### Issue 3 — Tutor Person schema missing `image` (Minor/Opportunity)
+`/find-a-tutor/[slug]` Person objects have `name`, `description`, `url`, `knowsAbout`, `worksFor` — but no `image`. Adding the tutor's profile photo (absolute URL) strengthens entity/Knowledge-Graph eligibility and is low-effort since the image already exists on the rendered page.
 
-```json
-"makesOffer": [
-  {
-    "@type": "Offer",
-    "itemOffered": { "@type": "Service", "name": "AP Chemistry Tutoring" },
-    "price": "35.00",
-    "priceCurrency": "USD"
-  }
-]
-```
+### Issue 4 — Homepage BreadcrumbList is single-item (Cosmetic)
+Homepage `BreadcrumbList` contains only `{"position":1,"name":"Home"}` — a one-item breadcrumb has no rich-result value and is typically omitted on the homepage entirely. Harmless, but no need to keep it; not a validation failure.
 
-## Not Yet Checked (Out of Scope for This Pass)
+### FAQPage — Info only, per current policy
+FAQPage is present on homepage, `/about`, `/courses/[slug]`, `/find-a-tutor` hub, and `/subjects/[slug]`. Google retired FAQ rich results for all sites (May 7, 2026), so this schema now provides no Google SERP benefit. **Do not remove** — any AI/GEO (LLM answer-engine) visibility benefit is unconfirmed but plausible, and removal has no upside. Flagged Info priority only, consistent with policy.
 
-- `/courses` and `/find-a-tutor` index/listing pages were not fetched in this pass — worth a follow-up check for `ItemList`/`CollectionPage` opportunities to strengthen the category pages, since 39+ course pages and 25+ tutor pages exist per the sitemap.
-- Only one course subject and one tutor were spot-checked; assume the same template is used sitewide given the identical `Organization`/`WebSite` boilerplate observed across all four sampled pages — but a broader crawl would be needed to confirm no per-page anomalies (e.g., missing `offers.price` on certain courses).
+### Never-recommend types check
+No `HowTo`, `SpecialAnnouncement`, `CourseInfo`, `EstimatedSalary`, or `LearningVideo` types found anywhere in the sample or the 191-URL sweep.
+
+---
+
+## 4. Missing Opportunities (not required, worth considering)
+
+1. **AggregateRating/Review on tutor Person and Course pages** — if TutorA collects star ratings/reviews per tutor or course, adding `AggregateRating` (nested in `Person` or `Course`) would unlock star rich results. Do not fabricate — only add once real review data backs it.
+2. **VideoObject** — not evaluated in this pass (no video content detected on sampled pages); revisit if video is added.
+3. Consider dropping the homepage's single-item BreadcrumbList (Issue 4) — no action required, informational only.
+
+---
+
+## 5. Summary
+
+All three targeted fixes from the 2026-08-10 remediation are confirmed live and correct: HowTo is fully gone sitewide (verified via live JSON-LD parsing on 8 page types **and** a live raw-HTML sweep of all 191 sitemap URLs), `/about` has a valid two-level BreadcrumbList, and the `founder` Person entity is correctly nested inside the sitewide Organization JSON-LD on every page checked. The new `/subjects` hub exists and is correctly marked up. The one real defect is a breadcrumb hierarchy mismatch on `/subjects/[slug]` templates (labeled "Courses" instead of "Subjects"), plus a few minor consistency/enrichment opportunities. No deprecated or FAQPage-removal action is recommended.

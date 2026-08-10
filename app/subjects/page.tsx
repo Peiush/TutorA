@@ -8,7 +8,7 @@ const DESCRIPTION =
   "Every subject TutorA tutors teach, organized by exam board and curriculum — from SAT, ACT, AP, IB, A-Level, and GCSE prep to general academic and coding subjects.";
 
 export const metadata: Metadata = {
-  title: "Browse All Subjects — Grade & Curriculum-Specific Tutoring — TutorA",
+  title: "Browse All Subjects — Grade & Curriculum-Specific Tutoring",
   description: DESCRIPTION,
   alternates: { canonical: "/subjects" },
   openGraph: { type: "website", title: "Browse All Subjects — TutorA", description: DESCRIPTION, url: `${BASE_URL}/subjects` },

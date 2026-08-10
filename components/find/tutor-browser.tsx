@@ -29,7 +29,12 @@ import { usePlaneLaunch } from "@/components/ui/plane-launch";
 gsap.registerPlugin(useGSAP, Flip);
 
 const SORTS = ["Top rated", "Lowest price", "Most reviews"] as const;
-const PAGE_SIZE = 24;
+// Lighthouse's excessive-DOM-size audit flags >1,500 elements; at ~41 nodes per
+// card, 24 initial cards plus the rest of the page landed right at that ceiling
+// (RE-AUDIT-REPORT-2026-08-10-POSTFIX.md, action 5 — 5,456 elements measured).
+// 18 leaves real margin while still paginating (via "Load more") instead of
+// dumping the whole filtered list into the DOM at once.
+const PAGE_SIZE = 18;
 
 function priceValue(price: string) {
   const n = parseFloat(price.replace(/[^0-9.]/g, ""));

@@ -38,23 +38,27 @@ export function CoursesIntro() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // .ci-copy and .ci-about-copy are this page's LCP candidates (the latter measured
+        // as the actual LCP element on mobile — RE-AUDIT-REPORT-2026-08-10-POSTFIX.md) and
+        // are intentionally left out of this timeline entirely. Chrome defers an element's
+        // LCP timestamp until any transform/opacity/filter transition targeting it settles,
+        // so animating either paragraph — even without autoAlpha — reintroduces multi-second
+        // render-delay. Both must render fully static from first paint.
         gsap
           .timeline({ delay: 0.05 })
           // Hero
           .from(".ci-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" })
           .from(".ci-heading", { autoAlpha: 0, y: 18, duration: 0.55, ease: "power3.out" }, "-=0.2")
-          .from(".ci-copy", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
-          .from(".ci-cta", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.3")
+          .from(".ci-cta", { autoAlpha: 0, y: 10, duration: 0.4, ease: "power3.out" }, "-=0.35")
           // About text
           .from(".ci-about-tag", { autoAlpha: 0, y: -8, duration: 0.4, ease: "power3.out" }, "-=0.15")
           .from(".ci-about-heading", { autoAlpha: 0, y: 16, duration: 0.5, ease: "power3.out" }, "-=0.2")
-          .from(".ci-about-copy", { autoAlpha: 0, y: 12, duration: 0.45, ease: "power3.out" }, "-=0.3")
-          .from(".ci-fact", { autoAlpha: 0, y: 10, duration: 0.4, stagger: 0.08, ease: "power3.out" }, "-=0.2");
+          .from(".ci-fact", { autoAlpha: 0, y: 10, duration: 0.4, stagger: 0.08, ease: "power3.out" }, "-=0.3");
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(
-          [".ci-tag", ".ci-heading", ".ci-copy", ".ci-cta", ".ci-about-tag", ".ci-about-heading", ".ci-about-copy", ".ci-fact"].join(", "),
+          [".ci-tag", ".ci-heading", ".ci-cta", ".ci-about-tag", ".ci-about-heading", ".ci-fact"].join(", "),
           { autoAlpha: 1, y: 0, clearProps: "transform" }
         );
       });

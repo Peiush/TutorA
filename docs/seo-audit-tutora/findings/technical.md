@@ -1,90 +1,103 @@
-# Technical SEO Audit — tutora.it.com
+# Technical SEO Findings — tutora.it.com (RE-AUDIT)
 
-**Site:** https://www.tutora.it.com/ (Next.js on Vercel, SSR/SSG, online tutoring marketplace)
-**Scope:** All unique top-level pages (home, /about, /courses, /find-a-tutor, /request-a-tutor, /terms, /privacy, /become-a-tutor) + a representative sample of 7 course pages (`/courses/dance-8f1859ae`, `spanish-2dd27e6e`, `python-ff654450`, `sat-c5d2749b`, `ielts-8d4686db`, `gmat-d7e5eb9d`, `javascript-ac5adb0a`) and 7 tutor profile pages (`sudipto-ffbf5742`, `sneha-joshi-b6dc7c09`, `sarah-khan-843d8b61`, `sophia-88d22517`, `priya-virat-e64aa498`, `manish-57c0bf15`, `abeer-singh-315a954d`) out of the 71-URL sitemap.
-**Method:** `sitemap_discovery.py`, `render_page.py --mode auto` (raw HTML + JSON-LD, all pages returned `is_spa=False`, `mode_used=raw`), and direct `curl` header/redirect/compression checks. No GSC/CrUX access — lab-based only.
+**Audit date:** 2026-08-10
+**Data source:** 100% LIVE fetch via `render_page.py --mode auto` (raw HTML, `is_spa: false` on every sampled page) and direct `curl` against `https://www.tutora.it.com`. Sitemap cross-checked against `sitemap_discovery.py` live run (191 URLs, declared in robots.txt, `valid: true`). No data was read from `docs/seo-audit-tutora/archive-2026-08-04/` or any other pre-2026-08-10 cached artifact. Pages sampled: `/`, `/about`, `/courses`, `/courses/hindi-language-course-459bc4ba`, `/find-a-tutor`, `/find-a-tutor/sudipto-ffbf5742`, `/subjects` (new page), `/subjects/a-level-maths`.
 
-## Category Score: 84/100
+**Category score: 90/100**
 
-Strong foundation — valid sitemap, clean canonicalization (including query-parameter filter pages), full modern security-header suite, server-rendered content with zero reliance on client JS for indexable text, rich and mostly-valid structured data, and lightweight/fast-compressing pages. Points lost to a sitewide crawl-budget conflict (auth-gated links present in every page's footer while disallowed in robots.txt), missing social-share metadata on the two largest page templates, one structured-data misuse pattern, and a permissive CSP.
+**Critical issues: 0**
+**High issues: 1**
+**Medium issues: 3**
+**Low issues: 3**
 
-## What Works
+---
 
-- **Sitemap valid and declared correctly.** `sitemap_discovery.py` confirms `https://www.tutora.it.com/sitemap.xml` is declared in robots.txt, returns HTTP 200, and validates as a well-formed `urlset`. Manual fetch confirms exactly 71 `<url>` entries, matching the provided URL list, with `lastmod` timestamps on dynamic course/tutor entries.
-- **robots.txt is clean and purposeful**, allowing `/` broadly and disallowing only genuinely non-public areas (`/dashboard`, `/tutor`, `/admin`, `/become-a-tutor`, `/api/`).
-- **Canonical hygiene is excellent.** Every sampled page (home, hubs, course details, tutor profiles) self-canonicalizes correctly. Query-parameter category filters (e.g. `/courses?category=Languages`) correctly canonicalize back to the clean `/courses` URL, preventing duplicate-content dilution from faceted navigation.
-- **Protocol/host consolidation is correct.** `http://www.tutora.it.com` → 308 → `https://www.tutora.it.com/`; `https://tutora.it.com` → 308 → `https://www.tutora.it.com/`. Trailing-slash variants (e.g. `/courses/`) 308-redirect to the canonical non-trailing-slash form.
-- **Full modern security header suite present and consistent** across every page type checked (home, static pages, course pages, tutor pages, form page): `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, and a `Content-Security-Policy` with `frame-ancestors 'none'`.
-- **Clean 404 handling** — non-existent URLs return true HTTP 404 with a custom error page (`x-matched-path: /404`), not a soft-404 200.
-- **No JavaScript-rendering dependency.** All sampled pages returned `is_spa=False` and `mode_used=raw` — full text content, title, meta tags, and JSON-LD are present in the initial server-rendered HTML with zero console errors on render.
-- **Rich, largely valid structured data:** homepage carries `Organization`, `WebSite`, `WebPage`, `FAQPage`, `HowTo`, `Service`, and `BreadcrumbList`; course pages carry `Course` with `offers`/`price`/`priceCurrency`; tutor pages carry `Person` with `knowsAbout` and `worksFor`; the `/courses` hub carries `CollectionPage`.
-- **Fast, well-compressed pages.** Brotli-compressed transfer sizes across templates ranged from ~9.7KB (tutor profile) to ~36KB (courses hub), with TTFB of 120–480ms and `x-vercel-cache: HIT` on repeat requests — low risk for LCP given the small payloads.
-- **Self-hosted, preloaded fonts** via `next/font` (`space_grotesk`, `inter`, `caveat` all appear as `-module__..._variable` classes with `<link rel="preload" as="font">` in `<head>`), avoiding a render-blocking external Google Fonts request and reducing font-swap CLS risk.
-- **Mobile viewport tag correct and unrestricted** (`width=device-width, initial-scale=1`, no `maximum-scale`/`user-scalable=no`) and consistent across every page sampled.
-- **Unique, descriptive titles and meta descriptions** per page/template — no duplication observed across the sample (e.g. distinct titles for each of the 14 course/tutor pages checked).
-- **`/become-a-tutor` itself does not create a linked+blocked conflict.** It 307-redirects to `/login?callbackUrl=...`, which correctly carries `<meta name="robots" content="noindex, follow">` and its own canonical (`/login`). It was not found linked in the nav/footer of any sampled page nor present in the sitemap, so the specific URL flagged in scope is not, in practice, generating crawl waste.
+## 1. Crawlability — PASS
 
-## Findings
+- `robots.txt` (live): `Allow: /` with explicit `Disallow: /dashboard`, `/tutor`, `/admin`, `/become-a-tutor`, `/api/` — correctly gates authenticated/internal routes while leaving all public marketing/marketplace routes crawlable. `Sitemap:` directive present and correct.
+- `sitemap_discovery.py` confirms the sitemap is declared in robots.txt (not a stale/orphaned reference) and validates as a well-formed `urlset`, HTTP 200.
+- Live sitemap fetch: **191 URLs** (`reaudit-2026-08-10-sitemap.xml`, re-verified via `grep -c "<loc>"`). This supersedes the stale "71 URLs" figure from the 2026-08-04 archive — do not reuse that number.
+- `/subjects` (hub, added 2026-08-09) and `/subjects/[slug]` pages **are present in the live sitemap** with recent `lastmod` timestamps (2026-08-06 range) and changefreq/priority set appropriately (0.8 hub / 0.6 detail).
+- Gated routes (`/dashboard`, `/become-a-tutor`) return HTTP 307 live (redirect to auth), consistent with the robots disallow — no crawl trap.
+- No `X-Robots-Tag` header on any sampled page (verified via `curl -I`).
 
-### 1. Sitewide auth-gated links are both linked and blocked by robots.txt, wasting crawl budget across all 71+ pages
-**Severity:** High
-**Description:** Every sampled page's server-rendered footer (home, about, courses, find-a-tutor, request-a-tutor, terms, privacy) contains plain `<a href="/admin">Admin</a>` and `<a href="/dashboard">Student</a>` links, e.g.:
-`href="/admin">Admin` and `href="/dashboard">Student` — confirmed present in the raw HTML of all 6+ top-level pages checked. Both `/admin` and `/dashboard` are `Disallow`'d in robots.txt, and both resolve to `307` redirects to `/login` when fetched directly (confirmed via `curl`). This is the exact "linked + blocked" pattern called out in scope — except it affects `/admin` and `/dashboard` (present on literally every page of the site) rather than `/become-a-tutor` (which is not linked anywhere sampled).
-**Recommendation:** Either (a) add `rel="nofollow"` to these utility links, (b) render them only after client-side auth-state hydration so they never appear in the SSR HTML for anonymous crawlers, or (c) replace the `<a href>` with a JS `onClick` router push so no crawlable anchor exists. This removes the recurring crawl-budget cost and avoids a "Indexed, though blocked by robots.txt" warning in Search Console if any external site ever links to `/admin` or `/dashboard`.
+## 2. Indexability — PASS (1 High issue)
 
-### 2. Course and tutor profile pages have no page-specific Open Graph image, and Twitter Card metadata falls back to homepage content
-**Severity:** Medium
-**Description:** The homepage has a full OG image (`og:image` → `/opengraph-image?...`, `1200x630`, `image/png`) and matching Twitter Card. Every sampled course page (7/7) and tutor page (7/7) has `og:title`, `og:description`, `og:url`, `og:type` populated correctly and page-specific, but **no `og:image` tag at all**. Worse, `twitter:title` and `twitter:description` on these same pages still read `"TutorA — The right tutor, personally matched"` / the generic homepage description rather than the page's own copy, and there is no `twitter:image`. This affects the two largest URL groups in the sitemap — roughly 66 of 71 URLs (40 course pages + 26 tutor pages).
-**Recommendation:** Generate a dynamic OG image per course/tutor (Next.js `opengraph-image` route pattern already exists for the homepage — extend it with `[slug]` params) and populate matching `twitter:image`/`twitter:title`/`twitter:description` from the page's own title/description rather than static homepage defaults. This directly affects the visual quality of shared links in social/messaging apps, which matters for a marketplace relying on word-of-mouth tutor referrals.
+- All 8 sampled pages: HTTP 200, no `<meta name="robots">` tag present (defaults to indexable), no `X-Robots-Tag`, self-referencing canonical present and correct on every page (`/`, `/about`, `/courses`, `/courses/hindi-language-course-459bc4ba`, `/find-a-tutor`, `/find-a-tutor/sudipto-ffbf5742`, `/subjects`, `/subjects/a-level-maths` all point to their own clean URL).
+- **HIGH — Duplicated brand suffix in `<title>` on `/subjects` hub (new page).** Live title tag:
+  `Browse All Subjects — Grade &amp; Curriculum-Specific Tutoring — TutorA — TutorA` (80 chars, "— TutorA" appended twice). The `og:title` meta on the same page is correct (`Browse All Subjects — TutorA`), confirming this is isolated to the `<title>` construction for this specific template, not a copy/paste of the OG tag. Because this page shipped 2026-08-09, it wasn't covered by the earlier remediation pass. Fix: the `/subjects` route is double-appending the site suffix (likely base title already includes it and a layout wrapper appends it again). Recommend capping at ~60 chars and stripping the duplicate.
+- No other title-suffix duplication found on `/`, `/about`, `/courses`, course-slug, `/find-a-tutor`, tutor-slug, or subject-slug pages.
+- H1 audit: exactly one H1 per page on all 8 samples, and H1 text does not leak the raw `<title>` string (confirms the fix in commit `627b9d9` holds — e.g. home H1 is "The right / personally matched" hero copy, not the meta title).
+- **MEDIUM — Tutor profile meta descriptions are unbounded/untruncated.** `/find-a-tutor/sudipto-ffbf5742` meta description is 548 characters (the full bio text with no truncation), versus the ~155-160 char limit Google typically displays. This is a templated field pulled straight from the bio, so it likely affects all 25 tutor profiles in the sitemap. Recommend truncating to ~155 chars server-side with a distinct summary field.
+- **LOW — `/courses` hub title is long** (85 chars: "Online Courses by Expert Indian Teachers | Programming, Test Prep & More — TutorA"), will truncate in SERPs. Not broken, just past the ~60-char sweet spot.
 
-### 3. `/courses` hub's ItemList/Course structured data mislabels category filter links as individual courses
-**Severity:** Medium
-**Description:** The `CollectionPage` JSON-LD on `/courses` contains a `mainEntity.itemListElement` with 5 entries typed `@type: Course`, but each one actually points to a category filter URL, e.g.:
-```
-{"@type":"Course","name":"Programming & Technology","url":"https://www.tutora.it.com/courses?category=Programming%20%26%20Technology"}
-```
-These are category landing filters, not individual courses (the site has 40 real `Course`-typed pages under `/courses/<slug>-<hash>` with proper `offers`/`price`). Labeling a category filter as a `Course` entity is a semantic mismatch against schema.org's `Course` type and against Google's Course structured-data guidelines, which expect `Course` items to represent actual, bookable courses.
-**Recommendation:** Change the `itemListElement` items on the `/courses` hub to `@type: "CollectionPage"` or a generic `WebPage`/`Thing`, or drop the `Course` typing for category links entirely and reserve `Course` markup strictly for the 40 individual course-detail pages that already implement it correctly.
+## 3. Security — PASS
 
-### 4. Content-Security-Policy permits `'unsafe-inline'` for scripts and styles, undercutting its XSS protection
-**Severity:** Medium
-**Description:** The CSP applied sitewide is:
-`default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`
-`script-src 'self' 'unsafe-inline'` allows any injected inline `<script>` to execute, which defeats the primary purpose of CSP as an XSS mitigation (the `frame-ancestors`/`X-Frame-Options` clickjacking protections are unaffected and remain solid). This isn't unusual for Next.js apps that haven't wired up nonces, but it is a gap relative to current best practice.
-**Recommendation:** Adopt Next.js's middleware-based CSP nonce pattern (per-request nonce injected into `<script>` tags and the CSP header) to drop `'unsafe-inline'` from `script-src`/`style-src` without breaking hydration.
+Headers verified live on all 8 sampled pages (identical, consistent):
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload` ✓
+- `X-Frame-Options: DENY` ✓
+- `X-Content-Type-Options: nosniff` ✓
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()` ✓
+- `Referrer-Policy: strict-origin-when-cross-origin` ✓
+- `Content-Security-Policy` present sitewide: `default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`. `unsafe-inline` on script-src/style-src is a known, already-decided trade-off per the remediation notes — not re-litigated here.
+- HTTPS enforced: `http://` → 308 → `https://www.` (verified live).
 
-### 5. Organization schema is missing `logo` and `sameAs`
-**Severity:** Low
-**Description:** The sitewide `Organization` JSON-LD contains only `name`, `url`, and `description`:
-```
-{"@type":"Organization","name":"TutorA","url":"https://www.tutora.it.com","description":"..."}
-```
-No `logo` or `sameAs` (social/business profile links) properties are present.
-**Recommendation:** Add `logo` (per Google's Knowledge Panel guidance, ≥112×112px, on a solid background) and `sameAs` entries for TutorA's verified social profiles to strengthen entity association and Knowledge Panel eligibility.
+## 4. URL Structure — PASS
 
-### 6. No tutor photography anywhere in the sampled templates; Person schema has no `image`
-**Severity:** Low / Info
-**Description:** Across every page sampled (homepage, both hub pages, all 7 course pages, all 7 tutor profile pages) there is not a single `<img>` element in the server-rendered HTML — all visual elements are CSS-only decorative gradients (`background-image: radial-gradient(...)`) or a single inline SVG. Tutor profile pages consequently show no photo, and the `Person` JSON-LD has no `image` property. This is good for payload weight/CLS (see What Works), but for a tutoring marketplace where a human "personally vetted" trust narrative is central to the copy, the complete absence of tutor photos is a notable trust/E-E-A-T gap, and it forecloses any Google Images discovery channel entirely.
-**Recommendation:** If this is a deliberate privacy/product decision, no technical fix is required — but if not, consider adding tutor photos (with descriptive `alt` text and a matching `image` property in the `Person` JSON-LD) at least on profile pages, using `next/image` to preserve the current lightweight-page performance profile.
+- Non-www → www: `https://tutora.it.com/` → 308 → `https://www.tutora.it.com/` ✓
+- Trailing slash normalized: `/about/` → 308 → `/about` ✓
+- Clean, human-readable slugs sitewide (e.g. `/courses/hindi-language-course-459bc4ba`, `/find-a-tutor/sudipto-ffbf5742`, `/subjects/a-level-maths`); hash suffixes on course/tutor slugs are for uniqueness but keyword-rich prefix is preserved.
+- 404 handling correct (`/this-page-does-not-exist-xyz` → 404; `/About` case-mismatch → 404, expected Next.js case-sensitive routing, low-priority cosmetic note only).
+- No redirect chains detected on any sampled URL (`redirect_chain: []` in all render outputs — single-hop only).
 
-### 7. Inconsistent capitalization in tutor names propagates into `<title>`, `<h1>`, and JSON-LD
-**Severity:** Low
-**Description:** Most sampled tutor profiles render properly capitalized names (`Priya Virat`, `Abeer Singh`, `Sudipto`), but two of the seven sampled render lowercase: `<title>sarah khan — Biology, Chemistry & more — TutorA</title>` / `<h1>sarah khan</h1>` and `<title>sneha joshi — Chemistry, Organic Chemistry & more — TutorA</title>` / `<h1>sneha joshi</h1>`. The same lowercase casing is baked into the `Person` JSON-LD `name` field.
-**Recommendation:** Normalize name casing (title-case) at the data layer before it's rendered into `<title>`, `<h1>`, and structured data — this is a data-hygiene fix upstream of the template, not a template bug (other names on the same template render correctly).
+## 5. Mobile-Friendliness — PASS (minor gaps)
 
-### 8. No verifiable IndexNow implementation found
-**Severity:** Low / Info
-**Description:** No IndexNow key file was found at common conventional paths (e.g. `/indexnow.txt` returned 404); note this check is not fully conclusive since IndexNow key files are typically named with a random hex string rather than a fixed path, so this should be treated as "no evidence found" rather than definitive absence.
-**Recommendation:** Given the catalog changes reasonably often (new tutors/courses, per sitemap `lastmod` timestamps), implementing IndexNow (a low-effort Vercel-compatible integration) would give faster discovery on Bing/Yandex/Naver for new/updated course and tutor pages without waiting on organic recrawl.
+- `<meta name="viewport" content="width=device-width, initial-scale=1"/>` present and correct on all pages, no `maximum-scale`/`user-scalable=no` blocking pinch-zoom.
+- **LOW — No `theme-color` meta, no `<link rel="manifest">`, no `apple-touch-icon`** found in live `<head>` (only a generic `favicon.ico`). Cosmetic/PWA-polish gap, not a ranking or usability blocker.
 
-### 9. Bare non-www HTTP origin requires two redirect hops to reach the canonical URL
-**Severity:** Info
-**Description:** `http://tutora.it.com` → 308 → `https://tutora.it.com/` → 308 → `https://www.tutora.it.com/` (2 hops, confirmed via `curl -w "%{num_redirects}"`). `http://www.tutora.it.com` (1 hop) and `https://tutora.it.com` (1 hop) both redirect directly to the canonical URL. Only the least-likely-to-be-linked variant (bare HTTP, non-www) takes the extra hop, and both hops are fast edge-level 308s, so impact is minimal.
-**Recommendation:** Optional: consolidate to a single-hop redirect from `http://tutora.it.com` straight to `https://www.tutora.it.com/` if any legacy backlinks target that exact variant.
+## 6. Core Web Vitals (lab/source-inspection cross-check) — PASS with 1 Medium note
 
-## Notes on Scope Items Confirmed Clear
+- **LCP fix confirmed live and independently:** searched raw HTML for the previously-reported `autoAlpha:0` hero-hiding pattern — zero matches. Hero heading text ("The right tutor, personally matched") is present as plain server-rendered text in the initial HTML response, not injected/animated in via JS. `opacity:0` matches in the page are all decorative gradient blobs (`opacity:0.14`–`0.55`, `aria-hidden="true"`), unrelated to the hero text.
+- CLS risk: no `<img>` tags found on sampled pages (site uses SVG-based avatar/icon treatments rather than raster photos), removing the classic missing-width/height image CLS vector. 143 inline SVGs on homepage.
+- **MEDIUM — Heavy initial HTML/JS payload on listing pages.** `/courses` = 344,860 bytes raw HTML with 17 `<script src>` tags; `/find-a-tutor` = 320,144 bytes with 17 script tags (vs. homepage at 244,094 bytes / 16 scripts). This is directionally consistent with the "code-splitting off homepage critical bundle" remediation (homepage is lightest), but the listing hubs remain heavy and warrant INP monitoring given their script count — recommend the separate CrUX/PSI lab-metrics pass validate actual LCP/INP numbers for `/courses` and `/find-a-tutor` specifically.
+- Font loading: 3 `font` preload links present on every sampled page (variable fonts), reducing FOIT/FOUT-driven CLS risk.
 
-- Hreflang: none present anywhere sampled — correctly not applicable, as this is a single-market English-language site (per site context, not flagged as a gap).
-- Local Business schema: absent — correctly not applicable per site context (nationwide/global online marketplace, not a brick-and-mortar business).
-- CSR/JS-rendering risk: none — every page returned `is_spa=False`/`mode_used=raw`, meaning content is available to any crawler without JS execution.
-- Console errors during render: none observed across all sampled pages.
+## 7. Structured Data — PASS
+
+- **HowTo schema confirmed absent sitewide** — independently verified via string search (`'HowTo' in raw`) returning `False` on all 8 pages, plus zero `HowTo` type in any parsed JSON-LD block. Remediation confirmed.
+- All JSON-LD blocks on all 8 sampled pages parse as valid JSON and pass the skill's structured-data validator (`valid: true` on every block, block counts 4–7 per page).
+- `/about` **BreadcrumbList confirmed present** live (`Organization, WebSite, BreadcrumbList, FAQPage`), matching the remediation claim.
+- Course schema (`/courses/hindi-language-course-459bc4ba`) is complete: `name`, `description`, `provider`, `hasCourseInstance` (courseMode, courseWorkload), and `offers` (price, currency, availability) all populated.
+- Person schema (`/find-a-tutor/sudipto-ffbf5742`) is complete: `name`, `description`, `url`, `knowsAbout`, `worksFor`.
+- `/subjects` hub ships `Organization, WebSite, BreadcrumbList, CollectionPage` — appropriate for a new hub page, no schema errors.
+
+## 8. JavaScript Rendering — PASS
+
+- `is_spa: false` and `mode_used: "raw"` on all 8 sampled pages — confirms server-side rendering; no Playwright fallback was ever triggered, meaning content is fully present in the first-response HTML (crawlers requiring no JS execution will see full content).
+- `/subjects` (new page) specifically verified server-rendered and crawlable: raw fetch returned full HTML with subject grid, JSON-LD, and correct canonical/meta without JS execution.
+
+## 9. IndexNow Protocol — NOT IMPLEMENTED
+
+- **LOW-MEDIUM — No IndexNow key file found.** `curl https://www.tutora.it.com/indexnow-key.txt` → 404; no `indexnow` string found in homepage source. Bing/Yandex/Naver will rely on standard crawl discovery rather than push notifications for the frequently-changing `/find-a-tutor` and `/courses` listings. Recommend implementing IndexNow (single key file + ping on publish/update) to accelerate re-indexing of tutor profile changes.
+
+---
+
+## Priority Summary
+
+| Priority | Issue | Page(s) |
+|---|---|---|
+| High | Duplicated "— TutorA" suffix in `<title>` (80 chars) | `/subjects` hub |
+| Medium | Tutor bio meta description unbounded (548 chars on sample) | `/find-a-tutor/[slug]` (all ~25 profiles) |
+| Medium | Heavy JS/HTML payload on listing hubs (320-345KB, 17 scripts) — verify INP with lab tool | `/courses`, `/find-a-tutor` |
+| Medium | IndexNow protocol not implemented | sitewide |
+| Low | `/courses` title tag long (85 chars) | `/courses` |
+| Low | No theme-color/manifest/apple-touch-icon | sitewide |
+| Low | Case-sensitive routing returns 404 for capitalized paths (cosmetic, not a redirect gap) | e.g. `/About` |
+
+## Confirmed Fixes (Remediation 2026-08-10) — Verified Independently Live
+
+- HowTo schema removal: CONFIRMED (zero occurrences across all sampled pages).
+- `/about` BreadcrumbList: CONFIRMED present.
+- LCP autoAlpha:0 hero-hiding fix: CONFIRMED absent; hero text is plain server-rendered text.
+- `/subjects` hub + `/subjects/[slug]`: CONFIRMED live, in sitemap (191 URLs total), server-rendered, valid structured data.
+- CSP `unsafe-inline`: confirmed still present, not re-litigated per instruction.

@@ -135,7 +135,7 @@ export default async function SubjectDetailPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-      { "@type": "ListItem", position: 2, name: "Courses", item: `${BASE_URL}/courses` },
+      { "@type": "ListItem", position: 2, name: "Subjects", item: `${BASE_URL}/subjects` },
       { "@type": "ListItem", position: 3, name: title, item: canonicalUrl },
     ],
   };
@@ -167,7 +167,7 @@ export default async function SubjectDetailPage({
         <ol className="flex items-center gap-1.5 flex-wrap list-none m-0 p-0">
           <li><Link href="/" className="hover:underline">Home</Link></li>
           <li aria-hidden>/</li>
-          <li><Link href="/courses" className="hover:underline">Courses</Link></li>
+          <li><Link href="/subjects" className="hover:underline">Subjects</Link></li>
           <li aria-hidden>/</li>
           <li aria-current="page" style={{ color: "var(--color-text)" }}>{title}</li>
         </ol>
