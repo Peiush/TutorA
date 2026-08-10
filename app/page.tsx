@@ -117,7 +117,18 @@ const serviceJsonLd = {
   "@type": "Service",
   serviceType: "Online tutoring marketplace",
   provider: { "@type": "Organization", name: "TutorA", url: BASE_URL },
-  areaServed: "Worldwide",
+  // Explicit priority markets (per the client's stated international-SEO targets) alongside
+  // the existing "Worldwide" claim — the latter stays accurate (TutorA does serve beyond
+  // these five) but named countries give search/AI systems a concrete entity signal instead
+  // of only a vague text string.
+  areaServed: [
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Canada" },
+    { "@type": "Country", name: "Singapore" },
+    { "@type": "Country", name: "United Arab Emirates" },
+    "Worldwide",
+  ],
   audience: {
     "@type": "Audience",
     audienceType: "Students, parents booking for their children, adult learners, and tutors",

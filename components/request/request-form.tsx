@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SegmentedControl } from "@/components/ui/segmented";
@@ -10,6 +10,40 @@ gsap.registerPlugin(useGSAP);
 
 const STEP_LABELS = ["Subject", "Schedule", "Budget", "Notes", "Contact"];
 const TOTAL_STEPS = STEP_LABELS.length;
+
+// Covers the client's stated priority markets (US, UK, Canada, Singapore, UAE) plus the
+// two that were already here (Berlin, Tokyo) and India — the tutors themselves are all
+// India-based, so IST is a real, common case, not an edge case. Labels are shown to the
+// user; `zones` are the real IANA identifiers matched against the visitor's browser-detected
+// timezone so the default isn't a hardcoded "GMT (London)" for every visitor regardless of
+// where they are. A visitor whose detected zone matches none of these still falls back to
+// the London default rather than showing nothing — expand this list, don't rely on the
+// fallback, whenever a new zone turns out to be common (this is how the India gap was found).
+const TIMEZONE_OPTIONS: { label: string; zones: string[] }[] = [
+  { label: "GMT/BST (London)", zones: ["Europe/London"] },
+  { label: "EST/EDT (New York)", zones: ["America/New_York"] },
+  { label: "CST/CDT (Chicago)", zones: ["America/Chicago"] },
+  { label: "PST/PDT (Los Angeles)", zones: ["America/Los_Angeles"] },
+  { label: "EST/EDT (Toronto)", zones: ["America/Toronto"] },
+  { label: "IST (India)", zones: ["Asia/Kolkata", "Asia/Calcutta"] },
+  { label: "SGT (Singapore)", zones: ["Asia/Singapore"] },
+  { label: "GST (Dubai)", zones: ["Asia/Dubai"] },
+  { label: "CET/CEST (Berlin)", zones: ["Europe/Berlin"] },
+  { label: "JST (Tokyo)", zones: ["Asia/Tokyo"] },
+];
+const DEFAULT_TIMEZONE_LABEL = TIMEZONE_OPTIONS[0].label;
+
+// A budget-reference currency for the request, not a billing currency — actual matching/
+// pricing elsewhere on the site stays USD (see lib/mock-courses.ts priceLabel). Expanded
+// from USD/GBP/EUR to also cover the client's stated priority markets (Canada, Singapore, UAE).
+const CURRENCY_OPTIONS: { code: string; symbol: string }[] = [
+  { code: "USD", symbol: "$" },
+  { code: "GBP", symbol: "£" },
+  { code: "EUR", symbol: "€" },
+  { code: "CAD", symbol: "CA$" },
+  { code: "SGD", symbol: "S$" },
+  { code: "AED", symbol: "AED " },
+];
 
 const STEP_ICON_PATHS: Record<number, string> = {
   1: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z",
@@ -198,7 +232,7 @@ export function RequestForm() {
   const [goals, setGoals] = useState("");
   const [mode, setMode] = useState("Online");
   const [sessionsPerWeek, setSessionsPerWeek] = useState("1");
-  const [timezone, setTimezone] = useState("GMT (London)");
+  const [timezone, setTimezone] = useState(DEFAULT_TIMEZONE_LABEL);
   const [budget, setBudget] = useState(45);
   const [currency, setCurrency] = useState("USD");
   const [notes, setNotes] = useState("");
@@ -207,6 +241,16 @@ export function RequestForm() {
   const [phone, setPhone] = useState("");
 
   const cardRef = useRef<HTMLFormElement>(null);
+
+  // Auto-detect the visitor's real timezone instead of defaulting every visitor — Indian
+  // tutors serve US/UK/Canada/Singapore/UAE families alike — to "GMT (London)" regardless
+  // of where they actually are. Falls back to the London default (already the initial
+  // state) if the browser's zone doesn't match a listed market; the select stays editable.
+  useEffect(() => {
+    const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const match = TIMEZONE_OPTIONS.find((t) => t.zones.includes(detected));
+    if (match) setTimezone(match.label);
+  }, []);
 
   useGSAP(
     () => {
@@ -394,10 +438,9 @@ export function RequestForm() {
             <div className="field">
               <label>Time zone</label>
               <select className="input" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
-                <option>GMT (London)</option>
-                <option>EST (New York)</option>
-                <option>CET (Berlin)</option>
-                <option>JST (Tokyo)</option>
+                {TIMEZONE_OPTIONS.map((tz) => (
+                  <option key={tz.label}>{tz.label}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -409,9 +452,9 @@ export function RequestForm() {
             <div className="field">
               <label>Currency</label>
               <select className="input w-auto" value={currency} onChange={(e) => setCurrency(e.target.value)}>
-                <option>USD</option>
-                <option>GBP</option>
-                <option>EUR</option>
+                {CURRENCY_OPTIONS.map((c) => (
+                  <option key={c.code}>{c.code}</option>
+                ))}
               </select>
             </div>
             <div className="field">
@@ -428,7 +471,7 @@ export function RequestForm() {
                 className="text-[13px] mt-1.5"
                 style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
               >
-                Around {currency === "USD" ? "$" : currency === "GBP" ? "£" : "€"}
+                Around {CURRENCY_OPTIONS.find((c) => c.code === currency)?.symbol ?? "$"}
                 {budget} / hour
               </div>
             </div>

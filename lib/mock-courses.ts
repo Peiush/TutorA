@@ -34,6 +34,15 @@ export function priceLabel(cents: number) {
   return `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
 }
 
+// Kept separate from priceLabel() rather than baking "USD" into it directly: priceLabel()
+// also backs admin form `defaultValue`s (components/admin/course-form-modal.tsx), which need
+// a clean numeric-looking string, not display text. Use this one for visitor-facing primary
+// price displays only — international visitors (US/UK/Canada/Singapore/UAE) shouldn't have
+// to guess what currency a bare "$" symbol means.
+export function priceLabelUSD(cents: number) {
+  return `${priceLabel(cents)} USD`;
+}
+
 // Guards against a real data-entry mistake seen in production: an instructor pastes the
 // course title into the first "what you'll learn" outcome instead of an actual outcome
 // phrase, which then reads as broken prose wherever outcomes are spliced into a sentence

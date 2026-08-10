@@ -68,6 +68,16 @@ const organizationJsonLd = {
   // sameAs (verified social/profile links) intentionally omitted — TutorA doesn't have
   // real social profiles live yet. Add them here once they exist; don't ship placeholder
   // URLs, since that fails Google's Organization verification rather than helping it.
+  // Explicit priority markets, mirrored from the homepage's Service.areaServed — this
+  // entity ships on every page (not just "/"), so it's the sitewide version of that signal.
+  areaServed: [
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Canada" },
+    { "@type": "Country", name: "Singapore" },
+    { "@type": "Country", name: "United Arab Emirates" },
+    "Worldwide",
+  ],
 };
 
 const websiteJsonLd = {

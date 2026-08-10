@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration, CATEGORY_COLORS } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, HeartIcon, SendIcon, CheckIcon } from "@/components/courses/course-icons";
-import { priceLabel, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, priceLabelUSD, type CourseRaw } from "@/lib/mock-courses";
 
 gsap.registerPlugin(useGSAP);
 
@@ -66,9 +66,9 @@ export function CourseCard({
     : 0;
   const primaryPrice =
     course.priceCents != null
-      ? `${priceLabel(course.priceCents)}/hr`
+      ? `${priceLabelUSD(course.priceCents)}/hr`
       : course.originalPriceCents != null
-      ? `${priceLabel(course.originalPriceCents)} full course`
+      ? `${priceLabelUSD(course.originalPriceCents)} full course`
       : "Price on request";
   const colors = CATEGORY_COLORS[course.category];
   const firstSaveRender = useRef(true);

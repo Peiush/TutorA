@@ -13,7 +13,7 @@ import {
   getTutorsForSubject,
   type SubjectListing,
 } from "@/app/lib/subject-listings";
-import { priceLabel } from "@/lib/mock-courses";
+import { priceLabelUSD } from "@/lib/mock-courses";
 import { GRADE_BANDS, GRADE_BAND_COLORS, matchesGradeBand } from "@/lib/grade-bands";
 import { SUBJECT_TO_COURSE_SLUG } from "@/lib/subject-course-links";
 import { subjectPageContent } from "@/lib/subject-content";
@@ -57,7 +57,7 @@ export async function generateMetadata({
 
   const content = subjectPageContent[subject.slug];
   const title = content?.metaTitleOverride ?? subjectMetaTitle(subject);
-  const description = subjectDescription(subject);
+  const description = content?.metaDescriptionOverride ?? subjectDescription(subject);
 
   return {
     title,
@@ -99,8 +99,8 @@ export default async function SubjectDetailPage({
   const colors = GRADE_BAND_COLORS[band.key];
   const canonicalUrl = `${BASE_URL}/subjects/${subject.slug}`;
   const title = content?.metaTitleOverride ?? subject.title ?? subject.name;
-  const description = subjectDescription(subject);
-  const price = subject.hourlyRateCents != null ? `${priceLabel(subject.hourlyRateCents)}/hr` : "Price on request";
+  const description = content?.metaDescriptionOverride ?? subjectDescription(subject);
+  const price = subject.hourlyRateCents != null ? `${priceLabelUSD(subject.hourlyRateCents)}/hr` : "Price on request";
   const relatedCourseSlug = SUBJECT_TO_COURSE_SLUG[subject.slug];
 
   const subjectJsonLd = {

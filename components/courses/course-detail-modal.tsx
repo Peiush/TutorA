@@ -8,7 +8,7 @@ import { Tag } from "@/components/ui/tag";
 import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, HeartIcon, SendIcon, CheckIcon, XIcon } from "@/components/courses/course-icons";
-import { priceLabel, learningOutcomes, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, priceLabelUSD, learningOutcomes, type CourseRaw } from "@/lib/mock-courses";
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,9 +39,9 @@ export function CourseDetailModal({
     : 0;
   const primaryPrice =
     course.priceCents != null
-      ? `${priceLabel(course.priceCents)}/hr`
+      ? `${priceLabelUSD(course.priceCents)}/hr`
       : course.originalPriceCents != null
-      ? `${priceLabel(course.originalPriceCents)} full course`
+      ? `${priceLabelUSD(course.originalPriceCents)} full course`
       : "Price on request";
 
   const { contextSafe } = useGSAP(

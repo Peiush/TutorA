@@ -60,7 +60,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // ---------------------------------------------------------------------
   "python-ff654450": {
     differentiation:
-      "Python has an enormous self-paced catalog — Udemy courses, Coursera specializations, freeCodeCamp, Codecademy tracks. Those are fine for watching someone else code, but they can't tell you why your specific script is throwing an error right now. A TutorA Python tutor works with you live, 1:1, looking at your actual code and pacing lessons to what you're stuck on, rather than moving everyone through the same fixed video curriculum. Every tutor is reviewed by TutorA's team before being matched, and pricing is shown up front rather than bundled into a subscription.",
+      "Python has an enormous self-paced catalog — Udemy courses, Coursera specializations, freeCodeCamp, Codecademy tracks. Those are fine for watching someone else code, but they can't tell you why your specific script is throwing an error right now. A TutorA Python tutor works with you live, 1:1, looking at your actual code and pacing lessons to what you're stuck on, rather than moving everyone through the same fixed video curriculum. Every tutor is reviewed by TutorA's team before being matched — most are based in India, with each profile showing their specific programming background — and pricing is shown up front rather than bundled into a subscription.",
     faqs: [
       {
         q: "Do I need to know anything about programming before starting Python lessons?",
@@ -82,11 +82,15 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does a Python tutor cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session — there's no flat platform-wide rate.",
       },
+      {
+        q: "Are TutorA's Python tutors based in India?",
+        a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book.",
+      },
     ],
   },
   "javascript-ac5adb0a": {
     differentiation:
-      "JavaScript has no shortage of self-paced options — Udemy bootcamp bundles, freeCodeCamp's curriculum, Codecademy's browser exercises. Those work well for typing along with a video, but they don't adapt when your code behaves differently than the instructor's. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're stuck, instead of moving everyone through the same fixed track. Every tutor is reviewed by TutorA before being matched, with pricing shown upfront rather than folded into a subscription.",
+      "JavaScript has no shortage of self-paced options — Udemy bootcamp bundles, freeCodeCamp's curriculum, Codecademy's browser exercises. Those work well for typing along with a video, but they don't adapt when your code behaves differently than the instructor's. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're stuck, instead of moving everyone through the same fixed track. Every tutor is reviewed by TutorA before being matched, with pricing shown upfront rather than folded into a subscription. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Can a JavaScript tutor help me build a specific project, not just follow a course?",
@@ -108,11 +112,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How is pricing set for JavaScript lessons?",
         a: "Pricing depends on the tutor and is shown before you request a session — there's no single fixed rate across all tutors.",
       },
+      { q: "Are TutorA's JavaScript tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "sql-90d171c1": {
     differentiation:
-      "SQL tutorials are everywhere for free, and structured SQL courses on Udemy or Coursera can walk you through the syntax. What they can't do is look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, and every tutor is reviewed by TutorA before being matched, so you're not guessing which unverified instructor to trust. Pricing is shown before you book, not hidden behind a subscription.",
+      "SQL tutorials are everywhere for free, and structured SQL courses on Udemy or Coursera can walk you through the syntax. What they can't do is look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, and every tutor is reviewed by TutorA before being matched, so you're not guessing which unverified instructor to trust. Pricing is shown before you book, not hidden behind a subscription. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need a specific database (MySQL, PostgreSQL, etc.) before starting SQL tutoring?",
@@ -134,11 +139,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does an SQL tutor cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Are TutorA's SQL tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "java-48483b48": {
     differentiation:
-      "Java has long-established self-paced tracks on Udemy, Coursera, and elsewhere. They're fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving the way you expect. A TutorA Java tutor works through your real code with you in live 1:1 sessions, matched to your level rather than a fixed cohort schedule. Every tutor is reviewed before being matched, and pricing is shown upfront.",
+      "Java has long-established self-paced tracks on Udemy, Coursera, and elsewhere. They're fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving the way you expect. A TutorA Java tutor works through your real code with you in live 1:1 sessions, matched to your level rather than a fixed cohort schedule. Every tutor is reviewed before being matched, and pricing is shown upfront. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need Java installed already, or will my tutor help with setup?",
@@ -160,11 +166,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much do Java lessons cost?",
         a: "Pricing depends on the tutor and is shown before you request a session.",
       },
+      { q: "Are TutorA's Java tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "c-95361960": {
     differentiation:
-      "C++ is taught on plenty of self-paced platforms, but its trickier concepts — pointers, memory management, compiler errors that don't explain themselves — are exactly where a fixed video course tends to lose people. A TutorA C++ tutor can walk through your actual code and error messages with you in a live 1:1 session, at your pace, rather than moving on regardless of whether it clicked. Every tutor is reviewed by TutorA before being matched, with pricing shown before you book.",
+      "C++ is taught on plenty of self-paced platforms, but its trickier concepts — pointers, memory management, compiler errors that don't explain themselves — are exactly where a fixed video course tends to lose people. A TutorA C++ tutor can walk through your actual code and error messages with you in a live 1:1 session, at your pace, rather than moving on regardless of whether it clicked. Every tutor is reviewed by TutorA before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Is C++ tutoring only for computer science students?",
@@ -186,11 +193,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does a C++ tutor cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Are TutorA's C++ tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "html-css-fb9cd7a2": {
     differentiation:
-      "HTML and CSS have some of the largest free self-paced libraries online — freeCodeCamp, W3Schools, Codecademy — because the basics are genuinely easy to find for free. Where a TutorA tutor adds value is live feedback on your actual layout: why a flexbox isn't behaving, why your page looks different on mobile, why your CSS specificity is fighting itself. Sessions are 1:1 and matched to your level, and every tutor is reviewed before being paired with you.",
+      "HTML and CSS have some of the largest free self-paced libraries online — freeCodeCamp, W3Schools, Codecademy — because the basics are genuinely easy to find for free. Where a TutorA tutor adds value is live feedback on your actual layout: why a flexbox isn't behaving, why your page looks different on mobile, why your CSS specificity is fighting itself. Sessions are 1:1 and matched to your level, and every tutor is reviewed before being paired with you. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Is HTML & CSS tutoring useful if I already know some basics?",
@@ -212,11 +220,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much do HTML & CSS lessons cost?",
         a: "Pricing depends on the tutor and is shown before you request a session.",
       },
+      { q: "Are TutorA's HTML & CSS tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "computer-science-758eff7f": {
     differentiation:
-      "Computer science has no shortage of free and paid self-paced material — MOOCs, textbook-based Coursera specializations, YouTube lecture series. They're a reasonable first exposure to concepts like algorithms or data structures, but they don't stop to answer your specific question about why a proof or a piece of code isn't working. A TutorA computer science tutor works through the actual material you're studying — coursework, interview prep, a specific topic — in live 1:1 sessions matched to your level. Every tutor is reviewed before being matched, and pricing is shown before you book.",
+      "Computer science has no shortage of free and paid self-paced material — MOOCs, textbook-based Coursera specializations, YouTube lecture series. They're a reasonable first exposure to concepts like algorithms or data structures, but they don't stop to answer your specific question about why a proof or a piece of code isn't working. A TutorA computer science tutor works through the actual material you're studying — coursework, interview prep, a specific topic — in live 1:1 sessions matched to your level. Every tutor is reviewed before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Is computer science tutoring for a specific course, or general concepts?",
@@ -238,11 +247,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does a computer science tutor cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Are TutorA's Computer Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "data-science-6209e272": {
     differentiation:
-      "Data science has become a crowded self-paced category — Coursera specializations, Udemy bootcamp bundles, exercise-driven courses on other platforms. They're useful for a structured first pass, but they can't look at your actual dataset or explain why your model isn't behaving the way a textbook example does. A TutorA data science tutor works with you live and 1:1, adapting to the tools and problems you're actually using — Python, statistics, a specific project — rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown upfront.",
+      "Data science has become a crowded self-paced category — Coursera specializations, Udemy bootcamp bundles, exercise-driven courses on other platforms. They're useful for a structured first pass, but they can't look at your actual dataset or explain why your model isn't behaving the way a textbook example does. A TutorA data science tutor works with you live and 1:1, adapting to the tools and problems you're actually using — Python, statistics, a specific project — rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown upfront. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Does data science tutoring cover both the statistics and the programming side?",
@@ -264,11 +274,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does a data science tutor cost?",
         a: "Pricing depends on the tutor and is shown before you request a session.",
       },
+      { q: "Are TutorA's Data Science tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ai-machine-learning-advanced-e4eabe28": {
     differentiation:
-      "Advanced AI and machine learning courses on Coursera, Udemy, or standalone MOOCs can walk you through the math and code at a fixed pace, but they can't debug why your specific model isn't converging or answer a follow-up question about your actual project. A TutorA tutor works with you live and 1:1 on the material you're actually stuck on — a specific architecture, a paper, a project — rather than a one-size-fits-all syllabus. Every tutor is reviewed before being matched, and pricing is shown before you book.",
+      "Advanced AI and machine learning courses on Coursera, Udemy, or standalone MOOCs can walk you through the math and code at a fixed pace, but they can't debug why your specific model isn't converging or answer a follow-up question about your actual project. A TutorA tutor works with you live and 1:1 on the material you're actually stuck on — a specific architecture, a paper, a project — rather than a one-size-fits-all syllabus. Every tutor is reviewed before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Is this tutoring for complete beginners or people with an ML background already?",
@@ -290,11 +301,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does an AI/ML tutor cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Are TutorA's AI & Machine Learning tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ai-for-beginners-0939362a": {
     differentiation:
-      "There's no shortage of beginner-friendly AI content online — YouTube explainers, Coursera's introductory specializations, short Udemy courses. They're a fine starting point, but they move at the same pace for everyone and can't answer your specific follow-up question. A TutorA AI for Beginners tutor works with you live, 1:1, explaining concepts at your pace rather than a fixed video timeline. Every tutor is reviewed before being matched, and pricing is shown before you book — no bundled subscription.",
+      "There's no shortage of beginner-friendly AI content online — YouTube explainers, Coursera's introductory specializations, short Udemy courses. They're a fine starting point, but they move at the same pace for everyone and can't answer your specific follow-up question. A TutorA AI for Beginners tutor works with you live, 1:1, explaining concepts at your pace rather than a fixed video timeline. Every tutor is reviewed before being matched, and pricing is shown before you book — no bundled subscription. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need any programming or math background to start?",
@@ -316,11 +328,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does AI for Beginners tutoring cost?",
         a: "Pricing depends on the tutor and is shown before you request a session.",
       },
+      { q: "Are TutorA's AI tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "react-for-beginners-327c29e1": {
     differentiation:
-      "React tutorials and bootcamp-style courses are everywhere — Udemy, freeCodeCamp, the official docs' own walkthrough. They're a reasonable way to see the syntax once, but they can't debug why your specific component isn't re-rendering or explain a concept a second way if the first explanation didn't land. A TutorA React tutor works with your actual code in live 1:1 sessions, adjusting to what you're building rather than a fixed course outline. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "React tutorials and bootcamp-style courses are everywhere — Udemy, freeCodeCamp, the official docs' own walkthrough. They're a reasonable way to see the syntax once, but they can't debug why your specific component isn't re-rendering or explain a concept a second way if the first explanation didn't land. A TutorA React tutor works with your actual code in live 1:1 sessions, adjusting to what you're building rather than a fixed course outline. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need to know JavaScript before starting React tutoring?",
@@ -342,11 +355,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much do React lessons cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Are TutorA's React tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "scratch-programming-for-kids-7fa6fba9": {
     differentiation:
-      "Scratch has plenty of free tutorials built for kids, from the Scratch website's own guides to YouTube channels. They're a fine way to poke around on your own, but a child working alone can get stuck on a small logic problem and lose interest fast. A TutorA Scratch tutor works with your child live and 1:1, guiding them through the specific project they're building rather than a generic, one-size-fits-all lesson. Every tutor is reviewed before being matched, and pricing is shown before you book.",
+      "Scratch has plenty of free tutorials built for kids, from the Scratch website's own guides to YouTube channels. They're a fine way to poke around on your own, but a child working alone can get stuck on a small logic problem and lose interest fast. A TutorA Scratch tutor works with your child live and 1:1, guiding them through the specific project they're building rather than a generic, one-size-fits-all lesson. Every tutor is reviewed before being matched, and pricing is shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
     faqs: [
       {
         q: "What age is Scratch programming tutoring suitable for?",
@@ -368,11 +382,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does Scratch tutoring cost?",
         a: "Pricing depends on the tutor and is shown before you request a session.",
       },
+      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
     ],
   },
   "robotics-for-kids-3b988a24": {
     differentiation:
-      "Robotics kits for kids increasingly come with their own self-paced video content, and there are general robotics tutorials online too. Those are fine for a first look, but robotics is hands-on by nature — a child working through a build or a coding step alone can get stuck in a way a video can't help with. A TutorA robotics tutor works with your child live and 1:1, troubleshooting the actual build or code in real time rather than a fixed lesson sequence. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Robotics kits for kids increasingly come with their own self-paced video content, and there are general robotics tutorials online too. Those are fine for a first look, but robotics is hands-on by nature — a child working through a build or a coding step alone can get stuck in a way a video can't help with. A TutorA robotics tutor works with your child live and 1:1, troubleshooting the actual build or code in real time rather than a fixed lesson sequence. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience.",
     faqs: [
       {
         q: "Does my child need a specific robotics kit before starting?",
@@ -394,6 +409,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "How much does robotics tutoring cost?",
         a: "Pricing varies by tutor and is shown on this page before you request a session.",
       },
+      { q: "Where are TutorA's tutors based?", a: "Most are based in India and reviewed by our team before being matched with your child — each tutor's profile shows their specific background and experience." },
     ],
   },
 
@@ -714,7 +730,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   },
   "spoken-english-course-5dbc4867": {
     differentiation:
-      "Spoken English practice is available through apps and generic conversation-practice tools, but they mostly work from scripted prompts rather than a real, responsive conversation. A TutorA Spoken English tutor gives you live 1:1 conversation practice, correcting pronunciation, fluency, and confidence in real time and adapting to your specific goals — everyday conversation, workplace communication, or general confidence. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Spoken English practice is available through apps and generic conversation-practice tools, but they mostly work from scripted prompts rather than a real, responsive conversation. A TutorA Spoken English tutor gives you live 1:1 conversation practice, correcting pronunciation, fluency, and confidence in real time and adapting to your specific goals — everyday conversation, workplace communication, or general confidence. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       {
         q: "Is Spoken English tutoring for beginners or people who already speak some English?",
@@ -736,11 +752,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for Spoken English tutoring?",
         a: "No — TutorA courses are live tutoring, not self-paced video lessons, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Spoken English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "business-english-course-e6a73822": {
     differentiation:
-      "Business English content online tends to be generic — templated email phrases, canned presentation scripts — rather than tailored to your actual role or industry. A TutorA Business English tutor works with you live, 1:1, on the specific communication situations you deal with, whether that's emails, meetings, presentations, or negotiation, rather than a fixed set of templates. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Business English content online tends to be generic — templated email phrases, canned presentation scripts — rather than tailored to your actual role or industry. A TutorA Business English tutor works with you live, 1:1, on the specific communication situations you deal with, whether that's emails, meetings, presentations, or negotiation, rather than a fixed set of templates. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       {
         q: "Can Business English tutoring focus on my specific industry or role?",
@@ -762,6 +779,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for Business English tutoring?",
         a: "No — TutorA is live 1:1 tutoring, not a self-paced video course, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Business English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
 
@@ -770,7 +788,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // ---------------------------------------------------------------------
   "adobe-photoshop-394813c4": {
     differentiation:
-      "Photoshop has a massive self-paced footprint — Udemy bundles, Skillshare classes, YouTube tutorials for nearly every technique. They're good for watching someone else work, but they can't look at your actual file and tell you why your layer isn't blending the way you expect. A TutorA Photoshop tutor works with your real project live, 1:1, adjusting to what you're actually trying to make rather than a fixed tutorial sequence. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Photoshop has a massive self-paced footprint — Udemy bundles, Skillshare classes, YouTube tutorials for nearly every technique. They're good for watching someone else work, but they can't look at your actual file and tell you why your layer isn't blending the way you expect. A TutorA Photoshop tutor works with your real project live, 1:1, adjusting to what you're actually trying to make rather than a fixed tutorial sequence. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need a Photoshop license before starting tutoring?",
@@ -792,11 +810,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for completing Photoshop tutoring?",
         a: "No — TutorA courses are live tutoring, not self-paced video lessons, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Adobe Photoshop tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "adobe-illustrator-51e96821": {
     differentiation:
-      "Illustrator tutorials are common on Skillshare, Udemy, and YouTube, and they're fine for learning a specific technique in isolation. What they can't do is look at your actual vector artwork and explain why your paths or anchor points aren't behaving. A TutorA Illustrator tutor works with your real file in live 1:1 sessions, adapting to your project and skill level rather than a fixed course order. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Illustrator tutorials are common on Skillshare, Udemy, and YouTube, and they're fine for learning a specific technique in isolation. What they can't do is look at your actual vector artwork and explain why your paths or anchor points aren't behaving. A TutorA Illustrator tutor works with your real file in live 1:1 sessions, adapting to your project and skill level rather than a fixed course order. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need my own Illustrator license?",
@@ -818,11 +837,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for Illustrator tutoring?",
         a: "No — TutorA is live 1:1 tutoring, not a self-paced video course, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Adobe Illustrator tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "graphic-design-a6240a94": {
     differentiation:
-      "Graphic design has an enormous self-paced catalog — Skillshare classes, Domestika courses, Udemy bundles covering everything from typography to branding. They're a fine way to see principles explained once, but design feedback is inherently personal, and a fixed video can't critique your actual portfolio piece. A TutorA graphic design tutor reviews your real work live, 1:1, and gives feedback matched to your specific project and goals. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Graphic design has an enormous self-paced catalog — Skillshare classes, Domestika courses, Udemy bundles covering everything from typography to branding. They're a fine way to see principles explained once, but design feedback is inherently personal, and a fixed video can't critique your actual portfolio piece. A TutorA graphic design tutor reviews your real work live, 1:1, and gives feedback matched to your specific project and goals. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Can a tutor give feedback on my actual portfolio or project?",
@@ -844,11 +864,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for graphic design tutoring?",
         a: "No — TutorA courses are live tutoring, not self-paced video lessons, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Graphic Design tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ui-ux-design-85bad5a6": {
     differentiation:
-      "UI/UX has a crowded self-paced market — Coursera's UX certificate programs, Udemy bootcamp-style bundles, Skillshare classes on specific tools like Figma. They're useful for learning process and terminology, but good UX feedback depends on someone actually looking at your flows and critiquing your decisions. A TutorA UI/UX tutor reviews your real designs or portfolio live, 1:1, matched to your specific project and goals rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "UI/UX has a crowded self-paced market — Coursera's UX certificate programs, Udemy bootcamp-style bundles, Skillshare classes on specific tools like Figma. They're useful for learning process and terminology, but good UX feedback depends on someone actually looking at your flows and critiquing your decisions. A TutorA UI/UX tutor reviews your real designs or portfolio live, 1:1, matched to your specific project and goals rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Can a tutor review my actual portfolio or a specific design project?",
@@ -870,11 +891,12 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for UI/UX tutoring on TutorA?",
         a: "No — TutorA courses are live tutoring, not self-paced video lessons, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's UI/UX Design tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "video-editing-55a060cd": {
     differentiation:
-      "Video editing tutorials are everywhere for free — YouTube walkthroughs, Skillshare classes, Udemy bundles for specific software. They're useful for learning a tool's interface, but they can't look at your actual footage or project file and tell you why your cut isn't working. A TutorA video editing tutor works with your real project live, 1:1, adapting to your software and the specific problem you're solving. Every tutor is reviewed before being matched, with pricing shown before you book.",
+      "Video editing tutorials are everywhere for free — YouTube walkthroughs, Skillshare classes, Udemy bundles for specific software. They're useful for learning a tool's interface, but they can't look at your actual footage or project file and tell you why your cut isn't working. A TutorA video editing tutor works with your real project live, 1:1, adapting to your software and the specific problem you're solving. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's tutors are based in India, and each one's profile shows their specific programming background and experience, so you know who you'd be working with before you book.",
     faqs: [
       {
         q: "Do I need specific editing software before starting?",
@@ -896,6 +918,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
         q: "Is there a certificate for video editing tutoring?",
         a: "No — TutorA is live tutoring, not a self-paced video course, so there's no certificate of completion.",
       },
+      { q: "Are TutorA's Video Editing tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched, and each one's profile shows their real programming background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
 
@@ -1066,167 +1089,182 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // is 1:1 personal matching + the guarantee, not "live tutor vs. video course."
   "sat-c5d2749b": {
     differentiation:
-      "SAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual SAT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for SAT at no extra cost.",
+      "SAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual SAT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for SAT at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does SAT tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my SAT tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different SAT tutor at no extra cost. See the full policy on our guarantee page." },
       { q: "Is SAT tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "When should I start SAT prep?", a: "It depends on your target test date and current level — mention both when requesting a tutor so sessions can be paced accordingly." },
       { q: "Is there a certificate for completing SAT tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's SAT Prep tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "act-dccdc694": {
     differentiation:
-      "ACT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual ACT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for ACT at no extra cost.",
+      "ACT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual ACT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for ACT at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does ACT tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my ACT tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different ACT tutor at no extra cost. See the full policy on our guarantee page." },
       { q: "Is ACT tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "When should I start ACT prep?", a: "It depends on your target test date and current level — mention both when requesting a tutor so sessions can be paced accordingly." },
       { q: "Is there a certificate for completing ACT tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's ACT Prep tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "psat-preparation-course-4b552b9e": {
     differentiation:
-      "PSAT prep often gets treated as an afterthought bundled into SAT courses. TutorA matches you with a tutor specifically for the PSAT — its own format, timing, and scoring — through personally reviewed 1:1 sessions rather than a repurposed SAT curriculum. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PSAT at no extra cost.",
+      "PSAT prep often gets treated as an afterthought bundled into SAT courses. TutorA matches you with a tutor specifically for the PSAT — its own format, timing, and scoring — through personally reviewed 1:1 sessions rather than a repurposed SAT curriculum. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PSAT at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Is PSAT tutoring the same as SAT tutoring?", a: "It's related but not identical — the PSAT has its own format and scoring, so sessions are matched to that specifically rather than reused SAT material." },
       { q: "How much does PSAT tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my PSAT tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor at no extra cost." },
       { q: "Does PSAT prep help with the SAT later?", a: "It can — many of the underlying skills overlap, though your tutor will focus sessions on the PSAT's specific format if that's your near-term goal." },
       { q: "Is there a certificate for completing PSAT tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's PSAT Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "gre-a2b8cace": {
     differentiation:
-      "GRE prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GRE tutor for 1:1 sessions built around your actual weak spots — quant, verbal, or the analytical writing section specifically. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GRE at no extra cost.",
+      "GRE prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GRE tutor for 1:1 sessions built around your actual weak spots — quant, verbal, or the analytical writing section specifically. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GRE at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does GRE tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my GRE tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different GRE tutor at no extra cost." },
       { q: "Can a tutor focus on just one GRE section, like quant?", a: "Yes — let your tutor know which section you want to focus on so sessions can be matched to it." },
       { q: "Is GRE tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing GRE tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's GRE Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "gmat-d7e5eb9d": {
     differentiation:
-      "GMAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GMAT tutor for 1:1 sessions built around your actual weak spots — quant, verbal, data insights, or the full test. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GMAT at no extra cost.",
+      "GMAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GMAT tutor for 1:1 sessions built around your actual weak spots — quant, verbal, data insights, or the full test. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GMAT at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does GMAT tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my GMAT tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different GMAT tutor at no extra cost." },
       { q: "Can a tutor help with a specific GMAT section?", a: "Yes — let your tutor know which section (quant, verbal, data insights) you want to focus on." },
       { q: "Is GMAT tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing GMAT tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's GMAT Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "toefl-3a2e48ed": {
     differentiation:
-      "TOEFL prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual TOEFL tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for TOEFL at no extra cost.",
+      "TOEFL prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual TOEFL tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for TOEFL at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does TOEFL tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my TOEFL tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different TOEFL tutor at no extra cost." },
       { q: "Can a tutor focus on just the speaking section?", a: "Yes — let your tutor know which section you're weakest in so sessions can be matched to it." },
       { q: "Is TOEFL tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing TOEFL tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's TOEFL Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ielts-8d4686db": {
     differentiation:
-      "IELTS prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual IELTS tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing, Academic or General Training. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for IELTS at no extra cost.",
+      "IELTS prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual IELTS tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing, Academic or General Training. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for IELTS at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does IELTS tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my IELTS tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different IELTS tutor at no extra cost." },
       { q: "Does this cover Academic or General Training IELTS?", a: "Both — mention which version you're taking when requesting a tutor so sessions are matched correctly." },
       { q: "Is IELTS tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing IELTS tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's IELTS Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "pte-302557b2": {
     differentiation:
-      "PTE Academic prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual PTE tutor for 1:1 sessions built around the test's specific computer-based format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PTE at no extra cost.",
+      "PTE Academic prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual PTE tutor for 1:1 sessions built around the test's specific computer-based format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PTE at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How much does PTE Academic tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my PTE tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different PTE tutor at no extra cost." },
       { q: "Is PTE tutoring different from IELTS or TOEFL tutoring?", a: "Yes — PTE is a computer-based test with its own question types and scoring, so sessions are matched to that format specifically." },
       { q: "Is PTE tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing PTE tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's PTE Academic Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "duolingo-english-test-preparation-course-3e98dca7": {
     differentiation:
-      "Duolingo English Test prep is a newer category with far less dedicated tutoring coverage than SAT or IELTS. TutorA matches you with a tutor for 1:1 sessions built around the test's specific adaptive, computer-based format rather than generic English-language material. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "Duolingo English Test prep is a newer category with far less dedicated tutoring coverage than SAT or IELTS. TutorA matches you with a tutor for 1:1 sessions built around the test's specific adaptive, computer-based format rather than generic English-language material. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "How is the Duolingo English Test different from IELTS or TOEFL?", a: "It's a shorter, computer-based, adaptive test — your tutor can walk you through its specific format if you're more familiar with traditional English tests." },
       { q: "How much does Duolingo English Test tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor at no extra cost." },
       { q: "Is this tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing this tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's Duolingo English Test Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "gcse-preparation-course-97ec8c86": {
     differentiation:
-      "GCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific GCSE subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "GCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific GCSE subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Does this cover all GCSE subjects?", a: "We match by specific subject (e.g. GCSE Maths, GCSE Physics) — mention your subject and exam board when requesting a tutor." },
       { q: "How much does GCSE tutoring cost?", a: "Pricing varies by tutor and subject, and is shown before you book — there's no flat rate." },
       { q: "What if my GCSE tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor for that subject at no extra cost." },
       { q: "Is GCSE tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing GCSE tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's GCSE Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "gcse-english-017a23a5": {
     differentiation:
-      "GCSE English is its own subject with its own exam structure — language and literature papers, coursework conventions, exam-board-specific texts. TutorA matches you with a tutor personally reviewed by our team for live 1:1 sessions built around your specific exam board and paper, rather than generic English tutoring. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "GCSE English is its own subject with its own exam structure — language and literature papers, coursework conventions, exam-board-specific texts. TutorA matches you with a tutor personally reviewed by our team for live 1:1 sessions built around your specific exam board and paper, rather than generic English tutoring. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Does this cover GCSE English Language, Literature, or both?", a: "Both — mention which paper (or both) and your exam board when requesting a tutor so sessions are matched correctly." },
       { q: "How much does GCSE English tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my GCSE English tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor at no extra cost." },
       { q: "Is GCSE English tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing GCSE English tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's GCSE English tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "igcse-preparation-course-5ed7859f": {
     differentiation:
-      "IGCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IGCSE subject and exam board (Cambridge, Edexcel, etc.) where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "IGCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IGCSE subject and exam board (Cambridge, Edexcel, etc.) where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Does this cover all IGCSE subjects and exam boards?", a: "We match by specific subject and exam board — mention both when requesting a tutor." },
       { q: "How much does IGCSE tutoring cost?", a: "Pricing varies by tutor and subject, and is shown before you book — there's no flat rate." },
       { q: "What if my IGCSE tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor for that subject at no extra cost." },
       { q: "Is IGCSE tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing IGCSE tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's IGCSE Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "a-level-preparation-course-6ede4ec7": {
     differentiation:
-      "A Level tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific A Level subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "A Level tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific A Level subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Does this cover all A Level subjects?", a: "We match by specific subject and exam board — mention both when requesting a tutor." },
       { q: "How much does A Level tutoring cost?", a: "Pricing varies by tutor and subject, and is shown before you book — there's no flat rate." },
       { q: "What if my A Level tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor for that subject at no extra cost." },
       { q: "Is A Level tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing A Level tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's A-Level Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ib-diploma-preparation-course-9e537a20": {
     differentiation:
-      "IB Diploma tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IB subject, level (HL/SL), and — where relevant — the Extended Essay or Internal Assessment. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "IB Diploma tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IB subject, level (HL/SL), and — where relevant — the Extended Essay or Internal Assessment. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Does this cover Higher Level and Standard Level?", a: "Yes — mention your subject and level (HL or SL) when requesting a tutor so sessions are matched correctly." },
       { q: "Can a tutor help with my Extended Essay or Internal Assessment?", a: "Yes — mention this specifically when requesting a tutor so you're matched with someone who can support that work." },
       { q: "How much does IB tutoring cost?", a: "Pricing varies by tutor and subject, and is shown before you book — there's no flat rate." },
       { q: "What if my IB tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor for that subject at no extra cost." },
       { q: "Is there a certificate for completing IB tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's IB Diploma Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
   "ap-exam-preparation-course-cceffa19": {
     differentiation:
-      "AP prep often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific AP subject and exam format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost.",
+      "AP prep often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific AP subject and exam format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's tutors for this subject are based in India, and each one is reviewed by our team before being matched — their profile shows their specific background before you book.",
     faqs: [
       { q: "Which AP subjects does this cover?", a: "We match by specific AP subject — mention which exam(s) you're preparing for when requesting a tutor." },
       { q: "How much does AP tutoring cost?", a: "Pricing varies by tutor and subject, and is shown before you book — there's no flat rate." },
       { q: "What if my AP tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different tutor for that subject at no extra cost." },
       { q: "Is AP tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing AP tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
+      { q: "Are TutorA's AP Exam Preparation tutors based in India?", a: "Most are, yes — TutorA's tutor pool is predominantly India-based. Every tutor is reviewed by our team before being matched with a student, and each one's profile shows their specific subject background and experience, so you can see exactly who you'd be working with before you book." },
     ],
   },
 };

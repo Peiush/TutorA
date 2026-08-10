@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SubjectIllustration } from "@/components/courses/subject-illustration";
 import { ClockIcon, SendIcon, CheckIcon, HeartIcon } from "@/components/courses/course-icons";
-import { priceLabel } from "@/lib/mock-courses";
+import { priceLabelUSD } from "@/lib/mock-courses";
 import { GRADE_BAND_COLORS, type GradeBand } from "@/lib/grade-bands";
 import type { SubjectListing } from "@/app/lib/subject-listings";
 
@@ -57,7 +57,7 @@ export function SubjectCard({
   const [hovered, setHovered] = useState(false);
   const colors = GRADE_BAND_COLORS[band.key];
   const title = subject.title ?? subject.name;
-  const price = subject.hourlyRateCents != null ? `${priceLabel(subject.hourlyRateCents)}/hr` : "Price on request";
+  const price = subject.hourlyRateCents != null ? `${priceLabelUSD(subject.hourlyRateCents)}/hr` : "Price on request";
   const firstSaveRender = useRef(true);
 
   const { contextSafe } = useGSAP(

@@ -9,7 +9,7 @@ import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon } from "@/components/cou
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
 import { getTutorsMatchingPrefixes } from "@/app/lib/tutor-listings";
-import { priceLabel, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
+import { priceLabel, priceLabelUSD, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
 import { courseSubjectContent, TEST_PREP_TUTOR_MATCH } from "@/lib/course-subject-content";
 import { COURSE_TO_SUBJECT_SLUGS } from "@/lib/subject-course-links";
 import { auth } from "@/auth";
@@ -131,9 +131,9 @@ export default async function CourseDetailPage({
     : 0;
   const primaryPrice =
     course.priceCents != null
-      ? `${priceLabel(course.priceCents)}/hr`
+      ? `${priceLabelUSD(course.priceCents)}/hr`
       : course.originalPriceCents != null
-      ? `${priceLabel(course.originalPriceCents)} full course`
+      ? `${priceLabelUSD(course.originalPriceCents)} full course`
       : "Price on request";
 
   const canonicalUrl = `${BASE_URL}/courses/${course.slug}`;
