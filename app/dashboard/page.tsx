@@ -2,7 +2,8 @@ import { getUser, requireFreshRole } from "@/app/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { PendingEmailChangeBanner } from "@/components/profile/pending-email-change-banner";
-import { StatCard } from "@/components/dashboard/stat-card";
+import { StatsStrip } from "@/components/dashboard/stats-strip";
+import { ActivityTabs } from "@/components/dashboard/activity-tabs";
 import { RequestsPanel } from "@/components/dashboard/requests-panel";
 import { SavedTutorsPanel } from "@/components/dashboard/saved-tutors-panel";
 import { CourseRequestsPanel } from "@/components/dashboard/course-requests-panel";
@@ -10,8 +11,8 @@ import { SavedCoursesPanel } from "@/components/dashboard/saved-courses-panel";
 import { SavedSubjectsPanel } from "@/components/dashboard/saved-subjects-panel";
 import { SubjectRequestsPanel } from "@/components/dashboard/subject-requests-panel";
 import { SidePanel } from "@/components/dashboard/side-panel";
-import { StaggerReveal } from "@/components/ui/stagger-reveal";
-import { TargetIcon, BookOpenIcon, SparkleIcon } from "@/components/dashboard/dashboard-icons";
+import { Reveal } from "@/components/ui/reveal";
+import { TargetIcon, BookOpenIcon, SparkleIcon, BookmarkIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
   title: "Dashboard",
@@ -131,33 +132,49 @@ export default async function DashboardPage() {
     ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
     : "";
 
+  const totalOpenCount = openCount + openCourseRequestCount + openSubjectRequestCount;
+  const totalSavedCount = savedTutorRows.length + savedCourseRows.length + savedSubjectRows.length;
+
   return (
     <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,64px)] flex flex-col gap-7">
       <DashboardHeader name={user?.name ?? "Student"} email={user?.email ?? ""} memberSince={memberSince} />
       <PendingEmailChangeBanner />
 
-      <StaggerReveal
-        className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"
-        stagger={0.08}
-        y={18}
-      >
-        <StatCard icon={<TargetIcon width={16} height={16} />} label="Active tutor requests" value={openCount} />
-        <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Active course requests" value={openCourseRequestCount} />
-        <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Active subject requests" value={openSubjectRequestCount} />
-        <StatCard icon={<SparkleIcon width={16} height={16} />} label="Matched tutors" value={matchedCount} />
-        <StatCard icon={<BookOpenIcon width={16} height={16} />} label="Total requests" value={totalRequestCount} />
-      </StaggerReveal>
+      <Reveal delay={80}>
+        <StatsStrip
+          stats={[
+            { icon: <TargetIcon width={18} height={18} />, label: "Open requests", value: totalOpenCount },
+            { icon: <SparkleIcon width={18} height={18} />, label: "Matched tutors", value: matchedCount },
+            { icon: <BookmarkIcon width={18} height={18} />, label: "Saved items", value: totalSavedCount },
+            { icon: <BookOpenIcon width={18} height={18} />, label: "Total requests", value: totalRequestCount },
+          ]}
+        />
+      </Reveal>
 
       <div className="grid gap-6 items-start [grid-template-columns:1.7fr_1fr] max-[880px]:[grid-template-columns:1fr]">
-        <div className="flex flex-col gap-6">
-          <RequestsPanel requests={requests} />
-          <CourseRequestsPanel requests={courseRequestRows} />
-          <SubjectRequestsPanel requests={subjectRequestRows} />
-          <SavedTutorsPanel tutors={savedTutorRows} />
-          <SavedCoursesPanel courses={savedCourseRows} />
-          <SavedSubjectsPanel subjects={savedSubjectRows} />
-        </div>
-        <SidePanel />
+        <Reveal delay={140}>
+          <ActivityTabs
+            requests={{
+              tutors: <RequestsPanel requests={requests} />,
+              tutorsCount: requests.length,
+              courses: <CourseRequestsPanel requests={courseRequestRows} />,
+              coursesCount: courseRequestRows.length,
+              subjects: <SubjectRequestsPanel requests={subjectRequestRows} />,
+              subjectsCount: subjectRequestRows.length,
+            }}
+            saved={{
+              tutors: <SavedTutorsPanel tutors={savedTutorRows} />,
+              tutorsCount: savedTutorRows.length,
+              courses: <SavedCoursesPanel courses={savedCourseRows} />,
+              coursesCount: savedCourseRows.length,
+              subjects: <SavedSubjectsPanel subjects={savedSubjectRows} />,
+              subjectsCount: savedSubjectRows.length,
+            }}
+          />
+        </Reveal>
+        <Reveal delay={200}>
+          <SidePanel />
+        </Reveal>
       </div>
     </div>
   );
