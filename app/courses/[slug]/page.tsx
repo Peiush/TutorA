@@ -8,9 +8,11 @@ import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon } from "@/components/courses/course-icons";
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
-import { getTutorsMatchingPrefixes } from "@/app/lib/tutor-listings";
+import { getTutorsMatchingPrefixes, getTutorsForLinkedSubjects } from "@/app/lib/tutor-listings";
 import { priceLabel, priceLabelUSD, learningOutcomes, courseWorkloadISO8601, type CourseRaw } from "@/lib/mock-courses";
 import { courseSubjectContent, TEST_PREP_TUTOR_MATCH } from "@/lib/course-subject-content";
+import { personalizeFaqs } from "@/lib/faq-personalize";
+import { sanitizeDifferentiation } from "@/lib/differentiation-copy";
 import { COURSE_TO_SUBJECT_SLUGS } from "@/lib/subject-course-links";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -141,16 +143,21 @@ export default async function CourseDetailPage({
   const subjectContent = courseSubjectContent[course.slug];
   const tutorMatch = TEST_PREP_TUTOR_MATCH[course.slug];
   const relatedSubjectSlugs = COURSE_TO_SUBJECT_SLUGS[course.slug] ?? [];
-  const testPrepTutors = tutorMatch
-    ? await getTutorsMatchingPrefixes(tutorMatch.include, tutorMatch.exclude)
-    : [];
   const relatedSubjects =
     relatedSubjectSlugs.length > 0
       ? await prisma.subject.findMany({
           where: { slug: { in: relatedSubjectSlugs } },
-          select: { slug: true, title: true, name: true, gradeLevel: true },
+          select: { id: true, slug: true, title: true, name: true, gradeLevel: true },
         })
       : [];
+  // Test-prep courses use the hand-curated prefix table (SAT/ACT/GCSE/etc. naming is reliable
+  // to prefix-match); every other course with a linked subject page (e.g. Python) falls back
+  // to a direct Subject<->TutorSubject lookup via its real linked subject IDs, so it gets the
+  // same live tutor cards its subject page already shows instead of silently showing none.
+  const showTutorSection = Boolean(tutorMatch) || relatedSubjects.length > 0;
+  const testPrepTutors = tutorMatch
+    ? await getTutorsMatchingPrefixes(tutorMatch.include, tutorMatch.exclude)
+    : await getTutorsForLinkedSubjects(relatedSubjects);
 
   const courseJsonLd = {
     "@context": "https://schema.org",
@@ -195,12 +202,13 @@ export default async function CourseDetailPage({
     ],
   };
 
+  const personalizedFaqs = subjectContent ? personalizeFaqs(subjectContent.faqs, course.title) : [];
   const faqJsonLd = subjectContent
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "@id": `${canonicalUrl}#faq`,
-        mainEntity: subjectContent.faqs.map((f) => ({
+        mainEntity: personalizedFaqs.map((f) => ({
           "@type": "Question",
           name: f.q,
           acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -294,9 +302,9 @@ export default async function CourseDetailPage({
                 Why a TutorA tutor
               </h2>
               <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                {subjectContent.differentiation}
+                {sanitizeDifferentiation(subjectContent.differentiation, testPrepTutors.length > 0)}
               </p>
-              {tutorMatch && (
+              {showTutorSection && (
                 <Link
                   href="/guarantee"
                   className="inline-flex items-center gap-1 text-[13px] font-medium mt-2 hover:underline"
@@ -309,7 +317,7 @@ export default async function CourseDetailPage({
             </div>
           )}
 
-          {tutorMatch && (
+          {showTutorSection && (
             <div className="rounded-[var(--radius-md)] p-4" style={{ background: "var(--color-surface)" }}>
               <h2 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
                 Tutors for {course.title}
@@ -345,8 +353,7 @@ export default async function CourseDetailPage({
                 </div>
               ) : (
                 <p className="text-[13.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 72%, transparent)" }}>
-                  We don&rsquo;t have a tutor actively teaching {course.title} yet — send a request and we&rsquo;ll
-                  match one for you.
+                  {`We don’t have a tutor actively teaching ${course.title} yet — send a request and we’ll match one for you.`}
                 </p>
               )}
             </div>
@@ -438,12 +445,12 @@ export default async function CourseDetailPage({
         </div>
       )}
 
-      {subjectContent && (
+      {personalizedFaqs.length > 0 && (
         <div className="mt-8">
           <h2 className="text-[16px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
             {course.title} tutoring FAQ
           </h2>
-          <FaqAccordion faqs={subjectContent.faqs} />
+          <FaqAccordion faqs={personalizedFaqs} />
         </div>
       )}
     </div>

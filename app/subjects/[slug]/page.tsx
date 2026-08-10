@@ -17,6 +17,8 @@ import { priceLabelUSD } from "@/lib/mock-courses";
 import { GRADE_BANDS, GRADE_BAND_COLORS, matchesGradeBand } from "@/lib/grade-bands";
 import { SUBJECT_TO_COURSE_SLUG } from "@/lib/subject-course-links";
 import { subjectPageContent } from "@/lib/subject-content";
+import { personalizeFaqs } from "@/lib/faq-personalize";
+import { sanitizeDifferentiation } from "@/lib/differentiation-copy";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -138,13 +140,14 @@ export default async function SubjectDetailPage({
     ],
   };
 
+  const personalizedFaqs = content ? personalizeFaqs(content.faqs, title) : [];
   const faqJsonLd =
-    content && content.faqs.length > 0
+    content && personalizedFaqs.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
           "@id": `${canonicalUrl}#faq`,
-          mainEntity: content.faqs.map((f) => ({
+          mainEntity: personalizedFaqs.map((f) => ({
             "@type": "Question",
             name: f.q,
             acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -225,7 +228,7 @@ export default async function SubjectDetailPage({
                 Why a TutorA tutor
               </h2>
               <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                {content.differentiation}
+                {sanitizeDifferentiation(content.differentiation, subjectTutors.length > 0)}
               </p>
               {content.showGuaranteeLink && (
                 <Link
@@ -309,8 +312,7 @@ export default async function SubjectDetailPage({
             </div>
           ) : (
             <p className="text-[13.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 72%, transparent)" }}>
-              We don&rsquo;t have a tutor actively teaching {title} yet — send a request and we&rsquo;ll match one
-              for you.
+              {`We don’t have a tutor actively teaching ${title} yet — send a request and we’ll match one for you.`}
             </p>
           )}
         </div>
@@ -341,12 +343,12 @@ export default async function SubjectDetailPage({
         </div>
       )}
 
-      {content && content.faqs.length > 0 && (
+      {personalizedFaqs.length > 0 && (
         <div className="mt-8">
           <h2 className="text-[16px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
             {title} FAQ
           </h2>
-          <FaqAccordion faqs={content.faqs} />
+          <FaqAccordion faqs={personalizedFaqs} />
         </div>
       )}
     </div>

@@ -26,9 +26,13 @@ function titleSubjectLabel(tutor: TutorProfileDetail): string {
   return `${names.slice(0, 2).join(", ")} & more`;
 }
 
-// Combines the real bio (if the admin wrote one) with structured fields into a fuller
-// intro paragraph — never invents specifics that aren't in the tutor's own data.
+// When the admin wrote a real bio, it stands on its own — the avatar, subject chips, and meta
+// line elsewhere on this page already show name/subjects/country/experience, so restating them
+// here was pure redundant filler (RE-AUDIT-REPORT.md, 2026-08-10). Only fall back to a
+// structured-facts summary when there's no bio to show at all.
 function tutorIntroParagraph(tutor: TutorProfileDetail): string {
+  if (tutor.bio) return tutor.bio;
+
   const names = tutor.subjects.map((s) => s.subjectName);
   const subjectList =
     names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0] ?? "their subject";
@@ -40,7 +44,6 @@ function tutorIntroParagraph(tutor: TutorProfileDetail): string {
     tutor.country ? `, based in ${tutor.country}` : ""
   }, ${experiencePart}.`;
 
-  if (tutor.bio) return `${tutor.bio} ${summary}`;
   return `${summary} Every tutor on TutorA is personally reviewed by our team before their profile goes live — there's no self-listing and no unverified claims.`;
 }
 

@@ -23,7 +23,13 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
       mm.add(`${MOBILE} and (prefers-reduced-motion: no-preference)`, () => {
         gsap.set(".hero-tag", { autoAlpha: 0, y: -8, scale: 0.75 });
         gsap.set(".hero-word", { autoAlpha: 0, y: 22 });
-        gsap.set(".hero-copy-p", { autoAlpha: 0, y: 14, filter: "blur(6px)" });
+        // Not autoAlpha here — this paragraph is the page's LCP candidate on mobile, and
+        // opacity:0 (from autoAlpha) makes Chrome wait for this timeline to run, JS-hydrate,
+        // and animate back to visible before it counts the paint, adding ~1.5s of pure
+        // render-delay to LCP for no visual benefit (RE-AUDIT-REPORT.md, 2026-08-10). The
+        // blur+y transform alone still gives the same "focuses into place" effect without
+        // hiding the text from first paint.
+        gsap.set(".hero-copy-p", { y: 14, filter: "blur(6px)" });
         gsap.set(".hero-cta-btn", { autoAlpha: 0, y: 18, scale: 0.9 });
         gsap.set(".hero-cta-glow", { autoAlpha: 0, scale: 1 });
 
@@ -31,7 +37,7 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
 
         tl.to(".hero-tag", { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(2)" })
           .to(".hero-word", { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.09 }, "-=0.25")
-          .to(".hero-copy-p", { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.7 }, "-=0.15")
+          .to(".hero-copy-p", { y: 0, filter: "blur(0px)", duration: 0.7 }, "-=0.15")
           .to(
             ".hero-cta-btn",
             { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.8)", stagger: 0.12 },

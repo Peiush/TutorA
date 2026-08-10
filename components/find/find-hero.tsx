@@ -32,7 +32,10 @@ export function FindHero({
         tl.from(".fh-blob", { autoAlpha: 0, scale: 0.7, duration: 0.9, ease: "power2.out", stagger: 0.08 })
           .from(".fh-tag", { autoAlpha: 0, y: -8, duration: 0.4 }, "-=0.55")
           .from(".fh-heading", { autoAlpha: 0, y: 18, duration: 0.55 }, "-=0.2")
-          .from(".fh-copy", { autoAlpha: 0, y: 12, duration: 0.45 }, "-=0.3")
+          // Not autoAlpha — .fh-copy is this page's LCP candidate; hiding it behind a
+          // JS-hydrated timeline adds pure render-delay to LCP (RE-AUDIT-REPORT.md,
+          // 2026-08-10). The y-slide alone keeps the same entrance feel without a paint gate.
+          .from(".fh-copy", { y: 12, duration: 0.45 }, "-=0.3")
           .from(".fh-stat", { autoAlpha: 0, y: 14, duration: 0.4, stagger: 0.08 }, "-=0.25")
           .from(".fh-illustration", { autoAlpha: 0, y: 24, scale: 0.9, duration: 0.6, ease: "back.out(1.6)" }, "-=0.6");
 

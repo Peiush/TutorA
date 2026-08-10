@@ -65,6 +65,7 @@ const organizationJsonLd = {
   description:
     "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
   logo: `${BASE_URL}/logo.png`,
+  founder: { "@type": "Person", name: "Nancy Gupta", jobTitle: "Founder" },
   // sameAs (verified social/profile links) intentionally omitted — TutorA doesn't have
   // real social profiles live yet. Add them here once they exist; don't ship placeholder
   // URLs, since that fails Google's Organization verification rather than helping it.

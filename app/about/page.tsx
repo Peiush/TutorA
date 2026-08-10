@@ -4,6 +4,7 @@ import { FaqAccordion } from "@/components/about/faq-accordion";
 import { FaqIllustration } from "@/components/about/faq-illustration";
 import { studentFlow, tutorFlow, faqs, testimonials } from "@/lib/mock-data";
 import { AboutHero } from "@/components/about/about-hero";
+import { FounderStory } from "@/components/about/founder-story";
 import { FlowPanels } from "@/components/about/flow-panels";
 import { TrustPillars } from "@/components/about/trust-pillars";
 import { TestimonialCards } from "@/components/about/testimonial-cards";
@@ -12,7 +13,7 @@ import { ContactCta } from "@/components/about/contact-cta";
 
 // Bump when this page's content changes materially — reused as the sitemap's lastmod
 // (app/sitemap.ts), same convention as HOMEPAGE_LAST_UPDATED in app/page.tsx.
-export const ABOUT_LAST_UPDATED = "2026-07-23";
+export const ABOUT_LAST_UPDATED = "2026-08-10";
 
 export const metadata = {
   title: "About & How It Works",
@@ -41,6 +42,17 @@ const pillars = [
   },
 ];
 
+const BASE_URL = "https://www.tutora.it.com";
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+    { "@type": "ListItem", position: 2, name: "About", item: `${BASE_URL}/about` },
+  ],
+};
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -54,8 +66,10 @@ const faqJsonLd = {
 export default function AboutPage() {
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <AboutHero />
+      <FounderStory />
 
       {/* Trust pillars + Flows */}
       <section style={{ background: "var(--color-surface)" }}>

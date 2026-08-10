@@ -20,6 +20,7 @@ import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
 import { TutorAdminEditModal } from "@/components/find/tutor-admin-edit-modal";
 import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { subjects, type TutorRaw } from "@/lib/mock-data";
+import { POPULAR_SUBJECT_NAMES } from "@/lib/featured-subjects";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import { toggleSavedTutor } from "@/app/lib/actions/saved-tutor";
 import { deleteTutorProfile } from "@/app/lib/actions/admin";
@@ -28,6 +29,7 @@ import { usePlaneLaunch } from "@/components/ui/plane-launch";
 gsap.registerPlugin(useGSAP, Flip);
 
 const SORTS = ["Top rated", "Lowest price", "Most reviews"] as const;
+const PAGE_SIZE = 24;
 
 function priceValue(price: string) {
   const n = parseFloat(price.replace(/[^0-9.]/g, ""));
@@ -88,10 +90,12 @@ function SubjectMultiSelect({
   options,
   selected,
   onChange,
+  emptyLabel = "All subjects",
 }: {
   options: string[];
   selected: string[];
   onChange: (next: string[]) => void;
+  emptyLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -132,7 +136,7 @@ function SubjectMultiSelect({
 
   const label =
     selected.length === 0
-      ? "All subjects"
+      ? emptyLabel
       : selected.length === 1
       ? selected[0]
       : `${selected.length} subjects selected`;
@@ -212,6 +216,12 @@ function SubjectMultiSelect({
 export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   const router = useRouter();
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  // Unfiltered, the list defaults to every subject listing (132+), alphabetically —
+  // which clusters a single tutor's many per-subject rows together and buries the
+  // rest. Until the visitor picks a subject or explicitly asks to see everything,
+  // scope the default view to the same curated set shown as "Popular subjects" on
+  // /courses (see "@/lib/featured-subjects").
+  const [showAllSubjects, setShowAllSubjects] = useState(false);
   const [mode, setMode] = useState("Online");
   const [curriculum, setCurriculum] = useState("All curricula");
   const [maxBudget, setMaxBudget] = useState(120);
@@ -234,6 +244,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   const [deletePending, setDeletePending] = useState(false);
   const [bookmarked, setBookmarked] = useState<Set<string>>(new Set());
   const [bookmarkPending, setBookmarkPending] = useState<Set<string>>(new Set());
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   // The page itself no longer reads the `?subject=` URL param or the signed-in
   // user's admin/saved/requested state server-side (both used to force
@@ -263,9 +274,15 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const countNumRef = useRef<HTMLElement>(null);
+  const countValueRef = useRef(0);
   const mountedRef = useRef(false);
   const flipStateRef = useRef<Flip.FlipState | null>(null);
   const knownIdsRef = useRef<Set<string>>(new Set());
+  const prevVisibleCountRef = useRef(PAGE_SIZE);
+  const cardQuickSettersRef = useRef(
+    new WeakMap<HTMLElement, { rotX: ReturnType<typeof gsap.quickTo>; rotY: ReturnType<typeof gsap.quickTo> }>()
+  );
 
   // Cross-filtered so each list only offers values that actually co-occur with the other's current selection.
   const subjectOptions = useMemo(() => {
@@ -378,9 +395,12 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
     }
   }
 
+  const isDefaultSubjectView = selectedSubjects.length === 0 && !showAllSubjects;
+
   const filtered = useMemo(() => {
     let list = tutors.filter((t) => {
       if (selectedSubjects.length > 0 && !t.subjects.some((s) => selectedSubjects.includes(s))) return false;
+      if (isDefaultSubjectView && !t.subjects.some((s) => POPULAR_SUBJECT_NAMES.includes(s))) return false;
       if (mode !== "Both" && t.mode !== mode && t.mode !== "Both") return false;
       if (curriculum !== "All curricula" && t.curriculum !== curriculum) return false;
       if (priceValue(t.price) > maxBudget) return false;
@@ -392,7 +412,17 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
       return b.rating - a.rating;
     });
     return list;
-  }, [tutors, selectedSubjects, mode, curriculum, maxBudget, sort]);
+  }, [tutors, selectedSubjects, isDefaultSubjectView, mode, curriculum, maxBudget, sort]);
+
+  // Filters/sort changed the result set — start back at the first page rather than
+  // stranding the user mid-list or rendering a stale, oversized visible slice. Adjusted
+  // during render (React's documented pattern for this) rather than in an effect, so it
+  // takes effect in the same commit instead of causing an extra render+paint.
+  const [prevFiltered, setPrevFiltered] = useState(filtered);
+  if (filtered !== prevFiltered) {
+    setPrevFiltered(filtered);
+    setVisibleCount(PAGE_SIZE);
+  }
 
   const topRatedName = useMemo(() => {
     if (!filtered.length) return null;
@@ -400,7 +430,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
     return best.rating > 0 ? best.name : null;
   }, [filtered]);
 
-  useGSAP(
+  const { contextSafe } = useGSAP(
     () => {
       const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tutor-card");
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -428,8 +458,17 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
         // last cards (and their avatars) sit invisible that whole time.
         tl.fromTo(
           cards,
-          { autoAlpha: 0, y: 40, scale: 0.94, rotateX: -4 },
-          { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: 0.65, stagger: { each: 0.09, amount: 0.8 }, clearProps: "transform" }
+          { autoAlpha: 0, y: 40, scale: 0.94, rotateX: -4, filter: "blur(6px)" },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            rotateX: 0,
+            filter: "blur(0px)",
+            duration: 0.65,
+            stagger: { each: 0.09, amount: 0.8 },
+            clearProps: "transform,filter",
+          }
         ).fromTo(
           gridRef.current!.querySelectorAll(".tutor-avatar-ring"),
           { scale: 0.4, autoAlpha: 0 },
@@ -463,6 +502,57 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
     { dependencies: [filtered], scope: gridRef }
   );
 
+  // "Load more" appends cards past the previous cut without touching `filtered`, so the
+  // effect above (keyed on `filtered`) never sees them — they used to appear with no
+  // animation at all. Reveal just the newly-appended slice here instead.
+  useGSAP(
+    () => {
+      const prev = prevVisibleCountRef.current;
+      prevVisibleCountRef.current = visibleCount;
+      if (visibleCount <= prev || !mountedRef.current) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const cards = gridRef.current?.querySelectorAll<HTMLElement>(".tutor-card");
+      if (!cards || reduced) return;
+      const newlyAdded = Array.from(cards).slice(prev, visibleCount);
+      if (!newlyAdded.length) return;
+      gsap.fromTo(
+        newlyAdded,
+        { autoAlpha: 0, y: 36, scale: 0.95 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out", stagger: { each: 0.06, amount: 0.5 }, clearProps: "transform" }
+      );
+    },
+    { dependencies: [visibleCount], scope: gridRef }
+  );
+
+  // Magnetic tilt on hover — subtle 3D perspective shift that tracks the pointer,
+  // transform-only so it stays cheap even with a long, paginated card list.
+  const handleCardTilt = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    let qs = cardQuickSettersRef.current.get(card);
+    if (!qs) {
+      gsap.set(card, { transformPerspective: 900 });
+      qs = {
+        rotX: gsap.quickTo(card, "rotateX", { duration: 0.5, ease: "power3.out" }),
+        rotY: gsap.quickTo(card, "rotateY", { duration: 0.5, ease: "power3.out" }),
+      };
+      cardQuickSettersRef.current.set(card, qs);
+    }
+    qs.rotX(py * -5);
+    qs.rotY(px * 7);
+  });
+
+  const handleCardTiltReset = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+    const qs = cardQuickSettersRef.current.get(e.currentTarget);
+    if (qs) {
+      qs.rotX(0);
+      qs.rotY(0);
+    }
+  });
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -493,7 +583,24 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
   useGSAP(
     () => {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduced || !countRef.current) return;
+      if (!countRef.current) return;
+      const target = filtered.length;
+      if (reduced || !countNumRef.current) {
+        countValueRef.current = target;
+        return;
+      }
+      const counter = { val: countValueRef.current };
+      gsap.to(counter, {
+        val: target,
+        duration: 0.5,
+        ease: "power2.out",
+        onUpdate: () => {
+          if (countNumRef.current) countNumRef.current.textContent = String(Math.round(counter.val));
+        },
+        onComplete: () => {
+          countValueRef.current = target;
+        },
+      });
       gsap.fromTo(countRef.current, { autoAlpha: 0.3, y: -3 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
     },
     { dependencies: [filtered.length], scope: countRef }
@@ -599,6 +706,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                 onClick={() => {
                   captureFlip();
                   setSelectedSubjects([]);
+                  setShowAllSubjects(false);
                   setMode("Online");
                   setCurriculum("All curricula");
                   setMaxBudget(120);
@@ -622,6 +730,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
             <SubjectMultiSelect
               options={subjectOptions}
               selected={selectedSubjects}
+              emptyLabel={showAllSubjects ? "All subjects" : "Popular subjects"}
               onChange={(next) => {
                 captureFlip();
                 setSelectedSubjects(next);
@@ -684,10 +793,41 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
         <div ref={toolbarRef} className="flex justify-between items-center flex-wrap gap-2.5 mb-4.5">
           <span
             ref={countRef}
-            className="text-[14px]"
+            className="text-[14px] flex items-center gap-2 flex-wrap"
             style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
           >
-            Showing <strong style={{ color: "var(--color-text)" }}>{filtered.length}</strong> subject listing{filtered.length === 1 ? "" : "s"}
+            <span>
+              Showing <strong ref={countNumRef} style={{ color: "var(--color-text)" }}>{filtered.length}</strong> subject listing{filtered.length === 1 ? "" : "s"}
+              {isDefaultSubjectView && <span> · popular subjects</span>}
+            </span>
+            {isDefaultSubjectView ? (
+              <button
+                type="button"
+                onClick={() => {
+                  captureFlip();
+                  setShowAllSubjects(true);
+                }}
+                className="text-[12.5px] font-medium cursor-pointer underline-offset-2 hover:underline"
+                style={{ color: "var(--color-accent-2-700)" }}
+              >
+                Browse all subjects
+              </button>
+            ) : (
+              selectedSubjects.length === 0 &&
+              showAllSubjects && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    captureFlip();
+                    setShowAllSubjects(false);
+                  }}
+                  className="text-[12.5px] font-medium cursor-pointer underline-offset-2 hover:underline"
+                  style={{ color: "var(--color-accent-2-700)" }}
+                >
+                  Back to popular subjects
+                </button>
+              )
+            )}
           </span>
           <div className="relative">
             <select
@@ -720,8 +860,9 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
         </div>
 
         {filtered.length > 0 ? (
+          <>
           <div ref={gridRef} className="relative flex flex-col gap-4" style={{ perspective: 1000 }}>
-            {filtered.map((t, i) => {
+            {filtered.slice(0, visibleCount).map((t, i) => {
               const tier = tierOf(t);
               const accent = subjectAccent(t.subjects, i);
               const isBookmarked = t.id ? bookmarked.has(t.id) : false;
@@ -739,6 +880,8 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                       setSelected({ tutor: t, index: i });
                     }
                   }}
+                  onMouseMove={handleCardTilt}
+                  onMouseLeave={handleCardTiltReset}
                   className="tutor-card group card elev-sm relative cursor-pointer border transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
                   style={{ borderColor: "var(--color-divider)" }}
                 >
@@ -996,6 +1139,18 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
               );
             })}
           </div>
+          {visibleCount < filtered.length && (
+            <div className="flex justify-center mt-6">
+              <button
+                type="button"
+                onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                className="btn btn-secondary"
+              >
+                Load more tutors ({filtered.length - visibleCount} more)
+              </button>
+            </div>
+          )}
+          </>
         ) : (
           <div
             className="rounded-[var(--radius-lg)] p-10 text-center border"

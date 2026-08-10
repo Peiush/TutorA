@@ -1,0 +1,132 @@
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Tag } from "@/components/ui/tag";
+import { initialsOf } from "@/components/ui/tutor-avatar";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const STORY_PARAGRAPHS = [
+  "TutorA started from a simple frustration with how online tutoring usually works: browse a public list of tutors, message a few, hope one responds, and figure out on your own whether they're actually who they claim to be. Founder Nancy Gupta built TutorA to close that gap — a platform where every tutor listing and every student request passes through a real review before either side ever sees the other, so no one has to guess who they're getting matched with.",
+  "That review process is still the core of how TutorA works today. Tutors don't self-list into an open marketplace where anyone can pitch a student directly — every profile is checked by our team first, and every match is proposed by a person, not an algorithm guessing from a database. Students never chase a name down from a public list; they tell us what they need, and we make the introduction once we're confident it's a genuine fit. Pricing is shown up front before anyone books, and TutorA only charges a success fee once a match is actually confirmed — never for browsing, never for listing.",
+  "That's still the standard every new tutor and every new student request gets held to: personally reviewed, clearly priced, and backed by a rematch guarantee if the first introduction isn't the right one. It's a slower way to build a marketplace than opening the doors to anyone — but it's the one Nancy set out to build.",
+];
+
+export function FounderStory() {
+  const rootRef = useRef<HTMLElement>(null);
+  const name = "Nancy Gupta";
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: { trigger: root, start: "top 85%", once: true },
+        });
+
+        tl.from(".fs-avatar", { autoAlpha: 0, scale: 0.6, duration: 0.6, ease: "back.out(2.2)" })
+          .from(".fs-name", { autoAlpha: 0, y: 14, duration: 0.5 }, "-=0.25")
+          .from(".fs-role", { autoAlpha: 0, y: 10, duration: 0.45 }, "-=0.3")
+          .from(".fs-mark", { autoAlpha: 0, scale: 0.7, rotate: -12, duration: 0.5, ease: "back.out(2)" }, "-=0.2")
+          .from(".fs-para", { autoAlpha: 0, y: 16, duration: 0.55, stagger: 0.14 }, "-=0.15");
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-mark, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef }
+  );
+
+  return (
+    <section ref={rootRef} className="relative overflow-hidden">
+      <div
+        className="pointer-events-none absolute -top-20 -left-24 w-[320px] h-[320px] rounded-full blur-3xl opacity-30"
+        style={{ background: "var(--color-accent-2-200)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -bottom-24 -right-16 w-[300px] h-[300px] rounded-full blur-3xl opacity-25"
+        style={{ background: "var(--color-accent-200)" }}
+        aria-hidden
+      />
+
+      <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)] relative z-[1]">
+        <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
+          Our Story
+        </Tag>
+        <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-10 max-w-[26ch]">
+          Built by someone who got tired of guessing.
+        </h2>
+
+        <div className="grid gap-10 lg:gap-14 [grid-template-columns:1fr] lg:[grid-template-columns:240px_1fr] items-start">
+          {/* Signature card */}
+          <div className="flex lg:flex-col items-center lg:items-start gap-4 lg:gap-3">
+            <div
+              className="fs-avatar grid place-content-center rounded-full flex-none"
+              style={{
+                width: 88,
+                height: 88,
+                background: "var(--color-accent-2-200)",
+                color: "var(--color-accent-2-800)",
+                fontFamily: "var(--font-heading)",
+                fontWeight: 600,
+                fontSize: 30,
+              }}
+            >
+              {initialsOf(name)}
+            </div>
+            <div>
+              <p className="fs-name font-[var(--font-heading)] font-bold text-[19px] m-0">{name}</p>
+              <Tag variant="accent-2" className="fs-role text-[11px] px-2.5 py-1 mt-1.5 inline-block">
+                Founder
+              </Tag>
+            </div>
+            <span
+              className="fs-mark hidden lg:block mt-4 select-none"
+              style={{
+                fontFamily: "var(--font-accent)",
+                fontWeight: 600,
+                fontSize: 56,
+                lineHeight: 1,
+                color: "var(--color-accent-300)",
+                transform: "rotate(-4deg)",
+              }}
+              aria-hidden
+            >
+              &ldquo;
+            </span>
+          </div>
+
+          {/* Story */}
+          <div className="flex flex-col gap-5 max-w-[68ch]">
+            {STORY_PARAGRAPHS.map((paragraph, i) => (
+              <p
+                key={i}
+                className="fs-para text-[16px] leading-[1.62] m-0"
+                style={{
+                  color:
+                    i === 0
+                      ? "var(--color-text)"
+                      : "color-mix(in srgb, var(--color-text) 74%, transparent)",
+                }}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

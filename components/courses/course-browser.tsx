@@ -23,29 +23,16 @@ import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import type { CourseRaw, CourseCategory } from "@/lib/mock-courses";
 import { GRADE_BANDS, matchesGradeBand } from "@/lib/grade-bands";
 import type { SubjectListing } from "@/app/lib/subject-listings";
+import { POPULAR_SUBJECT_NAMES as FEATURED_SUBJECT_NAMES } from "@/lib/featured-subjects";
 
 gsap.registerPlugin(useGSAP, Flip);
 
 const SORTS = ["Most popular", "Highest rated", "Lowest price"] as const;
 const ALL = "All courses";
 
-// Curated subjects/courses shown on first load (no filter, no search) instead
-// of dumping all 39 courses — a more useful landing than an unsorted wall.
-const FEATURED_SUBJECT_NAMES = [
-  "Algebra I",
-  "Geometry",
-  "Trigonometry",
-  "Precalculus",
-  "Statistics",
-  "AP Calculus AB",
-  "AP Calculus BC",
-  "IB Math",
-  "A-Level Maths",
-  "Biology",
-  "Chemistry",
-  "Physics",
-];
-
+// Curated courses shown on first load (no filter, no search) instead of dumping
+// all 39 courses — a more useful landing than an unsorted wall. (Featured
+// subjects live in "@/lib/featured-subjects" — shared with /find-a-tutor.)
 const FEATURED_COURSE_TITLES = [
   "Python Programming for Beginners",
   "JavaScript Programming for Beginners",

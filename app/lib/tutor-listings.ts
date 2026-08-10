@@ -236,6 +236,53 @@ export const getTutorsMatchingPrefixes = unstable_cache(
   { tags: ["tutor-listings"], revalidate: 60 }
 );
 
+async function fetchTutorsForLinkedSubjects(
+  subjects: { id: string; name: string }[]
+): Promise<TestPrepTutor[]> {
+  if (subjects.length === 0) return [];
+
+  const listings = await prisma.tutorSubject.findMany({
+    where: { subjectId: { in: subjects.map((s) => s.id) }, tutorProfile: { status: "APPROVED" } },
+    include: { tutorProfile: { include: { user: { select: { name: true } } } }, subject: { select: { id: true } } },
+  });
+
+  const nameById = new Map(subjects.map((s) => [s.id, s.name]));
+  const bySlug = new Map<string, TestPrepTutor>();
+  for (const l of listings) {
+    const subjectName = nameById.get(l.subject.id);
+    if (!subjectName) continue;
+    const slug = l.tutorProfile.slug;
+    const existing = bySlug.get(slug);
+    if (existing) {
+      if (!existing.matchedSubjects.includes(subjectName)) existing.matchedSubjects.push(subjectName);
+      continue;
+    }
+    bySlug.set(slug, {
+      name: l.tutorProfile.user.name ?? "Verified tutor",
+      slug,
+      country: l.tutorProfile.country,
+      yearsExperience: l.tutorProfile.yearsExperience,
+      bio: l.tutorProfile.bio,
+      matchedSubjects: [subjectName],
+    });
+  }
+  return Array.from(bySlug.values());
+}
+
+/**
+ * Real, live-queried tutors for a course page whose slug has one or more linked
+ * `/subjects/[slug]` pages (see `COURSE_TO_SUBJECT_SLUGS`), for courses outside the
+ * hand-curated test-prep prefix table above — e.g. Python, where the subject page already
+ * shows live tutor cards via a direct Subject<->TutorSubject relation but the course page
+ * previously showed none, a real page-type-mismatch gap (RE-AUDIT-REPORT.md, 2026-08-10).
+ * Uses the exact relation, not prefix matching, since we already have real subject IDs.
+ */
+export const getTutorsForLinkedSubjects = unstable_cache(
+  fetchTutorsForLinkedSubjects,
+  ["tutors-for-linked-subjects"],
+  { tags: ["tutor-listings", "subject-listings"], revalidate: 60 }
+);
+
 export interface RelatedTutor {
   slug: string;
   name: string;

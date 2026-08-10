@@ -67,28 +67,13 @@ function CategoryCard({
 }) {
   const Icon = CATEGORY_ICON[label];
   const cardRef = useRef<HTMLAnchorElement>(null);
-  const countRef = useRef<HTMLSpanElement>(null);
 
   useGSAP(
     () => {
       const el = cardRef.current;
-      const counter = countRef.current;
-      if (!el) return;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const fine = window.matchMedia("(pointer: fine)").matches;
-
-      if (counter && !reduced) {
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: count,
-          duration: 1.1,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          onUpdate: () => {
-            counter.textContent = String(Math.round(obj.val));
-          },
-        });
-      }
+      if (!el) return;
 
       if (!fine || reduced) return;
 
@@ -195,7 +180,6 @@ function CategoryCard({
               </span>
               <span className="block mt-1 text-[12px] text-white/70">
                 <span
-                  ref={countRef}
                   className="font-semibold"
                   style={{
                     background: "linear-gradient(135deg, var(--color-accent-300), var(--color-accent-600))",
@@ -204,7 +188,7 @@ function CategoryCard({
                     color: "transparent",
                   }}
                 >
-                  0
+                  {count}
                 </span>{" "}
                 courses — our biggest catalog
               </span>
@@ -243,7 +227,7 @@ function CategoryCard({
                   color: "transparent",
                 }}
               >
-                <span ref={countRef}>0</span>
+                <span>{count}</span>
               </span>
               <span className="text-[11.5px] text-white/65">courses</span>
             </span>
@@ -263,28 +247,13 @@ function CategoryCard({
 
 function AllCoursesCard({ total, categories }: { total: number; categories: CategoryCount[] }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
-  const countRef = useRef<HTMLSpanElement>(null);
 
   useGSAP(
     () => {
       const el = cardRef.current;
-      const counter = countRef.current;
-      if (!el) return;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const fine = window.matchMedia("(pointer: fine)").matches;
-
-      if (counter && !reduced) {
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: total,
-          duration: 1.2,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          onUpdate: () => {
-            counter.textContent = String(Math.round(obj.val));
-          },
-        });
-      }
+      if (!el) return;
 
       if (!fine || reduced) return;
 
@@ -385,7 +354,7 @@ function AllCoursesCard({ total, categories }: { total: number; categories: Cate
               color: "transparent",
             }}
           >
-            <span ref={countRef}>0</span>
+            <span>{total}</span>
           </span>
           <span className="text-[18px] font-semibold text-white/75">courses</span>
         </span>

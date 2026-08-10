@@ -3,14 +3,11 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
-import { TrustStrip } from "@/components/home/trust-strip";
 import { HeroIllustration } from "@/components/home/hero-illustration";
 import { HeroIllustrationMobile } from "@/components/home/hero-illustration-mobile";
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
 import { HeroHeading, HeroCopy } from "@/components/home/hero-content";
 import { StatsMarquee } from "@/components/home/stats-marquee";
-import { HowItWorksSteps } from "@/components/home/how-it-works-steps";
-import { VerificationPipeline } from "@/components/home/verification-pipeline";
 import type { CategoryCount } from "@/components/home/course-categories-showcase";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
@@ -28,6 +25,20 @@ import { homepageFaqs } from "@/components/home/homepage-faq";
 // part of the critical bundle blocking first paint. Content still renders via SSR (ssr: true).
 const CourseCategoriesShowcase = dynamic(() =>
   import("@/components/home/course-categories-showcase").then((mod) => mod.CourseCategoriesShowcase)
+);
+// These three are visually near/below the fold, but were previously statically imported,
+// so their module-scope gsap.registerPlugin(ScrollTrigger / DrawSVGPlugin / MotionPathPlugin)
+// calls got bundled into the same eager chunk that gates hero hydration — the heaviest
+// GSAP plugin combo on the page (how-it-works-steps' decorative connector-line animation)
+// was fully downloaded/parsed/executed before the hero could even become interactive,
+// adding real render-delay to LCP with zero above-the-fold visual benefit
+// (RE-AUDIT-REPORT.md, 2026-08-10). Splitting them out doesn't change what's server-rendered.
+const TrustStrip = dynamic(() => import("@/components/home/trust-strip").then((mod) => mod.TrustStrip));
+const HowItWorksSteps = dynamic(() =>
+  import("@/components/home/how-it-works-steps").then((mod) => mod.HowItWorksSteps)
+);
+const VerificationPipeline = dynamic(() =>
+  import("@/components/home/verification-pipeline").then((mod) => mod.VerificationPipeline)
 );
 const WhoItsFor = dynamic(() => import("@/components/home/who-its-for").then((mod) => mod.WhoItsFor));
 const FeaturedTutors = dynamic(() =>

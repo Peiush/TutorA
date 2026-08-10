@@ -23,38 +23,6 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const howToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to find and request a tutor on TutorA",
-  step: [
-    {
-      "@type": "HowToStep",
-      position: 1,
-      name: "Browse & filter",
-      text: "Search by subject, curriculum, teaching mode, or budget to shortlist tutors that fit.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 2,
-      name: "Send a request",
-      text: "Pick a tutor, or let the team match you, and send a request in one click.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 3,
-      name: "We verify & introduce you",
-      text: "The TutorA team confirms availability and makes the introduction personally, keeping contact details private.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 4,
-      name: "Start lessons",
-      text: "Agree on a schedule directly with the tutor and begin lessons.",
-    },
-  ],
-};
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -105,7 +73,6 @@ export default async function FindATutorPage() {
     <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <FindHero tutorCount={tutorCount} subjectCount={subjectCount} />
