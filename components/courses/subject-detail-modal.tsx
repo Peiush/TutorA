@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SubjectIllustration } from "@/components/courses/subject-illustration";
@@ -229,6 +230,13 @@ export function SubjectDetailModal({
               <HeartIcon width={18} height={18} fill={saved ? "currentColor" : "none"} />
             </button>
           </div>
+          <Link
+            href={`/subjects/${subject.slug}`}
+            className="sdetail-stagger text-[13px] text-center font-medium hover:underline"
+            style={{ color: "var(--color-accent-700)" }}
+          >
+            View full details →
+          </Link>
         </div>
       </div>
     </div>,

@@ -57,6 +57,9 @@ export interface SubjectPageContent {
   metaDescriptionOverride?: string;
   /** Not used for "chooser" template. */
   differentiation?: string;
+  /** Optional, page-specific curriculum/skill depth beyond the "why a TutorA tutor" pitch —
+   *  see docs/seo-audit-tutora/findings/content-depth-audit-2026-08-10.md, section 5. */
+  subjectDetail?: string;
   faqs: { q: string; a: string }[];
   /** Only for template "chooser". */
   chooserIntro?: string;
@@ -369,6 +372,8 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     metaDescriptionOverride: "1:1 GCSE Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
       "GCSE Maths shows essentially zero overlap with IGCSE Maths in practice — two genuinely separate provider ecosystems, not one artificially split page — so this page can speak directly to the UK domestic GCSE syllabus without hedging. A TutorA tutor for GCSE Maths is matched to you individually and reviewed by our team beforehand, working with you live rather than through fixed video content. Pricing is shown before booking, and our guarantee covers a free rematch if the first tutor isn't the right fit. Most of TutorA's GCSE Maths tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
+    subjectDetail:
+      "GCSE Maths is assessed across three exam papers under most boards (AQA, Edexcel, OCR) — one non-calculator and two calculator papers — covering number, algebra, ratio and proportion, geometry and measures, probability, and statistics. The tier matters: Foundation caps out at grade 5, while Higher covers grades 4-9 but introduces harder content — like more advanced trigonometry and surds — from the start, so which tier a student is entered for changes what's actually worth practicing. A TutorA GCSE Maths tutor works from where a student actually is — reinforcing non-calculator method (the paper most students find hardest, since it removes the safety net of checking arithmetic) alongside exam-board mark-scheme habits, like showing working for method marks even when the final answer is wrong. Common trouble spots at this level include algebraic manipulation (expanding and factorising, especially with negative terms), ratio and proportion word problems, and trigonometry and vectors, which are usually new territory in Grades 9-10. If you know your child's exam board and tier, mention it when requesting a tutor so sessions match the actual syllabus and paper format rather than a generic version of GCSE Maths.",
     faqs: [
       {
         q: "Foundation or Higher tier — does it matter for tutoring?",
@@ -387,6 +392,10 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         a: "Many students start well before Year 11 to build a strong Year 10 foundation, though exam-focused tutoring in the final months is also common.",
       },
       { q: "Are TutorA's GCSE Maths tutors based in India?", a: "In most cases, yes. India is where the majority of TutorA's tutor pool is based, and every tutor is vetted by our team beforehand — check their individual profile for their specific experience before you book." },
+      {
+        q: "Does GCSE Maths tutoring cover a specific exam board (AQA, Edexcel, OCR)?",
+        a: "It can — mention your child's exam board when requesting a tutor, since paper structure and mark-scheme conventions differ slightly between boards, and sessions are more effective when matched to the actual one your child sits.",
+      },
     ],
   },
   "igcse-chemistry": {
@@ -899,6 +908,8 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "practical-mentor",
     differentiation:
       "Python has plenty of free tutorials and self-paced courses online, which are fine for a first pass at syntax but can't debug the actual error on your screen or explain why your specific script isn't working. This page is for general-audience learners — teens and adults; for younger kids just starting out, our Python Basics page serves a different, kids-focused audience. A TutorA Python tutor works with your real code in live 1:1 sessions — most tutors are based in India, and each one's profile shows their specific programming background — and every tutor is reviewed by our team before being matched, with pricing shown before you book.",
+    subjectDetail:
+      "Python tutoring for Grades 9-12 on TutorA usually moves from core syntax — variables, conditionals, loops, functions — to Python's built-in data structures: lists, dictionaries, sets, and tuples, since almost every real program relies on choosing the right one (a dictionary for fast lookups, a list for ordered data, a set when you need uniqueness without order). From there, sessions typically shift toward building something real — a small game, a data-processing script, a class project — rather than working through isolated exercises with no throughline. Common early sticking points include indentation errors (Python uses whitespace instead of braces, which trips up students coming from another language or none at all), mutable-default-argument bugs, and knowing when to reach for a loop versus a built-in function like map() or a list comprehension. If a student has a specific class assignment, an AP Computer Science Principles project, or a personal project in mind, a tutor can work directly from that instead of a generic curriculum — debugging the actual code a student wrote is usually more useful at this level than watching someone else code in a video.",
     faqs: [
       {
         q: "What's the difference between this page and Python Basics?",
@@ -915,6 +926,14 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
       {
         q: "Are TutorA's Python tutors based in India?",
         a: "Yes, most of them. TutorA's coding tutors are predominantly India-based, with real project and language experience listed on their own profile — reviewed by our team before ever being matched.",
+      },
+      {
+        q: "Can Python tutoring focus on a specific school project or assignment?",
+        a: "Yes — mention the assignment, class (e.g. AP Computer Science Principles), or project when requesting a tutor, and sessions can work directly from that instead of a generic syllabus.",
+      },
+      {
+        q: "Does this cover any specific Python version or library?",
+        a: "Sessions default to standard Python 3 syntax. If your course or project requires a specific library — like Pygame for a game project, or pandas for data work — mention it when requesting a tutor so they can match your background.",
       },
     ],
   },
@@ -1006,6 +1025,8 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "informational",
     differentiation:
       "AI Basics means practical, beginner-level understanding of how AI and machine learning tools actually work — not a computer-science degree topic, and not the same as our more advanced AI & Machine Learning course for students ready to go further. This is a newer subject area for TutorA, and honestly a newer category for 1:1 tutoring generally — most of what's out there is blogs and tutorials rather than tutor marketplaces. Because the field moves quickly, a live tutor who can answer current questions is arguably more useful here than a static course. Coverage may be more limited than for long-established subjects, but if you're curious about learning AI basics 1:1, tell us what you're trying to understand and we'll do our best to match you. TutorA's Artificial Intelligence Basics tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
+    subjectDetail:
+      "AI Basics for Grades 11-12 typically starts with three core ideas: what a \"model\" actually is (a mathematical function trained on data, not a black box with intent), the difference between training and inference (learning patterns from data vs. using those patterns to make a new prediction), and how common approaches — like decision trees or simple classification models — arrive at predictions rather than \"know\" anything. Sessions are hands-on where possible, using beginner-friendly, low-code tools so a student builds a small working example — a spam classifier, an image-recognition demo — rather than only reading about the theory. Because this is a fast-moving field, a lot of \"AI basics\" content online goes stale within a year or two; a live tutor can at least flag when something's changed since a textbook or course was written. This subject deliberately doesn't promise deep technical depth — for students ready to go further into the math and code behind machine learning, TutorA's AI & Machine Learning (Advanced) course is the next step.",
     faqs: [
       {
         q: "Do I need a technical background to learn AI Basics?",
@@ -1020,6 +1041,14 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
         a: "Yes — though this is a newer subject area for TutorA, and coverage may be more limited than for long-established subjects. Tell us what you're trying to understand and we'll do our best to match you.",
       },
       { q: "Are TutorA's Artificial Intelligence Basics tutors based in India?", a: "Generally, yes — most of TutorA's coding tutors are based in India. Each one is reviewed by our team before being matched, and their profile lists their actual programming background rather than a generic bio." },
+      {
+        q: "What tools or programming languages does AI Basics tutoring use?",
+        a: "It depends on the tutor and your goal — many lean on beginner-friendly, low-code notebook environments rather than requiring you to already know Python, though some Python familiarity helps if you want to go further afterward.",
+      },
+      {
+        q: "How is \"AI Basics\" different from a general computer science course?",
+        a: "It's narrower and more applied — focused specifically on how AI/ML systems work conceptually and hands-on, rather than covering programming fundamentals, data structures, or other CS topics broadly.",
+      },
     ],
   },
 
@@ -1542,10 +1571,20 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     template: "standard",
     differentiation:
       "Spanish tutoring on TutorA is matched, not open-marketplace — unlike Preply or italki, where any self-listed tutor can apply, every TutorA tutor is reviewed by our team before being matched to you. Sessions are live 1:1, this page is positioned for Grades 6-8, and pricing is shown before you book.",
+    subjectDetail:
+      "Middle-school Spanish (Grades 6-8) usually starts with the basics that trip up English speakers specifically: gendered nouns and adjective agreement (el libro rojo vs. la mesa roja), the distinction between ser and estar (both mean \"to be,\" but ser is for permanent traits and estar is for states or location — a common early confusion), and regular present-tense conjugation across the three verb groups (-ar, -er, -ir). A TutorA Spanish tutor paces this to your child's actual class or goal — if they're following a specific school curriculum, sessions can reinforce what's being taught in class rather than a separate track; if it's general conversational Spanish, sessions lean more toward speaking and listening from the first lesson instead of grammar-first. Common early sticking points include false cognates (words that look similar to English but mean something different — \"embarazada\" means pregnant, not embarrassed) and irregular verbs that don't follow the standard patterns, like ser, ir, and tener. Sessions run 45 minutes, typically 1-2x a week, live and 1:1 — your tutor adjusts pace for a middle-schooler rather than material written for adult learners.",
     faqs: [
       { q: "Is Spanish tutoring for beginners or advanced speakers?", a: "Mention your current level — beginner, conversational, advanced — when requesting a tutor." },
       { q: "Spanish for kids?", a: "TutorA can match younger learners with a patient Spanish tutor — mention your child's age when requesting one." },
       { q: "How much does Spanish tutoring cost?", a: "Pricing varies by tutor and is shown before booking." },
+      {
+        q: "Is this Spanish tutoring aligned with a specific school curriculum?",
+        a: "It can be — mention your child's school, textbook, or specific unit when requesting a tutor, and sessions can reinforce exactly what's being taught in class rather than a separate, disconnected track.",
+      },
+      {
+        q: "My child is a complete beginner — is that okay?",
+        a: "Yes. Grades 6-8 Spanish tutoring on TutorA is matched to your child's actual starting point, whether that's zero prior exposure or a year or two of school Spanish already under their belt.",
+      },
     ],
   },
   "french": {

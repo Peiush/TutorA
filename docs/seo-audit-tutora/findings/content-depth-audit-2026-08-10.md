@@ -91,3 +91,34 @@ Two different problems, requiring two different fixes:
 
 - **Pilot batch** (recommended first step): 5-10 pages across different templates (a language course, a test-prep course, a `standard` subject, a `service-hybrid` subject, a `practical-mentor` subject) written to full target depth, for you to sign off on voice/structure before the pattern is repeated 150+ more times.
 - Tutor profiles are out of scope for a code change — the fix there is either an admin bio-writing pass (human task, same category as the "add real tutor photos" item already deferred in the main audit) or a synthesized supplementary section built from real `TutorSubject`/`Subject` data (no personal claims), which is a smaller, safer follow-up.
+
+## 6. Pilot batch — implemented 2026-08-10
+
+Two changes landed, verified with `tsc --noEmit` (clean) and a local dev-server render check (both new headings/paragraphs confirmed present in the SSR HTML):
+
+**Code-level fix (all 103 subject pages, no writing required):** added `aboutSubjectParagraph()` to `app/subjects/[slug]/page.tsx`, mirroring the course template's existing `aboutCourseParagraph()` — synthesizes real `Subject` fields (grade level, curriculum, session cadence, `whatYoullLearn`) into a ~50-70 word paragraph under a new "About [Subject] tutoring" heading. Zero hallucination risk (field-driven, not invented), zero new duplication risk (varies by the subject's actual data, not a shared template sentence). Applies automatically to every subject page, effective immediately.
+
+**Hand-written pilot content (6 pages, one per template type):** added a `courseDetail` / `subjectDetail` field (new interface field in both data files, rendered under a new "What this course covers" / "What this covers" heading) plus 1-2 additional FAQs, to:
+- `italian-0bce3f0c` (course, Languages)
+- `ielts-8d4686db` (course, Test Preparation)
+- `spanish` (subject, `standard` template)
+- `gcse-maths` (subject, `service-hybrid` template)
+- `python` (subject, `practical-mentor` template)
+- `ai-basics` (subject, `informational` template)
+
+All new content is grounded in real, verifiable facts pulled from this session's live query against the local dev database (actual `gradeLevel`/`curriculum`/`durationLabel`/`whatYoullLearn` values) plus well-established, publicly verifiable subject-matter facts (e.g. GCSE Maths's three-paper AQA/Edexcel/OCR structure and Foundation/Higher tier split, IELTS's four-section format and band-score criteria, CEFR levels for language learning) — no invented TutorA-specific claims, per this file's existing convention.
+
+**Measured impact** (word counts computed directly from the data files; course-page baseline cross-checked against the one live-sampled page in `content.md` to solve for template chrome):
+
+| Page | Before (~words) | After (~words) | Target |
+|---|---|---|---|
+| `italian-0bce3f0c` (course) | ~408 | ~770 | 800 |
+| `ielts-8d4686db` (course) | ~491 (live-sampled) | ~790 | 800 |
+| `spanish` (subject) | thin — one of the 3 shortest in the corpus | +180 words of new prose + new synthesized paragraph | 500-600 |
+| `gcse-maths` (subject) | 159 (live-sampled) | +190 words of new prose + new synthesized paragraph | 500-600 |
+| `python` (subject) | 142 (live-sampled per `content.md`'s methodology) | +185 words of new prose + new synthesized paragraph | 500-600 |
+| `ai-basics` (subject) | 202 | +170 words of new prose + new synthesized paragraph | 500-600 |
+
+Note: the original live-sampled subject word count (159 for `gcse-maths`) came out *lower* than what the underlying data file's differentiation+FAQ text alone should produce word-for-word — most likely the extraction tool used in the original audit didn't fully capture the FAQ accordion's text. Worth a fresh live re-measurement (via `render_page.py` or equivalent) once this content ships, rather than trusting the old baseline as exact.
+
+**Remaining scope:** 47 more course entries and 99 more subject entries (150 pages total) at the same depth, following this pilot's voice and structure once reviewed.

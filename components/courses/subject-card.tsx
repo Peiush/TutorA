@@ -345,6 +345,14 @@ export function SubjectCard({
             <HeartIcon width={16} height={16} fill={saved ? "currentColor" : "none"} />
           </button>
         </div>
+        <Link
+          href={`/subjects/${subject.slug}`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-[12px] text-center font-medium hover:underline"
+          style={{ color: "var(--color-accent-700)" }}
+        >
+          See full details →
+        </Link>
         <span className="text-[11px] text-center" style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}>
           {price}
         </span>

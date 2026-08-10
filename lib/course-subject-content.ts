@@ -28,6 +28,9 @@
 export interface CourseSubjectContent {
   differentiation: string;
   faqs: { q: string; a: string }[];
+  /** Optional, page-specific curriculum/skill depth beyond the "why a TutorA tutor" pitch —
+   *  see docs/seo-audit-tutora/findings/content-depth-audit-2026-08-10.md, section 5. */
+  courseDetail?: string;
 }
 
 // Maps each test-prep course slug to the real Subject.name prefixes that identify tutors
@@ -497,6 +500,8 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   "italian-0bce3f0c": {
     differentiation:
       "Italian has plenty of self-paced options — Duolingo, Babbel, Coursera-style courses — that cover vocabulary and basic grammar well. What they can't offer is real conversation practice or pronunciation correction in the moment. A TutorA Italian tutor works with you live and 1:1, matched to your actual goals, whether that's travel conversation, grammar, or exam preparation. Every tutor is reviewed before being matched, with pricing shown before you book.",
+    courseDetail:
+      "Italian tutoring on TutorA typically moves through stages, though your tutor adjusts based on where you're actually starting: early sessions focus on core verb conjugation (present tense first, since irregular verbs like essere, avere, and andare show up constantly in real conversation), noun-gender agreement, and everyday vocabulary for situations you actually need — travel, family, work. Once that's solid, sessions usually shift toward past tenses — passato prossimo vs. imperfetto is the classic sticking point for English speakers, since Italian splits what English treats as a single past tense — and more natural sentence structure. Later sessions lean conversation-driven: your tutor pushes you to answer in full sentences rather than single words, and corrects pronunciation live, including double-consonant sounds (nonno vs. nono) that self-paced apps rarely catch. If your goal is a specific trip, exam, or work requirement rather than general fluency, mention it when requesting a tutor — sessions can be weighted toward that instead of following a fixed order. Between sessions, most tutors suggest some form of spaced repetition (flashcard apps work fine for this) to hold onto new vocabulary — the live session is best spent on the things a flashcard app can't do, like conversation and pronunciation, rather than rote memorization your tutor doesn't need to sit and watch.",
     faqs: [
       {
         q: "Do I need any Italian background to start tutoring?",
@@ -517,6 +522,18 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
       {
         q: "Is there a certificate for completing Italian tutoring?",
         a: "No — TutorA is live tutoring, not a self-paced video course, so there's no certificate of completion.",
+      },
+      {
+        q: "How long does it typically take to become conversational in Italian?",
+        a: "It varies a lot by how often you practice, but many learners reach basic conversational ability (roughly CEFR A2-B1) after around 100-150 hours of active practice split between lessons and self-study — a live tutor tends to speed that up by catching mistakes immediately instead of letting them become habits.",
+      },
+      {
+        q: "Does a TutorA Italian tutor follow the CEFR framework?",
+        a: "Tutors generally reference CEFR levels (A1 through C2) informally to gauge where you're starting and set goals, though sessions are shaped around your actual conversation and grammar gaps rather than a fixed CEFR curriculum.",
+      },
+      {
+        q: "Can Italian tutoring help me prepare for a certification exam like CILS or CELI?",
+        a: "Yes — mention which certification (CILS, CELI, or another) and your target level when requesting a tutor, so sessions can focus on that exam's specific format rather than general conversation practice.",
       },
     ],
   },
@@ -1162,6 +1179,8 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   "ielts-8d4686db": {
     differentiation:
       "IELTS prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual IELTS tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing, Academic or General Training. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for IELTS at no extra cost. Most of TutorA's IELTS Preparation tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
+    courseDetail:
+      "IELTS sessions on TutorA are usually organized around the exam's four sections, since each rewards a different skill. Listening and Reading are scored against a 40-question format, so tutors often focus on prediction techniques and the common trap-question patterns that cost easy marks. Writing — Task 1 (a report or letter, depending on Academic or General Training) and Task 2 (a full essay) — is scored against specific band-score criteria covering task achievement, coherence, vocabulary, and grammar, so a tutor reviewing your actual drafts against those criteria matters more than generic essay advice. Speaking is a live 11-14 minute interview, which is exactly the format a 1:1 tutor can rehearse with you far more realistically than a script or app. Most students come in stronger on some sections than others, so a tutor can weight session time toward your actual weak section instead of repeating a fixed syllabus. If you're retaking the test and already know your previous band-score breakdown, share it when requesting a tutor so sessions start from your specific gap rather than the basics.",
     faqs: [
       { q: "How much does IELTS tutoring cost?", a: "Pricing varies by tutor and is shown before you book — there's no flat rate." },
       { q: "What if my IELTS tutor isn't the right fit?", a: "You're covered by our Tutor Match Guarantee — tell us and we'll match you with a different IELTS tutor at no extra cost." },
@@ -1169,6 +1188,14 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
       { q: "Is IELTS tutoring 1:1 or a class?", a: "1:1. Every session is live and personal to you, not a cohort class." },
       { q: "Is there a certificate for completing IELTS tutoring?", a: "No — TutorA is live tutoring, not a self-paced course, so there's no certificate of completion." },
       { q: "Are TutorA's IELTS Preparation tutors based in India?", a: "Yes, for most tutors on TutorA. Our team reviews every tutor before they're matched with a student, regardless of location, and their profile shows their real background — most happen to be India-based." },
+      {
+        q: "What IELTS band score should I aim for?",
+        a: "It depends entirely on what you need it for — many university programs ask for 6.0-7.0 overall, and some skilled-migration visas set specific minimums per section, not just an overall average. Tell your tutor your target score and purpose (study, work, immigration) so sessions are paced to it.",
+      },
+      {
+        q: "Is there a difference between preparing for Academic and General Training IELTS?",
+        a: "Yes — Listening and Speaking are the same for both, but Reading and Writing differ: Academic uses more complex, academic-style texts and an analytical Task 1 (describing a chart or graph), while General Training uses everyday-context texts and a letter-writing Task 1. Mention which version you're taking so your tutor prepares the right material.",
+      },
     ],
   },
   "pte-302557b2": {
