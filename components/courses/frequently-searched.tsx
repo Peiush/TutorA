@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { TargetIcon, CodeBracketIcon, GlobeIcon } from "@/components/courses/course-icons";
@@ -65,6 +65,47 @@ export const FREQUENTLY_SEARCHED: {
   },
 ];
 
+// Deterministic hash so size/rotation/order stay stable between server and client renders.
+function hashString(str: string): number {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+
+// Seeded shuffle so items look scattered rather than alphabetically listed.
+function seededShuffle<T>(arr: T[], seed: string): T[] {
+  const result = [...arr];
+  let s = hashString(seed) || 1;
+  const rand = () => {
+    s = (s * 1103515245 + 12345) & 0x7fffffff;
+    return s / 0x7fffffff;
+  };
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+const CHIP_SIZES = [
+  { text: "text-[8.5px] sm:text-[11px]", pad: "px-1.5 py-0.5 sm:px-2.5 sm:py-1" },
+  { text: "text-[9.5px] sm:text-[12.5px]", pad: "px-2 py-0.5 sm:px-3.5 sm:py-1.5" },
+  { text: "text-[10.5px] sm:text-[14px]", pad: "px-2.5 py-1 sm:px-4 sm:py-2" },
+  { text: "text-[12px] sm:text-[16.5px]", pad: "px-3 py-1 sm:px-5 sm:py-2.5" },
+  { text: "text-[13.5px] sm:text-[19px]", pad: "px-3.5 py-1.5 sm:px-6 sm:py-3" },
+];
+
+function chipStyleFor(label: string) {
+  const hash = hashString(label);
+  const size = CHIP_SIZES[hash % CHIP_SIZES.length];
+  const rotation = (hash % 9) - 4; // -4deg .. 4deg
+  const lift = (hash >> 3) % 3 === 0 ? -3 : (hash >> 3) % 3 === 1 ? 3 : 0;
+  return { size, rotation, lift };
+}
+
 export function FrequentlySearched({
   onPick,
   title = "Frequently searched",
@@ -80,6 +121,13 @@ export function FrequentlySearched({
 }) {
   const centered = align === "center";
   const rootRef = useRef<HTMLDivElement>(null);
+
+  const allItems = useMemo(() => {
+    const flat = FREQUENTLY_SEARCHED.flatMap(({ colorKey, items }) =>
+      items.map((item) => ({ ...item, colors: CATEGORY_COLORS[colorKey] }))
+    );
+    return seededShuffle(flat, "frequently-searched-all");
+  }, []);
 
   const { contextSafe } = useGSAP(
     () => {
@@ -114,51 +162,35 @@ export function FrequentlySearched({
 
   return (
     <div ref={rootRef} className={className}>
-      <h2 className={`text-[18px] mb-1 ${centered ? "text-center" : ""}`} style={{ fontFamily: "var(--font-heading)" }}>
+      <h2 className={`text-[15px] sm:text-[18px] mb-0.5 sm:mb-1 ${centered ? "text-center" : ""}`} style={{ fontFamily: "var(--font-heading)" }}>
         {title}
       </h2>
       <p
-        className={`text-[13.5px] mb-4 ${centered ? "text-center" : ""}`}
+        className={`text-[11.5px] sm:text-[13.5px] mb-2 sm:mb-4 ${centered ? "text-center" : ""}`}
         style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
       >
         {description}
       </p>
-      <div className="flex flex-col gap-4">
-        {FREQUENTLY_SEARCHED.map(({ group, icon: Icon, colorKey, items }) => {
-          const colors = CATEGORY_COLORS[colorKey];
+      <div className={`flex flex-wrap items-center gap-x-1 gap-y-1 sm:gap-x-2.5 sm:gap-y-2 ${centered ? "justify-center" : ""}`}>
+        {allItems.map(({ label, query, colors }) => {
+          const { size, rotation, lift } = chipStyleFor(label);
           return (
-            <div key={group}>
-              <div className={`flex items-center gap-2 mb-2 ${centered ? "justify-center" : ""}`}>
-                <span
-                  className="w-6 h-6 rounded-full grid place-content-center flex-none"
-                  style={{ background: colors.light, color: colors.text }}
-                >
-                  <Icon width={12} height={12} />
-                </span>
-                <span className="text-[12px] font-semibold uppercase tracking-wide" style={{ color: colors.text }}>
-                  {group}
-                </span>
-              </div>
-              <div className={`flex flex-wrap gap-2 ${centered ? "justify-center" : ""}`}>
-                {items.map((item) => (
-                  <button
-                    key={item.label}
-                    type="button"
-                    onMouseEnter={(e) => handleEnter(e.currentTarget, colors.solid)}
-                    onMouseLeave={(e) => handleLeave(e.currentTarget)}
-                    onClick={(e) => handleClick(e.currentTarget, item.query)}
-                    className="fs-chip cursor-pointer rounded-full px-3.5 py-1.5 text-[12.5px] font-medium"
-                    style={{
-                      background: colors.light,
-                      color: colors.text,
-                      border: `1px solid color-mix(in srgb, ${colors.solid} 30%, transparent)`,
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <button
+              key={label}
+              type="button"
+              onMouseEnter={(e) => handleEnter(e.currentTarget, colors.solid)}
+              onMouseLeave={(e) => handleLeave(e.currentTarget)}
+              onClick={(e) => handleClick(e.currentTarget, query)}
+              className={`fs-chip cursor-pointer rounded-full font-medium ${size.text} ${size.pad}`}
+              style={{
+                background: colors.light,
+                color: colors.text,
+                border: `1px solid color-mix(in srgb, ${colors.solid} 30%, transparent)`,
+                transform: `rotate(${rotation}deg) translateY(${lift}px)`,
+              }}
+            >
+              {label}
+            </button>
           );
         })}
       </div>
