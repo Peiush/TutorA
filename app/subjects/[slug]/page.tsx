@@ -8,6 +8,7 @@ import { FaqAccordion } from "@/components/about/faq-accordion";
 import { SubjectIllustration } from "@/components/courses/subject-illustration";
 import { ClockIcon, CheckIcon, GraduationCapIcon, LayersIcon, UserCheckIcon } from "@/components/courses/course-icons";
 import { DetailSection } from "@/components/courses/detail-section";
+import { ExpandableDetail } from "@/components/courses/expandable-detail";
 import { SubjectDetailActions } from "@/components/courses/subject-detail-actions";
 import {
   getSubjectBySlug,
@@ -20,6 +21,7 @@ import { priceLabelUSD } from "@/lib/mock-courses";
 import { GRADE_BANDS, GRADE_BAND_COLORS, matchesGradeBand } from "@/lib/grade-bands";
 import { SUBJECT_TO_COURSE_SLUG } from "@/lib/subject-course-links";
 import { subjectPageContent, type SubjectPageContent } from "@/lib/subject-content";
+import { paragraphize } from "@/lib/format-prose";
 import { personalizeFaqs } from "@/lib/faq-personalize";
 import { sanitizeDifferentiation } from "@/lib/differentiation-copy";
 import { auth } from "@/auth";
@@ -376,9 +378,10 @@ export default async function SubjectDetailPage({
 
           {!isChooser && content?.subjectDetail && (
             <DetailSection icon={<LayersIcon width={17} height={17} />} tint="accent" title="What this covers">
-              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                {content.subjectDetail}
-              </p>
+              <ExpandableDetail
+                highlights={content.subjectDetailHighlights ?? []}
+                paragraphs={paragraphize(content.subjectDetail)}
+              />
             </DetailSection>
           )}
 

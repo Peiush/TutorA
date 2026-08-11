@@ -9,6 +9,7 @@ import { StarRating } from "@/components/ui/tutor-avatar";
 import { CourseIllustration } from "@/components/courses/course-illustrations";
 import { ClockIcon, LayersIcon, BarChartIcon, CheckIcon, GraduationCapIcon, UserCheckIcon } from "@/components/courses/course-icons";
 import { DetailSection } from "@/components/courses/detail-section";
+import { ExpandableDetail } from "@/components/courses/expandable-detail";
 import { CourseDetailActions } from "@/components/courses/course-detail-actions";
 import { getCourseBySlug, getPublishedCourses, getRelatedCourses } from "@/app/lib/course-listings";
 import { getTutorsMatchingPrefixes, getTutorsForLinkedSubjects } from "@/app/lib/tutor-listings";
@@ -16,6 +17,7 @@ import { priceLabel, priceLabelUSD, learningOutcomes, courseWorkloadISO8601, typ
 import { courseSubjectContent, TEST_PREP_TUTOR_MATCH } from "@/lib/course-subject-content";
 import { personalizeFaqs } from "@/lib/faq-personalize";
 import { sanitizeDifferentiation } from "@/lib/differentiation-copy";
+import { paragraphize } from "@/lib/format-prose";
 import { COURSE_TO_SUBJECT_SLUGS } from "@/lib/subject-course-links";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -424,9 +426,10 @@ export default async function CourseDetailPage({
 
           {subjectContent?.courseDetail && (
             <DetailSection icon={<LayersIcon width={17} height={17} />} tint="accent" title="What this course covers">
-              <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
-                {subjectContent.courseDetail}
-              </p>
+              <ExpandableDetail
+                highlights={subjectContent.courseDetailHighlights ?? []}
+                paragraphs={paragraphize(subjectContent.courseDetail)}
+              />
             </DetailSection>
           )}
 
