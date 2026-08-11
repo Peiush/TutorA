@@ -196,7 +196,10 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                 borderColor: "var(--color-divider)",
                 boxShadow: "var(--shadow-sm)",
               }}
-              onClick={() => setDetail({ tutor: t, index: i })}
+              onClick={() => {
+                if (t.slug) router.push(`/find-a-tutor/${t.slug}`);
+                else setDetail({ tutor: t, index: i });
+              }}
             >
               <div
                 className="tutor-card-hover-shadow pointer-events-none absolute inset-0 rounded-[22px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -234,7 +237,8 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                         style={{ color: "var(--color-text)" }}
                         onClick={(e) => {
                           e.stopPropagation();
-                          setDetail({ tutor: t, index: i });
+                          if (t.slug) router.push(`/find-a-tutor/${t.slug}`);
+                          else setDetail({ tutor: t, index: i });
                         }}
                       >
                         {t.name}

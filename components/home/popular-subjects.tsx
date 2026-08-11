@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SubjectIcon } from "@/components/ui/subject-icons";
 import { vibrantAccent } from "@/lib/vibrant-accents";
-import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
+import { scrollRevealSafetyNet } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -45,12 +45,19 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
           stagger: { each: 0.055, from: "start" },
         }, 0);
 
+        // isGsapHidden(pills[0]) would false-negative here: the stagger means the
+        // first pill reaches autoAlpha:1 well before the rest, so if the timeline
+        // gets interrupted mid-flight (ScrollTrigger.refresh() from font reflow,
+        // fast refresh, tab throttling) later pills can be left stuck at a partial
+        // y/scale/rotate offset while pills[0] already reads "not hidden" and the
+        // safety net skips them — exactly the scattered layout that only a reload
+        // (fresh timeline) fixes. Checking the timeline's own progress instead
+        // catches that case for every pill, and forcing progress to 1 completes
+        // the tween in place rather than snapping values via a separate gsap.set.
         return scrollRevealSafetyNet(
           row,
-          () => isGsapHidden(pills[0]),
-          () => {
-            gsap.set(pills, { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
-          }
+          () => tl.progress() < 1,
+          () => tl.progress(1)
         );
       });
 

@@ -54,7 +54,7 @@ const TestimonialsSection = dynamic(() =>
 const PopularSubjects = dynamic(() =>
   import("@/components/home/popular-subjects").then((mod) => mod.PopularSubjects)
 );
-const FinalCta = dynamic(() => import("@/components/home/final-cta").then((mod) => mod.FinalCta));
+const ContactCta = dynamic(() => import("@/components/about/contact-cta").then((mod) => mod.ContactCta));
 const HomepageFaq = dynamic(() =>
   import("@/components/home/homepage-faq").then((mod) => mod.HomepageFaq)
 );
@@ -408,7 +408,7 @@ export default async function Home() {
       <HomepageFaq />
 
       {/* CTA */}
-      <FinalCta />
+      <ContactCta />
     </div>
   );
 }

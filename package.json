@@ -6,7 +6,8 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "rm -rf .next/dev && next dev",
+    "dev": "next dev",
+    "dev:clean": "rm -rf .next/dev && next dev",
     "build": "prisma migrate deploy && next build",
     "start": "next start",
     "postinstall": "prisma generate",

@@ -113,15 +113,17 @@ export default async function TutorDetailPage({
 
   const subjectNamesForMatch = tutor.subjects.map((s) => s.subjectName);
   const userId = session?.user?.id;
-  const [savedTutor, openRequest, relatedTutors] = userId
+  const [savedTutor, openRequests, relatedTutors] = userId
     ? await Promise.all([
         prisma.savedTutor.findUnique({ where: { userId_tutorProfileId: { userId, tutorProfileId: tutor.id } } }),
-        prisma.tutorRequest.findFirst({
+        prisma.tutorRequest.findMany({
           where: { userId, requestedTutorProfileId: tutor.id, status: { in: ["OPEN", "MATCHED"] } },
+          select: { subject: true },
         }),
         getRelatedTutors(tutor.id, subjectNamesForMatch),
       ])
-    : [null, null, await getRelatedTutors(tutor.id, subjectNamesForMatch)];
+    : [null, [], await getRelatedTutors(tutor.id, subjectNamesForMatch)];
+  const requestedSubjectNames = openRequests.map((r) => r.subject);
 
   // Subject/course cross-links: prior to this, tutor profile pages linked out only to other
   // tutor profiles — the internal-linking audit (2026-08-09) flagged this as a one-directional
@@ -214,7 +216,7 @@ export default async function TutorDetailPage({
           tutorName={tutor.name}
           subjects={tutor.subjects}
           initialSaved={Boolean(savedTutor)}
-          initialRequested={Boolean(openRequest)}
+          initialRequestedSubjects={requestedSubjectNames}
         />
 
         {(relatedSubjectLinks.length > 0 || relatedCourseSlugs.length > 0) && (

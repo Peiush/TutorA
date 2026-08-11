@@ -8,12 +8,17 @@ import { Tag } from "@/components/ui/tag";
 import { CheckBadge } from "@/components/ui/verified-badge";
 import { MailIcon, UserIcon, ChatDotsIcon } from "@/components/auth/auth-icons";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
+import { submitContactMessage } from "@/app/lib/actions/contact";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export function ContactCta() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   useGSAP(
     () => {
@@ -63,10 +68,17 @@ export function ContactCta() {
     { scope: rootRef }
   );
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setStatus("sending");
-    window.setTimeout(() => setStatus("sent"), 700);
+    setError(null);
+    const result = await submitContactMessage({ name, email, message });
+    if (result.ok) {
+      setStatus("sent");
+    } else {
+      setStatus("idle");
+      setError(result.message ?? "Something went wrong. Please try again.");
+    }
   }
 
   return (
@@ -171,14 +183,27 @@ export function ContactCta() {
                   <label>Name</label>
                   <div className="field-icon">
                     <UserIcon />
-                    <input className="input" placeholder="Your name" required />
+                    <input
+                      className="input"
+                      placeholder="Your name"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="cc-field field">
                   <label>Email</label>
                   <div className="field-icon">
                     <MailIcon />
-                    <input className="input" type="email" placeholder="you@example.com" required />
+                    <input
+                      className="input"
+                      type="email"
+                      placeholder="you@example.com"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -186,9 +211,21 @@ export function ContactCta() {
                 <label>Message</label>
                 <div className="field-icon">
                   <ChatDotsIcon />
-                  <textarea className="input" rows={4} placeholder="How can we help?" required />
+                  <textarea
+                    className="input"
+                    rows={4}
+                    placeholder="How can we help?"
+                    required
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
                 </div>
               </div>
+              {error ? (
+                <p className="cc-field text-[13px] m-0" style={{ color: "var(--color-danger, #dc2626)" }}>
+                  {error}
+                </p>
+              ) : null}
               <button type="submit" className="cc-field btn btn-primary justify-self-start" disabled={status === "sending"}>
                 {status === "sending" ? "Sending…" : "Send message"}
               </button>

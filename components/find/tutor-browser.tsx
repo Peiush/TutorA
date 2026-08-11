@@ -878,11 +878,15 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                   data-tutor-id={t.listingId ?? t.id ?? t.name}
                   role="button"
                   tabIndex={0}
-                  onClick={() => setSelected({ tutor: t, index: i })}
+                  onClick={() => {
+                    if (t.slug) router.push(`/find-a-tutor/${t.slug}`);
+                    else setSelected({ tutor: t, index: i });
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      setSelected({ tutor: t, index: i });
+                      if (t.slug) router.push(`/find-a-tutor/${t.slug}`);
+                      else setSelected({ tutor: t, index: i });
                     }
                   }}
                   onMouseMove={handleCardTilt}

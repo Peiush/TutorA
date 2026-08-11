@@ -57,3 +57,46 @@ export async function sendEmailOtp(to: string, code: string): Promise<SendResult
     return { ok: false };
   }
 }
+
+export async function sendContactMessage(input: {
+  name: string;
+  email: string;
+  message: string;
+}): Promise<SendResult> {
+  const transporter = getTransporter();
+  if (!transporter) {
+    console.warn("[email] Skipping contact message: GMAIL_USER / GMAIL_APP_PASSWORD not configured.");
+    return { ok: false };
+  }
+
+  const capped = rateLimit("email:send-cap", SEND_CAP_PER_MINUTE, 60 * 1000);
+  if (!capped.ok) {
+    console.warn(JSON.stringify({ event: "email.rate_capped", retryAfterMs: capped.retryAfterMs }));
+    return { ok: false };
+  }
+
+  const { name, email, message } = input;
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  try {
+    await transporter.sendMail({
+      from: `TutorConnect <${process.env.GMAIL_USER}>`,
+      to: "tutora.support@gmail.com",
+      replyTo: email,
+      subject: `New contact form message from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto;">
+          <p style="font-size: 15px;"><strong>Name:</strong> ${esc(name)}</p>
+          <p style="font-size: 15px;"><strong>Email:</strong> ${esc(email)}</p>
+          <p style="font-size: 15px;"><strong>Message:</strong></p>
+          <p style="font-size: 14px; white-space: pre-wrap;">${esc(message)}</p>
+        </div>
+      `,
+    });
+    return { ok: true };
+  } catch (err) {
+    console.error("[email] Failed to send contact message:", err);
+    return { ok: false };
+  }
+}

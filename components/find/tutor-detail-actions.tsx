@@ -14,17 +14,17 @@ export function TutorDetailActions({
   tutorName,
   subjects,
   initialSaved,
-  initialRequested,
+  initialRequestedSubjects,
 }: {
   tutorProfileId: string;
   tutorName: string;
   subjects: TutorSubjectOffering[];
   initialSaved: boolean;
-  initialRequested: boolean;
+  initialRequestedSubjects: string[];
 }) {
   const router = useRouter();
   const [saved, setSaved] = useState(initialSaved);
-  const [requested, setRequested] = useState(initialRequested);
+  const [requestedSubjects, setRequestedSubjects] = useState<Set<string>>(new Set(initialRequestedSubjects));
   const [savePending, startSaveTransition] = useTransition();
   const [requestingSubjectId, setRequestingSubjectId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
@@ -66,7 +66,7 @@ export function TutorDetailActions({
         setToast({ tone: "error", message: result.message ?? "Something went wrong." });
         return;
       }
-      setRequested(true);
+      setRequestedSubjects((prev) => new Set(prev).add(offering.subjectName));
       setToast({ tone: "success", message: result.message ?? `Your request for ${tutorName} has been sent.` });
     });
   };
@@ -95,10 +95,14 @@ export function TutorDetailActions({
               type="button"
               className="btn btn-primary"
               style={{ padding: "7px 16px", fontSize: 13 }}
-              disabled={requested || requestingSubjectId === offering.id}
+              disabled={requestedSubjects.has(offering.subjectName) || requestingSubjectId === offering.id}
               onClick={(e) => onRequest(offering, e.currentTarget)}
             >
-              {requested ? "Requested" : requestingSubjectId === offering.id ? "Sending…" : "Request"}
+              {requestedSubjects.has(offering.subjectName)
+                ? "Requested"
+                : requestingSubjectId === offering.id
+                  ? "Sending…"
+                  : "Request"}
             </button>
           </div>
         </div>

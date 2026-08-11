@@ -162,11 +162,12 @@ export async function requestSpecificTutor(
       where: {
         userId: user.id,
         requestedTutorProfileId: tutorProfileId,
+        subject,
         status: { in: ["OPEN", "MATCHED"] },
       },
     });
     if (existing) {
-      return { ok: false, message: `You've already sent a request to ${tutorName}.` };
+      return { ok: false, message: `You've already sent a ${subject} request to ${tutorName}.` };
     }
   }
 

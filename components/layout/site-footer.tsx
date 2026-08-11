@@ -20,14 +20,8 @@ const EXPLORE_LINKS = [
   { href: "/guarantee", label: "Tutor Match Guarantee" },
 ];
 
-// nofollow: these are auth-gated app routes, not public content — without it they'd be
-// both linked (crawlable) and disallowed in robots.txt on every page site-wide, wasting
-// crawl budget and risking an "indexed though blocked by robots.txt" warning in GSC.
-const DASHBOARD_LINKS = [
-  { href: "/dashboard", label: "Student", rel: "nofollow" },
-  // { href: "/tutor", label: "Tutor" },
-  { href: "/admin", label: "Admin", rel: "nofollow" },
-];
+const CONTACT_EMAIL = "tutora.support@gmail.com";
+const MAILTO_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Question about TutorA")}`;
 
 const ACCOUNT_LINKS = [
   { href: "/login", label: "Log in" },
@@ -213,36 +207,60 @@ function OrbitMatchIllustration() {
   );
 }
 
+function FooterLink({ href, label, rel }: { href: string; label: string; rel?: string }) {
+  return (
+    <Link
+      href={href}
+      rel={rel}
+      className="group relative inline-flex items-center gap-1.5 cursor-pointer"
+      style={{ color: "rgba(255,255,255,0.72)" }}
+    >
+      <span className="relative">
+        {label}
+        <span
+          className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"
+          style={{ background: "var(--color-accent-400)" }}
+        />
+      </span>
+      <svg
+        width="11"
+        height="11"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--color-accent-300)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+        className="shrink-0 -translate-x-1 opacity-0 transition-all duration-250 ease-out group-hover:translate-x-0 group-hover:opacity-100"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </Link>
+  );
+}
+
 function FooterColumn({
   title,
   links,
+  prominent,
 }: {
   title: string;
   links: { href: string; label: string; rel?: string }[];
+  prominent?: boolean;
 }) {
   return (
-    <div className="footer-col text-[14px] w-[130px] flex-none">
+    <div className={`footer-col flex-none ${prominent ? "text-[14.5px]" : "w-[130px] text-[14px]"}`}>
       <div
-        className="mb-3 text-[13px] font-semibold uppercase tracking-[0.06em]"
+        className="mb-4 text-[13px] font-semibold uppercase tracking-[0.06em]"
         style={{ fontFamily: "var(--font-heading)", color: "var(--color-accent-300)" }}
       >
         {title}
       </div>
-      <ul className="flex flex-col gap-2.5">
+      <ul className={prominent ? "grid grid-cols-1 sm:grid-cols-[auto_auto] gap-x-10 gap-y-3" : "flex flex-col gap-2.5"}>
         {links.map((link) => (
           <li key={link.label}>
-            <Link
-              href={link.href}
-              rel={link.rel}
-              className="group relative inline-flex items-center cursor-pointer"
-              style={{ color: "rgba(255,255,255,0.72)" }}
-            >
-              {link.label}
-              <span
-                className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"
-                style={{ background: "var(--color-accent-400)" }}
-              />
-            </Link>
+            <FooterLink {...link} />
           </li>
         ))}
       </ul>
@@ -250,9 +268,30 @@ function FooterColumn({
   );
 }
 
+function attachMagneticHover(el: HTMLElement, strength = 0.3) {
+  const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3.out" });
+  const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3.out" });
+  const handleMove = (e: MouseEvent) => {
+    const rect = el.getBoundingClientRect();
+    xTo((e.clientX - (rect.left + rect.width / 2)) * strength);
+    yTo((e.clientY - (rect.top + rect.height / 2)) * strength);
+  };
+  const handleLeave = () => {
+    xTo(0);
+    yTo(0);
+  };
+  el.addEventListener("mousemove", handleMove);
+  el.addEventListener("mouseleave", handleLeave);
+  return () => {
+    el.removeEventListener("mousemove", handleMove);
+    el.removeEventListener("mouseleave", handleLeave);
+  };
+}
+
 export function SiteFooter() {
   const rootRef = useRef<HTMLElement>(null);
   const topBtnRef = useRef<HTMLButtonElement>(null);
+  const ctaBtnRef = useRef<HTMLAnchorElement>(null);
 
   useGSAP(
     () => {
@@ -266,10 +305,10 @@ export function SiteFooter() {
           scrollTrigger: { trigger: root, start: "top 88%", once: true },
         });
 
-        tl.from(".footer-brand", { autoAlpha: 0, y: 20, duration: 0.55 })
+        tl.from(".footer-cta", { autoAlpha: 0, y: 24, scale: 0.97, duration: 0.6 })
+          .from(".footer-brand", { autoAlpha: 0, y: 20, duration: 0.55 }, "-=0.3")
           .from(".footer-illustration", { autoAlpha: 0, scale: 0.85, duration: 0.7, ease: "back.out(1.6)" }, "-=0.4")
           .from(".footer-col", { autoAlpha: 0, y: 18, duration: 0.5, stagger: 0.08 }, "-=0.5")
-          .from(".footer-social", { autoAlpha: 0, y: 12, scale: 0.9, duration: 0.4, stagger: 0.06, ease: "back.out(2)" }, "-=0.3")
           .from(".footer-bottom", { autoAlpha: 0, y: 10, duration: 0.4 }, "-=0.2");
 
         gsap.to(".footer-blob", {
@@ -281,34 +320,26 @@ export function SiteFooter() {
           yoyo: true,
         });
 
-        const btn = topBtnRef.current;
-        let btnCleanup: (() => void) | undefined;
-        if (btn) {
-          const xTo = gsap.quickTo(btn, "x", { duration: 0.35, ease: "power3.out" });
-          const yTo = gsap.quickTo(btn, "y", { duration: 0.35, ease: "power3.out" });
-          const handleMove = (e: MouseEvent) => {
-            const rect = btn.getBoundingClientRect();
-            xTo((e.clientX - (rect.left + rect.width / 2)) * 0.3);
-            yTo((e.clientY - (rect.top + rect.height / 2)) * 0.3);
-          };
-          const handleLeave = () => {
-            xTo(0);
-            yTo(0);
-          };
-          btn.addEventListener("mousemove", handleMove);
-          btn.addEventListener("mouseleave", handleLeave);
-          btnCleanup = () => {
-            btn.removeEventListener("mousemove", handleMove);
-            btn.removeEventListener("mouseleave", handleLeave);
-          };
-        }
+        // shine sweep across the CTA button, looping with a pause between passes
+        gsap.set(".footer-cta-shine", { xPercent: -100 });
+        gsap.to(".footer-cta-shine", {
+          xPercent: 220,
+          duration: 1.4,
+          ease: "power1.inOut",
+          repeat: -1,
+          repeatDelay: 2.2,
+        });
+
+        const cleanups: (() => void)[] = [];
+        if (topBtnRef.current) cleanups.push(attachMagneticHover(topBtnRef.current, 0.3));
+        if (ctaBtnRef.current) cleanups.push(attachMagneticHover(ctaBtnRef.current, 0.15));
 
         const brand = root.querySelector(".footer-brand");
         const safetyCleanup = scrollRevealSafetyNet(
           root,
           () => brand != null && isGsapHidden(brand),
           () => {
-            gsap.set(".footer-brand, .footer-illustration, .footer-col, .footer-social, .footer-bottom", {
+            gsap.set(".footer-cta, .footer-brand, .footer-illustration, .footer-col, .footer-bottom", {
               autoAlpha: 1,
               y: 0,
               scale: 1,
@@ -317,13 +348,13 @@ export function SiteFooter() {
         );
 
         return () => {
-          btnCleanup?.();
+          cleanups.forEach((fn) => fn());
           safetyCleanup();
         };
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(".footer-brand, .footer-illustration, .footer-col, .footer-social, .footer-bottom", {
+        gsap.set(".footer-cta, .footer-brand, .footer-illustration, .footer-col, .footer-bottom", {
           autoAlpha: 1,
           y: 0,
           scale: 1,
@@ -363,7 +394,60 @@ export function SiteFooter() {
       />
 
       <div className="relative z-[1] max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(40px,5vw,56px)]">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-x-8 gap-y-12">
+        {/* CTA banner */}
+        <div
+          className="footer-cta relative isolate overflow-hidden rounded-[28px] px-[clamp(24px,4vw,44px)] py-[clamp(26px,3.6vw,34px)] flex flex-col md:flex-row items-center justify-between gap-6"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025))",
+            border: "1px solid rgba(239,201,120,0.22)",
+          }}
+        >
+          <div
+            className="pointer-events-none absolute -top-[60%] left-[15%] w-[300px] h-[300px] rounded-full blur-[80px]"
+            style={{ background: "radial-gradient(circle, var(--color-accent-400) 0%, transparent 70%)", opacity: 0.18 }}
+            aria-hidden
+          />
+
+          <div className="relative z-[1] text-center md:text-left">
+            <h3
+              className="text-[clamp(19px,2.2vw,25px)] font-semibold leading-tight"
+              style={{ fontFamily: "var(--font-heading)", color: "#fff" }}
+            >
+              Still have questions?
+            </h3>
+            <p className="mt-1.5 text-[13.5px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+              Reach our support team — we typically reply within 24 hours.
+            </p>
+          </div>
+
+          <a
+            ref={ctaBtnRef}
+            href={MAILTO_HREF}
+            className="relative z-[1] inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-[14.5px] font-semibold whitespace-nowrap cursor-pointer will-change-transform"
+            style={{
+              fontFamily: "var(--font-heading)",
+              background: "linear-gradient(135deg, var(--color-accent-300), var(--color-accent-500))",
+              color: "var(--color-accent-2-900)",
+              boxShadow: "0 8px 24px rgba(233,182,85,0.28)",
+            }}
+          >
+            <span
+              className="footer-cta-shine pointer-events-none absolute inset-y-0 left-0 w-1/3"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)",
+                transform: "translateX(-100%) skewX(-20deg)",
+              }}
+              aria-hidden
+            />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <rect x="3" y="5" width="18" height="14" rx="2.5" />
+              <path d="m4 7 8 6 8-6" />
+            </svg>
+            Contact Us
+          </a>
+        </div>
+
+        <div className="flex flex-col lg:flex-row lg:items-center gap-x-8 gap-y-12 mt-12">
           <div className="footer-brand max-w-[30ch] lg:flex-none">
             <Logo size={32} dark />
             <p className="text-[13.5px] leading-[1.65] mt-3.5" style={{ color: "rgba(255,255,255,0.62)" }}>
@@ -371,9 +455,8 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-x-16 gap-y-10 lg:flex-1 lg:justify-center">
-            <FooterColumn title="Explore" links={EXPLORE_LINKS} />
-            <FooterColumn title="Dashboards" links={DASHBOARD_LINKS} />
+          <div className="flex flex-wrap gap-x-14 gap-y-10 lg:flex-1 lg:justify-center">
+            <FooterColumn title="Explore" links={EXPLORE_LINKS} prominent />
             <FooterColumn title="Account" links={ACCOUNT_LINKS} />
             <FooterColumn title="Legal" links={LEGAL_LINKS} />
           </div>
