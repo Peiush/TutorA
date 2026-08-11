@@ -26,10 +26,16 @@ export async function getMyProfile() {
   const session = await auth();
   if (!session?.user?.id) return null;
 
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { name: true, email: true, phone: true },
+    select: { name: true, email: true, phone: true, password: true },
   });
+  if (!user) return null;
+
+  // Never send the hash to the client — only whether one exists, which is
+  // what tells us if this is a Google-only account (see requestSelfEmailChange).
+  const { password, ...rest } = user;
+  return { ...rest, hasPassword: password !== null };
 }
 
 export async function updateProfile(

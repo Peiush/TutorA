@@ -11,46 +11,37 @@ import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Stat = {
-  value: number;
-  suffix: string;
+  headline: string;
   label: string;
   bg: string;
   line: string;
-  meter: number;
 };
 
-const STATS_AS_OF = "2026";
-
+// Real, verifiable policy facts, not measured counts — TutorA doesn't track aggregate
+// figures like total tutors or total matches yet, so this section describes what actually
+// happens on every request rather than inventing numbers to fill a "stats" slot. Each claim
+// is already stated, consistently, across dozens of pages (comparison-showdown.tsx,
+// homepage-faq.tsx, app/guarantee/page.tsx, lib/subject-content.ts) — repeated here, not new.
 const stats: Stat[] = [
   {
-    value: 1200,
-    suffix: "+",
-    label: "Verified tutors across 40+ countries, every credential checked before listing.",
+    headline: "Manually reviewed",
+    label: "Every tutor profile is reviewed by our team before it's ever published.",
     bg: "var(--color-accent-100)",
     line: "var(--color-accent-700)",
-    meter: 82,
   },
   {
-    value: 8600,
-    suffix: "",
-    label: "Successful matches, each one reviewed by our team before contact was released.",
+    headline: "Personally matched",
+    label: "A real person proposes your match — live 1:1 sessions, never an algorithm.",
     bg: "color-mix(in srgb, var(--color-accent-2-100) 70%, var(--color-accent-100) 30%)",
     line: "var(--color-accent-2-700)",
-    meter: 94,
   },
   {
-    value: 31,
-    suffix: " hrs",
-    label: "Average time from a submitted request to a proposed, vetted tutor.",
+    headline: "Free rematch",
+    label: "If your first tutor isn't the right fit, we rematch you at no extra cost — no cap.",
     bg: "var(--color-accent-2-100)",
     line: "var(--color-accent-2-800)",
-    meter: 68,
   },
 ];
-
-function formatStatValue(stat: Stat) {
-  return `${stat.value.toLocaleString()}${stat.suffix}`;
-}
 
 function canHover() {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -106,21 +97,17 @@ function StatCard({ stat, index }: { stat: Stat; index: number }) {
       </div>
 
       <dt
-        className="stat-value relative z-10 font-[var(--font-heading)] font-bold text-[clamp(28px,4vw,38px)] mt-4 leading-none"
+        className="stat-value relative z-10 font-[var(--font-heading)] font-bold text-[clamp(19px,2.2vw,22px)] mt-4 leading-tight"
         style={{ color: stat.line }}
       >
-        {formatStatValue(stat)}
+        {stat.headline}
       </dt>
       <dd
-        className="relative z-10 text-[13.5px] mt-2 mb-4 leading-relaxed"
+        className="relative z-10 text-[13.5px] mt-2 leading-relaxed"
         style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
       >
         {stat.label}
       </dd>
-
-      <div className="relative h-1.5 rounded-full overflow-hidden" style={{ background: "var(--color-divider)" }} aria-hidden>
-        <div className="stat-meter h-full rounded-full" style={{ background: stat.line, width: 0 }} data-meter={stat.meter} />
-      </div>
     </div>
   );
 }
@@ -137,7 +124,6 @@ export function PlatformStats() {
       const sub = root.querySelector(".stats-sub");
       const cards = root.querySelectorAll(".stat-card");
       const illos = root.querySelectorAll(".stat-illo");
-      const meters = root.querySelectorAll<HTMLElement>(".stat-meter");
       if (!cards.length) return;
 
       const mm = gsap.matchMedia();
@@ -156,30 +142,22 @@ export function PlatformStats() {
           .to(heading, { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.3")
           .to(sub, { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.35")
           .to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.14, duration: 0.6 }, "-=0.25")
-          .to(illos, { scale: 1, rotate: 0, autoAlpha: 1, stagger: 0.14, duration: 0.5, ease: "back.out(2.2)" }, "-=0.5")
-          .to(
-            meters,
-            { width: (_i, el: Element) => `${(el as HTMLElement).dataset.meter}%`, stagger: 0.14, duration: 0.9 },
-            "-=0.35"
-          );
+          .to(illos, { scale: 1, rotate: 0, autoAlpha: 1, stagger: 0.14, duration: 0.5, ease: "back.out(2.2)" }, "-=0.5");
 
         return scrollRevealSafetyNet(
           root,
-          () => isGsapHidden(cards[0]),
+          // Cards and illos animate via separate tweens in the same timeline — check both,
+          // not just cards[0], since one can stall (stale ScrollTrigger start after a font
+          // reflow) while the other completes, leaving just that element stuck invisible.
+          () => [...cards, ...illos].some((el) => isGsapHidden(el)),
           () => {
             gsap.set([tag, heading, sub, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
-            meters.forEach((el) => {
-              el.style.width = `${el.dataset.meter}%`;
-            });
           }
         );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set([tag, heading, sub, ...cards, ...illos], { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
-        meters.forEach((el) => {
-          el.style.width = `${el.dataset.meter}%`;
-        });
       });
 
       return () => mm.revert();
@@ -205,16 +183,16 @@ export function PlatformStats() {
 
       <div className="relative">
         <Tag variant="accent-2" className="stats-tag text-[12px] px-3.5 py-1.5">
-          TutorA by the numbers
+          How we build trust
         </Tag>
         <h2 className="stats-heading text-[clamp(24px,3vw,32px)] mt-4 mb-2.5 max-w-[24ch]">
-          Current platform data (as of {STATS_AS_OF})
+          What actually happens on every request
         </h2>
         <p
           className="stats-sub text-[15px] max-w-[58ch] mb-9"
           style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
         >
-          Every figure below reflects reviewed platform activity — not self-reported claims.
+          These are our actual policies, applied to every tutor and every match — not vague marketing claims.
         </p>
 
         <dl className="grid gap-4 sm:grid-cols-3 m-0">

@@ -97,10 +97,10 @@ export function EmailChangeConfirmForm({ newEmail, expiresAt }: { newEmail: stri
 
           <div className="min-w-0 flex-1">
             <p className="text-[14.5px] m-0">
-              Your admin proposed changing your email to <strong>{newEmail}</strong>.
+              Confirm your new email <strong>{newEmail}</strong>.
             </p>
             <p className="text-[12.5px] mt-0.5 mb-0" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
-              Enter the code we sent you on WhatsApp to confirm — expires around {expiresLabel}.
+              Enter the code we emailed to that address to confirm — expires around {expiresLabel}.
             </p>
           </div>
 

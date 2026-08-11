@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useActionState, type FormEvent } from "react";
+import { useEffect, useRef, useState, useActionState, startTransition, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { getMyProfile, updateProfile, type UpdateProfileState } from "@/app/lib/actions/update-profile";
+import { requestSelfEmailChange, type RequestEmailChangeState } from "@/app/lib/actions/email-change";
 import { UserIcon, PhoneIcon, MailIcon, LockIcon, SpinnerIcon } from "@/components/auth/auth-icons";
 import { initialsOf } from "@/components/ui/tutor-avatar";
 import { ProfileIllustration } from "@/components/profile/profile-illustration";
@@ -47,6 +49,7 @@ export function EditProfileModal({
   onClose: () => void;
 }) {
   const { update: updateSession } = useSession();
+  const router = useRouter();
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -59,8 +62,24 @@ export function EditProfileModal({
   const [name, setName] = useState(user.name ?? "");
   const [phone, setPhone] = useState("");
   const [phoneLoaded, setPhoneLoaded] = useState(false);
+  // Source of truth for the displayed "current" email — user.email is a
+  // prop derived from the client session, which can lag the database (it
+  // only updates after updateSession() runs), so relying on it risks showing
+  // a stale address here even though it's fine for the header avatar/name.
+  const [currentEmail, setCurrentEmail] = useState(user.email ?? "");
   const [state, formAction, pending] = useActionState<UpdateProfileState, FormData>(updateProfile, undefined);
   const [settled, setSettled] = useState(false);
+
+  // Google-only accounts (no password) sign in via a fixed Google account ID,
+  // not by email — see requestSelfEmailChange for why letting them self-edit
+  // email here would be unsafe. Default to true (locked) until we know for
+  // sure, so the field can't be edited during the brief loading window.
+  const [canChangeEmail, setCanChangeEmail] = useState(false);
+  const [newEmail, setNewEmail] = useState(user.email ?? "");
+  const [emailState, emailFormAction, emailPending] = useActionState<RequestEmailChangeState, FormData>(
+    requestSelfEmailChange,
+    undefined
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -68,6 +87,10 @@ export function EditProfileModal({
       if (cancelled) return;
       setName(profile?.name ?? user.name ?? "");
       setPhone(profile?.phone ?? "");
+      const email = profile?.email ?? user.email ?? "";
+      setCurrentEmail(email);
+      setNewEmail(email);
+      setCanChangeEmail(profile?.hasPassword ?? false);
       setPhoneLoaded(true);
     });
     return () => {
@@ -189,6 +212,27 @@ export function EditProfileModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  useEffect(() => {
+    if (emailState?.status === "success") {
+      router.refresh();
+      const t = setTimeout(() => closeAnimated(), 2200);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [emailState]);
+
+  const sameAsCurrentEmail =
+    newEmail.trim().length > 0 && newEmail.trim().toLowerCase() === currentEmail.trim().toLowerCase();
+
+  function sendEmailCode() {
+    if (emailPending || !newEmail.trim() || sameAsCurrentEmail) return;
+    const fd = new FormData();
+    fd.set("newEmail", newEmail);
+    startTransition(() => {
+      emailFormAction(fd);
+    });
+  }
+
   function handleNameChange(e: FormEvent<HTMLInputElement>) {
     const value = e.currentTarget.value;
     setName(value);
@@ -296,21 +340,68 @@ export function EditProfileModal({
               </div>
             </div>
 
-            <div className="epm-stagger field">
+            <div className="epm-stagger field" style={{ opacity: phoneLoaded ? 1 : 0.6 }}>
               <label htmlFor="epm-email">Email</label>
               <div className="field-icon">
                 <MailIcon />
-                <input className="input" id="epm-email" type="email" value={user.email ?? ""} disabled readOnly />
-                <span
-                  className="absolute grid place-content-center"
-                  style={{ right: 14, top: "50%", transform: "translateY(-50%)", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
-                >
-                  <LockIcon width={15} height={15} />
-                </span>
+                <input
+                  className={`input${phoneLoaded ? "" : " animate-pulse"}`}
+                  id="epm-email"
+                  name="newEmail"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  disabled={!phoneLoaded || !canChangeEmail || emailPending}
+                  readOnly={!canChangeEmail}
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      sendEmailCode();
+                    }
+                  }}
+                />
+                {phoneLoaded && !canChangeEmail && (
+                  <span
+                    className="absolute grid place-content-center"
+                    style={{ right: 14, top: "50%", transform: "translateY(-50%)", color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}
+                  >
+                    <LockIcon width={15} height={15} />
+                  </span>
+                )}
               </div>
-              <p className="text-[12px] mt-1.5 mb-0" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
-                Locked to your account — contact support to change it.
-              </p>
+
+              {!phoneLoaded ? null : !canChangeEmail ? (
+                <p className="text-[12px] mt-1.5 mb-0" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                  Managed by your Google account — sign in with Google to change which account this is linked to.
+                </p>
+              ) : emailState?.status === "success" && emailState.newEmail === newEmail.trim().toLowerCase() ? (
+                <p className="text-[12.5px] mt-1.5 mb-0" style={{ color: "var(--color-verified)" }}>
+                  We emailed a code to <strong>{emailState.newEmail}</strong>. Enter it on your dashboard to confirm.
+                </p>
+              ) : sameAsCurrentEmail ? (
+                <p className="text-[12px] mt-1.5 mb-0" style={{ color: "color-mix(in srgb, var(--color-text) 55%, transparent)" }}>
+                  We&apos;ll email a code to confirm any change to this address.
+                </p>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-primary text-[12.5px] mt-1.5"
+                    style={{ padding: "6px 12px" }}
+                    disabled={emailPending || !newEmail.trim()}
+                    onClick={sendEmailCode}
+                  >
+                    {emailPending ? <SpinnerIcon width={13} height={13} /> : "Send code"}
+                  </button>
+                  {emailState?.status === "error" && (
+                    <p className="text-[12.5px] mt-1.5 mb-0" style={{ color: "#d92d20" }}>
+                      {emailState.message}
+                    </p>
+                  )}
+                </>
+              )}
             </div>
 
             {state?.status === "error" && (

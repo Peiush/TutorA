@@ -31,24 +31,24 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.tutora.it.com"),
   title: {
-    default: "TutorA — The right tutor, personally matched",
+    default: "TutorA — Personalized Online Learning with Expert Indian Teachers",
     template: "%s — TutorA",
   },
   description:
-    "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+    "Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding & more. Learn from experienced Indian teachers, personally verified by our team — wherever you are in the world.",
   openGraph: {
     type: "website",
     siteName: "TutorA",
     locale: "en_US",
-    title: "TutorA — The right tutor, personally matched",
+    title: "TutorA — Personalized Online Learning with Expert Indian Teachers",
     description:
-      "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+      "Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding & more. Learn from experienced Indian teachers — wherever you are in the world.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TutorA — The right tutor, personally matched",
+    title: "TutorA — Personalized Online Learning with Expert Indian Teachers",
     description:
-      "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+      "Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding & more. Learn from experienced Indian teachers — wherever you are in the world.",
   },
   verification: {
     google: "CvK_OAkuYG6OD3qFDaKAha2lRdVoEJXihUNSBIr6RGs",
@@ -63,7 +63,7 @@ const organizationJsonLd = {
   name: "TutorA",
   url: BASE_URL,
   description:
-    "TutorA sits between students and tutors so no one has to guess. Every match is personally verified by our team.",
+    "TutorA connects international students with experienced, personally verified Indian teachers for live 1-on-1 and small group online classes.",
   logo: `${BASE_URL}/logo.png`,
   founder: { "@type": "Person", name: "Nancy Gupta", jobTitle: "Founder" },
   // sameAs (verified social/profile links) intentionally omitted — TutorA doesn't have

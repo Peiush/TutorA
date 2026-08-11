@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Tag } from "@/components/ui/tag";
 import { SubjectIcon } from "@/components/ui/subject-icons";
-import { subjectAccent } from "@/components/ui/subject-accent";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Toast, ToastTone } from "@/components/ui/toast";
@@ -17,6 +15,7 @@ import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import type { tutorsRaw } from "@/lib/mock-data";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
+import { vibrantAccent } from "@/lib/vibrant-accents";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -100,45 +99,49 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
 
         tl.from(cards, {
           autoAlpha: 0,
-          duration: 0.5,
-          stagger: 0.08,
+          y: 36,
+          scale: 0.92,
+          duration: 0.6,
+          stagger: 0.09,
+          ease: "back.out(1.7)",
         }, 0)
           .from(grid.querySelectorAll(".tutor-card-bar"), {
             scaleX: 0,
             transformOrigin: "left center",
-            duration: 0.4,
-            stagger: 0.08,
-          }, 0.08)
+            duration: 0.45,
+            stagger: 0.09,
+          }, 0.1)
           .from(grid.querySelectorAll(".tutor-avatar-wrap"), {
             scale: 0.4,
             autoAlpha: 0,
-            duration: 0.4,
-            stagger: 0.08,
+            rotate: -18,
+            duration: 0.45,
+            stagger: 0.09,
             ease: "back.out(2.6)",
-          }, 0.14)
+          }, 0.18)
           .from(grid.querySelectorAll(".tutor-tag-chip"), {
             autoAlpha: 0,
             y: 6,
             duration: 0.25,
             stagger: 0.02,
-          }, 0.3);
+          }, 0.34);
 
         return scrollRevealSafetyNet(
           grid,
           () => isGsapHidden(cards[0]),
           () => {
-            gsap.set(cards, { autoAlpha: 1 });
+            gsap.set(cards, { autoAlpha: 1, y: 0, scale: 1 });
             gsap.set(grid.querySelectorAll(".tutor-card-bar"), { scaleX: 1 });
-            gsap.set(grid.querySelectorAll(".tutor-avatar-wrap"), { autoAlpha: 1, scale: 1 });
+            gsap.set(grid.querySelectorAll(".tutor-avatar-wrap"), { autoAlpha: 1, scale: 1, rotate: 0 });
             gsap.set(grid.querySelectorAll(".tutor-tag-chip"), { autoAlpha: 1, y: 0 });
           }
         );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(cards, { autoAlpha: 1 });
+        gsap.set(cards, { autoAlpha: 1, y: 0, scale: 1 });
         gsap.set(grid.querySelectorAll(".tutor-card-bar"), { scaleX: 1 });
-        gsap.set(grid.querySelectorAll(".tutor-avatar-wrap"), { autoAlpha: 1, scale: 1 });
+        gsap.set(grid.querySelectorAll(".tutor-avatar-wrap"), { autoAlpha: 1, scale: 1, rotate: 0 });
         gsap.set(grid.querySelectorAll(".tutor-tag-chip"), { autoAlpha: 1, y: 0 });
       });
 
@@ -147,18 +150,49 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
     { scope: gridRef, dependencies: [tutors.length] }
   );
 
+  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+
+  // Cursor-follow spotlight glow per card, matching the Course Categories tiles'
+  // treatment so the two "most important" homepage sections feel like one system.
+  useGSAP(
+    () => {
+      const grid = gridRef.current;
+      if (!grid) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const fine = window.matchMedia("(pointer: fine)").matches;
+      if (!fine || reduced) return;
+
+      const cleanups: (() => void)[] = [];
+      cardRefs.current.forEach((el) => {
+        const handleMove = (e: MouseEvent) => {
+          const rect = el.getBoundingClientRect();
+          el.style.setProperty("--spot-x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+          el.style.setProperty("--spot-y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+        };
+        el.addEventListener("mousemove", handleMove);
+        cleanups.push(() => el.removeEventListener("mousemove", handleMove));
+      });
+      return () => cleanups.forEach((fn) => fn());
+    },
+    { scope: gridRef, dependencies: [tutors.length] }
+  );
+
   return (
     <>
       <div ref={gridRef} className="grid gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {tutors.map((t, i) => {
-          const accent = subjectAccent(t.subjects, i);
+          const vibe = vibrantAccent(i);
           const already = isAlreadyRequested(t);
           return (
             <div
               key={t.listingId ?? t.id ?? t.name}
-              className="tutor-card group relative flex flex-col rounded-[22px] border cursor-pointer transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1.5"
+              ref={(el) => {
+                if (el) cardRefs.current.set(i, el);
+                else cardRefs.current.delete(i);
+              }}
+              className="tutor-card group relative flex flex-col rounded-[22px] border cursor-pointer transition-[transform,border-color] duration-300 ease-out hover:-translate-y-2"
               style={{
-                background: "var(--color-bg)",
+                background: `linear-gradient(160deg, color-mix(in srgb, ${vibe.light} 55%, var(--color-bg)) 0%, var(--color-bg) 42%)`,
                 borderColor: "var(--color-divider)",
                 boxShadow: "var(--shadow-sm)",
               }}
@@ -166,20 +200,29 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
             >
               <div
                 className="tutor-card-hover-shadow pointer-events-none absolute inset-0 rounded-[22px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ boxShadow: "var(--shadow-lg)" }}
+                style={{
+                  boxShadow: `var(--shadow-lg), 0 0 0 1.5px color-mix(in srgb, ${vibe.solid} 55%, transparent)`,
+                }}
+                aria-hidden
+              />
+              <span
+                className="pointer-events-none absolute inset-0 rounded-[22px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background: `radial-gradient(280px circle at var(--spot-x,50%) var(--spot-y,50%), color-mix(in srgb, ${vibe.solid} 20%, transparent), transparent 70%)`,
+                }}
                 aria-hidden
               />
               <div className="relative flex flex-col flex-1 rounded-[22px] overflow-hidden">
               <div
                 className="tutor-card-bar h-[5px] w-full flex-none relative z-[1]"
-                style={{ background: accent.bar }}
+                style={{ background: `linear-gradient(90deg, ${vibe.solid}, color-mix(in srgb, ${vibe.solid} 55%, white))` }}
                 aria-hidden
               />
               <div className="relative z-[1] p-6 flex flex-col gap-4 flex-1">
                 <div className="flex gap-3 items-center">
                   <div
-                    className="tutor-avatar-wrap rounded-full transition-transform duration-300 group-hover:scale-[1.06]"
-                    style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${accent.bar} 22%, transparent)`, borderRadius: "50%" }}
+                    className="tutor-avatar-wrap rounded-full transition-transform duration-300 group-hover:scale-[1.08] group-hover:rotate-3"
+                    style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${vibe.solid} 38%, transparent)`, borderRadius: "50%" }}
                   >
                     <TutorAvatar name={t.name} index={i} size={52} />
                   </div>
@@ -208,10 +251,14 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {t.subjects.map((s) => (
-                    <Tag key={s} variant={accent.tag} className="tutor-tag-chip inline-flex items-center gap-1">
+                    <span
+                      key={s}
+                      className="tutor-tag-chip inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] font-semibold"
+                      style={{ background: `color-mix(in srgb, ${vibe.solid} 15%, transparent)`, color: vibe.text }}
+                    >
                       <SubjectIcon subject={s} />
                       {s}
-                    </Tag>
+                    </span>
                   ))}
                 </div>
                 <div className="flex justify-between items-center text-[13px] mt-auto">
@@ -231,14 +278,24 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                       Newly verified
                     </span>
                   )}
-                  <span className="font-[var(--font-heading)] font-bold text-[16px]" style={{ color: "var(--color-accent-700)" }}>
+                  <span className="font-[var(--font-heading)] font-bold text-[16px]" style={{ color: vibe.solid }}>
                     {t.price}
                   </span>
                 </div>
                 <button
                   type="button"
-                  className="btn btn-secondary btn-block"
+                  className={`btn btn-block ${already ? "" : "hover:brightness-110 active:scale-[0.97]"}`}
                   disabled={pendingName === t.name || already}
+                  style={
+                    already
+                      ? { background: "var(--color-bg)", border: "1px solid var(--color-divider)", color: "var(--color-text)" }
+                      : {
+                          background: vibe.solid,
+                          border: `1px solid ${vibe.solid}`,
+                          color: "#FFFFFF",
+                          boxShadow: `0 8px 20px -8px color-mix(in srgb, ${vibe.solid} 65%, transparent)`,
+                        }
+                  }
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRequestTutor(t, e.currentTarget);

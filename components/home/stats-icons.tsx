@@ -32,12 +32,11 @@ function StatMotif({ index, line }: { index: number; line: string }) {
       );
     case 2:
     default:
-      // Average time to match — a clock ticking forward
+      // Free rematch guarantee — a cycle of two curved arrows
       return (
         <g fill="none" stroke={line} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="70" cy="76" r="34" />
-          <path d="M70 58v20l16 10" />
-          <path d="M56 30h28M70 30v14" />
+          <path d="M100 54a30 30 0 0 0-52-14M40 32v14h14" />
+          <path d="M40 98a30 30 0 0 0 52 14M100 120v-14h-14" />
         </g>
       );
   }

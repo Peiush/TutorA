@@ -345,10 +345,12 @@ model PhoneOtp {
   @@map("phone_otps")
 }
 
-// Admin-initiated email changes: the admin proposes a new address, the target
-// user gets a WhatsApp code, and only entering it flips User.email. Keeps a
-// login-identifying field from being changed unilaterally by anyone but the
-// account owner, even though the admin is the one who initiates the change.
+// Email changes: usually self-initiated (user proposes a new address from
+// their profile and we email a code to that NEW address to prove they
+// control it before it flips User.email). Admins can also propose one on a
+// user's behalf via WhatsApp for support cases. Either way the change only
+// lands once the code is entered — a login-identifying field can't be
+// changed unilaterally by anyone but the account owner.
 model EmailChangeRequest {
   id        String   @id @default(cuid())
   userId    String   @unique

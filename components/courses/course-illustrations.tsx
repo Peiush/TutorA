@@ -1,16 +1,17 @@
 import { useId } from "react";
 import type { CourseCategory } from "@/lib/mock-courses";
+import { VIBRANT_ACCENTS } from "@/lib/vibrant-accents";
 
-// A muted, editorial identity color per category — used for icons, badges and the
-// category selector. Two categories reuse the site's own navy/gold brand tokens
-// directly; the rest are desaturated, warm-neutral-compatible tones (sage,
-// terracotta, plum) chosen to sit in the same family as the cream/navy/gold
-// palette instead of introducing unrelated saturated hues.
+// A vivid identity color per category — used for icons, badges, and the category
+// selector, drawn from the shared homepage vibrant-accent system. Two categories
+// reuse the site's own navy/gold brand tokens at full saturation; the rest use the
+// same high-chroma tones (emerald, terracotta, violet) as the rest of the homepage
+// instead of desaturated/pastel ones.
 export const CATEGORY_COLORS: Record<CourseCategory, { solid: string; light: string; text: string }> = {
   "Programming & Technology": { solid: "var(--color-accent-2-700)", light: "var(--color-accent-2-100)", text: "var(--color-accent-2-900)" },
-  "Test Preparation": { solid: "#5C7A5E", light: "#EBF1EB", text: "#33452F" },
-  Languages: { solid: "#B0674B", light: "#F7ECE4", text: "#6E3F26" },
-  "Creative Skills": { solid: "#7C5C7F", light: "#F2ECF2", text: "#4A374C" },
+  "Test Preparation": VIBRANT_ACCENTS[3],
+  Languages: VIBRANT_ACCENTS[4],
+  "Creative Skills": VIBRANT_ACCENTS[5],
   "Music & Instruments": { solid: "var(--color-accent-600)", light: "var(--color-accent-100)", text: "var(--color-accent-900)" },
 };
 

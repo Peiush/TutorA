@@ -1,3 +1,5 @@
+import { VIBRANT_ACCENTS } from "@/lib/vibrant-accents";
+
 export const GRADE_BANDS = [
   { key: "GRADE_6_8", label: "Grade 6-8", min: 6, max: 8 },
   { key: "GRADE_9_10", label: "Grade 9-10", min: 9, max: 10 },
@@ -7,10 +9,13 @@ export const GRADE_BANDS = [
 export type GradeBandKey = (typeof GRADE_BANDS)[number]["key"];
 export type GradeBand = (typeof GRADE_BANDS)[number];
 
+// Saturated, high-chroma versions of the old dusty/muted trio, drawn from the shared
+// homepage vibrant-accent system — this section is the primary conversion path
+// (browse-by-grade), so the tiles are tuned to read as energetic, not pastel.
 export const GRADE_BAND_COLORS: Record<GradeBandKey, { solid: string; light: string; text: string }> = {
-  GRADE_6_8: { solid: "#4A7C82", light: "#EAF3F3", text: "#25474B" },
-  GRADE_9_10: { solid: "#A65A6B", light: "#F6EAEC", text: "#5C2E38" },
-  GRADE_11_12: { solid: "#5B6EA8", light: "#ECEFF7", text: "#2E3A63" },
+  GRADE_6_8: VIBRANT_ACCENTS[0],
+  GRADE_9_10: VIBRANT_ACCENTS[1],
+  GRADE_11_12: VIBRANT_ACCENTS[2],
 };
 
 // Subject.gradeLevel is free text imported from spreadsheets ("Grades 6–8",

@@ -48,8 +48,8 @@ export function FeaturedTutorsIllustration({ tutors }: { tutors: (typeof tutorsR
       className="hidden md:flex items-center gap-3 rounded-2xl px-4 py-3 flex-none"
       style={{
         background: "var(--color-bg)",
-        border: "1px solid var(--color-divider)",
-        boxShadow: "var(--shadow-lg)",
+        border: "1px solid color-mix(in srgb, var(--color-verified) 32%, var(--color-divider))",
+        boxShadow: "var(--shadow-lg), 0 0 0 1px color-mix(in srgb, var(--color-verified) 14%, transparent)",
       }}
     >
       <div className="flex -space-x-2.5">
@@ -76,7 +76,16 @@ export function FeaturedTutorsIllustration({ tutors }: { tutors: (typeof tutorsR
         </span>
       </div>
       <div>
-        <div className="text-[12.5px] font-semibold leading-tight">Vetted this week</div>
+        <div className="flex items-center gap-1.5 text-[12.5px] font-semibold leading-tight">
+          <span className="relative flex h-2 w-2 flex-none" aria-hidden>
+            <span
+              className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:animate-none"
+              style={{ background: "var(--color-verified)" }}
+            />
+            <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: "var(--color-verified)" }} />
+          </span>
+          Vetted this week
+        </div>
         <div className="text-[11px] leading-tight" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
           15 new tutors approved
         </div>

@@ -10,9 +10,10 @@ const MOBILE = "(max-width: 1023.98px)";
 
 // Mobile hero (<lg) gets a richer, fully-choreographed GSAP entrance instead of the
 // desktop's plain CSS .reveal-up fade — tag pops in, headline cascades word-by-word,
-// paragraph blurs into focus, CTAs pop in with an elastic ease, then the primary
-// button gets a soft looping glow to invite a tap. Desktop is untouched (matchMedia
-// gates all of this to <1024px, and .reveal-up's CSS keyframe is itself lg-only).
+// then the secondary text link fades up. The search bar and trust row animate
+// themselves independently (see hero-search-bar.tsx / hero-trust-row.tsx). Desktop is
+// untouched (matchMedia gates all of this to <1024px, and .reveal-up's CSS keyframe
+// is itself lg-only).
 export function HeroMobileFx({ children }: { children: ReactNode }) {
   const scope = useRef<HTMLDivElement>(null);
 
@@ -29,8 +30,7 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
         // targeting it settles, so even the transform-only blur+y "focus into place" tried
         // previously still added ~5.7s of pure render-delay to LCP (RE-AUDIT-REPORT-2026-08-10-POSTFIX.md).
         // It must render fully static from first paint.
-        gsap.set(".hero-cta-btn", { autoAlpha: 0, y: 18, scale: 0.9 });
-        gsap.set(".hero-cta-glow", { autoAlpha: 0, scale: 1 });
+        gsap.set(".hero-secondary-link", { autoAlpha: 0, y: 10 });
 
         // Safety net: if the timeline never completes (script interrupted mid-run by a
         // dropped connection, a low-memory tab kill, or an unrelated JS error elsewhere
@@ -38,7 +38,7 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
         // forever since nothing else ever sets them visible. Force them visible after a
         // generous timeout so a failed animation degrades to "no animation", not "no content".
         const safety = window.setTimeout(() => {
-          gsap.set(".hero-tag, .hero-word, .hero-cta-btn, .hero-cta-glow", {
+          gsap.set(".hero-tag, .hero-word, .hero-secondary-link", {
             autoAlpha: 1,
             y: 0,
             scale: 1,
@@ -52,27 +52,13 @@ export function HeroMobileFx({ children }: { children: ReactNode }) {
 
         tl.to(".hero-tag", { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(2)" })
           .to(".hero-word", { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.09 }, "-=0.25")
-          .to(
-            ".hero-cta-btn",
-            { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.8)", stagger: 0.12 },
-            "-=0.35"
-          );
-
-        tl.add(() => {
-          gsap.to(".hero-cta-glow", {
-            autoAlpha: 0.4,
-            scale: 1.3,
-            duration: 1.6,
-            ease: "power1.out",
-            repeat: -1,
-          });
-        });
+          .to(".hero-secondary-link", { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.15");
 
         return () => window.clearTimeout(safety);
       });
 
       mm.add(`${MOBILE} and (prefers-reduced-motion: reduce)`, () => {
-        gsap.set(".hero-tag, .hero-word, .hero-cta-btn", {
+        gsap.set(".hero-tag, .hero-word, .hero-secondary-link", {
           autoAlpha: 1,
           y: 0,
           scale: 1,

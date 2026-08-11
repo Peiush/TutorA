@@ -140,18 +140,21 @@ export function stars(rating: number) {
   return "★★★★★".slice(0, full) + "☆☆☆☆☆".slice(0, 5 - full);
 }
 
+// Real, verifiable policy facts — not measured counts. TutorA doesn't track aggregate
+// figures like total tutors or total matches yet, so these describe what actually happens
+// on every request instead of inventing numbers to fill a "stats" slot.
 export const stats = [
   {
-    num: "1,200+",
-    label: "Verified tutors across 40+ countries, every credential checked before listing.",
+    num: "Manually reviewed",
+    label: "Every tutor profile is reviewed by our team before it's ever published.",
   },
   {
-    num: "8,600",
-    label: "Successful matches, each one reviewed by our team before contact was released.",
+    num: "Personally matched",
+    label: "A real person proposes your match — live 1:1 sessions, never an algorithm.",
   },
   {
-    num: "31 hrs",
-    label: "Average time from a submitted request to a proposed, vetted tutor.",
+    num: "Free rematch",
+    label: "If your first tutor isn't the right fit, we rematch you at no extra cost — no cap.",
   },
 ];
 

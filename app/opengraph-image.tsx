@@ -38,11 +38,11 @@ export default async function Image() {
           </div>
           <div style={{ fontSize: 36, fontWeight: 700, letterSpacing: -0.5 }}>TutorA</div>
         </div>
-        <div style={{ display: "flex", fontSize: 56, fontWeight: 700, marginTop: 48, maxWidth: 900, lineHeight: 1.15 }}>
-          The right tutor, personally matched
+        <div style={{ display: "flex", fontSize: 52, fontWeight: 700, marginTop: 48, maxWidth: 940, lineHeight: 1.15 }}>
+          Personalized Online Learning with Expert Indian Teachers
         </div>
-        <div style={{ display: "flex", fontSize: 26, marginTop: 24, maxWidth: 800, color: "#C9D5E5" }}>
-          Every match is personally verified by our team.
+        <div style={{ display: "flex", fontSize: 26, marginTop: 24, maxWidth: 820, color: "#C9D5E5" }}>
+          Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding & more.
         </div>
       </div>
     ),

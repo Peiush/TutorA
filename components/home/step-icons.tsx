@@ -43,6 +43,15 @@ export function HandshakeIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function RefreshIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)} aria-hidden>
+      <path d="M19 8a7.5 7.5 0 0 0-13-3.5M5 4v4h4" />
+      <path d="M5 16a7.5 7.5 0 0 0 13 3.5M19 20v-4h-4" />
+    </svg>
+  );
+}
+
 export function FlowArrowIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
