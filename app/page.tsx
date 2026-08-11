@@ -8,7 +8,6 @@ import { HeroPortraitTiles } from "@/components/home/hero-portrait-tiles";
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
 import { HeroHeading, HeroCopy, HeroSecondaryLink } from "@/components/home/hero-content";
 import { HeroSearchBar } from "@/components/home/hero-search-bar";
-import { HeroTrustRow } from "@/components/home/hero-trust-row";
 import type { CategoryCount } from "@/components/home/course-categories-showcase";
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
@@ -221,7 +220,6 @@ export default async function Home() {
               <HeroSecondaryLink />
             </HeroMobileFx>
             <HeroSearchBar tutors={allTutors} courses={allCourses} subjectListings={subjectListings} />
-            <HeroTrustRow />
           </div>
         </div>
       </section>
