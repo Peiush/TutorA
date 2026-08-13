@@ -115,7 +115,7 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
   );
 
   return (
-    <div ref={rowRef} className="flex flex-wrap gap-3.5">
+    <div ref={rowRef} className="flex flex-wrap gap-2 sm:gap-3.5">
       {subjects.map((s, i) => {
         const vibe = vibrantAccent(i);
         return (
@@ -126,7 +126,7 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
               if (el) pillRefs.current.set(i, el);
               else pillRefs.current.delete(i);
             }}
-            className="subject-pill group relative inline-flex items-center gap-2.5 rounded-full border pl-2 pr-5 py-2 cursor-pointer will-change-transform"
+            className="subject-pill group relative inline-flex items-center gap-1.5 sm:gap-2.5 rounded-full border pl-1.5 pr-3 py-1.5 sm:pl-2 sm:pr-5 sm:py-2 cursor-pointer will-change-transform"
             style={{
               background: `linear-gradient(135deg, color-mix(in srgb, ${vibe.light} 70%, var(--color-bg)) 0%, var(--color-bg) 65%)`,
               borderColor: `color-mix(in srgb, ${vibe.solid} 38%, transparent)`,
@@ -147,16 +147,16 @@ export function PopularSubjects({ subjects }: { subjects: string[] }) {
               aria-hidden
             />
             <span
-              className="subject-pill-icon relative z-[1] w-10 h-10 rounded-full grid place-content-center flex-none transition-transform duration-300 group-hover:scale-110"
+              className="subject-pill-icon relative z-[1] w-7 h-7 sm:w-10 sm:h-10 rounded-full grid place-content-center flex-none transition-transform duration-300 group-hover:scale-110"
               style={{
                 background: `linear-gradient(150deg, ${vibe.solid}, color-mix(in srgb, ${vibe.solid} 65%, black))`,
                 color: "#fff",
                 boxShadow: `0 4px 10px -3px color-mix(in srgb, ${vibe.solid} 60%, transparent)`,
               }}
             >
-              <SubjectIcon subject={s} width={22} height={22} strokeWidth={2.25} />
+              <SubjectIcon subject={s} width={16} height={16} strokeWidth={2.25} className="sm:w-[22px] sm:h-[22px]" />
             </span>
-            <span className="relative z-[1] font-semibold text-[16px]" style={{ color: "var(--color-text)" }}>
+            <span className="relative z-[1] font-semibold text-[13.5px] sm:text-[16px]" style={{ color: "var(--color-text)" }}>
               {s}
             </span>
           </Link>

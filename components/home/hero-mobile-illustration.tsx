@@ -31,10 +31,10 @@ const TILES: MobileTile[] = [
 ];
 
 const POS_STYLE: Record<MobileTile["pos"], React.CSSProperties> = {
-  "top-left": { top: "4px", left: "2%" },
-  "top-right": { top: "10px", right: "2%" },
-  "bottom-left": { bottom: "6px", left: "3%" },
-  "bottom-right": { bottom: "2px", right: "3%" },
+  "top-left": { top: "18px", left: "2%" },
+  "top-right": { top: "24px", right: "2%" },
+  "bottom-left": { bottom: "10px", left: "3%" },
+  "bottom-right": { bottom: "6px", right: "3%" },
 };
 
 export function HeroMobileIllustration() {

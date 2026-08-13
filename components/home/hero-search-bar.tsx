@@ -188,7 +188,7 @@ export function HeroSearchBar({
   );
 
   return (
-    <div ref={rootRef} className="relative isolate z-20 mt-8 mx-auto w-full max-w-[880px]">
+    <div ref={rootRef} className="relative isolate z-20 mt-9 sm:mt-8 mx-auto w-full max-w-[880px]">
       <div className="hero-search-card relative max-w-[640px] mx-auto">
         <span
           className="hero-search-glow pointer-events-none absolute -z-10 rounded-full blur-2xl"
@@ -337,7 +337,7 @@ export function HeroSearchBar({
       </div>
 
       {!open && (
-        <div className="mt-6">
+        <div className="mt-7 sm:mt-6">
           <FrequentlySearched align="center" onPick={go} />
         </div>
       )}

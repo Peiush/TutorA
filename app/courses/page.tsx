@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { CoursesIntro } from "@/components/courses/courses-intro";
 import { CourseBrowser } from "@/components/courses/course-browser";
-import { CoursesAbout } from "@/components/courses/courses-about";
 import { CoursesFaq } from "@/components/courses/courses-faq";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
@@ -90,7 +89,6 @@ export default async function CoursesPage() {
         ))}
       </div>
 
-      <CoursesAbout />
       <CoursesFaq />
     </div>
   );

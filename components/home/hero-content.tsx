@@ -7,7 +7,7 @@ export function HeroHeading() {
       <Tag variant="accent" className="reveal-up hero-tag text-[12px] px-3.5 py-1.5 inline-block">
         Taught by verified Indian teachers
       </Tag>
-      <h1 className="reveal-up d1 font-[var(--font-heading)] font-bold text-[clamp(34px,5vw,60px)] leading-[1.1] mt-4 mx-auto max-w-[26ch]">
+      <h1 className="reveal-up d1 font-[var(--font-heading)] font-bold text-[clamp(34px,5vw,60px)] leading-[1.1] mt-5 sm:mt-4 mx-auto max-w-[26ch]">
         <span className="hero-word inline-block">Personalized</span>{" "}
         <span className="hero-word inline-block">Online</span>{" "}
         <span className="hero-word inline-block">Learning</span>{" "}
@@ -33,7 +33,7 @@ export function HeroHeading() {
 
 export function HeroCopy() {
   return (
-    <p className="reveal-up d3 hero-copy-p mt-3 sm:mt-5 mx-auto text-[14.5px] sm:text-[17px] lg:text-[18px] leading-[1.48] sm:leading-[1.62] max-w-[36ch] sm:max-w-[52ch] lg:max-w-[62ch] text-center">
+    <p className="reveal-up d3 hero-copy-p mt-4 sm:mt-5 mx-auto text-[14.5px] sm:text-[17px] lg:text-[18px] leading-[1.48] sm:leading-[1.62] max-w-[36ch] sm:max-w-[52ch] lg:max-w-[62ch] text-center">
       <span className="font-medium" style={{ color: "var(--color-text)" }}>
         Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding &amp; more.
       </span>{" "}
@@ -53,7 +53,7 @@ export function HeroCopy() {
 
 export function HeroSecondaryLink() {
   return (
-    <div className="reveal-up d5 hero-secondary-link mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-2 text-center text-[13.5px]">
+    <div className="reveal-up d5 hero-secondary-link mt-4 sm:mt-4 flex flex-wrap items-center justify-center gap-2 text-center text-[13.5px]">
       <span style={{ color: "color-mix(in srgb, var(--color-text) 56%, transparent)" }}>
         Not sure what you need?
       </span>

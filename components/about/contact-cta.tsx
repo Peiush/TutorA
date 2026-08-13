@@ -178,7 +178,7 @@ export function ContactCta() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="grid gap-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="cc-field field">
                   <label>Name</label>
                   <div className="field-icon">

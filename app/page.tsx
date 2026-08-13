@@ -200,7 +200,7 @@ export default async function Home() {
         <HeroPortraitTiles />
         <HeroMobileIllustration />
 
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(36px,6vw,68px)] pb-[clamp(28px,5vw,56px)] relative z-[1]">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(48px,6vw,68px)] pb-[clamp(44px,5vw,56px)] relative z-[1]">
           <div className="max-w-[880px] mx-auto">
             <HeroMobileFx>
               <HeroHeading />
@@ -226,7 +226,7 @@ export default async function Home() {
           style={{ background: "var(--color-accent-2-300)" }}
           aria-hidden
         />
-        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(24px,4vw,48px)] pb-[clamp(32px,6vw,84px)]">
+        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(28px,4vw,48px)] pb-[clamp(32px,6vw,84px)]">
           <Reveal>
             <div className="flex justify-between items-end flex-wrap gap-5 mb-9">
               <div>
