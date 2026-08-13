@@ -69,13 +69,13 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
   );
 
   return (
-    <div ref={gridRef} className="relative grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+    <div ref={gridRef} className="relative grid gap-4 sm:gap-4.5 grid-cols-1 sm:[grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
       {testimonials.map((q, i) => {
         const tint = ROLE_TINTS[q.role] ?? ROLE_TINTS.Parent;
         return (
           <figure
             key={q.name}
-            className="tm-card group relative m-0 flex flex-col justify-between gap-5 h-full rounded-[var(--radius-lg)] border p-6 overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-1.5"
+            className="tm-card group relative m-0 flex flex-col justify-between gap-4 sm:gap-5 h-full rounded-[var(--radius-lg)] border p-5 sm:p-6 overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-1.5"
             style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)", boxShadow: "var(--shadow-sm)" }}
           >
             <span

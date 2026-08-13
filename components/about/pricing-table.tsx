@@ -146,7 +146,7 @@ export function PricingTable() {
           return (
             <div
               key={row.label}
-              className={`pt-row group relative flex items-center gap-4 px-6 py-4.5 transition-colors duration-300 ${
+              className={`pt-row group relative flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-4.5 transition-colors duration-300 ${
                 isLast ? "pt-highlight" : "hover:bg-[var(--color-surface)]"
               }`}
               style={{
@@ -167,14 +167,14 @@ export function PricingTable() {
               </span>
 
               <span
-                className="flex-1 text-[15px] font-medium"
+                className="flex-1 min-w-0 text-[14px] sm:text-[15px] font-medium"
                 style={{ color: isLast ? "#fff" : "var(--color-text)" }}
               >
                 {row.label}
               </span>
 
               <span
-                className="text-[12.5px] font-semibold px-3 py-1 rounded-full flex-none"
+                className="text-[11.5px] sm:text-[12.5px] font-semibold px-2.5 sm:px-3 py-1 rounded-full flex-none whitespace-nowrap"
                 style={{
                   background: isLast
                     ? "rgba(255,255,255,.18)"

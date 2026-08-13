@@ -77,7 +77,7 @@ export default function AboutPage() {
           <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
             Why it works
           </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-10 max-w-[24ch]">
+          <h2 className="text-[clamp(24px,3.2vw,36px)] mt-4 mb-7 sm:mb-10 max-w-[24ch]">
             The trust is the product.
           </h2>
           <TrustPillars pillars={pillars} />
@@ -87,7 +87,7 @@ export default function AboutPage() {
           <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
             Step by step
           </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-10 max-w-[24ch]">
+          <h2 className="text-[clamp(24px,3.2vw,36px)] mt-4 mb-7 sm:mb-10 max-w-[24ch]">
             Two sides, one careful process.
           </h2>
           <FlowPanels studentFlow={studentFlow} tutorFlow={tutorFlow} />
@@ -95,8 +95,8 @@ export default function AboutPage() {
       </section>
 
       {/* How we earn */}
-      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
-        <div className="grid gap-8 items-center [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+      <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(40px,6vw,84px)]">
+        <div className="grid gap-8 items-center grid-cols-1 sm:[grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
           <Reveal>
             <div>
               <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
@@ -123,11 +123,11 @@ export default function AboutPage() {
 
       {/* Testimonials */}
       <section style={{ background: "var(--color-surface)" }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(40px,6vw,84px)]">
           <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
             What people say
           </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-9">Trusted by both sides</h2>
+          <h2 className="text-[clamp(24px,3.2vw,36px)] mt-4 mb-6 sm:mb-9">Trusted by both sides</h2>
           <TestimonialCards testimonials={testimonials} />
         </div>
       </section>
@@ -139,13 +139,13 @@ export default function AboutPage() {
           style={{ background: "var(--color-accent-200)" }}
           aria-hidden
         />
-        <div className="relative max-w-[820px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)]">
+        <div className="relative max-w-[820px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(40px,6vw,84px)]">
           <div className="flex items-start justify-between gap-4">
             <div>
               <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
                 Frequently asked
               </Tag>
-              <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-9">Still curious?</h2>
+              <h2 className="text-[clamp(24px,3.2vw,36px)] mt-4 mb-6 sm:mb-9">Still curious?</h2>
             </div>
             <FaqIllustration />
           </div>

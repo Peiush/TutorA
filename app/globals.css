@@ -318,6 +318,18 @@ textarea.input {
 .testimonial-card { box-shadow: var(--shadow-sm); }
 .testimonial-card:hover { box-shadow: var(--shadow-lg); }
 
+/* legal doc section cards: roomier on phones, where a bare 20px pad with no
+   accent reads as flat/blank next to the rest of the (more colorful) site */
+.legal-card {
+  padding: 22px 18px;
+  gap: 8px;
+}
+@media (min-width: 640px) {
+  .legal-card {
+    padding: 28px 30px;
+  }
+}
+
 /* ── tags ── */
 .tag {
   display: inline-flex;

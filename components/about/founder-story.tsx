@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,6 +19,7 @@ const STORY_PARAGRAPHS = [
 export function FounderStory() {
   const rootRef = useRef<HTMLElement>(null);
   const name = "Nancy Gupta";
+  const [expanded, setExpanded] = useState(false);
 
   useGSAP(
     () => {
@@ -71,33 +72,30 @@ export function FounderStory() {
         aria-hidden
       />
 
-      <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(48px,6vw,84px)] relative z-[1]">
+      <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(36px,6vw,84px)] relative z-[1]">
         <Tag variant="accent" className="text-[12px] px-3.5 py-1.5">
           Our Story
         </Tag>
-        <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-10 max-w-[26ch]">
+        <h2 className="text-[clamp(24px,3.2vw,36px)] mt-4 mb-8 sm:mb-10 max-w-[26ch]">
           Built by someone who got tired of guessing.
         </h2>
 
-        <div className="grid gap-10 lg:gap-14 [grid-template-columns:1fr] lg:[grid-template-columns:240px_1fr] items-start">
+        <div className="grid gap-6 sm:gap-10 lg:gap-14 [grid-template-columns:1fr] lg:[grid-template-columns:240px_1fr] items-start">
           {/* Signature card */}
-          <div className="flex lg:flex-col items-center lg:items-start gap-4 lg:gap-3">
+          <div className="flex lg:flex-col items-center lg:items-start gap-3.5 sm:gap-4 lg:gap-3">
             <div
-              className="fs-avatar grid place-content-center rounded-full flex-none"
+              className="fs-avatar grid place-content-center rounded-full flex-none w-14 h-14 sm:w-[88px] sm:h-[88px] text-[22px] sm:text-[30px]"
               style={{
-                width: 88,
-                height: 88,
                 background: "var(--color-accent-2-200)",
                 color: "var(--color-accent-2-800)",
                 fontFamily: "var(--font-heading)",
                 fontWeight: 600,
-                fontSize: 30,
               }}
             >
               {initialsOf(name)}
             </div>
             <div>
-              <p className="fs-name font-[var(--font-heading)] font-bold text-[19px] m-0">{name}</p>
+              <p className="fs-name font-[var(--font-heading)] font-bold text-[17px] sm:text-[19px] m-0">{name}</p>
               <Tag variant="accent-2" className="fs-role text-[11px] px-2.5 py-1 mt-1.5 inline-block">
                 Founder
               </Tag>
@@ -119,21 +117,37 @@ export function FounderStory() {
           </div>
 
           {/* Story */}
-          <div className="flex flex-col gap-5 max-w-[68ch]">
-            {STORY_PARAGRAPHS.map((paragraph, i) => (
-              <p
-                key={i}
-                className="fs-para text-[16px] leading-[1.62] m-0"
-                style={{
-                  color:
-                    i === 0
-                      ? "var(--color-text)"
-                      : "color-mix(in srgb, var(--color-text) 74%, transparent)",
-                }}
-              >
-                {paragraph}
-              </p>
-            ))}
+          <div className="flex flex-col gap-4 sm:gap-5 max-w-[68ch] min-w-0">
+            <p className="fs-para text-[15px] sm:text-[16px] leading-[1.6] sm:leading-[1.62] m-0" style={{ color: "var(--color-text)" }}>
+              {STORY_PARAGRAPHS[0]}
+            </p>
+
+            <div
+              className="grid transition-[grid-template-rows] duration-500 ease-out"
+              style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
+            >
+              <div className="overflow-hidden flex flex-col gap-4 sm:gap-5">
+                {STORY_PARAGRAPHS.slice(1).map((paragraph, i) => (
+                  <p
+                    key={i}
+                    className="fs-para text-[15px] sm:text-[16px] leading-[1.6] sm:leading-[1.62] m-0"
+                    style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              className="fs-para self-start text-[14px] font-semibold cursor-pointer"
+              style={{ color: "var(--color-accent-700)" }}
+            >
+              {expanded ? "Show less" : "Show more"}
+            </button>
           </div>
         </div>
       </div>

@@ -118,7 +118,7 @@ function FlowPanel({
   return (
     <div
       ref={ref}
-      className="flow-panel group relative rounded-[var(--radius-lg)] border p-7 sm:p-8 h-full overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-1.5"
+      className="flow-panel group relative rounded-[var(--radius-lg)] border p-5 sm:p-8 h-full overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-1.5"
       style={{ background: tint, borderColor: "var(--color-divider)", boxShadow: "var(--shadow-sm)" }}
     >
       <span
@@ -127,15 +127,15 @@ function FlowPanel({
         aria-hidden
       />
 
-      <div className="relative z-10 flex items-start justify-between gap-4 mb-7">
-        <div>
-          <h3 className="text-[21px] mb-1.5">{role}</h3>
-          <p className="text-[13.5px]" style={{ color: labelColor }}>
+      <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4 mb-5 sm:mb-7">
+        <div className="min-w-0">
+          <h3 className="text-[18px] sm:text-[21px] mb-1.5">{role}</h3>
+          <p className="text-[13px] sm:text-[13.5px]" style={{ color: labelColor }}>
             {tagline}
           </p>
         </div>
         <div
-          className="flow-illustration w-14 h-14 flex-none rounded-2xl grid place-content-center transition-transform duration-300 group-hover:scale-110"
+          className="flow-illustration w-11 h-11 sm:w-14 sm:h-14 flex-none rounded-2xl grid place-content-center transition-transform duration-300 group-hover:scale-110"
           style={{ background: "color-mix(in srgb, #fff 55%, transparent)" }}
         >
           {illustration}
@@ -172,7 +172,7 @@ export function FlowPanels({
   tutorFlow: FlowItem[];
 }) {
   return (
-    <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+    <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:[grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
       <FlowPanel
         role="For students"
         tagline="Get matched, not marketed to."

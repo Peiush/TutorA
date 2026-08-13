@@ -85,7 +85,7 @@ export function ContactCta() {
     <section className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(48px,6vw,84px)]">
       <div
         ref={rootRef}
-        className="relative overflow-hidden rounded-[24px] p-[clamp(28px,4vw,48px)] grid gap-10 grid-cols-1 lg:[grid-template-columns:1.1fr_1fr]"
+        className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] p-[clamp(22px,4vw,48px)] grid gap-7 sm:gap-10 grid-cols-1 lg:[grid-template-columns:1.1fr_1fr]"
         style={{ background: "var(--color-accent-2-900)", color: "#fff" }}
       >
         <div
@@ -133,7 +133,7 @@ export function ContactCta() {
               </div>
             </div>
 
-            <h2 className="cc-reveal text-[clamp(26px,3.4vw,36px)] mt-4 max-w-[16ch]" style={{ color: "#fff" }}>
+            <h2 className="cc-reveal text-[clamp(23px,3.4vw,36px)] mt-4 max-w-[16ch]" style={{ color: "#fff" }}>
               Have a question we haven&rsquo;t answered?
             </h2>
             <p
@@ -156,7 +156,7 @@ export function ContactCta() {
         </div>
 
         <div
-          className="relative rounded-[var(--radius-lg)] p-[clamp(20px,3vw,28px)] overflow-hidden"
+          className="relative rounded-[var(--radius-lg)] p-[clamp(16px,3vw,28px)] overflow-hidden"
           style={{ background: "var(--color-bg)", boxShadow: "var(--shadow-lg)", color: "var(--color-text)" }}
         >
           {status === "sent" ? (

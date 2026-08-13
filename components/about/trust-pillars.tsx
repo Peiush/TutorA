@@ -103,7 +103,7 @@ export function TrustPillars({ pillars }: { pillars: Pillar[] }) {
   return (
     <div
       ref={gridRef}
-      className="relative grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
+      className="relative grid gap-5 sm:gap-6 grid-cols-1 sm:[grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]"
     >
       <div
         className="pointer-events-none absolute -top-24 -left-16 w-[340px] h-[340px] rounded-full blur-3xl opacity-40"
@@ -121,7 +121,7 @@ export function TrustPillars({ pillars }: { pillars: Pillar[] }) {
         return (
           <div
             key={p.title}
-            className="trust-card group relative flex flex-col gap-5 rounded-[var(--radius-lg)] border p-7 h-full overflow-hidden [transform-style:preserve-3d]"
+            className="trust-card group relative flex flex-col gap-4 sm:gap-5 rounded-[var(--radius-lg)] border p-5 sm:p-7 h-full overflow-hidden [transform-style:preserve-3d]"
             style={
               {
                 background: "var(--color-bg)",
