@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { HeroAmbient } from "@/components/home/hero-ambient";
 import { HeroPortraitTiles } from "@/components/home/hero-portrait-tiles";
+import { HeroMobileIllustration } from "@/components/home/hero-mobile-illustration";
 import { HeroMobileFx } from "@/components/home/hero-mobile-fx";
 import { HeroHeading, HeroCopy, HeroSecondaryLink } from "@/components/home/hero-content";
 import { HeroSearchBar } from "@/components/home/hero-search-bar";
@@ -18,7 +19,6 @@ import { POPULAR_SUBJECT_NAMES } from "@/lib/featured-subjects";
 import {
   tutorsRaw,
   steps,
-  pipeline,
   testimonials,
   popularSubjects,
 } from "@/lib/mock-data";
@@ -28,19 +28,6 @@ import { homepageFaqs } from "@/components/home/homepage-faq";
 // part of the critical bundle blocking first paint. Content still renders via SSR (ssr: true).
 const CourseCategoriesShowcase = dynamic(() =>
   import("@/components/home/course-categories-showcase").then((mod) => mod.CourseCategoriesShowcase)
-);
-// These two are visually near/below the fold, but were previously statically imported,
-// so their module-scope gsap.registerPlugin(ScrollTrigger / DrawSVGPlugin / MotionPathPlugin)
-// calls got bundled into the same eager chunk that gates hero hydration — the heaviest
-// GSAP plugin combo on the page (how-it-works-steps' decorative connector-line animation)
-// was fully downloaded/parsed/executed before the hero could even become interactive,
-// adding real render-delay to LCP with zero above-the-fold visual benefit
-// (RE-AUDIT-REPORT.md, 2026-08-10). Splitting them out doesn't change what's server-rendered.
-const HowItWorksSteps = dynamic(() =>
-  import("@/components/home/how-it-works-steps").then((mod) => mod.HowItWorksSteps)
-);
-const VerificationPipeline = dynamic(() =>
-  import("@/components/home/verification-pipeline").then((mod) => mod.VerificationPipeline)
 );
 const FeaturedTutors = dynamic(() =>
   import("@/components/home/featured-tutors").then((mod) => mod.FeaturedTutors)
@@ -211,6 +198,7 @@ export default async function Home() {
       <section className="relative overflow-x-clip">
         <HeroAmbient />
         <HeroPortraitTiles />
+        <HeroMobileIllustration />
 
         <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(36px,6vw,68px)] pb-[clamp(28px,5vw,56px)] relative z-[1]">
           <div className="max-w-[880px] mx-auto">
@@ -255,7 +243,15 @@ export default async function Home() {
                   From code to canvas to scales — browse our full course catalog by category.
                 </p>
               </div>
-              <Link href="/courses" className="btn btn-ghost group">
+              <Link
+                href="/courses"
+                className="group inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+                style={{
+                  color: "var(--color-accent-800)",
+                  background: "var(--color-accent-100)",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+                }}
+              >
                 Browse all courses
                 <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
                   →
@@ -309,7 +305,15 @@ export default async function Home() {
 
             <div className="flex items-center gap-4">
               <FeaturedTutorsIllustration tutors={featured} />
-              <Link href="/find-a-tutor" className="btn btn-ghost group">
+              <Link
+                href="/find-a-tutor"
+                className="group inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+                style={{
+                  color: "var(--color-accent-800)",
+                  background: "var(--color-accent-100)",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+                }}
+              >
                 Browse all tutors
                 <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
                   →
@@ -342,54 +346,22 @@ export default async function Home() {
               </Tag>
               <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4">Popular subjects</h2>
             </div>
-            <Link href="/find-a-tutor" className="btn btn-ghost">
-              Browse all tutors →
+            <Link
+              href="/find-a-tutor"
+              className="group inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+              style={{
+                color: "var(--color-accent-800)",
+                background: "var(--color-accent-100)",
+                boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+              }}
+            >
+              Browse all tutors
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+                →
+              </span>
             </Link>
           </div>
           <PopularSubjects subjects={popularSubjects} />
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="relative overflow-hidden" style={{ background: "var(--color-surface)" }}>
-        <div
-          className="pointer-events-none absolute -top-16 right-[8%] w-[360px] h-[360px] rounded-full blur-3xl opacity-25"
-          style={{ background: "var(--color-accent-2-200)" }}
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute bottom-0 left-[4%] w-[300px] h-[300px] rounded-full blur-3xl opacity-20"
-          style={{ background: "var(--color-accent-200)" }}
-          aria-hidden
-        />
-        <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
-          <Reveal>
-            <div>
-              <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-                How it works
-              </Tag>
-              <h2 className="text-[clamp(28px,3.6vw,40px)] mt-4 mb-1.5 max-w-[20ch]">
-                We stand in the middle — on purpose.
-              </h2>
-              <p
-                className="text-[16px] max-w-[50ch] mb-10"
-                style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
-              >
-                Our team is the only bridge between the two sides. That is the trust, not a limitation.
-              </p>
-            </div>
-          </Reveal>
-
-          <HowItWorksSteps steps={steps} />
-
-          <Reveal delay={200}>
-            <div
-              className="card elev-sm mt-9 gap-3 border"
-              style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)" }}
-            >
-              <VerificationPipeline items={pipeline} requestId="R-1042" />
-            </div>
-          </Reveal>
         </div>
       </section>
 

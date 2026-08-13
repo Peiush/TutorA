@@ -3,11 +3,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet } from "@/lib/scroll-reveal-safety-net";
 import { SubjectIcon } from "@/components/ui/subject-icons";
 import { subjectAccent } from "@/components/ui/subject-accent";
 import type { SubjectListing } from "@/app/lib/subject-listings";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 function SearchGlyph(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -94,12 +96,24 @@ export function CourseSearchBox({
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      let cleanupSafetyNet: (() => void) | undefined;
+
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".csb-card", { autoAlpha: 0, y: 24, scale: 0.94, duration: 0.6, ease: "back.out(1.6)" });
+        gsap.set(".csb-card", { autoAlpha: 0, y: 24, scale: 0.94 });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: rootRef.current, start: "top 90%", once: true } });
+        tl.to(".csb-card", { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.6)" });
+        cleanupSafetyNet = scrollRevealSafetyNet(rootRef.current!, () => tl.progress() < 1, () => tl.progress(1));
+
         gsap.to(".csb-glow-a", { x: 12, y: -6, scale: 1.15, duration: 5.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
         gsap.to(".csb-glow-b", { x: -12, y: 6, scale: 1.15, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
       });
-      return () => mm.revert();
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(".csb-card", { autoAlpha: 1, y: 0, scale: 1 });
+      });
+      return () => {
+        mm.revert();
+        cleanupSafetyNet?.();
+      };
     },
     { scope: rootRef }
   );

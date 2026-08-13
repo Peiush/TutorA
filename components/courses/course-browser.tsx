@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet } from "@/lib/scroll-reveal-safety-net";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { CourseCard } from "@/components/courses/course-card";
 import { SubjectCard } from "@/components/courses/subject-card";
@@ -25,7 +27,7 @@ import { GRADE_BANDS, matchesGradeBand } from "@/lib/grade-bands";
 import type { SubjectListing } from "@/app/lib/subject-listings";
 import { POPULAR_SUBJECT_NAMES as FEATURED_SUBJECT_NAMES } from "@/lib/featured-subjects";
 
-gsap.registerPlugin(useGSAP, Flip);
+gsap.registerPlugin(useGSAP, Flip, ScrollTrigger);
 
 const SORTS = ["Most popular", "Highest rated", "Lowest price"] as const;
 const ALL = "All courses";
@@ -162,21 +164,23 @@ export function CourseBrowser({
     () => {
       const bar = filterBarRef.current;
       if (!bar) return;
+      const reveals = bar.querySelectorAll(".cb-reveal");
       const mm = gsap.matchMedia();
+      let cleanupSafetyNet: (() => void) | undefined;
+
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.set(bar.querySelectorAll(".cb-reveal"), { autoAlpha: 0, y: 14 });
-        gsap.to(bar.querySelectorAll(".cb-reveal"), {
-          autoAlpha: 1,
-          y: 0,
-          stagger: 0.05,
-          duration: 0.5,
-          ease: "power3.out",
-        });
+        gsap.set(reveals, { autoAlpha: 0, y: 14 });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: bar, start: "top 90%", once: true } });
+        tl.to(reveals, { autoAlpha: 1, y: 0, stagger: 0.05, duration: 0.5, ease: "power3.out" });
+        cleanupSafetyNet = scrollRevealSafetyNet(bar, () => tl.progress() < 1, () => tl.progress(1));
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(bar.querySelectorAll(".cb-reveal"), { autoAlpha: 1, y: 0 });
+        gsap.set(reveals, { autoAlpha: 1, y: 0 });
       });
-      return () => mm.revert();
+      return () => {
+        mm.revert();
+        cleanupSafetyNet?.();
+      };
     },
     { scope: filterBarRef }
   );
@@ -279,15 +283,27 @@ export function CourseBrowser({
           onEnter: (els) =>
             gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }),
         });
-      } else {
-        gsap.fromTo(cards, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05, overwrite: "auto" });
+        return () => {
+          gsap.set(cards, { clearProps: "opacity,transform" });
+        };
       }
+
+      // No captured Flip state means this is the very first render (before any filter
+      // interaction, which always calls captureFlip() first) — i.e. exactly the
+      // "Popular subjects" / "Popular programming courses" grid a fresh visitor sees.
+      // That grid usually sits below the hero + filter bar, so reveal it on scroll
+      // instead of an instant fade the visitor never gets to watch.
+      gsap.set(cards, { autoAlpha: 0, y: 16 });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: gridRef.current, start: "top 85%", once: true } });
+      tl.to(cards, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.05 });
+      const cleanupSafetyNet = scrollRevealSafetyNet(gridRef.current!, () => tl.progress() < 1, () => tl.progress(1));
 
       // If this effect gets torn down mid-flight (e.g. React Strict Mode's double-invoke
       // on mount, or a rapid filter change), clear GSAP's inline styles instead of leaving a
       // card stuck at its pre-animation opacity/transform — a plain unmount should always
       // resolve to the natural, visible CSS state.
       return () => {
+        cleanupSafetyNet();
         gsap.set(cards, { clearProps: "opacity,transform" });
       };
     },

@@ -91,31 +91,31 @@ export function ComparisonShowdown() {
 
         const tl = gsap.timeline({
           defaults: { ease: "power3.out" },
-          scrollTrigger: { trigger: root, start: "top 80%", once: true },
+          scrollTrigger: { trigger: root, start: "top 92%", once: true },
         });
 
-        tl.to(tag, { autoAlpha: 1, y: 0, duration: 0.5 })
-          .to(heading, { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.3")
-          .to(sub, { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.35")
-          .to(panels, { autoAlpha: 1, y: 0, scale: 1, duration: 0.6 }, "-=0.25")
-          .to(headerCells, { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.4 }, "-=0.3")
-          .to(badge, { autoAlpha: 1, scale: 1, stagger: 0.08, duration: 0.5, ease: "back.out(2.6)" }, "-=0.2")
-          .to(rows, { autoAlpha: 1, x: 0, stagger: 0.12, duration: 0.5 }, "-=0.25")
-          .to(mcards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.12, duration: 0.5 }, "-=0.25")
+        tl.to(tag, { autoAlpha: 1, y: 0, duration: 0.35 })
+          .to(heading, { autoAlpha: 1, y: 0, duration: 0.42 }, "-=0.2")
+          .to(sub, { autoAlpha: 1, y: 0, duration: 0.35 }, "-=0.25")
+          .to(panels, { autoAlpha: 1, y: 0, scale: 1, duration: 0.42 }, "-=0.18")
+          .to(headerCells, { autoAlpha: 1, y: 0, stagger: 0.05, duration: 0.3 }, "-=0.2")
+          .to(badge, { autoAlpha: 1, scale: 1, stagger: 0.05, duration: 0.35, ease: "back.out(2.6)" }, "-=0.14")
+          .to(rows, { autoAlpha: 1, x: 0, stagger: 0.07, duration: 0.35 }, "-=0.18")
+          .to(mcards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.07, duration: 0.35 }, "-=0.18")
           .to(
             rowIcons,
-            { autoAlpha: 1, scale: 1, rotate: 0, stagger: 0.12, duration: 0.45, ease: "back.out(2.4)" },
-            "-=0.5"
+            { autoAlpha: 1, scale: 1, rotate: 0, stagger: 0.07, duration: 0.32, ease: "back.out(2.4)" },
+            "-=0.35"
           )
           .to(
             mIcons,
-            { autoAlpha: 1, scale: 1, rotate: 0, stagger: 0.12, duration: 0.45, ease: "back.out(2.4)" },
-            "-=0.5"
+            { autoAlpha: 1, scale: 1, rotate: 0, stagger: 0.07, duration: 0.32, ease: "back.out(2.4)" },
+            "-=0.35"
           )
           .to(
             winIcons,
-            { autoAlpha: 1, scale: 1, stagger: 0.08, duration: 0.4, ease: "back.out(2.8)" },
-            "-=0.4"
+            { autoAlpha: 1, scale: 1, stagger: 0.05, duration: 0.28, ease: "back.out(2.8)" },
+            "-=0.28"
           );
 
         return scrollRevealSafetyNet(

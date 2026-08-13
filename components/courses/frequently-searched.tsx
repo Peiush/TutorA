@@ -3,9 +3,13 @@
 import { useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scrollRevealSafetyNet } from "@/lib/scroll-reveal-safety-net";
 import { TargetIcon, CodeBracketIcon, GlobeIcon } from "@/components/courses/course-icons";
 import { CATEGORY_COLORS } from "@/components/courses/course-illustrations";
 import type { CourseCategory } from "@/lib/mock-courses";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export const FREQUENTLY_SEARCHED: {
   group: string;
@@ -90,19 +94,22 @@ function seededShuffle<T>(arr: T[], seed: string): T[] {
   return result;
 }
 
+// Mobile tiers are kept close together (11-13px, readable) — the dramatic size jumps
+// that make the desktop cloud feel playful just read as jumbled clutter on a 375px
+// screen. Full variance returns from sm: up.
 const CHIP_SIZES = [
-  { text: "text-[8.5px] sm:text-[11px]", pad: "px-1.5 py-0.5 sm:px-2.5 sm:py-1" },
-  { text: "text-[9.5px] sm:text-[12.5px]", pad: "px-2 py-0.5 sm:px-3.5 sm:py-1.5" },
-  { text: "text-[10.5px] sm:text-[14px]", pad: "px-2.5 py-1 sm:px-4 sm:py-2" },
-  { text: "text-[12px] sm:text-[16.5px]", pad: "px-3 py-1 sm:px-5 sm:py-2.5" },
-  { text: "text-[13.5px] sm:text-[19px]", pad: "px-3.5 py-1.5 sm:px-6 sm:py-3" },
+  { text: "text-[11px] sm:text-[11px]", pad: "px-2 py-1 sm:px-2.5 sm:py-1" },
+  { text: "text-[11.5px] sm:text-[12.5px]", pad: "px-2.5 py-1 sm:px-3.5 sm:py-1.5" },
+  { text: "text-[12px] sm:text-[14px]", pad: "px-2.5 py-1 sm:px-4 sm:py-2" },
+  { text: "text-[12.5px] sm:text-[16.5px]", pad: "px-3 py-1 sm:px-5 sm:py-2.5" },
+  { text: "text-[13px] sm:text-[19px]", pad: "px-3 py-1 sm:px-6 sm:py-3" },
 ];
 
 function chipStyleFor(label: string) {
   const hash = hashString(label);
   const size = CHIP_SIZES[hash % CHIP_SIZES.length];
-  const rotation = (hash % 9) - 4; // -4deg .. 4deg
-  const lift = (hash >> 3) % 3 === 0 ? -3 : (hash >> 3) % 3 === 1 ? 3 : 0;
+  const rotation = (hash % 17) - 8; // -8deg .. 8deg
+  const lift = ((hash >> 3) % 11) - 5; // -5px .. 5px
   return { size, rotation, lift };
 }
 
@@ -137,7 +144,9 @@ export function FrequentlySearched({
         return;
       }
       gsap.set(chips, { autoAlpha: 0, y: 8 });
-      gsap.to(chips, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.012, ease: "power2.out" });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: rootRef.current, start: "top 88%", once: true } });
+      tl.to(chips, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.012, ease: "power2.out" });
+      return scrollRevealSafetyNet(rootRef.current!, () => tl.progress() < 1, () => tl.progress(1));
     },
     { scope: rootRef }
   );
@@ -171,7 +180,7 @@ export function FrequentlySearched({
       >
         {description}
       </p>
-      <div className={`flex flex-wrap items-center gap-x-1 gap-y-1 sm:gap-x-2.5 sm:gap-y-2 ${centered ? "justify-center" : ""}`}>
+      <div className={`flex flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-2.5 sm:gap-y-2 ${centered ? "justify-center" : ""}`}>
         {allItems.map(({ label, query, colors }) => {
           const { size, rotation, lift } = chipStyleFor(label);
           return (

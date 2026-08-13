@@ -33,11 +33,14 @@ export function HeroHeading() {
 
 export function HeroCopy() {
   return (
-    <p className="reveal-up d3 hero-copy-p mt-5 mx-auto text-[17px] sm:text-[18px] leading-[1.62] max-w-[62ch] text-center">
+    <p className="reveal-up d3 hero-copy-p mt-3 sm:mt-5 mx-auto text-[14.5px] sm:text-[17px] lg:text-[18px] leading-[1.48] sm:leading-[1.62] max-w-[36ch] sm:max-w-[52ch] lg:max-w-[62ch] text-center">
       <span className="font-medium" style={{ color: "var(--color-text)" }}>
         Live 1-on-1 and small group classes for Grades 6–12, SAT, Coding &amp; more.
       </span>{" "}
-      <span style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}>
+      <span
+        className="hidden sm:inline"
+        style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
+      >
         Learn from{" "}
         <span className="font-medium" style={{ color: "var(--color-accent-2-700)" }}>
           experienced Indian teachers
@@ -50,14 +53,18 @@ export function HeroCopy() {
 
 export function HeroSecondaryLink() {
   return (
-    <div className="reveal-up d5 hero-secondary-link mt-4 text-center text-[13.5px]">
+    <div className="reveal-up d5 hero-secondary-link mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-2 text-center text-[13.5px]">
       <span style={{ color: "color-mix(in srgb, var(--color-text) 56%, transparent)" }}>
-        Not sure what you need?{" "}
+        Not sure what you need?
       </span>
       <Link
         href="/request-a-tutor"
-        className="font-semibold underline-offset-4 hover:underline"
-        style={{ color: "var(--color-accent-2-700)" }}
+        className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+        style={{
+          color: "var(--color-accent-800)",
+          background: "var(--color-accent-100)",
+          boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+        }}
       >
         Request a tutor for me <span aria-hidden>→</span>
       </Link>

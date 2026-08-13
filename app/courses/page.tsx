@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CoursesIntro } from "@/components/courses/courses-intro";
 import { CourseBrowser } from "@/components/courses/course-browser";
+import { CoursesAbout } from "@/components/courses/courses-about";
 import { CoursesFaq } from "@/components/courses/courses-faq";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
@@ -67,30 +68,20 @@ export default async function CoursesPage() {
   const [courses, subjects] = await Promise.all([getPublishedCourses(), getSubjects()]);
 
   return (
-    <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
+    <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(12px,2vw,20px)] pb-[clamp(32px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <CoursesIntro />
 
-      {/* Server-rendered, always-crawlable entry points into /courses?category=... and
-          /subjects — the category filter chips and subject grid below are client-side
-          state (no href), so this is the only static link path into most subject pages
-          and into a dedicated Test Preparation destination. See the internal-linking
-          audit (2026-08-09): ~91 of ~103 /subjects pages had zero inbound on-page link. */}
-      <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-[13.5px]">
-        <Link href="/courses?category=Test%20Preparation" className="hover:underline font-medium" style={{ color: "var(--color-accent-700)" }}>
-          Preparing for SAT, ACT, AP, IB, A-Level, or GCSE? Browse Test Preparation courses →
-        </Link>
-        <Link href="/subjects" className="hover:underline" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
-          Or browse all subjects by grade & curriculum →
-        </Link>
+      <div id="browse">
+        <CourseBrowser courses={courses} subjects={subjects} />
       </div>
 
       {/* Same fix, applied to the grade-band views: the chips share the same `category`
           query-param state as the Test Preparation link above, but nothing previously
           linked to /courses?category=Grade+6-8 etc. either. */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-8 text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-12 text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
         <span>Browse by grade:</span>
         {GRADE_BANDS.map((band) => (
           <Link key={band.key} href={`/courses?category=${encodeURIComponent(band.label)}`} className="hover:underline">
@@ -99,9 +90,7 @@ export default async function CoursesPage() {
         ))}
       </div>
 
-      <div id="browse">
-        <CourseBrowser courses={courses} subjects={subjects} />
-      </div>
+      <CoursesAbout />
       <CoursesFaq />
     </div>
   );
