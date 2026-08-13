@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Tag } from "@/components/ui/tag";
 import { StarRating } from "@/components/ui/tutor-avatar";
-import { GraduationCapIcon } from "@/components/courses/course-icons";
+import { GraduationCapIcon, LayersIcon, GlobeIcon } from "@/components/courses/course-icons";
 
 gsap.registerPlugin(useGSAP);
 
@@ -144,31 +144,93 @@ export function CoursesIntro() {
               state the category selector below sets client-side (no href of its own). See the
               internal-linking audit (2026-08-09): ~91 of ~103 /subjects pages had zero inbound
               on-page link. */}
-          <div className="ci-cta relative z-[1] flex flex-col items-start gap-2.5 sm:gap-4">
-            <Link
-              href="#browse"
-              className="inline-flex items-center gap-1.5 rounded-2xl sm:rounded-full px-3 py-2 sm:px-3.5 sm:py-1.5 text-[12px] sm:text-[13.5px] leading-snug font-bold transition-transform hover:-translate-y-0.5"
-              style={{
-                color: "var(--color-accent-800)",
-                background: "var(--color-accent-100)",
-                boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
-              }}
-            >
-              Looking for Grade 6-8, 9-10, or 11-12 subjects? Browse by grade
-              <span aria-hidden>→</span>
-            </Link>
-            <Link
-              href="/subjects"
-              className="inline-flex items-center gap-1.5 rounded-2xl sm:rounded-full px-3 py-2 sm:px-3.5 sm:py-1.5 text-[12px] sm:text-[13.5px] leading-snug font-bold transition-transform hover:-translate-y-0.5"
-              style={{
-                color: "var(--color-verified)",
-                background: "color-mix(in srgb, var(--color-verified) 12%, var(--color-bg))",
-                boxShadow: "0 1px 2px color-mix(in srgb, var(--color-verified) 25%, transparent)",
-              }}
-            >
-              Not sure yet? See all 100+ subjects across every exam board
-              <span aria-hidden>→</span>
-            </Link>
+          <div className="ci-cta relative z-[1]">
+            {/* MOBILE — the old approach reused the desktop stadium-pill shape and let
+                the long anchor text wrap inside it, which turned each pill into a lumpy
+                blob with the arrow floating off on its own line. Below sm this swaps to
+                a proper two-line card: icon left, heading + short subtext stacked, arrow
+                pinned right — same tap targets, same link text, just laid out for a
+                narrow column instead of a pill built for one line. */}
+            <div className="sm:hidden flex flex-col gap-2.5">
+              <Link
+                href="#browse"
+                className="flex items-center gap-3 rounded-2xl p-3.5 transition-transform active:scale-[0.98]"
+                style={{
+                  background: "var(--color-accent-100)",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+                }}
+              >
+                <span
+                  className="flex-none w-9 h-9 rounded-full grid place-content-center"
+                  style={{ background: "var(--color-accent-700)", color: "#fff" }}
+                  aria-hidden
+                >
+                  <LayersIcon width={16} height={16} />
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className="block text-[13px] font-bold leading-snug" style={{ color: "var(--color-accent-800)" }}>
+                    Browse by grade
+                  </span>
+                  <span className="block text-[11.5px] leading-snug" style={{ color: "color-mix(in srgb, var(--color-accent-800) 75%, transparent)" }}>
+                    Grade 6-8, 9-10, or 11-12 subjects
+                  </span>
+                </span>
+                <span className="flex-none" style={{ color: "var(--color-accent-800)" }} aria-hidden>→</span>
+              </Link>
+              <Link
+                href="/subjects"
+                className="flex items-center gap-3 rounded-2xl p-3.5 transition-transform active:scale-[0.98]"
+                style={{
+                  background: "color-mix(in srgb, var(--color-verified) 12%, var(--color-bg))",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-verified) 25%, transparent)",
+                }}
+              >
+                <span
+                  className="flex-none w-9 h-9 rounded-full grid place-content-center"
+                  style={{ background: "var(--color-verified)", color: "#fff" }}
+                  aria-hidden
+                >
+                  <GlobeIcon width={16} height={16} />
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className="block text-[13px] font-bold leading-snug" style={{ color: "var(--color-verified)" }}>
+                    See all 100+ subjects
+                  </span>
+                  <span className="block text-[11.5px] leading-snug" style={{ color: "color-mix(in srgb, var(--color-verified) 80%, var(--color-text))" }}>
+                    Not sure yet? Every exam board, one place
+                  </span>
+                </span>
+                <span className="flex-none" style={{ color: "var(--color-verified)" }} aria-hidden>→</span>
+              </Link>
+            </div>
+
+            {/* DESKTOP / TABLET — unchanged stadium pills */}
+            <div className="hidden sm:flex flex-col items-start gap-4">
+              <Link
+                href="#browse"
+                className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+                style={{
+                  color: "var(--color-accent-800)",
+                  background: "var(--color-accent-100)",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-accent-600) 25%, transparent)",
+                }}
+              >
+                Looking for Grade 6-8, 9-10, or 11-12 subjects? Browse by grade
+                <span aria-hidden>→</span>
+              </Link>
+              <Link
+                href="/subjects"
+                className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13.5px] font-bold transition-transform hover:-translate-y-0.5"
+                style={{
+                  color: "var(--color-verified)",
+                  background: "color-mix(in srgb, var(--color-verified) 12%, var(--color-bg))",
+                  boxShadow: "0 1px 2px color-mix(in srgb, var(--color-verified) 25%, transparent)",
+                }}
+              >
+                Not sure yet? See all 100+ subjects across every exam board
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
           </div>
         </div>
 
