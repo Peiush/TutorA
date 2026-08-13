@@ -179,7 +179,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
 
   return (
     <>
-      <div ref={gridRef} className="grid gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div ref={gridRef} className="grid gap-3.5 sm:gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {tutors.map((t, i) => {
           const vibe = vibrantAccent(i);
           const already = isAlreadyRequested(t);
@@ -221,7 +221,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                 style={{ background: `linear-gradient(90deg, ${vibe.solid}, color-mix(in srgb, ${vibe.solid} 55%, white))` }}
                 aria-hidden
               />
-              <div className="relative z-[1] p-6 flex flex-col gap-4 flex-1">
+              <div className="relative z-[1] p-4.5 sm:p-6 flex flex-col gap-3 sm:gap-4 flex-1">
                 <div className="flex gap-3 items-center">
                   <div
                     className="tutor-avatar-wrap rounded-full transition-transform duration-300 group-hover:scale-[1.08] group-hover:rotate-3"

@@ -493,8 +493,7 @@ export function CourseBrowser({
                   Popular subjects
                 </h2>
                 <div
-                  className="relative grid gap-6 items-start"
-                  style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                  className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
                 >
                   {featuredSubjects.map((subject) => (
                     <SubjectCard
@@ -519,8 +518,7 @@ export function CourseBrowser({
                   Popular programming courses
                 </h2>
                 <div
-                  className="relative grid gap-6 items-start"
-                  style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                  className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
                 >
                   {featuredCourses.map((course) => (
                     <CourseCard
@@ -542,8 +540,7 @@ export function CourseBrowser({
         ) : activeBand ? (
           filteredSubjects.length > 0 ? (
             <div
-              className="relative grid gap-6 items-start"
-              style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+              className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
             >
               {filteredSubjects.map((subject) => (
                 <SubjectCard
@@ -577,8 +574,7 @@ export function CourseBrowser({
                     Subjects
                   </h2>
                   <div
-                    className="relative grid gap-6 items-start"
-                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                    className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
                   >
                     {filteredSubjects.map((subject) => (
                       <SubjectCard
@@ -603,8 +599,7 @@ export function CourseBrowser({
                     Courses
                   </h2>
                   <div
-                    className="relative grid gap-6 items-start"
-                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+                    className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
                   >
                     {filtered.map((course) => (
                       <CourseCard
@@ -633,8 +628,7 @@ export function CourseBrowser({
           )
         ) : filtered.length > 0 ? (
           <div
-            className="relative grid gap-6 items-start"
-            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}
+            className="relative grid grid-cols-2 gap-3 sm:gap-6 items-start sm:[grid-template-columns:repeat(auto-fill,minmax(260px,1fr))]"
           >
             {filtered.map((course) => (
               <CourseCard

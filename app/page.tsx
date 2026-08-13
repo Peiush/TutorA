@@ -287,13 +287,13 @@ export default async function Home() {
           aria-hidden
         />
         <div className="relative max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
-          <div className="flex justify-between items-end flex-wrap gap-5 mb-7">
+          <div className="flex justify-between items-end flex-wrap gap-4 sm:gap-5 mb-5 sm:mb-7">
             <Reveal>
               <div>
                 <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
                   Freshly vetted
                 </Tag>
-                <h2 className="text-[clamp(28px,3.4vw,38px)] mt-4">Verified and ready to teach</h2>
+                <h2 className="text-[clamp(24px,3.4vw,38px)] mt-3 sm:mt-4">Verified and ready to teach</h2>
                 <div
                   className="text-[12.5px] mt-1.5"
                   style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
