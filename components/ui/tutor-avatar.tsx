@@ -1,9 +1,9 @@
 import type { CSSProperties } from "react";
 
 const PALETTES = [
-  ["var(--color-accent-2-200)", "var(--color-accent-2-800)"],
-  ["var(--color-accent-200)", "var(--color-accent-800)"],
-  ["var(--color-neutral-200)", "var(--color-neutral-700)"],
+  ["var(--color-accent-2-500)", "#FFFFFF"],
+  ["var(--color-accent-500)", "#FFFFFF"],
+  ["var(--color-neutral-600)", "#FFFFFF"],
 ];
 
 export function initialsOf(name: string) {

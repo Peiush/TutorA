@@ -42,9 +42,9 @@ function priceValue(price: string) {
 }
 
 const TIERS = [
-  { label: "Gold", min: 90, color: "#8A6A12", bg: "#FBEFC7" },
-  { label: "Silver", min: 30, color: "#4A5568", bg: "#E7EAEE" },
-  { label: "Bronze", min: 0, color: "#8A4B2C", bg: "#F3E1D2" },
+  { label: "Gold", min: 90, color: "#7A5A00", bg: "#F6D879" },
+  { label: "Silver", min: 30, color: "#2E3745", bg: "#C7CEDA" },
+  { label: "Bronze", min: 0, color: "#6E3517", bg: "#E7B48C" },
 ] as const;
 
 function tierOf(t: TutorRaw) {
@@ -69,10 +69,11 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
       ref={ref}
       className="inline-flex items-center gap-1.5 text-[12px] font-medium"
       style={{
-        background: "var(--color-accent-2-100)",
+        background: "#FFFFFF",
         color: "var(--color-accent-2-800)",
         borderRadius: 999,
         padding: "4px 6px 4px 11px",
+        boxShadow: "0 2px 6px color-mix(in srgb, var(--color-accent-2-700) 18%, transparent)",
       }}
     >
       {label}
@@ -690,16 +691,20 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
 
         <aside
           ref={sidebarRef}
-          className={`card elev-md gap-4 sticky top-[88px] border ${filtersOpen ? "" : "max-[860px]:hidden"}`}
-          style={{ background: "var(--color-surface)", borderColor: "var(--color-divider)" }}
+          className={`card elev-lg gap-4 sticky top-[88px] border ${filtersOpen ? "" : "max-[860px]:hidden"}`}
+          style={{
+            background: "linear-gradient(165deg, var(--color-accent-2-100), var(--color-accent-100) 130%)",
+            borderColor: "color-mix(in srgb, var(--color-accent-2-500) 25%, var(--color-divider))",
+            boxShadow: "0 10px 30px color-mix(in srgb, var(--color-accent-2-600) 16%, transparent)",
+          }}
         >
           <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
               <div
-                className="filters-header-icon w-8 h-8 rounded-full grid place-content-center flex-none"
-                style={{ background: "var(--color-accent-2-100)" }}
+                className="filters-header-icon w-9 h-9 rounded-full grid place-content-center flex-none"
+                style={{ background: "var(--color-accent-2-700)", boxShadow: "0 4px 12px color-mix(in srgb, var(--color-accent-2-700) 45%, transparent)" }}
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 6h16M7 12h10M10 18h4" />
                 </svg>
               </div>
@@ -783,6 +788,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
               max={120}
               value={maxBudget}
               onChange={(e) => setMaxBudget(Number(e.target.value))}
+              style={{ accentColor: "var(--color-accent-600)", background: "transparent" }}
             />
             <div
               className="text-[12px] mt-1"
@@ -891,19 +897,23 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                   }}
                   onMouseMove={handleCardTilt}
                   onMouseLeave={handleCardTiltReset}
-                  className="tutor-card group card elev-sm relative cursor-pointer border transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
-                  style={{ borderColor: "var(--color-divider)" }}
+                  className="tutor-card group card elev-md relative cursor-pointer border transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:shadow-[var(--shadow-lg)] p-0 overflow-hidden gap-0"
+                  style={{
+                    background: "#FFFFFF",
+                    borderColor: `color-mix(in srgb, ${accent.bar} 20%, var(--color-divider))`,
+                    boxShadow: `0 2px 14px color-mix(in srgb, ${accent.bar} 10%, transparent)`,
+                  }}
                 >
                   <span
                     aria-hidden
-                    className="absolute inset-y-0 left-0 w-[4px] transition-[width] duration-200 ease-out group-hover:w-[5px]"
+                    className="absolute inset-y-0 left-0 w-[5px] transition-[width] duration-200 ease-out group-hover:w-[6px]"
                     style={{ background: accent.bar }}
                   />
                   <div className="flex gap-4 p-5 pl-6 max-[560px]:gap-3 max-[560px]:p-3.5 max-[560px]:pl-4">
                     <div className="flex flex-col items-center gap-1.5 flex-none">
                       <div
                         className="tutor-avatar-ring rounded-full transition-transform duration-200 ease-out group-hover:scale-[1.04]"
-                        style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${accent.bar} 22%, transparent)`, borderRadius: "50%" }}
+                        style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${accent.bar} 38%, transparent)`, borderRadius: "50%" }}
                       >
                         <TutorAvatar name={t.name} index={i} size={64} withBadge={!t.onDemand} />
                       </div>
@@ -967,15 +977,15 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                           </div>
                         </div>
                         <span
-                          className="font-[var(--font-heading)] text-[20px] whitespace-nowrap rounded-full px-3 py-1"
-                          style={{ color: "var(--color-accent-2-700)", background: "var(--color-accent-2-100)" }}
+                          className="font-[var(--font-heading)] text-[20px] whitespace-nowrap rounded-full px-3.5 py-1"
+                          style={{ color: "#FFFFFF", background: "var(--color-accent-2-600)", boxShadow: "0 3px 10px color-mix(in srgb, var(--color-accent-2-600) 35%, transparent)" }}
                         >
                           {/\d/.test(t.price) ? (
                             <>
                               {t.price.replace(/\s*\/\s*hr\s*$/i, "")}
                               <span
                                 className="text-[12px] font-[var(--font-body)] font-normal"
-                                style={{ color: "color-mix(in srgb, var(--color-text) 67%, transparent)" }}
+                                style={{ color: "color-mix(in srgb, #FFFFFF 75%, transparent)" }}
                               >
                                 /hr
                               </span>
