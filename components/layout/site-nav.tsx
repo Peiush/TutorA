@@ -191,7 +191,7 @@ export function SiteNav() {
 
   return (
     <nav
-      className="sticky top-0 z-20 flex flex-wrap items-center gap-[clamp(10px,2.4vw,26px)] px-[clamp(20px,5vw,64px)] py-3.5 border-b"
+      className="sticky top-0 z-40 flex flex-wrap items-center gap-[clamp(10px,2.4vw,26px)] px-[clamp(20px,5vw,64px)] py-3.5 border-b"
       style={{
         background: "color-mix(in srgb, var(--color-bg) 90%, transparent)",
         backdropFilter: "blur(8px)",

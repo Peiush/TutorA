@@ -2,6 +2,7 @@
 
 import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { StarRating } from "@/components/ui/tutor-avatar";
@@ -42,7 +43,6 @@ export function CourseCard({
   requestPending,
   onToggleSaved,
   onRequest,
-  onOpen,
 }: {
   course: CourseRaw;
   saved: boolean;
@@ -51,8 +51,9 @@ export function CourseCard({
   requestPending: boolean;
   onToggleSaved: (course: CourseRaw) => void;
   onRequest: (course: CourseRaw, origin: HTMLElement | null) => void;
-  onOpen: (course: CourseRaw) => void;
 }) {
+  const router = useRouter();
+  const goToDetails = () => router.push(`/courses/${course.slug}`);
   const rootRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const flyoutRef = useRef<HTMLDivElement>(null);
@@ -169,11 +170,11 @@ export function CourseCard({
         ref={cardRef}
         role="button"
         tabIndex={0}
-        onClick={() => onOpen(course)}
+        onClick={goToDetails}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            onOpen(course);
+            goToDetails();
           }
         }}
         className="card elev-sm relative cursor-pointer p-0 overflow-hidden gap-0 h-full flex flex-col border transition-shadow duration-300 ease-out will-change-transform"
@@ -317,7 +318,7 @@ export function CourseCard({
           visibility: "hidden",
           pointerEvents: hovered ? "auto" : "none",
         }}
-        onClick={() => onOpen(course)}
+        onClick={goToDetails}
       >
         <span
           className="pointer-events-none absolute top-0 left-6 right-6 h-[3px] rounded-full opacity-80"
@@ -408,10 +409,15 @@ export function CourseCard({
         <Link
           href={`/courses/${course.slug}`}
           onClick={(e) => e.stopPropagation()}
-          className="text-[12px] text-center font-medium hover:underline"
+          className="group/details inline-flex items-center justify-center gap-1 self-center text-[12.5px] font-semibold tracking-wide transition-colors duration-150"
           style={{ color: "var(--color-accent-700)" }}
         >
-          See full details →
+          <span className="underline decoration-2 underline-offset-4 decoration-transparent transition-[decoration-color] duration-200 group-hover/details:decoration-current">
+            See full details
+          </span>
+          <span aria-hidden className="inline-block transition-transform duration-200 group-hover/details:translate-x-0.5">
+            →
+          </span>
         </Link>
         <span
           className="text-[11px] text-center"

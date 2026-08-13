@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 const PALETTES = [
   ["var(--color-accent-2-200)", "var(--color-accent-2-800)"],
   ["var(--color-accent-200)", "var(--color-accent-800)"],
@@ -26,12 +28,16 @@ export function TutorAvatar({
   withBadge?: boolean;
 }) {
   const [bg, text] = PALETTES[index % PALETTES.length];
+  // Scales down smoothly on narrow viewports instead of staying pinned at a fixed
+  // `size` — the vw term only starts pulling it below `size` once the viewport is
+  // narrower than ~640px, so nothing changes on tablet/desktop.
+  const avatarSize = `clamp(${(size * 0.72).toFixed(1)}px, ${(size * 0.156).toFixed(2)}vw, ${size}px)`;
   return (
-    <div style={{ position: "relative", flex: "none" }}>
+    <div style={{ position: "relative", flex: "none", ["--tutor-avatar-size" as string]: avatarSize } as CSSProperties}>
       <div
         style={{
-          width: size,
-          height: size,
+          width: "var(--tutor-avatar-size)",
+          height: "var(--tutor-avatar-size)",
           borderRadius: "50%",
           background: bg,
           color: text,
@@ -39,7 +45,7 @@ export function TutorAvatar({
           placeContent: "center",
           fontFamily: "var(--font-heading)",
           fontWeight: 600,
-          fontSize: size * 0.33,
+          fontSize: "calc(var(--tutor-avatar-size) * 0.33)",
         }}
       >
         {initialsOf(name)}
@@ -50,8 +56,8 @@ export function TutorAvatar({
             position: "absolute",
             right: -3,
             bottom: -3,
-            width: size * 0.36,
-            height: size * 0.36,
+            width: "calc(var(--tutor-avatar-size) * 0.36)",
+            height: "calc(var(--tutor-avatar-size) * 0.36)",
             borderRadius: "50%",
             background: "var(--color-verified)",
             border: "2px solid var(--color-bg)",
@@ -60,8 +66,7 @@ export function TutorAvatar({
           }}
         >
           <svg
-            width={size * 0.18}
-            height={size * 0.18}
+            style={{ width: "calc(var(--tutor-avatar-size) * 0.18)", height: "calc(var(--tutor-avatar-size) * 0.18)" }}
             viewBox="0 0 24 24"
             fill="none"
             stroke="#fff"

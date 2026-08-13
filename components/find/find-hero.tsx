@@ -74,7 +74,7 @@ export function FindHero({
   );
 
   return (
-    <div ref={rootRef} className="relative overflow-hidden mb-2">
+    <div ref={rootRef} className="relative overflow-hidden mb-2 max-[640px]:mb-4">
       <div
         className="fh-blob fh-blob-1 pointer-events-none absolute -z-10 rounded-full blur-3xl"
         style={{
@@ -105,11 +105,11 @@ export function FindHero({
           <Tag variant="accent-2" className="fh-tag text-[12px] px-3.5 py-1.5">
             Find a Tutor
           </Tag>
-          <h1 className="fh-heading font-bold text-[clamp(30px,4vw,48px)] mt-4 mb-1">
+          <h1 className="fh-heading font-bold text-[clamp(26px,7vw,48px)] mt-4 mb-1 max-[640px]:mt-2.5">
             Browse verified tutors
           </h1>
           <p
-            className="fh-copy text-[16px] mb-3 max-w-[56ch]"
+            className="fh-copy text-[16px] mb-3 max-w-[56ch] max-[640px]:text-[14px] max-[640px]:mb-2.5"
             style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
           >
             {typeof tutorCount === "number" && tutorCount > 0
@@ -120,25 +120,25 @@ export function FindHero({
             Contact details stay private. Request a tutor and our team makes the introduction.
           </p>
 
-          <div className="flex flex-wrap gap-2.5 mb-8">
+          <div className="flex flex-wrap gap-2 mb-6 max-[640px]:gap-1.5 max-[640px]:mb-4">
             {STATS.map((s) => (
               <div
                 key={s.value}
-                className="fh-stat inline-flex items-center gap-2 rounded-full pl-2.5 pr-4 py-1.5 border"
+                className="fh-stat inline-flex items-center gap-1.5 rounded-full pl-2 pr-3.5 py-1.5 border max-[640px]:pl-1.5 max-[640px]:pr-2.5 max-[640px]:py-1"
                 style={{
                   background: "color-mix(in srgb, var(--color-surface) 70%, transparent)",
                   borderColor: "var(--color-divider)",
                 }}
               >
                 <span
-                  className="grid place-content-center rounded-full flex-none"
-                  style={{ width: 22, height: 22, background: "var(--color-verified)" }}
+                  className="grid place-content-center rounded-full flex-none w-[20px] h-[20px] max-[640px]:w-[16px] max-[640px]:h-[16px]"
+                  style={{ background: "var(--color-verified)" }}
                 >
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="max-[640px]:w-[8px] max-[640px]:h-[8px]">
                     <path d="M20 6 9 17l-5-5" />
                   </svg>
                 </span>
-                <span className="text-[12.5px] font-medium" style={{ color: "color-mix(in srgb, var(--color-text) 82%, transparent)" }}>
+                <span className="text-[12.5px] font-medium max-[640px]:text-[10.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 82%, transparent)" }}>
                   {s.label}
                 </span>
               </div>

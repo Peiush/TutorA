@@ -10,8 +10,6 @@ import { scrollRevealSafetyNet } from "@/lib/scroll-reveal-safety-net";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { CourseCard } from "@/components/courses/course-card";
 import { SubjectCard } from "@/components/courses/subject-card";
-import { CourseDetailModal } from "@/components/courses/course-detail-modal";
-import { SubjectDetailModal } from "@/components/courses/subject-detail-modal";
 import { CategorySelector } from "@/components/courses/category-selector";
 import { CourseSearchBox } from "@/components/courses/course-search-box";
 import { XIcon } from "@/components/courses/course-icons";
@@ -152,8 +150,6 @@ export function CourseBrowser({
   }, []);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
-  const [openCourse, setOpenCourse] = useState<CourseRaw | null>(null);
-  const [openSubject, setOpenSubject] = useState<SubjectListing | null>(null);
   const [, startTransition] = useTransition();
   const launchPlane = usePlaneLaunch();
   const gridRef = useRef<HTMLDivElement>(null);
@@ -506,7 +502,6 @@ export function CourseBrowser({
                       requestPending={requestingSubjectId === subject.id}
                       onToggleSaved={handleToggleSavedSubject}
                       onRequest={handleRequestSubject}
-                      onOpen={setOpenSubject}
                     />
                   ))}
                 </div>
@@ -530,7 +525,6 @@ export function CourseBrowser({
                       requestPending={requestingId === course.id}
                       onToggleSaved={handleToggleSaved}
                       onRequest={handleRequestCourse}
-                      onOpen={setOpenCourse}
                     />
                   ))}
                 </div>
@@ -553,7 +547,6 @@ export function CourseBrowser({
                   requestPending={requestingSubjectId === subject.id}
                   onToggleSaved={handleToggleSavedSubject}
                   onRequest={handleRequestSubject}
-                  onOpen={setOpenSubject}
                 />
               ))}
             </div>
@@ -587,7 +580,6 @@ export function CourseBrowser({
                         requestPending={requestingSubjectId === subject.id}
                         onToggleSaved={handleToggleSavedSubject}
                         onRequest={handleRequestSubject}
-                        onOpen={setOpenSubject}
                       />
                     ))}
                   </div>
@@ -611,7 +603,6 @@ export function CourseBrowser({
                         requestPending={requestingId === course.id}
                         onToggleSaved={handleToggleSaved}
                         onRequest={handleRequestCourse}
-                        onOpen={setOpenCourse}
                       />
                     ))}
                   </div>
@@ -640,7 +631,6 @@ export function CourseBrowser({
                 requestPending={requestingId === course.id}
                 onToggleSaved={handleToggleSaved}
                 onRequest={handleRequestCourse}
-                onOpen={setOpenCourse}
               />
             ))}
           </div>
@@ -655,31 +645,6 @@ export function CourseBrowser({
       </div>
 
       {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
-      {openCourse && (
-        <CourseDetailModal
-          course={openCourse}
-          saved={saved.has(openCourse.id)}
-          savePending={savePending.has(openCourse.id)}
-          requested={requested.has(openCourse.id)}
-          requestPending={requestingId === openCourse.id}
-          onToggleSaved={handleToggleSaved}
-          onRequest={handleRequestCourse}
-          onClose={() => setOpenCourse(null)}
-        />
-      )}
-      {openSubject && (
-        <SubjectDetailModal
-          subject={openSubject}
-          band={activeBand ?? bandForSubject(openSubject)}
-          saved={savedSubjects.has(openSubject.id)}
-          savePending={saveSubjectPending.has(openSubject.id)}
-          requested={requestedSubjects.has(openSubject.id)}
-          requestPending={requestingSubjectId === openSubject.id}
-          onToggleSaved={handleToggleSavedSubject}
-          onRequest={handleRequestSubject}
-          onClose={() => setOpenSubject(null)}
-        />
-      )}
       {loginPrompt && (
         <RequestLoginModal
           originRect={loginPrompt.rect}

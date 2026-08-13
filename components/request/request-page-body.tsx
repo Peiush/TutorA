@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Tag } from "@/components/ui/tag";
 import { RequestForm } from "@/components/request/request-form";
 import { RequestIllustration } from "@/components/request/request-illustration";
+import { RequestMobileIllustration } from "@/components/request/request-mobile-illustration";
 
 gsap.registerPlugin(useGSAP);
 
@@ -67,33 +68,46 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
         </div>
 
         <div>
-          <Tag variant="accent-2" className="rq-tag text-[12px] px-3.5 py-1.5">
-            Request a Tutor
-          </Tag>
-          <h1 className="rq-heading font-bold text-[clamp(30px,4vw,46px)] mt-4 mb-1">
+          <div className="flex items-center justify-between gap-3">
+            <Tag variant="accent-2" className="rq-tag text-[12px] px-3.5 py-1.5">
+              Request a Tutor
+            </Tag>
+            <div className="rq-illustration">
+              <RequestMobileIllustration />
+            </div>
+          </div>
+          <h1 className="rq-heading font-bold text-[clamp(26px,4vw,46px)] mt-3 sm:mt-4 mb-1">
             Request a tutor: tell us what you&rsquo;re looking for
           </h1>
           <p
-            className="rq-sub text-[16px] mb-3"
+            className="rq-sub text-[15px] sm:text-[16px] mb-3 sm:hidden"
+            style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
+          >
+            Tell us your subject and budget — we&rsquo;ll hand-pick a verified tutor within 24–48
+            hours.
+          </p>
+          <p
+            className="rq-sub hidden sm:block text-[16px] mb-3"
             style={{ color: "color-mix(in srgb, var(--color-text) 74%, transparent)" }}
           >
             Our team will review your request and personally match you within 24–48 hours.
           </p>
           <p
-            className="rq-summary text-[14.5px] leading-[1.55] mb-4 max-w-[46ch]"
+            className="rq-summary hidden sm:block text-[14.5px] leading-[1.55] mb-4 max-w-[46ch]"
             style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
           >
             A tutor request puts the search in our hands — for any subject, level, or budget —
             instead of you browsing and messaging tutors yourself.
           </p>
-          <div className="rq-summary flex flex-wrap gap-2 mb-7">
+          <div className="rq-summary flex flex-wrap gap-2.5 mb-6 sm:mb-7">
             <Link
               href="/find-a-tutor"
-              className="inline-flex items-center gap-1.5 text-[13px] font-medium rounded-full transition-colors duration-200"
+              className="inline-flex items-center justify-center gap-1.5 text-[13.5px] font-semibold rounded-full transition-colors duration-200 hover:bg-[var(--color-accent-2-800)]"
               style={{
-                background: "var(--color-accent-2-100)",
-                color: "var(--color-accent-2-800)",
-                padding: "7px 14px",
+                background: "var(--color-accent-2-700)",
+                color: "#fff",
+                padding: "10px 16px",
+                minHeight: 40,
               }}
             >
               Compare with browsing tutors
@@ -103,11 +117,12 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-1.5 text-[13px] font-medium rounded-full transition-colors duration-200"
+              className="inline-flex items-center justify-center gap-1.5 text-[13.5px] font-semibold rounded-full border-2 transition-colors duration-200 hover:bg-[var(--color-accent-2-100)]"
               style={{
-                background: "var(--color-neutral-200)",
-                color: "var(--color-text)",
-                padding: "7px 14px",
+                borderColor: "var(--color-accent-2-700)",
+                color: "var(--color-accent-2-700)",
+                padding: "8px 16px",
+                minHeight: 40,
               }}
             >
               See how matching works

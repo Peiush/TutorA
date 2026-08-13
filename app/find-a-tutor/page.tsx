@@ -70,7 +70,7 @@ export default async function FindATutorPage() {
   };
 
   return (
-    <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
+    <div className="max-w-[1240px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(20px,4vw,56px)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />

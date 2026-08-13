@@ -899,7 +899,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                     className="absolute inset-y-0 left-0 w-[4px] transition-[width] duration-200 ease-out group-hover:w-[5px]"
                     style={{ background: accent.bar }}
                   />
-                  <div className="flex gap-4 p-5 pl-6 max-[560px]:flex-col">
+                  <div className="flex gap-4 p-5 pl-6 max-[560px]:gap-3 max-[560px]:p-3.5 max-[560px]:pl-4">
                     <div className="flex flex-col items-center gap-1.5 flex-none">
                       <div
                         className="tutor-avatar-ring rounded-full transition-transform duration-200 ease-out group-hover:scale-[1.04]"
@@ -1032,7 +1032,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                   </div>
 
                   <div
-                    className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap"
+                    className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap max-[560px]:px-3.5 max-[560px]:py-2.5 max-[560px]:gap-2"
                     style={{ borderTop: "1px solid color-mix(in srgb, var(--color-text) 8%, transparent)", background: "color-mix(in srgb, var(--color-surface) 60%, transparent)" }}
                   >
                     <div className="flex items-center gap-3">
