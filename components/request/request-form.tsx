@@ -58,13 +58,13 @@ function StepHeading({ step, children }: { step: number; children: React.ReactNo
     <div className="flex items-center gap-2.5">
       <div
         className="step-icon w-8 h-8 rounded-full grid place-content-center flex-none"
-        style={{ background: "var(--color-accent-100)" }}
+        style={{ background: "var(--request-gold-soft)" }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--request-gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d={STEP_ICON_PATHS[step]} />
         </svg>
       </div>
-      <div className="font-[var(--font-heading)] text-[20px]">{children}</div>
+      <div className="request-step-title font-[var(--font-heading)] text-[20px]">{children}</div>
     </div>
   );
 }
@@ -151,8 +151,8 @@ function SuccessScreen() {
   return (
     <div
       ref={rootRef}
-      className="card gap-4 p-6 sm:p-8 text-center relative overflow-hidden shadow-md"
-      style={{ background: "var(--color-surface)" }}
+      className="request-success-card card gap-4 p-6 sm:p-8 text-center relative overflow-hidden shadow-md"
+      style={{ background: "var(--request-ink)" }}
     >
       <div
         className="success-glow absolute rounded-full pointer-events-none"
@@ -288,14 +288,17 @@ export function RequestForm() {
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   if (submitted) {
-    return <SuccessScreen />;
+    return (
+      <div className="request-form-module">
+        <SuccessScreen />
+      </div>
+    );
   }
 
   return (
-    <>
+    <div className="request-form-module">
       <div
-        className="text-[12px] font-medium sm:hidden mb-2"
-        style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
+        className="request-mobile-step text-[12px] font-semibold sm:hidden mb-2"
       >
         Step {step} of {TOTAL_STEPS} — {STEP_LABELS[step - 1]}
       </div>
@@ -307,13 +310,12 @@ export function RequestForm() {
           return (
             <div key={label} className="flex-1">
               <div
-                className="h-1.5 rounded-full overflow-hidden"
-                style={{ background: "var(--color-neutral-300)" }}
+                className="request-progress-track h-1.5 rounded-full overflow-hidden"
               >
                 <div
                   className="h-full rounded-full transition-transform duration-300 ease-out origin-left"
                   style={{
-                    background: "var(--color-accent)",
+                    background: "var(--request-gold)",
                     transform: active ? "scaleX(1)" : "scaleX(0)",
                   }}
                 />
@@ -322,11 +324,11 @@ export function RequestForm() {
                 className="flex items-center gap-1.5 text-[11px] uppercase mt-2"
                 style={{
                   letterSpacing: "0.03em",
-                  color: n === step ? "var(--color-accent-700)" : "color-mix(in srgb, var(--color-text) 67%, transparent)",
+                  color: n === step ? "var(--request-gold)" : "var(--request-muted)",
                 }}
               >
                 {done && (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--request-gold)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6 9 17l-5-5" />
                   </svg>
                 )}
@@ -336,17 +338,16 @@ export function RequestForm() {
           );
         })}
       </div>
-      <div className="sm:hidden h-1.5 rounded-full mb-8 overflow-hidden" style={{ background: "var(--color-neutral-300)" }}>
+      <div className="request-progress-track sm:hidden h-1.5 rounded-full mb-8 overflow-hidden">
         <div
           className="h-full rounded-full transition-[width] duration-300 ease-out"
-          style={{ background: "var(--color-accent)", width: `${(step / TOTAL_STEPS) * 100}%` }}
+          style={{ background: "var(--request-gold)", width: `${(step / TOTAL_STEPS) * 100}%` }}
         />
       </div>
 
       <form
         ref={cardRef}
-        className="card gap-4 p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
-        style={{ background: "var(--color-surface)" }}
+        className="request-form-shell card gap-4 p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
         onSubmit={(e) => {
           e.preventDefault();
           if (step !== TOTAL_STEPS) {
@@ -383,7 +384,7 @@ export function RequestForm() {
             <div className="field">
               <label>Subject</label>
               <input
-                className="input"
+                className="request-input input"
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -392,7 +393,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Level</label>
-              <select className="input" value={level} onChange={(e) => setLevel(e.target.value)}>
+              <select className="request-input input" value={level} onChange={(e) => setLevel(e.target.value)}>
                 <option>Secondary / GCSE</option>
                 <option>A-Level / IB</option>
                 <option>University</option>
@@ -402,7 +403,7 @@ export function RequestForm() {
             <div className="field">
               <label>What are the goals?</label>
               <textarea
-                className="input"
+                className="request-input input"
                 placeholder="e.g. Rebuild confidence before May exams, focus on mechanics"
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
@@ -429,7 +430,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Sessions per week</label>
-              <select className="input" value={sessionsPerWeek} onChange={(e) => setSessionsPerWeek(e.target.value)}>
+              <select className="request-input input" value={sessionsPerWeek} onChange={(e) => setSessionsPerWeek(e.target.value)}>
                 <option>1</option>
                 <option>2</option>
                 <option>3+</option>
@@ -437,7 +438,7 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Time zone</label>
-              <select className="input" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
+              <select className="request-input input" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
                 {TIMEZONE_OPTIONS.map((tz) => (
                   <option key={tz.label}>{tz.label}</option>
                 ))}
@@ -451,7 +452,7 @@ export function RequestForm() {
             <StepHeading step={3}>Budget</StepHeading>
             <div className="field">
               <label>Currency</label>
-              <select className="input w-auto" value={currency} onChange={(e) => setCurrency(e.target.value)}>
+              <select className="request-input input w-auto" value={currency} onChange={(e) => setCurrency(e.target.value)}>
                 {CURRENCY_OPTIONS.map((c) => (
                   <option key={c.code}>{c.code}</option>
                 ))}
@@ -460,7 +461,7 @@ export function RequestForm() {
             <div className="field">
               <label>Budget per hour</label>
               <input
-                className="input p-0"
+                className="request-input request-range input p-0"
                 type="range"
                 min={10}
                 max={120}
@@ -469,7 +470,7 @@ export function RequestForm() {
               />
               <div
                 className="text-[13px] mt-1.5"
-                style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}
+                style={{ color: "var(--request-muted)" }}
               >
                 Around {CURRENCY_OPTIONS.find((c) => c.code === currency)?.symbol ?? "$"}
                 {budget} / hour
@@ -484,7 +485,7 @@ export function RequestForm() {
             <div className="field">
               <label>Additional notes</label>
               <textarea
-                className="input"
+                className="request-input input"
                 rows={5}
                 placeholder="Preferred teaching style, availability, past tutoring, anything we should know"
                 value={notes}
@@ -500,7 +501,7 @@ export function RequestForm() {
             <div className="field">
               <label>Full name</label>
               <input
-                className="input"
+                className="request-input input"
                 placeholder="Your name"
                 required
                 value={name}
@@ -510,7 +511,7 @@ export function RequestForm() {
             <div className="field">
               <label>Email</label>
               <input
-                className="input"
+                className="request-input input"
                 type="email"
                 placeholder="you@example.com"
                 required
@@ -520,11 +521,11 @@ export function RequestForm() {
             </div>
             <div className="field">
               <label>Phone (optional)</label>
-              <input className="input" placeholder="+44 …" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <input className="request-input input" placeholder="+44 …" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
             <p
               className="text-[13px] m-0"
-              style={{ color: "color-mix(in srgb, var(--color-text) 66%, transparent)" }}
+              style={{ color: "var(--request-muted)" }}
             >
               Your details are only ever seen by our team — never shared with a tutor until you
               confirm a match.
@@ -538,14 +539,14 @@ export function RequestForm() {
         )}
 
         <div className="flex justify-between gap-3 mt-2">
-          <button type="button" className="btn btn-secondary" onClick={back} disabled={step === 1}>
+          <button type="button" className="request-back-button btn btn-secondary" onClick={back} disabled={step === 1}>
             Back
           </button>
-          <button type="submit" className="btn btn-primary" disabled={pending}>
+          <button type="submit" className="request-next-button btn btn-primary" disabled={pending}>
             {step === TOTAL_STEPS ? (pending ? "Submitting…" : "Submit request") : "Continue"}
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }
