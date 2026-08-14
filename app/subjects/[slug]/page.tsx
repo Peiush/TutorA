@@ -98,8 +98,8 @@ function PriceCard({
   title: string;
 }) {
   return (
-    <div className="card elev-md p-5 flex flex-col gap-4" style={{ borderColor: "var(--color-divider)" }}>
-      <span className="text-[30px] font-bold leading-none font-[var(--font-heading)]">{price}</span>
+    <div className="card elev-md p-4 sm:p-5 gap-3 sm:gap-4 flex flex-col" style={{ borderColor: "var(--color-divider)" }}>
+      <span className="text-[26px] sm:text-[30px] font-bold leading-none font-[var(--font-heading)]">{price}</span>
 
       <SubjectDetailActions subjectId={subject.id} initialSaved={initialSaved} initialRequested={initialRequested} />
 
@@ -150,7 +150,7 @@ function WhatYoullLearnCard({ items }: { items: string[] }) {
   if (items.length === 0) return null;
   return (
     <Reveal y={20}>
-      <div className="card elev-md p-5 flex flex-col gap-3" style={{ borderColor: "var(--color-divider)" }}>
+      <div className="card elev-md p-4 sm:p-5 flex flex-col gap-2.5 sm:gap-3" style={{ borderColor: "var(--color-divider)" }}>
         <h2 className="text-[14px] font-semibold m-0" style={{ fontFamily: "var(--font-heading)" }}>
           What you&rsquo;ll learn
         </h2>
@@ -312,11 +312,11 @@ export default async function SubjectDetailPage({
       {/* Hero: plain/unanimated, same reasoning as the course detail page — see the comment
           there. Only content below the fold gets scroll-reveal treatment. */}
       <div className="card elev-sm p-0 overflow-hidden gap-0">
-        <div className="relative h-[200px]" style={{ background: "var(--color-neutral-100)" }}>
+        <div className="relative h-[130px] sm:h-[200px]" style={{ background: "var(--color-neutral-100)" }}>
           <SubjectIllustration tone={colors} className="w-full h-full" />
         </div>
 
-        <div className="flex flex-col gap-3 p-6">
+        <div className="flex flex-col gap-2.5 sm:gap-3 p-4 sm:p-6">
           <div className="flex gap-1.5 flex-wrap">
             {subject.curriculum && <Tag variant="accent" className="text-[10px] px-2 py-0.5 font-semibold">{subject.curriculum}</Tag>}
             {subject.gradeLevel && <Tag variant="accent-2" className="text-[10px] px-2 py-0.5 font-semibold">{subject.gradeLevel}</Tag>}
@@ -343,13 +343,13 @@ export default async function SubjectDetailPage({
       {/* Two-column layout, scoped to just the core content block — see the identical
           comment in app/courses/[slug]/page.tsx for why this is intentionally NOT wrapping
           the whole page (Tutors/Related/FAQ are full-width below instead). */}
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-8 lg:gap-10 mt-8">
-        <div className="lg:hidden flex flex-col gap-6">
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-10 mt-6 lg:mt-8">
+        <div className="lg:hidden flex flex-col gap-4 sm:gap-6">
           <PriceCard {...priceCardProps} />
           <WhatYoullLearnCard items={subject.whatYoullLearn} />
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 sm:gap-8">
           {isChooser && content?.chooserSiblings && (
             <Reveal y={20}>
               <div className="rounded-[var(--radius-md)] p-5" style={{ background: "var(--color-surface)" }}>
@@ -405,10 +405,10 @@ export default async function SubjectDetailPage({
 
       {/* Full-width below the two-column zone — see the identical comment in
           app/courses/[slug]/page.tsx. */}
-      <div className="flex flex-col gap-8 mt-8">
+      <div className="flex flex-col gap-6 sm:gap-8 mt-6 sm:mt-8">
         {!isChooser && content && (
           <Reveal y={20}>
-            <div className="rounded-[var(--radius-md)] p-5" style={{ background: "var(--color-surface)" }}>
+            <div className="rounded-[var(--radius-md)] p-4 sm:p-5" style={{ background: "var(--color-surface)" }}>
               <h2 className="text-[14px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
                 Tutors for {title}
               </h2>
@@ -431,7 +431,10 @@ export default async function SubjectDetailPage({
                         </span>
                       </div>
                       {t.bio && (
-                        <p className="text-[13px] leading-relaxed m-0 mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}>
+                        <p
+                          className="text-[12.5px] sm:text-[13px] leading-relaxed m-0 mt-0.5 line-clamp-2 sm:line-clamp-none"
+                          style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}
+                        >
                           {t.bio}
                         </p>
                       )}
@@ -458,7 +461,7 @@ export default async function SubjectDetailPage({
                   <Link
                     key={related.slug}
                     href={`/subjects/${related.slug}`}
-                    className="card elev-sm p-4 flex flex-col gap-1.5 transition-shadow duration-200 hover:shadow-[var(--shadow-md)]"
+                    className="card elev-sm p-3.5 sm:p-4 rounded-[18px] sm:rounded-[var(--radius-lg)] gap-1 sm:gap-1.5 flex flex-col transition-shadow duration-200 hover:shadow-[var(--shadow-md)]"
                     style={{ borderColor: "var(--color-divider)" }}
                   >
                     <span className="text-[14px] font-semibold line-clamp-2" style={{ fontFamily: "var(--font-heading)" }}>

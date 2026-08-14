@@ -102,10 +102,10 @@ function PriceCard({
   showTutorSection: boolean;
 }) {
   return (
-    <div className="card elev-md p-5 flex flex-col gap-4" style={{ borderColor: "var(--color-divider)" }}>
+    <div className="card elev-md p-4 sm:p-5 gap-3 sm:gap-4 flex flex-col" style={{ borderColor: "var(--color-divider)" }}>
       <div className="flex items-center gap-3 flex-wrap">
         <div className="flex items-baseline gap-2 font-[var(--font-heading)]">
-          <span className="text-[30px] font-bold leading-none">{primaryPrice}</span>
+          <span className="text-[26px] sm:text-[30px] font-bold leading-none">{primaryPrice}</span>
           {hasDiscount && (
             <span className="text-[15px] font-[var(--font-body)] line-through" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
               {priceLabel(course.originalPriceCents!)}
@@ -158,7 +158,7 @@ function WhatYoullLearnCard({ items }: { items: string[] }) {
   if (items.length === 0) return null;
   return (
     <Reveal y={20}>
-      <div className="card elev-md p-5 flex flex-col gap-3" style={{ borderColor: "var(--color-divider)" }}>
+      <div className="card elev-md p-4 sm:p-5 flex flex-col gap-2.5 sm:gap-3" style={{ borderColor: "var(--color-divider)" }}>
         <h2 className="text-[14px] font-semibold m-0" style={{ fontFamily: "var(--font-heading)" }}>
           What you&rsquo;ll learn
         </h2>
@@ -351,11 +351,11 @@ export default async function CourseDetailPage({
           for hurting LCP (see RE-AUDIT-REPORT-2026-08-10-POSTFIX.md, "autoAlpha:0 hero-hiding
           pattern"). Only content *below* the fold gets the scroll-reveal treatment. */}
       <div className="card elev-sm p-0 overflow-hidden gap-0">
-        <div className="relative h-[200px]" style={{ background: "var(--color-neutral-100)" }}>
+        <div className="relative h-[130px] sm:h-[200px]" style={{ background: "var(--color-neutral-100)" }}>
           <CourseIllustration category={course.category} className="w-full h-full" />
         </div>
 
-        <div className="flex flex-col gap-3 p-6">
+        <div className="flex flex-col gap-2.5 sm:gap-3 p-4 sm:p-6">
           {(course.bestseller || course.premium || course.isNew) && (
             <div className="flex gap-1.5 flex-wrap">
               {course.bestseller && <Tag variant="accent" className="text-[10px] px-2 py-0.5 font-semibold">Bestseller</Tag>}
@@ -410,13 +410,13 @@ export default async function CourseDetailPage({
           card un-stuck near the top and left a long empty column beneath it. Scoping the
           grid to a shorter, comparably-sized content block keeps the sidebar visually
           "with" the content it's attached to instead of floating over a lot of nothing. */}
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-8 lg:gap-10 mt-8">
-        <div className="lg:hidden flex flex-col gap-6">
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 lg:gap-10 mt-6 lg:mt-8">
+        <div className="lg:hidden flex flex-col gap-4 sm:gap-6">
           <PriceCard {...priceCardProps} />
           <WhatYoullLearnCard items={learningOutcomes(course)} />
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 sm:gap-8">
           <DetailSection icon={<GraduationCapIcon width={17} height={17} />} tint="accent-2" title="About this course">
             <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
               {aboutCourseParagraph(course)}
@@ -474,10 +474,10 @@ export default async function CourseDetailPage({
       {/* Full-width below the two-column zone: these sections (Tutors, Related, FAQ) run
           much longer than the price card, which is why they're outside the sticky grid —
           see the comment above it. */}
-      <div className="flex flex-col gap-8 mt-8">
+      <div className="flex flex-col gap-6 sm:gap-8 mt-6 sm:mt-8">
         {showTutorSection && (
           <Reveal y={20}>
-            <div className="rounded-[var(--radius-md)] p-5" style={{ background: "var(--color-surface)" }}>
+            <div className="rounded-[var(--radius-md)] p-4 sm:p-5" style={{ background: "var(--color-surface)" }}>
               <h2 className="text-[14px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
                 Tutors for {course.title}
               </h2>
@@ -499,11 +499,17 @@ export default async function CourseDetailPage({
                           {t.yearsExperience != null && ` · ${t.yearsExperience} yrs experience`}
                         </span>
                       </div>
-                      <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
+                      <span
+                        className="text-[12.5px] line-clamp-1 sm:line-clamp-none"
+                        style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}
+                      >
                         Teaches {t.matchedSubjects.join(", ")}
                       </span>
                       {t.bio && (
-                        <p className="text-[13px] leading-relaxed m-0 mt-0.5" style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}>
+                        <p
+                          className="text-[12.5px] sm:text-[13px] leading-relaxed m-0 mt-0.5 line-clamp-2 sm:line-clamp-none"
+                          style={{ color: "color-mix(in srgb, var(--color-text) 75%, transparent)" }}
+                        >
                           {t.bio}
                         </p>
                       )}
@@ -530,7 +536,7 @@ export default async function CourseDetailPage({
                   <Link
                     key={related.slug}
                     href={`/courses/${related.slug}`}
-                    className="card elev-sm p-4 flex flex-col gap-1.5 transition-shadow duration-200 hover:shadow-[var(--shadow-md)]"
+                    className="card elev-sm p-3.5 sm:p-4 rounded-[18px] sm:rounded-[var(--radius-lg)] gap-1 sm:gap-1.5 flex flex-col transition-shadow duration-200 hover:shadow-[var(--shadow-md)]"
                     style={{ borderColor: "var(--color-divider)" }}
                   >
                     <span className="text-[14px] font-semibold line-clamp-2" style={{ fontFamily: "var(--font-heading)" }}>

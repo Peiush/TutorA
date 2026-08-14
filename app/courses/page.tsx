@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CoursesIntro } from "@/components/courses/courses-intro";
 import { CourseBrowser } from "@/components/courses/course-browser";
 import { CoursesFaq } from "@/components/courses/courses-faq";
@@ -6,7 +5,6 @@ import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
 import { courseCategories } from "@/lib/mock-courses";
 import { COURSE_FAQS } from "@/lib/course-faqs";
-import { GRADE_BANDS } from "@/lib/grade-bands";
 
 const BASE_URL = "https://www.tutora.it.com";
 
@@ -75,18 +73,6 @@ export default async function CoursesPage() {
 
       <div id="browse">
         <CourseBrowser courses={courses} subjects={subjects} />
-      </div>
-
-      {/* Same fix, applied to the grade-band views: the chips share the same `category`
-          query-param state as the Test Preparation link above, but nothing previously
-          linked to /courses?category=Grade+6-8 etc. either. */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-12 text-[13px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>
-        <span>Browse by grade:</span>
-        {GRADE_BANDS.map((band) => (
-          <Link key={band.key} href={`/courses?category=${encodeURIComponent(band.label)}`} className="hover:underline">
-            {band.label}
-          </Link>
-        ))}
       </div>
 
       <CoursesFaq />

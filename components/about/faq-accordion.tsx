@@ -110,7 +110,7 @@ function FaqItem({
 
   return (
     <div
-      className={`faq-item group rounded-[var(--radius-lg)] overflow-hidden border transition-[box-shadow,border-color,background-color] duration-300 ${
+      className={`faq-item group rounded-[18px] sm:rounded-[var(--radius-lg)] overflow-hidden border transition-[box-shadow,border-color,background-color] duration-300 ${
         isOpen ? "" : "hover:shadow-[var(--shadow-md)] hover:border-[var(--color-accent-300)]"
       }`}
       style={{
@@ -123,18 +123,17 @@ function FaqItem({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
-        style={{ padding: "18px 20px" }}
+        className="w-full flex items-center justify-between gap-3 sm:gap-4 text-left cursor-pointer px-4 py-3.5 sm:px-5 sm:py-[18px]"
       >
-        <h3 className="m-0 font-[var(--font-heading)] font-semibold text-[16.5px]">{q}</h3>
+        <h3 className="m-0 font-[var(--font-heading)] font-semibold text-[14.5px] sm:text-[16.5px]">{q}</h3>
         <span
-          className="w-8 h-8 rounded-full grid place-content-center flex-none transition-[background-color,transform] duration-300 group-hover:scale-105"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full grid place-content-center flex-none transition-[background-color,transform] duration-300 group-hover:scale-105"
           style={{ background: isOpen ? "var(--color-accent-600)" : "var(--color-accent-100)" }}
         >
           <svg
             ref={iconRef}
-            width="16"
-            height="16"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke={isOpen ? "#fff" : "var(--color-accent-700)"}
@@ -148,12 +147,11 @@ function FaqItem({
       </button>
       <div ref={bodyRef} style={{ display: "none", height: 0, opacity: 0 }}>
         <p
-          className="text-[15px] leading-[1.6] m-0"
+          className="text-[13.5px] sm:text-[15px] leading-[1.6] m-0 px-4 pb-3.5 sm:px-5 sm:pb-5"
           style={{
             color: "color-mix(in srgb, var(--color-text) 74%, transparent)",
-            padding: "0 20px 20px",
             borderTop: "1px solid var(--color-divider)",
-            paddingTop: 16,
+            paddingTop: 14,
           }}
         >
           {a}
