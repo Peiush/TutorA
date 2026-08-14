@@ -636,13 +636,14 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
 
   const activeFilters = [
     ...selectedSubjects.map((s) => ({
+      key: `subject:${s}`,
       label: s,
       clear: () => setSelectedSubjects((prev) => prev.filter((x) => x !== s)),
     })),
-    mode !== "Online" && { label: mode, clear: () => setMode("Online") },
-    curriculum !== "All curricula" && { label: curriculum, clear: () => setCurriculum("All curricula") },
-    maxBudget !== 120 && { label: `Up to $${maxBudget}/hr`, clear: () => setMaxBudget(120) },
-  ].filter(Boolean) as { label: string; clear: () => void }[];
+    mode !== "Online" && { key: "mode", label: mode, clear: () => setMode("Online") },
+    curriculum !== "All curricula" && { key: "curriculum", label: curriculum, clear: () => setCurriculum("All curricula") },
+    maxBudget !== 120 && { key: "budget", label: `Up to $${maxBudget}/hr`, clear: () => setMaxBudget(120) },
+  ].filter(Boolean) as { key: string; label: string; clear: () => void }[];
 
   return (
     <>
@@ -731,7 +732,7 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
           {activeFilters.length > 0 && (
             <div className="flex flex-wrap gap-1.5 -mt-1">
               {activeFilters.map((f) => (
-                <FilterChip key={f.label} label={f.label} onRemove={() => { captureFlip(); f.clear(); }} />
+                <FilterChip key={f.key} label={f.label} onRemove={() => { captureFlip(); f.clear(); }} />
               ))}
             </div>
           )}
@@ -754,7 +755,16 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
               value={curriculum}
               onChange={(e) => {
                 captureFlip();
-                setCurriculum(e.target.value);
+                const nextCurriculum = e.target.value;
+                setCurriculum(nextCurriculum);
+                if (nextCurriculum !== "All curricula") {
+                  const subjectsForCurriculum = Array.from(
+                    new Set(
+                      tutors.filter((t) => t.curriculum === nextCurriculum).flatMap((t) => t.subjects),
+                    ),
+                  );
+                  setSelectedSubjects(subjectsForCurriculum);
+                }
               }}
             >
               <option>All curricula</option>

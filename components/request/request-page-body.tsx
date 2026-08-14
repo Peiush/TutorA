@@ -49,15 +49,15 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
           </div>
           <div className="flex flex-col gap-5 max-w-[300px]">
             {trustStats.map((s) => (
-              <div key={s.num} className="rq-stat flex gap-3.5">
+              <div key={s.num} className="rq-stat">
                 <div
-                  className="font-[var(--font-heading)] font-bold text-[26px] flex-none"
+                  className="font-[var(--font-heading)] font-bold text-[17px] leading-tight"
                   style={{ color: "var(--color-accent-2)" }}
                 >
                   {s.num}
                 </div>
                 <div
-                  className="text-[13px] leading-[1.5] pt-1"
+                  className="text-[13px] leading-[1.5] mt-1"
                   style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}
                 >
                   {s.label}
