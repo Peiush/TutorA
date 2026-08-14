@@ -163,6 +163,29 @@ a:hover {
   scrollbar-width: none;
 }
 
+.fs-quote {
+  max-width: 220px;
+  margin: 12px 0 0;
+  color: var(--color-accent-800);
+  font-family: var(--font-accent);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.18;
+  transform: rotate(-2deg);
+}
+.fs-quote span {
+  color: var(--color-accent-300);
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 0;
+  vertical-align: -0.18em;
+}
+@media (max-width: 639.98px) {
+  .fs-quote { max-width: 190px; font-size: 16px; }
+  .fs-quote span { font-size: 22px; }
+}
+
 /* Frequently-searched chip cloud: 29 wrapped chips was too many to scan on a
    narrow phone screen, so below 640px the list caps at 14 (still shuffled/
    varied, just fewer of them) — the playful random rotate/lift/size per chip

@@ -35,9 +35,30 @@ const LEGAL_LINKS = [
   // { href: "#", label: "Commission policy" },
 ];
 
-// No SOCIALS array: TutorA doesn't have real social profiles live yet (see the matching
-// `sameAs` note in app/layout.tsx). Dead `href="#"` icon links were removed rather than
-// shipped as placeholders — add this back with real URLs once profiles exist.
+// Mirrors the `sameAs` links in app/layout.tsx — Instagram is the TutorA brand account,
+// Facebook is founder Nancy Gupta's profile.
+const SOCIALS = [
+  {
+    href: "https://www.instagram.com/tutora.global.learning/",
+    label: "TutorA on Instagram",
+    icon: (
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.facebook.com/share/1bPB4CEsjP/",
+    label: "TutorA founder on Facebook",
+    icon: (
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+  },
+];
 
 /**
  * Orbit network — a hub with tutor/student nodes orbiting and matching in, arcs drawn on
@@ -453,6 +474,21 @@ export function SiteFooter() {
             <p className="text-[13.5px] leading-[1.65] mt-3.5" style={{ color: "rgba(255,255,255,0.62)" }}>
               Admin-mediated tutoring, matched with care across borders.
             </p>
+            <div className="flex items-center gap-2.5 mt-4">
+              {SOCIALS.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors duration-200"
+                  style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.75)" }}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-x-14 gap-y-10 lg:flex-1 lg:justify-center">

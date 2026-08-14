@@ -488,6 +488,15 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
       flipStateRef.current = null;
 
       if (state) {
+        // `absolute: true` pulls every card out of flow for the duration of the
+        // Flip tween, which collapses gridRef's height to 0 and lets the
+        // "Can't find the right tutor?" block below jump up and overlap the
+        // still-visible (but now absolutely positioned) cards. Lock the
+        // container's current (post-filter) height for the animation so it
+        // keeps its footprint, then release it once the cards are back in flow.
+        const grid = gridRef.current;
+        const lockedHeight = grid?.getBoundingClientRect().height;
+        if (grid && lockedHeight) gsap.set(grid, { height: lockedHeight });
         Flip.from(state, {
           duration: 0.5,
           ease: "power2.inOut",
@@ -495,6 +504,9 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
           absolute: true,
           onEnter: (els) =>
             gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: { each: 0.05, amount: 0.35 }, ease: "power2.out" }),
+          onComplete: () => {
+            if (grid) gsap.set(grid, { height: "auto", clearProps: "height" });
+          },
         });
       } else {
         const entering = Array.from(cards).filter((c) => newIds.size === 0 || newIds.has(c.dataset.tutorId ?? ""));

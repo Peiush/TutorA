@@ -186,7 +186,7 @@ export function PlatformStats() {
           How we build trust
         </Tag>
         <h2 className="stats-heading text-[clamp(24px,3vw,32px)] mt-4 mb-2.5 max-w-[24ch]">
-          What actually happens on every request
+          What happens when you submit a request to TutorA?
         </h2>
         <p
           className="stats-sub text-[15px] max-w-[58ch] mb-9"

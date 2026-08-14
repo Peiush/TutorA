@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
-import { initialsOf } from "@/components/ui/tutor-avatar";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -37,7 +37,7 @@ export function FounderStory() {
         tl.from(".fs-avatar", { autoAlpha: 0, scale: 0.6, duration: 0.6, ease: "back.out(2.2)" })
           .from(".fs-name", { autoAlpha: 0, y: 14, duration: 0.5 }, "-=0.25")
           .from(".fs-role", { autoAlpha: 0, y: 10, duration: 0.45 }, "-=0.3")
-          .from(".fs-mark", { autoAlpha: 0, scale: 0.7, rotate: -12, duration: 0.5, ease: "back.out(2)" }, "-=0.2")
+          .from(".fs-quote", { autoAlpha: 0, y: 10, duration: 0.45 }, "-=0.2")
           .from(".fs-para", { autoAlpha: 0, y: 16, duration: 0.55, stagger: 0.14 }, "-=0.15");
 
         const avatar = root.querySelector(".fs-avatar");
@@ -45,13 +45,13 @@ export function FounderStory() {
           root,
           () => avatar != null && isGsapHidden(avatar),
           () => {
-            gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-mark, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+            gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-quote, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
           }
         );
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-mark, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
+        gsap.set(".fs-avatar, .fs-name, .fs-role, .fs-quote, .fs-para", { autoAlpha: 1, y: 0, scale: 1, rotate: 0 });
       });
 
       return () => mm.revert();
@@ -84,36 +84,29 @@ export function FounderStory() {
           {/* Signature card */}
           <div className="flex lg:flex-col items-center lg:items-start gap-3.5 sm:gap-4 lg:gap-3">
             <div
-              className="fs-avatar grid place-content-center rounded-full flex-none w-14 h-14 sm:w-[88px] sm:h-[88px] text-[22px] sm:text-[30px]"
-              style={{
-                background: "var(--color-accent-2-200)",
-                color: "var(--color-accent-2-800)",
-                fontFamily: "var(--font-heading)",
-                fontWeight: 600,
-              }}
+              className="fs-avatar relative overflow-hidden rounded-full flex-none w-14 h-14 sm:w-[88px] sm:h-[88px]"
+              style={{ background: "var(--color-accent-2-200)" }}
             >
-              {initialsOf(name)}
+              <Image
+                src="/about/nancy-gupta.jpeg"
+                alt="Nancy Gupta, founder of TutorA"
+                fill
+                sizes="(min-width: 640px) 88px, 56px"
+                className="object-cover"
+                priority
+              />
             </div>
             <div>
               <p className="fs-name font-[var(--font-heading)] font-bold text-[17px] sm:text-[19px] m-0">{name}</p>
               <Tag variant="accent-2" className="fs-role text-[11px] px-2.5 py-1 mt-1.5 inline-block">
                 Founder
               </Tag>
+              <p className="fs-quote" aria-label='Nancy Gupta: “We don’t match profiles. We match people.”'>
+                <span aria-hidden="true">&ldquo;</span>
+                We don&rsquo;t match profiles. We match people.
+                <span aria-hidden="true">&rdquo;</span>
+              </p>
             </div>
-            <span
-              className="fs-mark hidden lg:block mt-4 select-none"
-              style={{
-                fontFamily: "var(--font-accent)",
-                fontWeight: 600,
-                fontSize: 56,
-                lineHeight: 1,
-                color: "var(--color-accent-300)",
-                transform: "rotate(-4deg)",
-              }}
-              aria-hidden
-            >
-              &ldquo;
-            </span>
           </div>
 
           {/* Story */}

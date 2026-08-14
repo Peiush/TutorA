@@ -65,10 +65,15 @@ const organizationJsonLd = {
   description:
     "TutorA connects international students with experienced, personally verified Indian teachers for live 1-on-1 and small group online classes.",
   logo: `${BASE_URL}/logo.png`,
-  founder: { "@type": "Person", name: "Nancy Gupta", jobTitle: "Founder" },
-  // sameAs (verified social/profile links) intentionally omitted — TutorA doesn't have
-  // real social profiles live yet. Add them here once they exist; don't ship placeholder
-  // URLs, since that fails Google's Organization verification rather than helping it.
+  founder: {
+    "@type": "Person",
+    name: "Nancy Gupta",
+    jobTitle: "Founder",
+    image: `${BASE_URL}/about/nancy-gupta.jpeg`,
+    sameAs: ["https://www.facebook.com/share/1bPB4CEsjP/"],
+  },
+  // Brand account, distinct from the founder's personal Facebook above.
+  sameAs: ["https://www.instagram.com/tutora.global.learning/"],
   // Explicit priority markets, mirrored from the homepage's Service.areaServed — this
   // entity ships on every page (not just "/"), so it's the sitewide version of that signal.
   areaServed: [
@@ -100,6 +105,8 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen flex flex-col">
+        {/* RSL 1.0 license discovery — React 19 hoists <link> into <head> regardless of nesting. */}
+        <link rel="license" href={`${BASE_URL}/rsl.xml`} type="application/rsl+xml" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <a

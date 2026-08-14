@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rsl xmlns="https://rslstandard.org/rsl" max-age="30">
+  <content url="https://www.tutora.it.com/">
+    <license>
+      <!-- AI search citation and indexing are welcome; bulk model training requires a license. -->
+      <permits type="usage">search ai-input ai-index</permits>
+      <prohibits type="usage">ai-train</prohibits>
+
+      <payment type="attribution">
+        <standard>https://creativecommons.org/licenses/by/4.0/</standard>
+      </payment>
+
+      <legal type="warranty">ownership authority</legal>
+      <legal type="disclaimer">as-is</legal>
+      <legal type="contact">mailto:tutora.support@gmail.com</legal>
+
+      <copyright type="organization" contactEmail="tutora.support@gmail.com">TutorA</copyright>
+
+      <terms>https://www.tutora.it.com/terms</terms>
+    </license>
+  </content>
+</rsl>

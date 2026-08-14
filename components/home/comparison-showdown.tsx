@@ -168,7 +168,7 @@ export function ComparisonShowdown() {
           Why it&apos;s different
         </Tag>
         <h2 className="cmp-heading text-[clamp(24px,3vw,32px)] mt-4 mb-2.5 max-w-[28ch]">
-          An open marketplace vs. TutorA&apos;s reviewed model
+          How is TutorA different from an open tutoring marketplace?
         </h2>
         <p
           className="cmp-sub text-[15px] max-w-[58ch] mb-9"

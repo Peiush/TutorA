@@ -40,14 +40,14 @@ export function RequestPageBody({ trustStats }: { trustStats: { num: string; lab
   return (
     <div
       ref={rootRef}
-      className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]"
+      className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] pt-[clamp(32px,4vw,56px)]"
     >
-      <div className="grid lg:grid-cols-[1fr_480px] gap-[clamp(32px,5vw,72px)] items-start">
-        <div className="hidden lg:flex flex-col gap-9 pt-4">
-          <div className="rq-illustration">
+      <div className="grid lg:grid-cols-[1fr_480px] gap-[clamp(32px,5vw,72px)] lg:items-stretch items-start">
+        <div className="hidden lg:flex flex-col gap-7 pt-4">
+          <div className="rq-illustration flex-1 min-h-0">
             <RequestIllustration />
           </div>
-          <div className="flex flex-col gap-5 max-w-[300px]">
+          <div className="flex flex-wrap gap-x-8 gap-y-4 flex-none">
             {trustStats.map((s) => (
               <div key={s.num} className="rq-stat">
                 <div
