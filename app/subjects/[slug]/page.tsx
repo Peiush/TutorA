@@ -184,10 +184,12 @@ export async function generateMetadata({
   const content = subjectPageContent[subject.slug];
   const title = content?.metaTitleOverride ?? subjectMetaTitle(subject);
   const description = content?.metaDescriptionOverride ?? subjectDescription(subject);
+  const keywords = content?.keywords;
 
   return {
     title,
     description,
+    ...(keywords && { keywords }),
     alternates: { canonical: `/subjects/${subject.slug}` },
     openGraph: { type: "website", title, description, url: `${BASE_URL}/subjects/${subject.slug}` },
     twitter: { card: "summary_large_image", title, description },

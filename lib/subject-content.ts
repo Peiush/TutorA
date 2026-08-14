@@ -50,6 +50,8 @@ export interface ChooserSibling {
 }
 
 export interface SubjectPageContent {
+  /** Page <meta name="keywords"> — sourced from the Phase 3 SEO keyword audit. */
+  keywords?: string[];
   template: SubjectPageTemplate;
   /** Overrides the default `${title} Tutor` meta title — used for the cambridge-english retarget. */
   metaTitleOverride?: string;
@@ -76,6 +78,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Chooser / router pages (3)
   // ---------------------------------------------------------------------
   "ap-physics": {
+    keywords: ["AP Physics tutoring online", "AP Physics tutor near me", "private AP Physics tutor", "1:1 AP Physics tutoring", "which AP Physics should I take", "AP Physics 1 vs C difference", "AP Physics 1 vs 2 vs C comparison", "AP Physics 1 tutor online", "AP Physics C tutor online", "AP Physics 2 tutor online", "AP Physics course chooser tutor", "AP Physics C Mechanics tutor online", "AP Physics C Electricity and Magnetism tutor", "is AP Physics C harder than Physics 1", "AP Physics 1 or C for engineering", "AP Physics readiness tutor", "AP Physics 1 exam prep tutor", "AP Physics C exam prep tutor", "AP Physics sequence tutor for high school"],
     template: "chooser",
     chooserIntro:
       "\"AP Physics\" no longer refers to a single exam — College Board splits it into AP Physics 1 (algebra-based) and AP Physics C (calculus-based, two separate exams). This page helps you figure out which one you actually need, then routes you to the right subject page.",
@@ -103,6 +106,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-calculus": {
+    keywords: ["AP Calculus tutor", "AP Calculus tutoring online", "AP Calculus tutor near me", "private AP Calculus tutor", "1:1 AP Calculus tutoring", "AP Calculus AB vs BC which to take", "AP Calculus AB vs BC difference", "should I take AP Calculus AB or BC", "AP Calculus AB tutor online", "AP Calculus BC tutor online", "AP Calculus course chooser tutor", "AP Calculus AB exam prep tutor", "AP Calculus BC exam prep tutor", "is AP Calculus BC harder than AB", "AP Calculus AB or BC for engineering", "AP Calculus readiness tutor", "AP Calculus AB vs BC college credit", "which AP Calculus should I take", "AP Calculus AB or BC for STEM majors", "AP Calculus sequence tutor for high school"],
     template: "chooser",
     chooserIntro:
       "\"AP Calculus\" covers two distinct exams — AB and BC. BC includes everything in AB plus additional topics, so picking the right one matters before you start looking for a tutor. This page compares them and routes you to the right subject page.",
@@ -126,6 +130,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "algebra": {
+    keywords: ["Algebra tutoring online", "Algebra tutor near me", "private Algebra tutor", "1:1 Algebra tutoring", "algebra vs pre-algebra which to take", "pre-algebra or algebra 1 for my child", "algebra 1 vs algebra 2 difference", "which algebra class should I take", "algebra placement test prep tutor", "pre-algebra to algebra 1 transition tutor", "algebra readiness test tutor", "algebra 1 tutor online", "algebra 2 tutor online", "pre-algebra tutor online", "algebra course chooser tutor", "algebra 1 or algebra 2 tutor help", "is my child ready for algebra 1", "algebra sequence tutor for middle school", "algebra tutor to choose the right level"],
     template: "chooser",
     chooserIntro:
       "\"Algebra\" can mean Pre-Algebra, Algebra I, Algebra II, or Advanced Algebra depending on your grade and school. This page helps you figure out which course you're actually in, then routes you to the right subject page.",
@@ -151,6 +156,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Service-hybrid, exam-driven, showGuaranteeLink: true (28)
   // ---------------------------------------------------------------------
   "ap-physics-1": {
+    keywords: ["AP Physics 1 tutor", "AP Physics 1 tutoring online", "AP Physics 1 tutor near me", "private AP Physics 1 tutor", "1:1 AP Physics 1 tutoring", "AP Physics 1 tutor for a 5", "best AP Physics 1 tutor", "AP Physics 1 tutor reviews", "AP Physics 1 exam tutor", "AP Physics 1 homework help", "live AP Physics 1 tutor", "AP Physics 1 tutor for international students", "AP Physics 1 practice test tutor", "AP Physics 1 FRQ tutor", "online AP Physics 1 tutoring program", "AP Physics 1 crash course tutor", "AP Physics 1 tutor for high schoolers", "certified AP Physics 1 tutor", "algebra based AP Physics tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "AP Physics 1 Tutor — India-Based, Team-Vetted",
@@ -189,6 +195,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-physics-c": {
+    keywords: ["AP Physics C tutor", "AP Physics C tutoring online", "AP Physics C tutor near me", "private AP Physics C tutor", "1:1 AP Physics C tutoring", "AP Physics C Mechanics tutor", "AP Physics C Electricity and Magnetism tutor", "AP Physics C tutor for a 5", "best AP Physics C tutor", "AP Physics C tutor reviews", "AP Physics C exam tutor", "AP Physics C homework help", "live AP Physics C tutor", "AP Physics C tutor for international students", "calculus based AP Physics tutor", "online AP Physics C tutoring program", "AP Physics C crash course tutor", "AP Physics C tutor for high schoolers", "certified AP Physics C tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "AP Physics C Tutor — India-Based, Team-Vetted",
@@ -231,6 +238,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-calculus-ab": {
+    keywords: ["AP Calculus AB tutor", "AP Calculus AB tutoring online", "AP Calculus AB tutor near me", "private AP Calculus AB tutor", "1:1 AP Calculus AB tutoring", "AP Calculus AB tutor for a 5", "best AP Calculus AB tutor", "AP Calculus AB tutor reviews", "AP Calculus AB exam tutor", "AP Calculus AB homework help", "live AP Calculus AB tutor", "AP Calculus AB tutor for international students", "AP Calculus AB practice test tutor", "AP Calculus AB FRQ tutor", "AP Calculus AB tutor cost per hour", "online AP Calculus AB tutoring program", "AP Calculus AB crash course tutor", "AP Calculus AB tutor for high schoolers", "certified AP Calculus AB tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     differentiation:
@@ -262,6 +270,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-calculus-bc": {
+    keywords: ["AP Calculus BC tutor", "AP Calculus BC tutoring online", "AP Calculus BC tutor near me", "private AP Calculus BC tutor", "1:1 AP Calculus BC tutoring", "AP Calculus BC tutor for a 5", "best AP Calculus BC tutor", "AP Calculus BC tutor reviews", "AP Calculus BC exam tutor", "AP Calculus BC homework help", "live AP Calculus BC tutor", "AP Calculus BC tutor for international students", "AP Calculus BC practice test tutor", "AP Calculus BC FRQ tutor", "AP Calculus BC series and sequences tutor", "online AP Calculus BC tutoring program", "AP Calculus BC crash course tutor", "AP Calculus BC tutor for high schoolers", "certified AP Calculus BC tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     differentiation:
@@ -293,6 +302,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-chemistry": {
+    keywords: ["AP Chemistry tutor", "AP Chemistry tutoring online", "AP Chemistry tutor near me", "private AP Chemistry tutor", "1:1 AP Chemistry tutoring", "AP Chemistry tutor for a 5", "best AP Chemistry tutor", "AP Chemistry tutor reviews", "AP Chemistry exam tutor", "AP Chemistry homework help", "live AP Chemistry tutor", "AP Chemistry tutor for international students", "AP Chemistry practice test tutor", "AP Chemistry FRQ tutor", "online AP Chemistry tutoring program", "AP Chemistry crash course tutor", "AP Chemistry tutor for high schoolers", "certified AP Chemistry tutor", "affordable AP Chemistry tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "AP Chemistry Tutor — India-Based, Team-Vetted",
@@ -335,6 +345,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ap-biology": {
+    keywords: ["AP Biology tutor", "AP Biology tutoring online", "AP Biology tutor near me", "private AP Biology tutor", "1:1 AP Biology tutoring", "AP Biology tutor for a 5", "AP Biology score 5 tutoring", "best AP Biology tutor", "AP Biology tutor reviews", "AP Biology exam tutor", "AP Biology homework help", "online AP Biology tutoring program", "AP Biology tutor for international students", "live AP Biology tutor", "AP Biology practice test tutor", "AP Biology crash course tutor", "AP Biology tutor for high schoolers", "certified AP Biology tutor", "AP Biology FRQ tutor", "AP Biology tutor cost per hour"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "AP Biology Tutor — India-Based, Team-Vetted",
@@ -369,6 +380,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-chemistry": {
+    keywords: ["GCSE Chemistry tutor", "GCSE Chemistry tutoring online", "GCSE Chemistry tutor near me", "private GCSE Chemistry tutor", "1:1 GCSE Chemistry tutoring", "AQA GCSE Chemistry tutor", "Edexcel GCSE Chemistry tutor", "OCR GCSE Chemistry tutor", "GCSE Triple Science Chemistry tutor", "GCSE Chemistry tutor required practicals", "online GCSE Chemistry tutor for international students", "hire GCSE Chemistry tutor online", "live GCSE Chemistry tutor online", "best GCSE Chemistry tutor online", "GCSE Chemistry tutor reviews", "GCSE Chemistry tutor foundation and higher tier", "GCSE Chemistry tutor exam technique"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE Chemistry Tutor — India-Based, Team-Vetted",
@@ -411,6 +423,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-physics": {
+    keywords: ["GCSE Physics tutor", "GCSE Physics tutoring online", "GCSE Physics tutor near me", "private GCSE Physics tutor", "1:1 GCSE Physics tutoring", "AQA GCSE Physics tutor", "Edexcel GCSE Physics tutor", "OCR GCSE Physics tutor", "GCSE Triple Science Physics tutor", "GCSE Physics tutor required practicals", "online GCSE Physics tutor for international students", "hire GCSE Physics tutor online", "live GCSE Physics tutor online", "best GCSE Physics tutor online", "GCSE Physics tutor reviews", "GCSE Physics tutor foundation and higher tier", "GCSE Physics tutor exam technique"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE Physics Tutor — India-Based, Team-Vetted",
@@ -453,6 +466,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-maths": {
+    keywords: ["GCSE Maths tutor", "GCSE Maths tutoring online", "GCSE Maths tutor near me", "private GCSE Maths tutor", "1:1 GCSE Maths tutoring", "AQA GCSE Maths tutor", "Edexcel GCSE Maths tutor", "OCR GCSE Maths tutor", "GCSE Maths Foundation tier tutor", "GCSE Maths Higher tier tutor", "GCSE Maths resit tutor online", "online GCSE Maths tutor for international students", "hire GCSE Maths tutor online", "live GCSE Maths tutor online", "best GCSE Maths tutor online", "GCSE Maths tutor reviews", "GCSE Maths tutor grade 9 preparation"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE Maths Tutor — India-Based, Team-Vetted",
@@ -487,6 +501,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "igcse-chemistry": {
+    keywords: ["IGCSE Chemistry tutor", "IGCSE Chemistry tutoring online", "IGCSE Chemistry tutor near me", "private IGCSE Chemistry tutor", "1:1 IGCSE Chemistry tutoring", "Cambridge IGCSE Chemistry tutor", "Edexcel IGCSE Chemistry tutor", "IGCSE Chemistry tutor for international students", "IGCSE Chemistry tutor past papers", "IGCSE Chemistry tutor grade 9 A*", "hire IGCSE Chemistry tutor online", "live IGCSE Chemistry tutor online", "best IGCSE Chemistry tutor online", "IGCSE Chemistry tutor for expat families", "IGCSE Chemistry tutor syllabus 0620", "IGCSE Chemistry tutor reviews"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IGCSE Chemistry Tutor — India-Based, Team-Vetted",
@@ -525,6 +540,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "igcse-physics": {
+    keywords: ["IGCSE Physics tutor", "IGCSE Physics tutoring online", "IGCSE Physics tutor near me", "private IGCSE Physics tutor", "1:1 IGCSE Physics tutoring", "Cambridge IGCSE Physics tutor", "Edexcel IGCSE Physics tutor", "IGCSE Physics tutor for international students", "IGCSE Physics tutor past papers", "IGCSE Physics tutor grade 9 A*", "hire IGCSE Physics tutor online", "live IGCSE Physics tutor online", "best IGCSE Physics tutor online", "IGCSE Physics tutor for expat families", "IGCSE Physics tutor syllabus 0625", "IGCSE Physics tutor reviews"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IGCSE Physics Tutor — India-Based, Team-Vetted",
@@ -563,6 +579,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "igcse-maths": {
+    keywords: ["IGCSE Maths tutor", "IGCSE Maths tutoring online", "IGCSE Maths tutor near me", "private IGCSE Maths tutor", "1:1 IGCSE Maths tutoring", "Cambridge IGCSE Maths tutor", "Edexcel IGCSE Maths tutor", "IGCSE Maths tutor for international students", "IGCSE Maths tutor past papers", "IGCSE Maths extended core tutor", "hire IGCSE Maths tutor online", "live IGCSE Maths tutor online", "best IGCSE Maths tutor online", "IGCSE Maths tutor for expat families", "IGCSE Maths tutor reviews", "IGCSE Additional Maths tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IGCSE Maths Tutor — India-Based, Team-Vetted",
@@ -597,6 +614,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "a-level-chemistry": {
+    keywords: ["A-Level Chemistry tutor", "A-Level Chemistry tutoring online", "A-Level Chemistry tutor near me", "private A-Level Chemistry tutor", "1:1 A-Level Chemistry tutoring", "AQA A-Level Chemistry tutor", "Edexcel A-Level Chemistry tutor", "OCR A-Level Chemistry tutor", "online A-Level Chemistry tutor for international students", "A-Level Chemistry tutor for organic chemistry", "A-Level Chemistry resit tutor", "A-Level Chemistry tutor reviews", "best A-Level Chemistry tutor online", "hire A-Level Chemistry tutor online", "live A-Level Chemistry tutor online", "A-Level Chemistry tutor practical exam help", "A-Level Chemistry past papers tutor support", "International A-Level Chemistry tutor IAL", "A-Level Chemistry tutor for expat students"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "A-Level Chemistry Tutor — India-Based, Team-Vetted",
@@ -639,6 +657,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "a-level-physics": {
+    keywords: ["A-Level Physics tutor", "A-Level Physics tutoring online", "A-Level Physics tutor near me", "private A-Level Physics tutor", "1:1 A-Level Physics tutoring", "AQA A-Level Physics tutor", "Edexcel A-Level Physics tutor", "OCR A-Level Physics tutor", "WJEC A-Level Physics tutor", "online A-Level Physics tutor for international students", "A-Level Physics tutor for astrophysics", "A-Level Physics tutor for electromagnetism", "hire A-Level Physics tutor online", "live A-Level Physics tutor online", "best A-Level Physics tutor online", "A-Level Physics tutor reviews", "A-Level Physics tutor past papers", "A-Level Physics tutor for expat students"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "A-Level Physics Tutor — India-Based, Team-Vetted",
@@ -677,6 +696,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "a-level-maths": {
+    keywords: ["A-Level Maths tutor", "A-Level Maths tutoring online", "A-Level Maths tutor near me", "private A-Level Maths tutor", "1:1 A-Level Maths tutoring", "AQA A-Level Maths tutor", "Edexcel A-Level Maths tutor", "OCR A-Level Maths tutor", "A-Level Maths resit tutor", "A-Level Maths retake tutor online", "online A-Level Maths tutor for international students", "hire A-Level Maths tutor online", "live A-Level Maths tutor online", "best A-Level Maths tutor online", "A-Level Maths tutor reviews", "A-Level Maths tutor for pure maths", "A-Level Maths tutor for statistics and mechanics", "A-Level Maths tutor for expat families"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "A-Level Maths Tutor — India-Based, Team-Vetted",
@@ -715,6 +735,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-biology": {
+    keywords: ["GCSE Biology tutor", "GCSE Biology tutoring online", "GCSE Biology tutor near me", "private GCSE Biology tutor", "1:1 GCSE Biology tutoring", "AQA GCSE Biology tutor", "Edexcel GCSE Biology tutor", "OCR GCSE Biology tutor", "GCSE Biology tutor required practicals", "GCSE Triple Science Biology tutor", "online GCSE Biology tutor for international students", "hire GCSE Biology tutor online", "live GCSE Biology tutor online", "best GCSE Biology tutor online", "GCSE Biology tutor reviews", "GCSE Biology tutor foundation and higher tier", "GCSE Biology tutor past papers help"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE Biology Tutor — India-Based, Team-Vetted",
@@ -749,6 +770,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-science": {
+    keywords: ["GCSE Science tutor", "GCSE Science tutoring online", "GCSE Science tutor near me", "private GCSE Science tutor", "1:1 GCSE Science tutoring", "GCSE Combined Science tutor", "GCSE Combined Science Trilogy tutor", "GCSE Combined Science Synergy tutor", "GCSE Double Award Science tutor", "AQA GCSE Combined Science tutor", "online GCSE Science tutor for international students", "hire GCSE Science tutor online", "live GCSE Science tutor online", "best GCSE Science tutor online", "GCSE Science tutor foundation and higher tier", "GCSE Combined Science tutor reviews", "GCSE Science resit tutor online"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE Combined Science Tutor — India-Based, Team-Vetted",
@@ -783,6 +805,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "gcse-english": {
+    keywords: ["GCSE English tutor", "GCSE English tutoring online", "GCSE English tutor near me", "private GCSE English tutor", "1:1 GCSE English tutoring", "GCSE English Language tutor online", "GCSE English Literature tutor online", "AQA GCSE English tutor", "GCSE English tutor exam board specialist", "GCSE English Literature Macbeth tutor", "GCSE English Language creative writing tutor", "online GCSE English tutor for international students", "hire GCSE English tutor online", "live GCSE English tutor online", "best GCSE English tutor online", "GCSE English tutor exam technique grade 9", "GCSE English tutor for non-native speakers"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "GCSE English Tutor — India-Based, Team-Vetted",
@@ -817,6 +840,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "a-level-further-maths": {
+    keywords: ["A-Level Further Maths tutor", "A-Level Further Maths tutoring online", "A-Level Further Maths tutor near me", "private A-Level Further Maths tutor", "1:1 A-Level Further Maths tutoring", "AQA A-Level Further Maths tutor", "Edexcel A-Level Further Maths tutor", "OCR A-Level Further Maths tutor", "A-Level Further Maths tutor Core Pure", "A-Level Further Maths tutor for international students", "A-Level Further Maths resit tutor", "hire A-Level Further Maths tutor online", "live A-Level Further Maths tutor online", "A-Level Further Maths tutor reviews", "best A-Level Further Maths tutor online", "A-Level Further Maths tutor past papers", "A-Level Further Maths tutor for expat students"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "A-Level Further Maths Tutor — India-Based, Team-Vetted",
@@ -851,6 +875,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ib-math": {
+    keywords: ["IB Math tutor", "IB Math tutoring online", "IB Math tutor near me", "private IB Math tutor", "1:1 IB Math tutoring", "IB Math AA tutor", "IB Math AI tutor", "IB Math HL tutor", "IB Math SL tutor", "IB Math IA tutor", "hire IB Math tutor online", "live IB Math tutor online", "best IB Math tutor online", "IB Math tutor for expat students", "IB Math tutor reviews", "IB Math tutor online worldwide"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IB Mathematics Tutor — India-Based, Team-Vetted",
@@ -889,6 +914,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ib-physics": {
+    keywords: ["IB Physics tutor", "IB Physics tutoring online", "IB Physics tutor near me", "private IB Physics tutor", "1:1 IB Physics tutoring", "IB Physics HL tutor", "IB Physics SL tutor", "IB Physics IA tutor", "IB Physics tutor online worldwide", "hire IB Physics tutor online", "live IB Physics tutor online", "best IB Physics tutor online", "IB Physics tutor for expat students", "IB Physics extended essay tutor", "IB Physics tutor reviews", "IB Physics tutor exam paper 1 2 3"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IB Physics Tutor — India-Based, Team-Vetted",
@@ -927,6 +953,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ib-chemistry": {
+    keywords: ["IB Chemistry tutor", "IB Chemistry tutoring online", "IB Chemistry tutor near me", "private IB Chemistry tutor", "1:1 IB Chemistry tutoring", "IB Chemistry HL tutor", "IB Chemistry SL tutor", "IB Chemistry IA tutor", "IB Chemistry tutor online worldwide", "hire IB Chemistry tutor online", "live IB Chemistry tutor online", "best IB Chemistry tutor online", "IB Chemistry tutor for expat students", "IB Chemistry tutor exam paper 1 2 3", "IB Chemistry tutor reviews", "IB Chemistry extended essay tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IB Chemistry Tutor — India-Based, Team-Vetted",
@@ -965,6 +992,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "international-baccalaureate-ib": {
+    keywords: ["an IB tutor", "International Baccalaureate (IB) tutoring online", "International Baccalaureate (IB) tutor near me", "private International Baccalaureate (IB) tutor", "1:1 International Baccalaureate (IB) tutoring", "IB Diploma Programme tutor", "IB tutor for all subjects", "best IB tutoring company", "IB tutor examiner qualified", "IB tutor for expat families worldwide", "hire IB tutor online", "live IB tutor online", "IB Extended Essay tutor", "IB Theory of Knowledge tutor", "IB tutor for international school students", "IB tutoring companies reviews", "IB tutor for MYP and DP"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     differentiation:
@@ -1000,6 +1028,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "sat-math": {
+    keywords: ["SAT Math tutor", "SAT Math tutoring online", "SAT Math tutor near me", "private SAT Math tutor", "1:1 SAT Math tutoring", "digital SAT Math tutor", "SAT Math tutor for a perfect 800", "best SAT Math tutor", "SAT Math tutor reviews", "SAT Math homework help", "live SAT Math tutor", "SAT Math tutor for international students", "SAT Math practice test tutor", "online SAT Math tutoring program", "SAT Math crash course tutor", "SAT Math tutor for high schoolers", "certified SAT Math tutor", "SAT Math score improvement tutor", "99th percentile SAT Math tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "SAT Math Tutor — India-Based, Team-Vetted",
@@ -1034,6 +1063,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "sat-english": {
+    keywords: ["SAT English tutor", "SAT English tutoring online", "SAT English tutor near me", "private SAT English tutor", "1:1 SAT English tutoring", "SAT Reading and Writing tutor", "digital SAT English tutor", "SAT English tutor for top score", "best SAT English tutor", "SAT English tutor reviews", "SAT Reading tutor online", "SAT Writing and Language tutor", "SAT English homework help", "live SAT English tutor", "SAT English tutor for international students", "SAT English practice test tutor", "online SAT English tutoring program", "SAT English crash course tutor", "certified SAT English tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "SAT Reading & Writing Tutor — India-Based, Team-Vetted",
@@ -1068,6 +1098,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "act-math": {
+    keywords: ["ACT Math tutor", "ACT Math tutoring online", "ACT Math tutor near me", "private ACT Math tutor", "1:1 ACT Math tutoring", "ACT Math tutor for a 36", "best ACT Math tutor", "ACT Math tutor reviews", "ACT Math prep tutor", "ACT Math homework help", "live ACT Math tutor", "ACT Math tutor for international students", "ACT Math practice test tutor", "online ACT Math tutoring program", "ACT Math crash course tutor", "ACT Math tutor for high schoolers", "certified ACT Math tutor", "ACT Math score improvement tutor", "99th percentile ACT Math tutor"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "ACT Math Tutor — India-Based, Team-Vetted",
@@ -1102,6 +1133,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "cambridge-english": {
+    keywords: ["Cambridge English exam tutor (FCE/CAE/CPE)", "Cambridge English tutoring online", "Cambridge English tutor near me", "private Cambridge English tutor", "1:1 Cambridge English tutoring", "FCE exam tutor online", "CAE exam tutor online", "CPE exam tutor online", "Cambridge English First tutor", "Cambridge English Advanced tutor", "Cambridge English Proficiency tutor", "hire Cambridge English tutor online", "live Cambridge English tutor online", "best Cambridge English exam tutor", "Cambridge English tutor for international students", "Cambridge English exam preparation tutor", "Cambridge English tutor reviews"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "Cambridge English Exam Tutor (FCE/CAE/CPE)",
@@ -1140,6 +1172,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "ielts": {
+    keywords: ["IELTS tutor", "IELTS tutoring online", "IELTS tutor near me", "private IELTS tutor", "1:1 IELTS tutoring", "IELTS Academic tutor", "IELTS General Training tutor", "IELTS band 7 tutor", "IELTS band 8 tutor", "IELTS speaking tutor online", "IELTS writing tutor online", "IELTS tutor for UKVI", "IELTS tutor for immigration", "IELTS tutor for international students", "IELTS tutor former examiner", "IELTS score guarantee tutor", "IELTS one to one online tutor", "IELTS coaching classes online", "IELTS tutor reviews", "affordable IELTS tutor", "IELTS tutor for study abroad"],
     template: "service-hybrid",
     showGuaranteeLink: true,
     metaTitleOverride: "IELTS Preparation Tutor — India-Based, Team-Vetted",
@@ -1171,6 +1204,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Practical-mentor: 6 programming subjects, no guarantee link (2)
   // ---------------------------------------------------------------------
   "javascript": {
+    keywords: ["JavaScript tutor", "JavaScript tutor online", "JavaScript mentor", "learn JavaScript 1:1", "JavaScript tutor near me", "JavaScript mentor for beginners", "1-on-1 JavaScript mentoring", "JavaScript tutor for React", "learn JavaScript and React with a mentor", "JavaScript tutoring for frontend development", "hire a JavaScript tutor", "JavaScript private tutor online", "JavaScript tutor for career change", "Node.js mentor for beginners", "JavaScript expert help online", "JavaScript tutor for beginners no experience", "personalized JavaScript coaching online", "JavaScript tutoring for coding interviews", "JavaScript mentor for web developers", "learn JavaScript from scratch tutor"],
     template: "practical-mentor",
     differentiation:
       "JavaScript has no shortage of free, self-paced options — tutorial sites, video courses, browser-based exercises. Those work well for typing along with a lesson, but they can't tell you why your specific code is behaving differently than the example. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're actually stuck, instead of moving you through a fixed track. Every tutor is reviewed by TutorA's team before being matched, and pricing is shown up front. The JavaScript tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
@@ -1202,6 +1236,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "python": {
+    keywords: ["Python tutor", "Python tutor online", "Python mentor", "learn Python 1:1", "Python tutor near me", "Python mentor online", "1-on-1 Python mentoring", "Python tutor for beginners", "Python tutor for data science", "Python coaching for beginners", "hire a Python tutor", "Python tutor for career change", "Python tutoring for coding interviews", "Python private tutor online", "Python tutor for data analysis", "affordable Python tutor online", "Python expert help online", "learn Python from scratch with a tutor", "Python tutor for machine learning beginners", "personalized Python learning plan tutor"],
     template: "practical-mentor",
     differentiation:
       "Python has plenty of free tutorials and self-paced courses online, which are fine for a first pass at syntax but can't debug the actual error on your screen or explain why your specific script isn't working. This page is for general-audience learners — teens and adults; for younger kids just starting out, our Python Basics page serves a different, kids-focused audience. A TutorA Python tutor works with your real code in live 1:1 sessions — most tutors are based in India, and each one's profile shows their specific programming background — and every tutor is reviewed by our team before being matched, with pricing shown before you book.",
@@ -1236,6 +1271,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "c": {
+    keywords: ["C++ tutor", "C++ tutor online", "C++ mentor", "learn C++ 1:1", "C++ tutor near me", "C++ mentor online", "1-on-1 C++ mentoring", "C++ tutoring for beginners", "hire a C++ tutor", "C++ private lessons online", "C++ help for beginners", "C++ tutor for college students", "learn C++ from scratch with a tutor", "C++ code review mentor", "C++ tutor for competitive programming", "online C++ private tutor", "C++ tutoring for university coursework", "C++ tutor for data structures", "affordable C++ tutor online", "C++ expert help online"],
     template: "practical-mentor",
     differentiation:
       "Free tutorials cover the basics of C++ well, but they can't look at your actual code and explain why your specific memory-management bug is happening. A TutorA C++ tutor works with your real project or assignment in live 1:1 sessions — useful whether you're in an intro course, tackling data structures, or debugging a systems-programming assignment. Every tutor is reviewed by TutorA's team before being matched, with pricing shown before you book rather than folded into a subscription. Most C++ tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
@@ -1267,6 +1303,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "sql": {
+    keywords: ["SQL tutor", "SQL tutor online", "SQL mentor", "learn SQL 1:1", "SQL tutor near me", "SQL mentor online", "1-on-1 SQL tutoring", "SQL tutor for beginners", "SQL tutor for data analyst interview prep", "hire a SQL tutor", "SQL private tutor online", "learn SQL queries with a tutor", "SQL tutoring for data science", "SQL tutor for career change", "SQL expert help online", "affordable SQL tutor online", "SQL tutor for coding interviews", "personalized SQL learning plan tutor", "SQL tutor for database coursework", "learn SQL from scratch with a tutor"],
     template: "practical-mentor",
     differentiation:
       "SQL tutorials are everywhere for free, and structured courses can walk you through the syntax — but they can't look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, whether you're learning fundamentals, prepping for a data-analyst interview, or debugging a specific problem. Every tutor is reviewed by TutorA before being matched, and pricing is shown before you book. TutorA's SQL tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
@@ -1298,6 +1335,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "java": {
+    keywords: ["Java tutor", "Java tutor online", "Java mentor", "learn Java 1:1", "Java tutor near me", "Java mentor online", "1-on-1 Java mentoring", "Java tutor for beginners", "Java tutoring for college students", "Java programming help online", "Java tutor for Spring Boot", "Java interview prep tutor", "hire a Java tutor", "Java coding mentor for career change", "Java tutor for coursework help", "online Java private tutor", "Java tutor for object oriented programming", "Java expert help online", "Java tutoring for beginners with no experience", "affordable Java tutor online"],
     template: "practical-mentor",
     differentiation:
       "Java has long-established free tutorials and self-paced tracks — fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving as expected. A TutorA Java tutor works through your real code with you in live 1:1 sessions, whether you're in a school course, working toward AP Computer Science A, or prepping for technical interviews. Every tutor is reviewed before being matched, and pricing is shown up front. TutorA's Java tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
@@ -1329,6 +1367,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "html": {
+    keywords: ["HTML tutor", "HTML tutor online", "HTML mentor", "learn HTML 1:1", "HTML tutor near me", "HTML and CSS tutor for beginners", "HTML CSS mentor online", "learn HTML and CSS with a tutor", "front end development tutor for beginners", "HTML tutor for beginners", "1-on-1 HTML CSS tutoring", "HTML tutoring online for beginners", "hire an HTML tutor", "HTML CSS private lessons online", "HTML tutor for building first website", "web development tutor for beginners HTML", "HTML expert help online", "learn HTML CSS JavaScript mentor", "personal HTML tutor online", "HTML CSS tutor for career change"],
     template: "practical-mentor",
     differentiation:
       "HTML is one of the most thoroughly documented topics online for free, which makes this the weakest commercial tutor-marketplace category in our whole catalog — most people genuinely can learn it from free tutorials alone. What a live 1:1 tutor adds isn't better content, it's someone who can look at your actual page and answer your specific stuck point fast. HTML and CSS are almost always learned together — mention if you want both covered when requesting a tutor. Most HTML & CSS tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
@@ -1364,6 +1403,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Informational: ai-basics (1)
   // ---------------------------------------------------------------------
   "ai-basics": {
+    keywords: ["AI Basics tutor", "AI tutor for beginners", "machine learning tutor", "learn AI basics", "1:1 AI tutoring", "introduction to artificial intelligence course", "AI for beginners free course", "how to start learning AI from scratch", "AI fundamentals explained simply", "artificial intelligence crash course", "AI roadmap for beginners", "AI concepts explained for non-programmers", "learn artificial intelligence step by step", "beginner friendly AI course with certificate", "AI basics for non-experts", "personal AI tutor to learn anything", "python for AI beginners", "AI 101 for complete beginners", "1:1 machine learning mentor", "AI for beginners with no coding experience"],
     template: "informational",
     differentiation:
       "AI Basics means practical, beginner-level understanding of how AI and machine learning tools actually work — not a computer-science degree topic, and not the same as our more advanced AI & Machine Learning course for students ready to go further. This is a newer subject area for TutorA, and honestly a newer category for 1:1 tutoring generally — most of what's out there is blogs and tutorials rather than tutor marketplaces. Because the field moves quickly, a live tutor who can answer current questions is arguably more useful here than a static course. Coverage may be more limited than for long-established subjects, but if you're curious about learning AI basics 1:1, tell us what you're trying to understand and we'll do our best to match you. TutorA's Artificial Intelligence Basics tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
@@ -1399,6 +1439,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: General Academic homework-help cluster (20)
   // ---------------------------------------------------------------------
   "astronomy": {
+    keywords: ["Astronomy tutor", "Astronomy tutoring online", "Astronomy tutor near me", "private Astronomy tutor", "1:1 Astronomy tutoring", "Astronomy homework help", "astronomy homework help online", "online astronomy course tutor", "astrophysics tutor online", "college astronomy tutor online", "introductory astronomy tutor", "astronomy exam prep tutor", "astronomy assignment help online", "certified astronomy tutor online", "affordable astronomy tutoring online", "one-on-one astronomy lessons online", "astronomy tutor for college students", "astronomy lab report help"],
     template: "standard",
     metaDescriptionOverride: "1:1 Astronomy tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1422,6 +1463,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "genetics": {
+    keywords: ["Genetics tutor", "Genetics tutoring online", "Genetics tutor near me", "private Genetics tutor", "1:1 Genetics tutoring", "Genetics homework help", "genetics tutor online", "Punnett square help online", "genetics problems solved step by step", "molecular genetics tutor online", "Mendelian genetics tutor online", "genetics exam prep tutor", "college genetics tutor online", "certified genetics tutor online", "one-on-one genetics lessons online", "affordable genetics tutoring online", "genetics test prep online", "genetics assignment help online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Genetics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1445,6 +1487,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "human-anatomy": {
+    keywords: ["Human Anatomy tutor", "Human Anatomy tutoring online", "Human Anatomy tutor near me", "private Human Anatomy tutor", "1:1 Human Anatomy tutoring", "Human Anatomy homework help", "anatomy and physiology tutor online", "anatomy and physiology homework help online", "pre-nursing anatomy tutor online", "anatomy tutor for nursing students", "college anatomy tutor online", "human anatomy exam prep tutor", "anatomy and physiology test prep online", "certified anatomy tutor online", "one-on-one anatomy lessons online", "affordable anatomy tutoring online", "anatomy tutor for pre-med students", "gross anatomy tutor online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Human Anatomy tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1468,6 +1511,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "calculus": {
+    keywords: ["Calculus tutor", "Calculus tutoring online", "Calculus tutor near me", "private Calculus tutor", "1:1 Calculus tutoring", "Calculus homework help", "AP Calculus AB tutor online", "AP Calculus BC tutor online", "Calculus 2 tutor online", "college calculus tutor online", "calculus problems solved step by step", "derivatives and integrals tutor online", "calculus exam prep tutor", "certified calculus tutor online", "one-on-one calculus lessons online", "affordable calculus tutoring online", "calculus test prep online", "calculus homework help online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Calculus tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1491,6 +1535,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "physics": {
+    keywords: ["Physics tutor", "Physics tutoring online", "Physics tutor near me", "private Physics tutor", "1:1 Physics tutoring", "Physics homework help", "AP Physics 1 tutor online", "AP Physics 2 tutor online", "physics problems solved step by step", "college physics tutor online", "Newton's laws tutor online", "kinematics tutor online", "physics exam prep tutor", "certified physics tutor online", "one-on-one physics lessons online", "affordable physics tutoring online", "physics test prep online", "physics homework help online"],
     template: "standard",
     metaDescriptionOverride:
       "1:1 Physics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
@@ -1515,6 +1560,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "mathematics": {
+    keywords: ["Mathematics tutor", "Mathematics tutoring online", "Mathematics tutor near me", "private Mathematics tutor", "1:1 Mathematics tutoring", "Mathematics homework help", "elementary math tutor online", "middle school math tutor online", "high school math tutor online", "math word problems help online", "K-12 math tutor online", "certified math tutor online", "one-on-one math lessons online", "affordable math tutoring online", "math test prep tutor online", "math tutor for college students", "24/7 math tutor online", "math tutor for kids online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Mathematics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1538,6 +1584,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "mechanics": {
+    keywords: ["Mechanics tutor", "Mechanics tutoring online", "Mechanics tutor near me", "private Mechanics tutor", "1:1 Mechanics tutoring", "Mechanics homework help", "AP Physics C Mechanics tutor online", "classical mechanics tutor online", "engineering mechanics tutor online", "statics and dynamics tutor online", "mechanics exam prep tutor", "college mechanics tutor online", "certified mechanics tutor online", "one-on-one mechanics lessons online", "affordable mechanics tutoring online", "mechanics problems solved step by step", "physics mechanics test prep online", "mechanics homework help online"],
     template: "standard",
     differentiation:
       "Mechanics tutoring on TutorA means live, 1:1 sessions with a tutor matched to you and reviewed by our team beforehand — not a routed queue like the larger homework-help platforms (Tutor.com, Princeton Review, UPchieve, Wyzant, Varsity Tutors), and not a fixed video curriculum either. This page is positioned for All Levels. Pricing is shown before you book, whether you need ongoing support or help with a specific unit.",
@@ -1559,6 +1606,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "organic-chemistry": {
+    keywords: ["Organic Chemistry tutor", "Organic Chemistry tutoring online", "Organic Chemistry tutor near me", "private Organic Chemistry tutor", "1:1 Organic Chemistry tutoring", "Organic Chemistry homework help", "organic chemistry tutor online", "organic chemistry reaction mechanisms tutor", "orgo tutor online", "organic chemistry exam prep tutor", "college organic chemistry tutor online", "organic chemistry synthesis problems help", "certified organic chemistry tutor online", "one-on-one organic chemistry lessons online", "affordable organic chemistry tutoring", "organic chemistry test prep online", "organic chemistry tutor for pre-med students", "organic chemistry homework help online"],
     template: "standard",
     metaDescriptionOverride:
       "1:1 Organic Chemistry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
@@ -1583,6 +1631,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "biology": {
+    keywords: ["Biology tutor", "Biology tutoring online", "Biology tutor near me", "private Biology tutor", "1:1 Biology tutoring", "Biology homework help", "AP Biology tutor online", "AP Biology homework help online", "AP Biology exam prep tutor", "biology lab report help online", "cell biology tutor online", "molecular genetics and biology tutor", "college biology tutor online", "certified biology tutor online", "one-on-one biology lessons online", "affordable biology tutoring online", "biology FRQ help online", "biology test prep online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Biology tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1606,6 +1655,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "chemistry": {
+    keywords: ["Chemistry tutor", "Chemistry tutoring online", "Chemistry tutor near me", "private Chemistry tutor", "1:1 Chemistry tutoring", "Chemistry homework help", "AP Chemistry tutor online", "AP Chemistry homework help online", "general chemistry tutor online", "chemistry lab report help online", "balancing chemical equations tutor", "chemical equilibrium help online", "college chemistry tutor online", "certified chemistry tutor online", "one-on-one chemistry lessons online", "affordable chemistry tutoring online", "chemistry exam prep tutor", "chemistry test prep online"],
     template: "standard",
     metaDescriptionOverride:
       "1:1 Chemistry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
@@ -1630,6 +1680,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "geometry": {
+    keywords: ["Geometry tutor", "Geometry tutoring online", "Geometry tutor near me", "private Geometry tutor", "1:1 Geometry tutoring", "Geometry homework help", "geometry tutor online", "geometry proofs help online", "geometry homework help online", "geometry exam prep tutor", "high school geometry tutor online", "certified geometry tutor online", "one-on-one geometry lessons online", "affordable geometry tutoring online", "geometry test prep online", "geometry problems solved step by step", "geometry shapes and formulas tutor", "geometry tutor for proofs and triangles"],
     template: "standard",
     metaDescriptionOverride: "1:1 Geometry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1653,6 +1704,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "trigonometry": {
+    keywords: ["Trigonometry tutor", "Trigonometry tutoring online", "Trigonometry tutor near me", "private Trigonometry tutor", "1:1 Trigonometry tutoring", "Trigonometry homework help", "trigonometry tutor online", "trig identities tutor online", "trigonometry homework help online", "sine cosine tangent tutor online", "trigonometry exam prep tutor", "college trigonometry tutor online", "certified trigonometry tutor online", "one-on-one trigonometry lessons online", "affordable trigonometry tutoring online", "trigonometry test prep online", "law of sines and cosines tutor", "trigonometry problems solved step by step"],
     template: "standard",
     metaDescriptionOverride: "1:1 Trigonometry tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1676,6 +1728,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "advanced-algebra": {
+    keywords: ["Advanced Algebra tutor", "Advanced Algebra tutoring online", "Advanced Algebra tutor near me", "private Advanced Algebra tutor", "1:1 Advanced Algebra tutoring", "Advanced Algebra homework help", "college algebra tutor online", "advanced algebra homework help online", "advanced algebra problem solver online", "advanced algebra equations and inequalities help", "online advanced algebra course tutor", "24/7 algebra tutor online", "advanced algebra exam prep", "functions and inequalities tutor online", "advanced algebra for college prep", "certified advanced algebra tutor online", "affordable advanced algebra tutoring", "one-on-one advanced algebra lessons online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Advanced Algebra tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1699,6 +1752,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "algebra-i": {
+    keywords: ["Algebra I tutor", "Algebra I tutoring online", "Algebra I tutor near me", "private Algebra I tutor", "1:1 Algebra I tutoring", "Algebra I homework help", "Algebra 1 tutor online", "Algebra 1 homework help online", "high school Algebra 1 tutor", "middle school Algebra 1 tutor", "Algebra 1 equations help online", "Algebra 1 exam prep tutor", "8th grade Algebra 1 tutor", "9th grade Algebra 1 tutor", "certified Algebra 1 tutor online", "affordable Algebra 1 tutoring online", "one-on-one Algebra 1 lessons online", "Algebra 1 test prep online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Algebra I tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1718,6 +1772,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "algebra-ii": {
+    keywords: ["Algebra II tutor", "Algebra II tutoring online", "Algebra II tutor near me", "private Algebra II tutor", "1:1 Algebra II tutoring", "Algebra II homework help", "Algebra 2 tutor online", "Algebra 2 homework help online", "Algebra 2 college prep tutoring", "Algebra 2 functions and matrices help", "Algebra 2 quadratic equations help", "high school Algebra 2 tutor", "certified Algebra 2 tutor online", "affordable Algebra 2 tutoring online", "one-on-one Algebra 2 lessons online", "Algebra 2 test prep online", "Algebra 2 complex numbers help", "Algebra 2 exam prep tutor"],
     template: "standard",
     metaDescriptionOverride: "1:1 Algebra II tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1737,6 +1792,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "pre-algebra": {
+    keywords: ["Pre-Algebra tutor", "Pre-Algebra tutoring online", "Pre-Algebra tutor near me", "private Pre-Algebra tutor", "1:1 Pre-Algebra tutoring", "Pre-Algebra homework help", "Pre-Algebra tutor online for 6th grade", "Pre-Algebra tutor online for 7th grade", "Pre-Algebra tutor online for 8th grade", "Pre-Algebra homework help online", "Pre-Algebra exam prep tutor", "Pre-Algebra practice problems help", "certified Pre-Algebra tutor online", "one-on-one Pre-Algebra lessons online", "affordable Pre-Algebra tutoring online", "Pre-Algebra test prep online", "middle school Pre-Algebra tutor", "Pre-Algebra confidence building tutor"],
     template: "standard",
     differentiation:
       "Every major homework-help platform — Tutor.com, Princeton Review, UPchieve, Wyzant — gives Pre-Algebra its own dedicated page, and TutorA does too, with one real difference: you're matched to a specific, reviewed tutor rather than whoever's available when you log in. Sessions are live and 1:1, this page is positioned for Grades 6-8, and pricing is shown before booking, never a flat invented rate. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -1755,6 +1811,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "probability": {
+    keywords: ["Probability tutor", "Probability tutoring online", "Probability tutor near me", "private Probability tutor", "1:1 Probability tutoring", "Probability homework help", "probability tutor online", "probability word problems help online", "probability and statistics tutor online", "probability exam prep tutor", "college probability tutor online", "certified probability tutor online", "one-on-one probability lessons online", "affordable probability tutoring online", "probability test prep online", "combinations and permutations tutor", "Bayes theorem tutor online", "probability homework help online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Probability tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1774,6 +1831,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "precalculus": {
+    keywords: ["Precalculus tutor", "Precalculus tutoring online", "Precalculus tutor near me", "private Precalculus tutor", "1:1 Precalculus tutoring", "Precalculus homework help", "Precalculus tutor online", "Precalculus homework help online", "unit circle tutor online", "trig functions tutor online", "Precalculus exam prep tutor", "college precalculus tutor online", "certified precalculus tutor online", "one-on-one precalculus lessons online", "affordable precalculus tutoring online", "precalculus test prep online", "precalculus problems solved step by step", "functions and graphs tutor online"],
     template: "standard",
     metaDescriptionOverride: "1:1 Precalculus tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1793,6 +1851,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "statistics": {
+    keywords: ["Statistics tutor", "Statistics tutoring online", "Statistics tutor near me", "private Statistics tutor", "1:1 Statistics tutoring", "Statistics homework help", "AP Statistics tutor online", "AP Statistics homework help online", "college statistics tutor online", "statistics exam prep tutor", "statistics test prep online", "certified statistics tutor online", "one-on-one statistics lessons online", "affordable statistics tutoring online", "data analysis and regression tutor", "statistics problems solved step by step", "inferential statistics tutor online", "statistics tutor for college students"],
     template: "standard",
     metaDescriptionOverride: "1:1 Statistics tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1812,6 +1871,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "environmental-science": {
+    keywords: ["Environmental Science tutor", "Environmental Science tutoring online", "Environmental Science tutor near me", "private Environmental Science tutor", "1:1 Environmental Science tutoring", "Environmental Science homework help", "AP Environmental Science tutor online", "AP Environmental Science homework help", "APES exam prep tutor", "environmental science test prep online", "college environmental science tutor", "certified environmental science tutor", "one-on-one environmental science lessons online", "affordable environmental science tutoring", "environmental science assignment help online", "environmental science tutor for high school", "environmental science exam prep online", "environmental science tutor for beginners"],
     template: "standard",
     metaDescriptionOverride: "1:1 Environmental Science tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1835,6 +1895,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: English-skills cluster (9)
   // ---------------------------------------------------------------------
   "english": {
+    keywords: ["English tutor", "English tutoring online", "English tutor near me", "private English tutor", "1:1 English tutoring", "English tutor for kids", "English tutor for ESL learners", "English tutor for adults", "English tutor for EFL students", "English homework help online", "English tutor for all levels", "English tutor for conversation and grammar", "online English tutor for beginners", "English tutor for non-native speakers", "English proofreading and editing tutor", "English tutor for exam preparation", "English tutor for confidence building"],
     template: "standard",
     metaDescriptionOverride: "1:1 English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1854,6 +1915,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "academic-english": {
+    keywords: ["Academic English tutor", "Academic English tutoring online", "Academic English tutor near me", "private Academic English tutor", "1:1 Academic English tutoring", "Academic English tutor for international students", "Academic English tutor for ESL students", "Academic English tutor for IELTS", "Academic English tutor for TOEFL", "Academic English tutor for university preparation", "Academic English writing and speaking tutor", "Academic English tutor for non-native speakers", "Academic English vocabulary tutor", "Academic English tutor for graduate students", "Academic English tutor for college prep", "Academic English tutor for ESL adults", "Academic English listening and speaking tutor", "Academic English tutor for study abroad students"],
     template: "standard",
     metaDescriptionOverride: "1:1 Academic English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1873,6 +1935,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "academic-writing": {
+    keywords: ["Academic Writing tutor", "Academic Writing tutoring online", "Academic Writing tutor near me", "private Academic Writing tutor", "1:1 Academic Writing tutoring", "Academic Writing tutor for ESL students", "Academic Writing tutor for college students", "Academic Writing tutor for graduate students", "thesis writing tutor online", "research paper writing tutor", "Academic Writing tutor for international students", "Academic Writing tutor for citations and plagiarism", "Academic Writing tutor for essay structure", "Academic Writing tutor for non-native English speakers", "Academic Writing tutor for university applications", "Academic Writing tutor for dissertation help", "Academic Writing tutor for argumentative essays"],
     template: "standard",
     metaDescriptionOverride: "1:1 Academic Writing tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1892,6 +1955,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "essay-writing": {
+    keywords: ["Essay Writing tutor", "Essay Writing tutoring online", "Essay Writing tutor near me", "private Essay Writing tutor", "1:1 Essay Writing tutoring", "Essay Writing tutor for college applications", "Essay Writing tutor for personal statements", "Essay Writing tutor for SAT prep", "Essay Writing tutor for ACT prep", "Essay Writing tutor for high school students", "Essay Writing tutor for college admissions", "Essay Writing tutor for brainstorming and outlining", "Essay Writing tutor for editing and feedback", "Essay Writing tutor for argumentative essays", "Essay Writing tutor for scholarship essays", "Essay Writing tutor for supplemental essays", "Essay Writing tutor for thesis statements"],
     template: "standard",
     metaDescriptionOverride: "1:1 Essay Writing tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1911,6 +1975,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "creative-writing": {
+    keywords: ["Creative Writing tutor", "Creative Writing tutoring online", "Creative Writing tutor near me", "private Creative Writing tutor", "1:1 Creative Writing tutoring", "Creative Writing tutor for kids", "Creative Writing tutor for teens", "Creative Writing tutor for fiction writing", "Creative Writing tutor for poetry", "Creative Writing tutor for short stories", "Creative Writing tutor for novel writing", "Creative Writing coach for feedback online", "Creative Writing tutor for beginners", "Creative Writing workshop tutor online", "Creative Writing tutor for young writers", "Creative Writing tutor for personal narrative", "Creative Writing tutor for screenwriting"],
     template: "standard",
     differentiation:
       "Open-ended narrative, fiction, and poetry skills — a genuinely distinct category confirmed by real search demand, separate from structured academic writing. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -1929,6 +1994,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "grammar": {
+    keywords: ["Grammar tutor", "Grammar tutoring online", "Grammar tutor near me", "private Grammar tutor", "1:1 Grammar tutoring", "Grammar tutor for ESL learners", "Grammar tutor for adults", "Grammar tutor for business English", "Grammar tutor for sentence structure", "Grammar tutor for punctuation", "Grammar tutor for non-native speakers", "Grammar tutor for kids", "Grammar tutor for advanced English", "Grammar tutor for writing improvement", "Grammar tutor for verb tenses", "Grammar tutor for exam preparation", "online Grammar classes for beginners"],
     template: "standard",
     metaDescriptionOverride: "1:1 Grammar tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -1948,6 +2014,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "vocabulary": {
+    keywords: ["Vocabulary tutor", "Vocabulary tutoring online", "Vocabulary tutor near me", "private Vocabulary tutor", "1:1 Vocabulary tutoring", "Vocabulary tutor for kids", "Vocabulary tutor for SAT prep", "Vocabulary tutor for GRE prep", "Vocabulary building tutor online", "Vocabulary tutor for ESL learners", "Vocabulary tutor for word building", "Vocabulary tutor for IELTS prep", "Vocabulary tutor for TOEFL prep", "Vocabulary tutor for ACT prep", "Vocabulary tutor for adults", "Vocabulary tutor for elementary students", "Vocabulary tutor for advanced learners"],
     template: "standard",
     differentiation:
       "Word-building and usage, often paired with reading comprehension for younger students or exam prep for older ones. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -1970,6 +2037,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "reading-comprehension": {
+    keywords: ["Reading Comprehension tutor", "Reading Comprehension tutoring online", "Reading Comprehension tutor near me", "private Reading Comprehension tutor", "1:1 Reading Comprehension tutoring", "Reading Comprehension tutor for struggling readers", "Reading Comprehension tutor for kids", "Reading Comprehension strategies tutor online", "Reading Comprehension tutor for elementary students", "Reading Comprehension tutor for dyslexia", "Reading Comprehension tutor for phonics", "Reading Comprehension tutor for middle school", "Reading Comprehension tutor for test prep", "Reading Comprehension tutor for active reading skills", "Reading Comprehension tutor for vocabulary building", "Reading Comprehension tutor for critical thinking", "Reading Comprehension tutor for beginners"],
     template: "standard",
     differentiation:
       "Extraction and inference skills — understanding and analyzing what a text says — distinct from vocabulary's word-level focus. TutorA matches you with a specific tutor reviewed by our team beforehand for live 1:1 sessions — positioned for Grades 6-8 — rather than routing you to a generic English tutor or a fixed curriculum. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
@@ -1992,6 +2060,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "literature": {
+    keywords: ["Literature tutor", "Literature tutoring online", "Literature tutor near me", "private Literature tutor", "1:1 Literature tutoring", "AP English Literature tutor online", "Literature tutor for Shakespeare", "Literature tutor for novel analysis", "Literature tutor for high school students", "Literature tutor for essay writing", "Literature tutor for critical analysis", "Literature tutor for AP exam prep", "Literature tutor for poetry analysis", "Literature tutor for book club discussions", "Literature tutor for themes and symbolism", "Literature tutor for college prep", "Literature tutor for classic novels"],
     template: "standard",
     metaDescriptionOverride: "1:1 Literature tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -2019,6 +2088,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Middle School Basics, Grades 6-8, American curriculum (7)
   // ---------------------------------------------------------------------
   "biology-basics": {
+    keywords: ["Biology Basics tutor", "Biology Basics tutor for middle school", "Biology Basics homework help", "private Biology Basics tutor", "1:1 Biology Basics tutoring", "online biology tutor for 6th graders", "biology tutor for 7th grade", "biology tutor for 8th grade", "cell structure tutor for kids", "biology basics online classes for kids", "middle school life science tutor", "biology vocabulary help online", "biology basics test prep tutor", "ecology and genetics tutor for kids", "biology tutor for beginners online", "science fair biology help tutor", "biology basics tutor for homeschool", "biology basics tutor abroad", "biology basics tutoring for international students", "human body basics tutor for kids"],
     template: "standard",
     differentiation:
       "Biology Basics tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
@@ -2041,6 +2111,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "chemistry-basics": {
+    keywords: ["Chemistry Basics tutor", "Chemistry Basics tutor for middle school", "Chemistry Basics homework help", "private Chemistry Basics tutor", "1:1 Chemistry Basics tutoring", "chemistry tutor for middle schoolers", "chemistry basics online classes for kids", "atoms and elements tutor for kids", "chemistry basics tutor for beginners", "balancing equations tutor for kids", "chemistry basics tutor for homeschool", "chemistry basics test prep tutor", "periodic table tutor for kids", "chemistry basics tutoring for 8th grade", "chemistry basics tutor abroad", "simple chemical reactions tutor for kids", "chemistry basics tutor near me online", "chemistry basics tutoring for international students", "intro chemistry tutor for teens", "chemistry basics homeschool support tutor"],
     template: "standard",
     differentiation:
       "For Grades 6-8 students, Chemistry Basics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched — most are based in India — sessions are live and 1:1, and pricing is shown up front.",
@@ -2063,6 +2134,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "physics-basics": {
+    keywords: ["Physics Basics tutor", "Physics Basics tutor for middle school", "Physics Basics homework help", "private Physics Basics tutor", "1:1 Physics Basics tutoring", "physics basics tutor for beginners", "physics basics online classes for kids", "motion and forces tutor for kids", "physics basics tutor for homeschool", "physics basics tutor near me online", "physics basics tutoring for international students", "physics basics tutor for exam prep", "physics basics confidence building tutor", "physics basics tutor abroad", "physics basics homework help online", "intro physics tutor for teens", "physics basics tutor for 8th grade", "energy and matter tutor for kids", "simple machines tutor for kids"],
     template: "standard",
     differentiation:
       "Physics Basics tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor — most based in India — reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book.",
@@ -2085,6 +2157,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "general-mathematics": {
+    keywords: ["General Mathematics tutor", "General Mathematics tutor for middle school", "General Mathematics homework help", "private General Mathematics tutor", "1:1 General Mathematics tutoring", "general math tutor for struggling students", "general math tutor online for kids", "general math homework help online", "general math tutor for exam prep", "general math tutor for adults", "basic math skills tutor online", "general math tutor for word problems", "general math tutor for homeschool", "general math tutor near me online", "general math tutoring for international students", "general math tutor for fractions and decimals", "general math confidence building tutor", "general math tutor grade 6 to 8", "general math online classes for kids", "general math tutor for test prep"],
     template: "standard",
     differentiation:
       "For Grades 6-8 students, General Mathematics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
@@ -2107,6 +2180,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "general-science": {
+    keywords: ["General Science tutor", "General Science tutor for middle school", "General Science homework help", "private General Science tutor", "1:1 General Science tutoring", "general science tutor for homeschool", "general science online classes for kids", "general science tutor for exam prep", "general science tutor near me online", "general science homework help online", "general science tutor for international students", "general science vocabulary help tutor", "general science tutor for science fair", "general science tutor for curious kids", "general science tutor grade 6 to 8", "general science confidence building tutor", "general science tutor for beginners", "general science tutor abroad", "intro general science tutor for teens"],
     template: "standard",
     differentiation:
       "General Science tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
@@ -2129,6 +2203,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "geometry-basics": {
+    keywords: ["Geometry Basics tutor", "Geometry Basics tutor for middle school", "Geometry Basics homework help", "private Geometry Basics tutor", "1:1 Geometry Basics tutoring", "geometry basics tutor for beginners", "geometry proofs tutor for beginners", "geometry basics tutor for exam prep", "shapes and angles tutor for kids", "geometry basics tutor for homeschool", "geometry basics tutor near me online", "geometry basics tutoring for international students", "geometry basics tutor for 8th grade", "geometry basics confidence building tutor", "basic geometry test prep tutor", "geometry basics online classes for kids", "triangles and polygons tutor for kids", "geometry basics tutor abroad", "geometry basics homework help online", "intro geometry tutor for teens"],
     template: "standard",
     differentiation:
       "For Grades 6-8 students, Geometry Basics tutoring on TutorA focuses on building real confidence with the fundamentals, not just fixing a specific grade — a different emphasis than our exam-driven high-school subject pages. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown up front. In most cases, your child's tutor will be based in India and already reviewed by our team beforehand — their profile shows their specific background and experience.",
@@ -2151,6 +2226,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "middle-school-math": {
+    keywords: ["Middle School Math tutor", "Middle School Math tutor for middle school", "Middle School Math homework help", "private Middle School Math tutor", "1:1 Middle School Math tutoring", "middle school math tutor 6th grade", "middle school math tutor 7th grade", "middle school math tutor 8th grade", "pre-algebra tutor for middle school", "middle school math tutor for homeschool", "middle school math tutor near me online", "middle school math tutoring for international students", "middle school math tutor for exam prep", "middle school math confidence building tutor", "middle school math word problems tutor", "middle school math online classes for kids", "middle school math tutor abroad", "middle school math tutor for fractions", "transition to middle school math tutor", "middle school math homework help online"],
     template: "standard",
     differentiation:
       "Middle School Math tutoring on TutorA is written for parents as much as students — this is a Grades 6-8 subject, positioned to build foundational confidence before high school rather than mirror the exam-driven framing of our AP or GCSE pages. Your child is matched with a tutor reviewed by our team beforehand, working live and 1:1. Pricing is shown before you book. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
@@ -2177,6 +2253,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Humanities (3)
   // ---------------------------------------------------------------------
   "history": {
+    keywords: ["History tutor", "History tutoring online", "History tutor near me", "private History tutor", "1:1 History tutoring", "history tutor for IB students", "IB history HL tutor online", "IB history SL tutor online", "AP world history tutor online", "AP US history tutor online", "AP European history tutor online", "IGCSE history tutor online", "A Level history tutor online", "history essay writing tutor online", "history DBQ help tutor online", "history tutor for expat students", "history tutor for international students", "history exam prep tutor online", "history source analysis tutor", "history tutor for high school"],
     template: "standard",
     differentiation:
       "History tutoring on TutorA can focus on argument-building, source analysis, and essay structure — skills that are harder to develop from static study guides than STEM problem sets are, and a real differentiator from generic homework-help platforms. This page is positioned for Grades 6-10. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2198,6 +2275,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "geography": {
+    keywords: ["Geography tutor", "Geography tutoring online", "Geography tutor near me", "private Geography tutor", "1:1 Geography tutoring", "geography tutor for IGCSE", "geography tutor for IB students", "IB geography HL tutor online", "IB geography SL tutor online", "A Level geography tutor online", "geography tutor for high school", "geography IA help tutor online", "geography tutor for expat students", "geography tutor for international students", "geography exam prep tutor online", "geography case study tutor online", "geography tutor for beginners", "geography homework help online", "physical geography tutor online", "human geography tutor online"],
     template: "standard",
     differentiation:
       "Geography tutoring on TutorA can focus on argument-building, source analysis, and essay structure — skills that are harder to develop from static study guides than STEM problem sets are, and a real differentiator from generic homework-help platforms. This page is positioned for Grades 6-10. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2219,6 +2297,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "civics": {
+    keywords: ["Civics tutor", "Civics tutoring online", "Civics tutor near me", "private Civics tutor", "1:1 Civics tutoring", "civics tutor for middle school", "civics tutor for high school", "government and civics tutor online", "civics test prep tutor online", "civics tutor for homeschool", "civics tutor for international students", "civics homework help online", "civics tutor for expat students", "AP US government tutor online", "civics tutor for beginners", "civics tutor for 8th grade", "civic engagement tutor for teens", "citizenship test prep tutor online", "civics tutor near me online", "civics tutoring for teens"],
     template: "standard",
     differentiation:
       "Civics tutoring on TutorA can focus on argument-building, source analysis, and essay structure — skills that are harder to develop from static study guides than STEM problem sets are, and a real differentiator from generic homework-help platforms. This page is positioned for Grades 6-8. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2244,6 +2323,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Business & Finance (4)
   // ---------------------------------------------------------------------
   "finance-basics": {
+    keywords: ["Finance Basics tutor", "Finance Basics tutoring online", "Finance Basics tutor near me", "private Finance Basics tutor", "1:1 Finance Basics tutoring", "personal finance tutor for teens", "finance basics tutor for high school", "financial literacy tutor for teens", "finance basics tutor for beginners", "budgeting basics tutor for teens", "investing basics tutor for teens", "finance basics tutor for international students", "finance basics homework help online", "finance basics tutor for college prep", "finance basics tutor for expat students", "credit and debt basics tutor for teens", "finance basics exam prep tutor", "money management tutor for teens", "finance basics tutor near me online", "intro finance tutor for high schoolers"],
     template: "standard",
     differentiation:
       "TutorA's Finance Basics tutoring is aimed at school-level coursework — positioned for Grades 11-12 — rather than professional certification prep, unless a specific tutor happens to offer that. You're matched with a specific, reviewed tutor for live 1:1 sessions, not routed to a generic business tutor. Pricing is shown before you book.",
@@ -2265,6 +2345,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "economics": {
+    keywords: ["Economics tutor", "Economics tutoring online", "Economics tutor near me", "private Economics tutor", "1:1 Economics tutoring", "economics tutor for IB students", "IB economics HL tutor online", "IB economics SL tutor online", "IGCSE economics tutor online", "AP microeconomics tutor online", "AP macroeconomics tutor online", "A Level economics tutor online", "economics tutor for high school students", "economics tutor for international students", "economics exam prep tutor online", "economics tutor for beginners", "economics homework help online", "economics tutor for expat students", "micro and macro economics tutor", "economics tutor for college freshmen"],
     template: "standard",
     differentiation:
       "TutorA's Economics tutoring is aimed at school-level coursework — positioned for Grades 9-12 — rather than professional certification prep, unless a specific tutor happens to offer that. You're matched with a specific, reviewed tutor for live 1:1 sessions, not routed to a generic business tutor. Pricing is shown before you book.",
@@ -2286,6 +2367,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "accounting": {
+    keywords: ["Accounting tutor", "Accounting tutoring online", "Accounting tutor near me", "private Accounting tutor", "1:1 Accounting tutoring", "accounting tutor for high school students", "accounting tutor for IB students", "IB accounting HL tutor online", "IB accounting SL tutor online", "IGCSE accounting tutor online", "accounting tutor for beginners", "financial statements tutor for students", "bookkeeping basics tutor online", "accounting homework help online", "accounting tutor for international students", "accounting exam prep tutor online", "debits and credits tutor for beginners", "accounting tutor for college freshmen", "A Level accounting tutor online", "accounting tutor for expat students"],
     template: "standard",
     differentiation:
       "TutorA's Accounting tutoring is aimed at school-level coursework — positioned for Grades 9-12 — rather than professional certification prep, unless a specific tutor happens to offer that. You're matched with a specific, reviewed tutor for live 1:1 sessions, not routed to a generic business tutor. Pricing is shown before you book.",
@@ -2307,6 +2389,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "business-studies": {
+    keywords: ["Business Studies tutor", "Business Studies tutoring online", "Business Studies tutor near me", "private Business Studies tutor", "1:1 Business Studies tutoring", "business studies tutor for IGCSE", "business studies tutor for IB students", "IB business management tutor online", "A Level business studies tutor online", "business studies tutor for high school", "business studies exam prep tutor", "business studies tutor for international students", "business studies homework help online", "business studies tutor for expat students", "GCSE business studies tutor online", "business studies IA help tutor", "business studies case study tutor", "business studies tutor for beginners", "business studies tutor near me online", "business studies tutoring for teens"],
     template: "standard",
     differentiation:
       "TutorA's Business Studies tutoring is aimed at school-level coursework — positioned for Grades 9-12 — rather than professional certification prep, unless a specific tutor happens to offer that. You're matched with a specific, reviewed tutor for live 1:1 sessions, not routed to a generic business tutor. Pricing is shown before you book.",
@@ -2332,6 +2415,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Languages (5)
   // ---------------------------------------------------------------------
   "spanish": {
+    keywords: ["Spanish tutor", "Spanish lessons online", "Spanish tutor near me", "private Spanish tutor", "1:1 Spanish tutoring", "learn Spanish online", "native Spanish speaker tutor", "Spanish tutor for DELE exam prep", "conversational Spanish practice online", "Spanish tutor for beginners", "Spanish tutor for kids", "Spanish tutor for intermediate learners", "Spanish tutor for advanced learners", "online Spanish conversation classes", "Spanish tutor for travel", "Spanish speaking tutor online", "Spanish tutor for business", "Spanish accent and pronunciation tutor", "Spanish grammar tutor online", "online Spanish classes for beginners"],
     template: "standard",
     differentiation:
       "Spanish tutoring on TutorA is matched, not open-marketplace — unlike Preply or italki, where any self-listed tutor can apply, every TutorA tutor is reviewed by our team before being matched to you. Sessions are live 1:1, this page is positioned for Grades 6-8, and pricing is shown before you book.",
@@ -2353,6 +2437,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "french": {
+    keywords: ["French tutor", "French lessons online", "French tutor near me", "private French tutor", "1:1 French tutoring", "learn French online", "native French speaker tutor", "French tutor for DELF exam prep", "French tutor for DALF exam prep", "conversational French practice online", "French tutor for beginners", "French tutor for kids", "French tutor for intermediate learners", "French tutor for advanced learners", "online French conversation classes", "French grammar tutor online", "French tutor for travel", "French speaking tutor online", "French tutor for adults", "online French classes for beginners"],
     template: "standard",
     differentiation:
       "French tutoring on TutorA is matched, not open-marketplace — unlike Preply or italki, where any self-listed tutor can apply, every TutorA tutor is reviewed by our team before being matched to you. Sessions are live 1:1, this page is positioned for Grades 6-8, and pricing is shown before you book.",
@@ -2374,6 +2459,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "hindi": {
+    keywords: ["Hindi tutor", "Hindi lessons online", "Hindi tutor near me", "private Hindi tutor", "1:1 Hindi tutoring", "learn Hindi online", "Hindi tutor for foreigners", "Hindi tutor for kids", "native Hindi speaker tutor", "conversational Hindi practice online", "Hindi tutor for heritage speakers", "Hindi tutor for beginners", "Hindi reading and writing tutor", "Hindi speaking lessons online", "Hindi tutor for adults", "online Hindi conversation classes", "Hindi tutor for non-native speakers", "learn Hindi as a foreign language", "Hindi grammar tutor online"],
     template: "standard",
     differentiation:
       "Hindi tutoring on TutorA is matched, not open-marketplace — unlike Preply or italki, where any self-listed tutor can apply, every TutorA tutor is reviewed by our team before being matched to you. Sessions are live 1:1, this page is positioned for Grades 6-8, and pricing is shown before you book.",
@@ -2395,6 +2481,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "arabic": {
+    keywords: ["Arabic tutor", "Arabic lessons online", "Arabic tutor near me", "private Arabic tutor", "1:1 Arabic tutoring", "learn Arabic online", "Modern Standard Arabic tutor online", "Egyptian Arabic tutor online", "Levantine Arabic tutor online", "native Arabic speaker tutor", "conversational Arabic practice online", "Arabic tutor for beginners", "Arabic tutor for kids", "Arabic reading and writing tutor", "Arabic grammar tutor online", "Arabic tutor for adults", "online Arabic conversation classes", "Arabic dialect tutor online", "Arabic tutor for travel", "online Arabic lessons for beginners"],
     template: "standard",
     differentiation:
       "Arabic tutoring on TutorA is matched, not open-marketplace — unlike Preply or italki, where any self-listed tutor can apply, every TutorA tutor is reviewed by our team before being matched to you. Sessions are live 1:1, this page is positioned for Grades 6-8, and pricing is shown before you book. For learners specifically interested in Qur'anic Arabic or Tajweed, mention this when requesting a tutor.",
@@ -2417,6 +2504,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "spoken-english": {
+    keywords: ["Spoken English tutor", "conversational English practice", "spoken English tutor near me", "1:1 spoken English tutoring", "English speaking practice online", "English accent reduction tutor online", "English fluency coach online", "spoken English tutor for adults", "spoken English tutor for ESL learners", "IELTS speaking practice tutor", "English speaking tutor for job interviews", "business English speaking coach", "spoken English tutor for beginners", "English pronunciation tutor online", "spoken English tutor for professionals", "English conversation practice for confidence", "spoken English classes for non-native speakers", "English speaking tutor for public speaking"],
     template: "standard",
     metaDescriptionOverride: "1:1 Spoken English tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -2444,6 +2532,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Singapore curriculum (5)
   // ---------------------------------------------------------------------
   "o-level-chemistry": {
+    keywords: ["O-Level Chemistry tutor", "O-Level Chemistry tutor Singapore", "O-Level Chemistry tuition", "1:1 O-Level Chemistry tutoring", "O-Level Chemistry tutor online", "O-Level Chemistry tuition online", "O-Level Chemistry tutor for expat students", "O-Level Pure Chemistry tutor", "hire O-Level Chemistry tutor online", "best O-Level Chemistry tutor", "O-Level Chemistry tutor MOE syllabus", "private O-Level Chemistry tutor online", "O-Level Chemistry tutor reviews", "O-Level Chemistry tutor international students", "live O-Level Chemistry tutor online"],
     template: "standard",
     differentiation:
       "O-Level Chemistry tutoring on TutorA is positioned for Grades 10-11, aligned to Singapore's O-Level national secondary examination system administered in line with MOE and Cambridge-aligned syllabuses. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2465,6 +2554,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "o-level-maths": {
+    keywords: ["O-Level Maths tutor", "O-Level Maths tutor Singapore", "O-Level Maths tuition", "1:1 O-Level Maths tutoring", "O-Level Maths tutor online", "O-Level Maths tuition online", "O-Level Additional Maths tutor", "O-Level Maths tutor for expat students", "hire O-Level Maths tutor online", "best O-Level Maths tutor", "O-Level Maths tutor MOE syllabus", "private O-Level Maths tutor online", "O-Level Maths tutor reviews", "O-Level Maths tutor international students", "live O-Level Maths tutor online"],
     template: "standard",
     metaDescriptionOverride: "1:1 O-Level Maths tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:
@@ -2488,6 +2578,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "o-level-physics": {
+    keywords: ["O-Level Physics tutor", "O-Level Physics tutor Singapore", "O-Level Physics tuition", "1:1 O-Level Physics tutoring", "O-Level Physics tutor online", "O-Level Physics tuition online", "O-Level Pure Physics tutor", "O-Level Physics tutor for expat students", "hire O-Level Physics tutor online", "best O-Level Physics tutor", "O-Level Physics tutor MOE syllabus", "private O-Level Physics tutor online", "O-Level Physics tutor reviews", "O-Level Physics tutor international students", "live O-Level Physics tutor online"],
     template: "standard",
     differentiation:
       "O-Level Physics tutoring on TutorA is positioned for Grades 10-11, aligned to Singapore's O-Level national secondary examination system administered in line with MOE and Cambridge-aligned syllabuses. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2509,6 +2600,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "psle-maths": {
+    keywords: ["PSLE Maths tutor", "PSLE Maths tutor Singapore", "PSLE Maths tuition", "1:1 PSLE Maths tutoring", "PSLE Maths tutor online", "PSLE Maths tuition online", "PSLE Maths tutor for expat families", "hire PSLE Maths tutor online", "best PSLE Maths tutor", "PSLE Maths tutor MOE syllabus", "private PSLE Maths tutor online", "PSLE Maths tutor reviews", "PSLE Maths tutor Primary 6", "live PSLE Maths tutor online", "PSLE Maths tutor problem sums"],
     template: "standard",
     differentiation:
       "PSLE Maths tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -2531,6 +2623,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "psle-science": {
+    keywords: ["PSLE Science tutor", "PSLE Science tutor Singapore", "PSLE Science tuition", "1:1 PSLE Science tutoring", "PSLE Science tutor online", "PSLE Science tuition online", "PSLE Science tutor for expat families", "hire PSLE Science tutor online", "best PSLE Science tutor", "PSLE Science tutor MOE syllabus", "private PSLE Science tutor online", "PSLE Science tutor reviews", "PSLE Science tutor Primary 6", "live PSLE Science tutor online", "PSLE Science tutor open ended questions"],
     template: "standard",
     differentiation:
       "PSLE Science tutoring on TutorA is positioned for Grade 6, aligned to Singapore's PSLE (Primary School Leaving Examination) — the national exam used for secondary school placement. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
@@ -2557,6 +2650,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: UK Entrance Exams (2)
   // ---------------------------------------------------------------------
   "11-english": {
+    keywords: ["11+ English tutor", "11 plus tutoring", "1:1 11+ English tutoring", "11+ English tutor online", "11 plus creative writing tutor", "11+ English comprehension tutor", "GL Assessment English tutor", "CEM 11+ English tutor", "11+ English tutor for grammar school entrance", "hire 11+ English tutor online", "best 11+ English tutor online", "11+ English tutor for expat families", "11+ English exam preparation tutor", "11+ English tutor reviews", "private 11+ English tutor online"],
     template: "standard",
     differentiation:
       "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ English tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
@@ -2579,6 +2673,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "11-maths": {
+    keywords: ["11+ Maths tutor", "11 plus tutoring", "1:1 11+ Maths tutoring", "11+ Maths tutor online", "GL Assessment Maths tutor", "CEM 11+ Maths tutor", "11+ Maths tutor for grammar school entrance", "ISEB 11+ Maths tutor", "hire 11+ Maths tutor online", "best 11+ Maths tutor online", "11+ Maths tutor for expat families", "11+ Maths exam preparation tutor", "11+ Maths tutor reviews", "private 11+ Maths tutor online", "11+ Maths mock exam tutor"],
     template: "standard",
     differentiation:
       "The 11+ is a UK entrance exam used by grammar schools and some selective independent schools, typically taken around age 10-11. A TutorA 11+ Maths tutor is matched to you individually and reviewed by our team beforehand, working with you live rather than through a fixed video curriculum. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -2605,6 +2700,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Umbrella curricula (2)
   // ---------------------------------------------------------------------
   "american-curriculum": {
+    keywords: ["American Curriculum tutor", "American Curriculum tutor abroad", "expat American Curriculum tutoring", "1:1 American Curriculum tutoring", "American curriculum tutor for expat families", "American curriculum online school for expats", "American curriculum tutor overseas", "Common Core tutor for expat students", "American curriculum tutor for military families", "American curriculum tutor Dubai", "American curriculum tutor Singapore", "American curriculum homeschool tutor abroad", "American curriculum tutor for international school", "AERO curriculum tutor for expat students", "American curriculum tutor for returning students", "American curriculum gap tutor for expats", "American curriculum tutor for US students abroad", "American curriculum tutoring for OCONUS families", "American curriculum tutor for relocating families"],
     template: "standard",
     differentiation:
       "American Curriculum tutoring on TutorA is aimed at families living outside the home country who want their child to keep pace with that curriculum while abroad — a genuinely different need from a domestic student searching for GCSE or AP help. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2626,6 +2722,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "british-curriculum": {
+    keywords: ["British Curriculum tutor", "British Curriculum tutor abroad", "expat British Curriculum tutoring", "1:1 British Curriculum tutoring", "British curriculum tutor for expat families", "British curriculum online school for expats", "British curriculum tutor overseas", "National Curriculum tutor for expat students", "Key Stage tutor for expat students", "British curriculum tutor Dubai", "British curriculum tutor Singapore", "British curriculum homeschool tutor abroad", "British curriculum tutor for international school", "GCSE tutor for expat students", "British curriculum tutor for returning students", "British curriculum gap tutor for expats", "British curriculum tutor for UK students abroad", "British curriculum tutoring for relocating families", "11 Plus tutor for expat families"],
     template: "standard",
     differentiation:
       "British Curriculum tutoring on TutorA is aimed at families living outside the home country who want their child to keep pace with that curriculum while abroad — a genuinely different need from a domestic student searching for GCSE or AP help. Every tutor is reviewed by our team before being matched, sessions are live and 1:1, and pricing is shown before you book.",
@@ -2651,6 +2748,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: Computer Science & Adjacent (4)
   // ---------------------------------------------------------------------
   "algorithms": {
+    keywords: ["Algorithms tutor", "Algorithms tutoring online", "Algorithms tutor near me", "1:1 Algorithms tutoring", "Algorithms help", "algorithms tutor for coding interviews", "LeetCode tutor online", "algorithms mentor online", "data structures and algorithms tutor", "coding interview coach algorithms", "algorithms coaching for FAANG interviews", "hire an algorithms tutor", "algorithms tutor for computer science students", "1-on-1 algorithms coaching", "algorithms tutor for beginners", "technical interview tutor algorithms", "algorithms tutor for competitive programming", "personalized algorithms study plan tutor", "algorithms tutor for exam prep", "online coach for data structures and algorithms"],
     template: "standard",
     differentiation:
       "Algorithms tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most of TutorA's Algorithms tutors are based in India, and each profile shows their specific programming background, so you know who you'd be working with before you book.",
@@ -2673,6 +2771,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "computer-science": {
+    keywords: ["Computer Science tutor", "Computer Science tutoring online", "Computer Science tutor near me", "1:1 Computer Science tutoring", "Computer Science help", "computer science mentor online", "computer science tutor for coding bootcamp", "computer science tutor for coursework help", "hire a computer science tutor", "computer science tutor for beginners", "computer science tutoring for college students", "CS fundamentals tutor online", "computer science tutor for career change", "computer science homework help tutor", "computer science tutor for exam prep", "learn computer science with a mentor", "computer science tutor for coding interviews", "affordable computer science tutor online", "computer science tutor for AP CS", "personalized computer science learning plan"],
     template: "standard",
     differentiation:
       "Computer Science tutoring on TutorA matches you with a specific, reviewed tutor rather than routing you to whoever's available — unlike large CS-focused aggregators such as Wyzant, Princeton Review, or Varsity Tutors. Sessions are live and 1:1, and pricing is shown before you book. TutorA's Computer Science tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
@@ -2695,6 +2794,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "data-structures": {
+    keywords: ["Data Structures tutor", "Data Structures tutoring online", "Data Structures tutor near me", "1:1 Data Structures tutoring", "Data Structures help", "data structures tutor for coding interviews", "data structures tutor for CS coursework", "data structures and algorithms tutor online", "hire a data structures tutor", "data structures tutor for college students", "data structures homework help tutor", "data structures tutor for beginners", "1-on-1 data structures tutoring for interviews", "data structures tutor Python Java C++", "data structures tutor for exam prep", "affordable data structures tutor online", "data structures tutor for computer science students", "personalized data structures study plan", "data structures tutor for technical interviews", "online data structures tutor for university courses"],
     template: "standard",
     differentiation:
       "Data Structures tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. Most Data Structures tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
@@ -2717,6 +2817,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "web-development": {
+    keywords: ["Web Development tutor", "Web Development tutoring online", "Web Development tutor near me", "1:1 Web Development tutoring", "Web Development help", "web development mentor for beginners", "full stack tutor for beginners", "web development tutor online", "hire a web development tutor", "learn web development with a mentor", "web development tutor for career change", "web development tutoring for beginners", "personalized web development tutoring", "web development tutor HTML CSS JavaScript", "full stack mentor online", "web development tutor for portfolio projects", "1-on-1 full stack tutoring", "web development tutor for coding bootcamp students", "affordable web development tutor online", "web development mentor for React and Node"],
     template: "standard",
     differentiation:
       "Web Development tutoring on TutorA means live 1:1 feedback on your specific project or assignment — a real differentiator from free tutorials and self-paced coding bootcamps, not a claim of better content. Every tutor is reviewed by our team before being matched, and pricing is shown before you book. TutorA's Web Development Basics tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
@@ -2744,6 +2845,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // certification"; same sitewide tutor-review process as every subject.
   // ---------------------------------------------------------------------
   "coding-for-kids": {
+    keywords: ["Coding for Kids tutor", "coding tutor for kids", "kids programming tutor", "learn to code kids", "1:1 coding tutor for kids", "online coding classes for kids", "coding camp for kids online", "best coding classes for kids", "live online coding classes for kids", "private coding tutor for kids", "coding lessons for kids ages 8-12", "one on one coding classes for kids", "kids coding classes near me", "coding for beginners kids online", "STEM coding classes for kids", "coding tutor for teens", "personalized coding lessons for children", "kids programming classes online", "coding camp for kids ages 8-12", "learn coding online for kids and teens"],
     template: "standard",
     differentiation:
       "Coding for Kids on TutorA is a broad entry point for parents who aren't sure which specific tool is right yet for their child — a matched tutor can help decide between Scratch, Python Basics, or another approach based on age and interest. TutorA reviews tutors before they're matched, the same review process used sitewide — sessions are live and 1:1, positioned for Grades 6-8. In most cases, your child's tutor will be based in India and already reviewed by our team beforehand — their profile shows their specific background and experience.",
@@ -2766,6 +2868,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "scratch-programming": {
+    keywords: ["Scratch Programming tutor", "Scratch tutor for kids", "kids coding tutor", "learn Scratch programming", "1:1 Scratch tutor", "Scratch coding classes for kids", "Scratch coding camp online", "MIT Scratch programming for kids", "Scratch coding lessons ages 7 and up", "live online Scratch classes for kids", "Scratch tutor for beginners", "Scratch coding class for ages 8-10", "one on one Scratch coding lessons", "Scratch programming summer camp", "Scratch coding trial class for kids", "Scratch Jr classes for young kids", "block-based coding tutor for kids", "private Scratch coding tutor", "Scratch game design tutor for kids", "learn Scratch coding step by step"],
     template: "standard",
     differentiation:
       "Scratch is a free, block-based visual programming language created by MIT specifically for kids — no typed code required, making it a common first step before text-based languages like Python. TutorA reviews tutors before they're matched, the same process used sitewide, and sessions are live and 1:1, positioned for Grades 6-8. Pricing is shown before you book. TutorA tutors for this subject are predominantly India-based and reviewed ahead of time, not assigned at random — their profile shows who they actually are.",
@@ -2788,6 +2891,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
     ],
   },
   "python-basics": {
+    keywords: ["Python Basics tutor for kids", "Python for kids tutor", "kids coding tutor", "learn Python basics for kids", "1:1 Python tutor for kids", "Python coding camp for kids", "Python classes for kids online", "Python summer camp for kids and teens", "beginner Python course for kids", "Python 101 for kids", "online Python tutoring for kids and teens", "private Python lessons for kids", "Python coding for kids ages 11-18", "live online Python classes for kids", "Python for teens coding class", "kids Python programming camp", "one on one Python tutor for kids", "Python coding lessons for beginners kids", "fun Python coding class for kids", "Python tutor for middle school students"],
     template: "standard",
     differentiation:
       "Python Basics for kids on TutorA means age-appropriate, hands-on projects — small games, simple automation scripts — rather than abstract syntax drills, distinct from our general Python page, which serves an adult and teen audience with different trust signals. TutorA reviews tutors before they're matched — most are based in India — the same process used sitewide, and sessions are live and 1:1, positioned for Grades 6-8.",
@@ -2814,6 +2918,7 @@ export const subjectPageContent: Record<string, SubjectPageContent> = {
   // Standard: flagged duplicate-risk subject (1)
   // ---------------------------------------------------------------------
   "science": {
+    keywords: ["Science tutor", "Science tutor online", "Science tutor near me", "private Science tutor", "1:1 Science tutoring", "general science tutor for elementary school", "science tutor for young kids", "science tutor across biology chemistry physics", "science tutor for curious learners", "multi-subject science tutor online", "science tutor for homeschool families", "science fair project tutor online", "science tutor for early learners", "science tutor for kids who love experiments", "science enrichment tutor for kids", "science tutor for elementary and middle school", "science tutor for general knowledge", "science tutor for STEM exploration", "science tutor for non-specialist subjects", "science tutor for broad curriculum coverage"],
     template: "standard",
     metaDescriptionOverride: "1:1 Science tutoring with an India-based tutor, personally reviewed by our team — see their specific experience before you book.",
     differentiation:

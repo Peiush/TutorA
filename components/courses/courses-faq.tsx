@@ -147,33 +147,35 @@ function FaqItem({
         boxShadow: isOpen ? "var(--shadow-md)" : "var(--shadow-sm)",
       }}
     >
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isOpen}
-        className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
-        style={{ padding: "18px 22px" }}
-      >
-        <span className="font-[var(--font-heading)] font-semibold text-[16px]">{q}</span>
-        <span
-          className="w-8 h-8 rounded-full grid place-content-center flex-none transition-[background-color,transform] duration-300 group-hover:scale-105"
-          style={{ background: isOpen ? "var(--color-accent-600)" : "var(--color-accent-100)" }}
+      <h3 className="m-0">
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
+          style={{ padding: "18px 22px" }}
         >
-          <svg
-            ref={iconRef}
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={isOpen ? "#fff" : "var(--color-accent-700)"}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            aria-hidden
+          <span className="font-[var(--font-heading)] font-semibold text-[16px]">{q}</span>
+          <span
+            className="w-8 h-8 rounded-full grid place-content-center flex-none transition-[background-color,transform] duration-300 group-hover:scale-105"
+            style={{ background: isOpen ? "var(--color-accent-600)" : "var(--color-accent-100)" }}
           >
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-        </span>
-      </button>
+            <svg
+              ref={iconRef}
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={isOpen ? "#fff" : "var(--color-accent-700)"}
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </button>
+      </h3>
       <div ref={bodyRef} style={{ display: "none", height: 0, opacity: 0 }}>
         <p
           className="text-[14.5px] leading-[1.65] m-0"

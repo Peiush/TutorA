@@ -190,10 +190,12 @@ export async function generateMetadata({
   if (!course) return {};
 
   const description = courseDescription(course);
+  const keywords = courseSubjectContent[course.slug]?.keywords;
 
   return {
     title: course.title,
     description,
+    ...(keywords && { keywords }),
     alternates: { canonical: `/courses/${course.slug}` },
     openGraph: {
       type: "website",

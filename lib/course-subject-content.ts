@@ -26,6 +26,8 @@
 // "depending on subject" (e.g. Duolingo/Babbel for languages, JustinGuitar/Flowkey for music).
 
 export interface CourseSubjectContent {
+  /** Page <meta name="keywords"> — sourced from the Phase 3 SEO keyword audit. */
+  keywords?: string[];
   differentiation: string;
   faqs: { q: string; a: string }[];
   /** Optional, page-specific curriculum/skill depth beyond the "why a TutorA tutor" pitch —
@@ -65,6 +67,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // Programming & Technology (13)
   // ---------------------------------------------------------------------
   "python-ff654450": {
+    keywords: ["Python Programming for Beginners tutor", "Python Programming for Beginners classes online", "Python Programming for Beginners tutor near me", "private Python Programming for Beginners tutor", "best Python Programming for Beginners tutor", "1:1 Python Programming for Beginners tutoring", "Python Programming for Beginners course for beginners", "learn Python Programming for Beginners", "how to learn Python Programming for Beginners", "is Python Programming for Beginners hard to learn", "Python Programming for Beginners for kids"],
     differentiation:
       "Python has an enormous self-paced catalog — Udemy courses, Coursera specializations, freeCodeCamp, Codecademy tracks. Those are fine for watching someone else code, but they can't tell you why your specific script is throwing an error right now. A TutorA Python tutor works with you live, 1:1, looking at your actual code and pacing lessons to what you're stuck on, rather than moving everyone through the same fixed video curriculum. Every tutor is reviewed by TutorA's team before being matched — most are based in India, with each profile showing their specific programming background — and pricing is shown up front rather than bundled into a subscription.",
     courseDetail:
@@ -106,6 +109,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "javascript-ac5adb0a": {
+    keywords: ["JavaScript Programming for Beginners tutor", "JavaScript Programming for Beginners classes online", "JavaScript Programming for Beginners tutor near me", "private JavaScript Programming for Beginners tutor", "best JavaScript Programming for Beginners tutor", "1:1 JavaScript Programming for Beginners tutoring", "JavaScript Programming for Beginners course for beginners", "learn JavaScript Programming for Beginners", "how to learn JavaScript Programming for Beginners", "is JavaScript Programming for Beginners hard to learn", "JavaScript Programming for Beginners for kids"],
     differentiation:
       "JavaScript has no shortage of self-paced options — Udemy bootcamp bundles, freeCodeCamp's curriculum, Codecademy's browser exercises. Those work well for typing along with a video, but they don't adapt when your code behaves differently than the instructor's. A TutorA JavaScript tutor reviews your actual project or assignment in a live 1:1 session and adjusts explanations to where you're stuck, instead of moving everyone through the same fixed track. Every tutor is reviewed by TutorA before being matched, with pricing shown upfront rather than folded into a subscription. The JavaScript tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -144,6 +148,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "sql-90d171c1": {
+    keywords: ["SQL for Beginners tutor", "SQL for Beginners classes online", "SQL for Beginners tutor near me", "private SQL for Beginners tutor", "best SQL for Beginners tutor", "1:1 SQL for Beginners tutoring", "SQL for Beginners course for beginners", "learn SQL for Beginners", "how to learn SQL for Beginners", "is SQL for Beginners hard to learn", "SQL for Beginners for kids"],
     differentiation:
       "SQL tutorials are everywhere for free, and structured SQL courses on Udemy or Coursera can walk you through the syntax. What they can't do is look at your actual query and your actual database schema and explain why a join isn't returning what you expect. A TutorA SQL tutor works with your real queries in live 1:1 sessions, and every tutor is reviewed by TutorA before being matched, so you're not guessing which unverified instructor to trust. Pricing is shown before you book, not hidden behind a subscription. Most SQL tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     courseDetail:
@@ -182,6 +187,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "java-48483b48": {
+    keywords: ["Java Programming Fundamentals tutor", "Java Programming Fundamentals classes online", "Java Programming Fundamentals tutor near me", "private Java Programming Fundamentals tutor", "best Java Programming Fundamentals tutor", "1:1 Java Programming Fundamentals tutoring", "Java Programming Fundamentals course for beginners", "learn Java Programming Fundamentals", "how to learn Java Programming Fundamentals", "is Java Programming Fundamentals hard to learn", "Java Programming Fundamentals for kids"],
     differentiation:
       "Java has long-established self-paced tracks on Udemy, Coursera, and elsewhere. They're fine for a first pass at syntax, but they can't debug the actual compiler error on your screen or explain why your class isn't behaving the way you expect. A TutorA Java tutor works through your real code with you in live 1:1 sessions, matched to your level rather than a fixed cohort schedule. Every tutor is reviewed before being matched, and pricing is shown upfront. TutorA's Java tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     courseDetail:
@@ -220,6 +226,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "c-95361960": {
+    keywords: ["C++ Programming for Beginners tutor", "C++ Programming for Beginners classes online", "C++ Programming for Beginners tutor near me", "private C++ Programming for Beginners tutor", "best C++ Programming for Beginners tutor", "1:1 C++ Programming for Beginners tutoring", "C++ Programming for Beginners course for beginners", "learn C++ Programming for Beginners", "how to learn C++ Programming for Beginners", "is C++ Programming for Beginners hard to learn", "C++ Programming for Beginners for kids"],
     differentiation:
       "C++ is taught on plenty of self-paced platforms, but its trickier concepts — pointers, memory management, compiler errors that don't explain themselves — are exactly where a fixed video course tends to lose people. A TutorA C++ tutor can walk through your actual code and error messages with you in a live 1:1 session, at your pace, rather than moving on regardless of whether it clicked. Every tutor is reviewed by TutorA before being matched, with pricing shown before you book. Most C++ tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     courseDetail:
@@ -258,6 +265,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "html-css-fb9cd7a2": {
+    keywords: ["HTML & CSS tutor", "HTML & CSS classes online", "HTML & CSS tutor near me", "private HTML & CSS tutor", "best HTML & CSS tutor", "1:1 HTML & CSS tutoring", "HTML & CSS course for beginners", "learn HTML & CSS", "how to learn HTML & CSS", "is HTML & CSS hard to learn", "HTML & CSS for kids"],
     differentiation:
       "HTML and CSS have some of the largest free self-paced libraries online — freeCodeCamp, W3Schools, Codecademy — because the basics are genuinely easy to find for free. Where a TutorA tutor adds value is live feedback on your actual layout: why a flexbox isn't behaving, why your page looks different on mobile, why your CSS specificity is fighting itself. Sessions are 1:1 and matched to your level, and every tutor is reviewed before being paired with you. TutorA's HTML & CSS tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     courseDetail:
@@ -296,6 +304,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "computer-science-758eff7f": {
+    keywords: ["Computer Science tutor", "Computer Science classes online", "Computer Science tutor near me", "private Computer Science tutor", "best Computer Science tutor", "1:1 Computer Science tutoring", "Computer Science course for beginners", "learn Computer Science", "how to learn Computer Science", "is Computer Science hard to learn", "Computer Science for kids"],
     differentiation:
       "Computer science has no shortage of free and paid self-paced material — MOOCs, textbook-based Coursera specializations, YouTube lecture series. They're a reasonable first exposure to concepts like algorithms or data structures, but they don't stop to answer your specific question about why a proof or a piece of code isn't working. A TutorA computer science tutor works through the actual material you're studying — coursework, interview prep, a specific topic — in live 1:1 sessions matched to your level. Every tutor is reviewed before being matched, and pricing is shown before you book. The Computer Science tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -334,6 +343,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "data-science-6209e272": {
+    keywords: ["Data Science tutor", "Data Science classes online", "Data Science tutor near me", "private Data Science tutor", "best Data Science tutor", "1:1 Data Science tutoring", "Data Science course for beginners", "learn Data Science", "how to learn Data Science", "is Data Science hard to learn", "Data Science for kids"],
     differentiation:
       "Data science has become a crowded self-paced category — Coursera specializations, Udemy bootcamp bundles, exercise-driven courses on other platforms. They're useful for a structured first pass, but they can't look at your actual dataset or explain why your model isn't behaving the way a textbook example does. A TutorA data science tutor works with you live and 1:1, adapting to the tools and problems you're actually using — Python, statistics, a specific project — rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown upfront. The Data Science tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -372,6 +382,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ai-machine-learning-advanced-e4eabe28": {
+    keywords: ["AI & Machine Learning (Advanced) tutor", "AI & Machine Learning (Advanced) classes online", "AI & Machine Learning (Advanced) tutor near me", "private AI & Machine Learning (Advanced) tutor", "best AI & Machine Learning (Advanced) tutor", "1:1 AI & Machine Learning (Advanced) tutoring", "AI & Machine Learning (Advanced) course for beginners", "learn AI & Machine Learning (Advanced)", "how to learn AI & Machine Learning (Advanced)", "is AI & Machine Learning (Advanced) hard to learn", "AI & Machine Learning (Advanced) for kids"],
     differentiation:
       "Advanced AI and machine learning courses on Coursera, Udemy, or standalone MOOCs can walk you through the math and code at a fixed pace, but they can't debug why your specific model isn't converging or answer a follow-up question about your actual project. A TutorA tutor works with you live and 1:1 on the material you're actually stuck on — a specific architecture, a paper, a project — rather than a one-size-fits-all syllabus. Every tutor is reviewed before being matched, and pricing is shown before you book. Most AI & Machine Learning tutoring on TutorA comes from India-based tutors with real, verifiable programming experience listed on their own profile.",
     courseDetail:
@@ -410,6 +421,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ai-for-beginners-0939362a": {
+    keywords: ["AI for Beginners tutor", "AI for Beginners classes online", "AI for Beginners tutor near me", "private AI for Beginners tutor", "best AI for Beginners tutor", "1:1 AI for Beginners tutoring", "AI for Beginners course for beginners", "learn AI for Beginners", "how to learn AI for Beginners", "is AI for Beginners hard to learn", "AI for Beginners for kids"],
     differentiation:
       "There's no shortage of beginner-friendly AI content online — YouTube explainers, Coursera's introductory specializations, short Udemy courses. They're a fine starting point, but they move at the same pace for everyone and can't answer your specific follow-up question. A TutorA AI for Beginners tutor works with you live, 1:1, explaining concepts at your pace rather than a fixed video timeline. Every tutor is reviewed before being matched, and pricing is shown before you book — no bundled subscription. TutorA's AI tutors are predominantly based in India, reviewed before being matched rather than assigned automatically — their profile shows their actual coding background.",
     courseDetail:
@@ -448,6 +460,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "react-for-beginners-327c29e1": {
+    keywords: ["React for Beginners tutor", "React for Beginners classes online", "React for Beginners tutor near me", "private React for Beginners tutor", "best React for Beginners tutor", "1:1 React for Beginners tutoring", "React for Beginners course for beginners", "learn React for Beginners", "how to learn React for Beginners", "is React for Beginners hard to learn", "React for Beginners for kids"],
     differentiation:
       "React tutorials and bootcamp-style courses are everywhere — Udemy, freeCodeCamp, the official docs' own walkthrough. They're a reasonable way to see the syntax once, but they can't debug why your specific component isn't re-rendering or explain a concept a second way if the first explanation didn't land. A TutorA React tutor works with your actual code in live 1:1 sessions, adjusting to what you're building rather than a fixed course outline. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's React tutors are based in India, and each profile shows their specific programming background, so you know who you'd be working with before you book.",
     courseDetail:
@@ -486,6 +499,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "scratch-programming-for-kids-7fa6fba9": {
+    keywords: ["Scratch Programming for Kids tutor", "Scratch Programming for Kids classes online", "Scratch Programming for Kids tutor near me", "private Scratch Programming for Kids tutor", "best Scratch Programming for Kids tutor", "1:1 Scratch Programming for Kids tutoring", "Scratch Programming for Kids course for beginners", "learn Scratch Programming for Kids", "how to learn Scratch Programming for Kids", "is Scratch Programming for Kids hard to learn", "Scratch Programming for Kids for kids"],
     differentiation:
       "Scratch has plenty of free tutorials built for kids, from the Scratch website's own guides to YouTube channels. They're a fine way to poke around on your own, but a child working alone can get stuck on a small logic problem and lose interest fast. A TutorA Scratch tutor works with your child live and 1:1, guiding them through the specific project they're building rather than a generic, one-size-fits-all lesson. Every tutor is reviewed before being matched, and pricing is shown before you book. Your child's tutor is, in most cases, based in India and already vetted by our team beforehand — you can check their profile and real background before the first session.",
     courseDetail:
@@ -524,6 +538,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "robotics-for-kids-3b988a24": {
+    keywords: ["Robotics for Kids tutor", "Robotics for Kids classes online", "Robotics for Kids tutor near me", "private Robotics for Kids tutor", "best Robotics for Kids tutor", "1:1 Robotics for Kids tutoring", "Robotics for Kids course for beginners", "learn Robotics for Kids", "how to learn Robotics for Kids", "is Robotics for Kids hard to learn", "Robotics for Kids for kids"],
     differentiation:
       "Robotics kits for kids increasingly come with their own self-paced video content, and there are general robotics tutorials online too. Those are fine for a first look, but robotics is hands-on by nature — a child working through a build or a coding step alone can get stuck in a way a video can't help with. A TutorA robotics tutor works with your child live and 1:1, troubleshooting the actual build or code in real time rather than a fixed lesson sequence. Every tutor is reviewed before being matched, with pricing shown before you book. Most tutors matched for this subject are based in India, with our team reviewing them first — their profile is there for you to check before booking.",
     courseDetail:
@@ -566,6 +581,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // Languages (14)
   // ---------------------------------------------------------------------
   "spanish-2dd27e6e": {
+    keywords: ["Spanish tutor", "Spanish classes online", "Spanish tutor near me", "private Spanish tutor", "best Spanish tutor", "1:1 Spanish tutoring", "Spanish course for beginners", "learn Spanish", "how to learn Spanish", "is Spanish hard to learn", "Spanish for kids"],
     differentiation:
       "Spanish is one of the most-covered languages on self-paced apps like Duolingo and Babbel, plus structured courses on Coursera. Those are useful for vocabulary drills, but they can't hold a real conversation with you or correct your pronunciation in the moment. A TutorA Spanish tutor gives you live 1:1 conversation and correction, matched to your actual level and goals — exam prep, travel, conversational fluency — rather than a fixed app curriculum. Every tutor is reviewed before being matched, and pricing is shown before you book.",
     courseDetail:
@@ -603,6 +619,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "french-520eb7f0": {
+    keywords: ["French tutor", "French classes online", "French tutor near me", "private French tutor", "best French tutor", "1:1 French tutoring", "French course for beginners", "learn French", "how to learn French", "is French hard to learn", "French for kids"],
     differentiation:
       "French has a deep self-paced ecosystem too — Duolingo, Babbel, and structured Coursera courses all cover grammar and vocabulary. What they can't do is have an actual conversation with you or catch a pronunciation habit before it sets in. A TutorA French tutor works with you live and 1:1, correcting and conversing in real time and adjusting to your specific goals, whether that's exam prep, travel, or general fluency. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -640,6 +657,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "german-a83fb505": {
+    keywords: ["German tutor", "German classes online", "German tutor near me", "private German tutor", "best German tutor", "1:1 German tutoring", "German course for beginners", "learn German", "how to learn German", "is German hard to learn", "German for kids"],
     differentiation:
       "Free and paid self-paced German content is easy to find, from Duolingo's gamified lessons to Babbel's structured courses. They're fine for building vocabulary on your own time, but German's case system and word order trip up a lot of self-taught learners in ways an app doesn't catch. A TutorA German tutor works through your actual mistakes with you live, 1:1, at a pace matched to your level rather than a fixed app track. Every tutor is reviewed before being matched, and pricing is shown before you book.",
     courseDetail:
@@ -677,6 +695,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "italian-0bce3f0c": {
+    keywords: ["Italian tutor", "Italian classes online", "Italian tutor near me", "private Italian tutor", "best Italian tutor", "1:1 Italian tutoring", "Italian course for beginners", "learn Italian", "how to learn Italian", "is Italian hard to learn", "Italian for kids"],
     differentiation:
       "Italian has plenty of self-paced options — Duolingo, Babbel, Coursera-style courses — that cover vocabulary and basic grammar well. What they can't offer is real conversation practice or pronunciation correction in the moment. A TutorA Italian tutor works with you live and 1:1, matched to your actual goals, whether that's travel conversation, grammar, or exam preparation. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -718,6 +737,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "portuguese-4702233f": {
+    keywords: ["Portuguese tutor", "Portuguese classes online", "Portuguese tutor near me", "private Portuguese tutor", "best Portuguese tutor", "1:1 Portuguese tutoring", "Portuguese course for beginners", "learn Portuguese", "how to learn Portuguese", "is Portuguese hard to learn", "Portuguese for kids"],
     differentiation:
       "Portuguese self-paced options exist — Duolingo, Babbel, and general online courses — but they cover a fairly generic version of the language and can't tell you whether you're picking up European or Brazilian pronunciation habits that don't fit your goal. A TutorA Portuguese tutor works with you live, matched to what you actually need — a specific variant, conversation practice, or grammar — rather than a fixed app track. Every tutor is reviewed before being matched, and pricing is shown before you book.",
     courseDetail:
@@ -755,6 +775,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "russian-7692b797": {
+    keywords: ["Russian tutor", "Russian classes online", "Russian tutor near me", "private Russian tutor", "best Russian tutor", "1:1 Russian tutoring", "Russian course for beginners", "learn Russian", "how to learn Russian", "is Russian hard to learn", "Russian for kids"],
     differentiation:
       "Russian is covered by the usual self-paced apps and Coursera-style courses, but its alphabet, case system, and pronunciation are exactly the kind of thing that benefits from a real person listening and correcting you, not a repeat-after-the-recording exercise. A TutorA Russian tutor works with you live, 1:1, matched to your level and goals. Every tutor is reviewed before being matched, and pricing is shown before you book — no bundled subscription.",
     courseDetail:
@@ -792,6 +813,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "chinese-mandarin-81d5f035": {
+    keywords: ["Chinese (Mandarin) tutor", "Chinese (Mandarin) classes online", "Chinese (Mandarin) tutor near me", "private Chinese (Mandarin) tutor", "best Chinese (Mandarin) tutor", "1:1 Chinese (Mandarin) tutoring", "Chinese (Mandarin) course for beginners", "learn Chinese (Mandarin)", "how to learn Chinese (Mandarin)", "is Chinese (Mandarin) hard to learn", "Chinese (Mandarin) for kids"],
     differentiation:
       "Mandarin has a huge self-paced footprint — Duolingo, dedicated language apps, and structured online courses. They're useful for characters and vocabulary, but Mandarin's tones are genuinely hard to self-correct from an app; you need someone listening to tell you when a tone is off. A TutorA Mandarin tutor works with you live, 1:1, correcting pronunciation and tone in real time and adjusting to your goals — conversation, characters, or exam prep. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -829,6 +851,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "japanese-34b5d228": {
+    keywords: ["Japanese tutor", "Japanese classes online", "Japanese tutor near me", "private Japanese tutor", "best Japanese tutor", "1:1 Japanese tutoring", "Japanese course for beginners", "learn Japanese", "how to learn Japanese", "is Japanese hard to learn", "Japanese for kids"],
     differentiation:
       "Japanese has a large self-paced following — Duolingo, dedicated apps, and structured online courses covering hiragana, katakana, and kanji. They're fine for memorization drills, but conversation practice and pronunciation feedback are hard to get from an app alone. A TutorA Japanese tutor works with you live, 1:1, matched to your level — whether that's starting with the writing systems or working on conversational fluency. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -866,6 +889,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "korean-3be8ff00": {
+    keywords: ["Korean tutor", "Korean classes online", "Korean tutor near me", "private Korean tutor", "best Korean tutor", "1:1 Korean tutoring", "Korean course for beginners", "learn Korean", "how to learn Korean", "is Korean hard to learn", "Korean for kids"],
     differentiation:
       "Korean has grown into a well-covered self-paced category — Duolingo, dedicated apps, and YouTube channels all offer structured lessons. They're a reasonable way to pick up vocabulary, but conversation practice and pronunciation feedback are hard to get without a real person listening. A TutorA Korean tutor works with you live, 1:1, matched to your goals, whether that's Hangul basics, grammar, or conversational fluency. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -903,6 +927,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "arabic-bee72fa4": {
+    keywords: ["Arabic tutor", "Arabic classes online", "Arabic tutor near me", "private Arabic tutor", "best Arabic tutor", "1:1 Arabic tutoring", "Arabic course for beginners", "learn Arabic", "how to learn Arabic", "is Arabic hard to learn", "Arabic for kids"],
     differentiation:
       "Arabic self-paced options exist, but the language varies significantly by dialect and register in ways a generic app course often glosses over. A TutorA Arabic tutor can work with you on the specific variant you need — Modern Standard Arabic, a regional dialect, or a mix — in live 1:1 sessions, correcting pronunciation and adapting to your goals as you go. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -940,6 +965,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "hindi-language-course-459bc4ba": {
+    keywords: ["Hindi tutor", "Hindi classes online", "Hindi tutor near me", "private Hindi tutor", "best Hindi tutor", "1:1 Hindi tutoring", "Hindi course for beginners", "learn Hindi", "how to learn Hindi", "is Hindi hard to learn", "Hindi for kids"],
     differentiation:
       "Hindi has some self-paced coverage on general language apps, but it's far thinner than the catalog for languages like Spanish or French — which makes structured, real conversation practice even more valuable. A TutorA Hindi tutor works with you live, 1:1, matched to your goals, whether that's conversational fluency, reading Devanagari script, or preparing for a specific context like family or travel. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -977,6 +1003,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "sanskrit-5eea98ab": {
+    keywords: ["Sanskrit tutor", "Sanskrit classes online", "Sanskrit tutor near me", "private Sanskrit tutor", "best Sanskrit tutor", "1:1 Sanskrit tutoring", "Sanskrit course for beginners", "learn Sanskrit", "how to learn Sanskrit", "is Sanskrit hard to learn", "Sanskrit for kids"],
     differentiation:
       "Sanskrit has very little dedicated coverage on mainstream self-paced apps compared to modern spoken languages — most free content is scattered across forums, textbooks, and academic sites rather than a structured course. A TutorA Sanskrit tutor gives you live, 1:1 guidance matched to your actual goal, whether that's grammar, reading classical texts, or a specific academic or personal interest. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1014,6 +1041,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "spoken-english-course-5dbc4867": {
+    keywords: ["Spoken English tutor", "Spoken English classes online", "Spoken English tutor near me", "private Spoken English tutor", "best Spoken English tutor", "1:1 Spoken English tutoring", "Spoken English course for beginners", "learn Spoken English", "how to learn Spoken English", "is Spoken English hard to learn", "Spoken English for kids"],
     differentiation:
       "Spoken English practice is available through apps and generic conversation-practice tools, but they mostly work from scripted prompts rather than a real, responsive conversation. A TutorA Spoken English tutor gives you live 1:1 conversation practice, correcting pronunciation, fluency, and confidence in real time and adapting to your specific goals — everyday conversation, workplace communication, or general confidence. Every tutor is reviewed before being matched, with pricing shown before you book. For Spoken English, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     courseDetail:
@@ -1052,6 +1080,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "business-english-course-e6a73822": {
+    keywords: ["Business English tutor", "Business English classes online", "Business English tutor near me", "private Business English tutor", "best Business English tutor", "1:1 Business English tutoring", "Business English course for beginners", "learn Business English", "how to learn Business English", "is Business English hard to learn", "Business English for kids"],
     differentiation:
       "Business English content online tends to be generic — templated email phrases, canned presentation scripts — rather than tailored to your actual role or industry. A TutorA Business English tutor works with you live, 1:1, on the specific communication situations you deal with, whether that's emails, meetings, presentations, or negotiation, rather than a fixed set of templates. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's Business English tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     courseDetail:
@@ -1094,6 +1123,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // Creative Skills (5)
   // ---------------------------------------------------------------------
   "adobe-photoshop-394813c4": {
+    keywords: ["Adobe Photoshop tutor", "Adobe Photoshop classes online", "Adobe Photoshop tutor near me", "private Adobe Photoshop tutor", "best Adobe Photoshop tutor", "1:1 Adobe Photoshop tutoring", "Adobe Photoshop course for beginners", "learn Adobe Photoshop", "how to learn Adobe Photoshop", "is Adobe Photoshop hard to learn", "Adobe Photoshop for kids"],
     differentiation:
       "Photoshop has a massive self-paced footprint — Udemy bundles, Skillshare classes, YouTube tutorials for nearly every technique. They're good for watching someone else work, but they can't look at your actual file and tell you why your layer isn't blending the way you expect. A TutorA Photoshop tutor works with your real project live, 1:1, adjusting to what you're actually trying to make rather than a fixed tutorial sequence. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's Adobe Photoshop tutors are based in India, and each profile shows their specific programming background, so you know who you'd be working with before you book.",
     courseDetail:
@@ -1132,6 +1162,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "adobe-illustrator-51e96821": {
+    keywords: ["Adobe Illustrator tutor", "Adobe Illustrator classes online", "Adobe Illustrator tutor near me", "private Adobe Illustrator tutor", "best Adobe Illustrator tutor", "1:1 Adobe Illustrator tutoring", "Adobe Illustrator course for beginners", "learn Adobe Illustrator", "how to learn Adobe Illustrator", "is Adobe Illustrator hard to learn", "Adobe Illustrator for kids"],
     differentiation:
       "Illustrator tutorials are common on Skillshare, Udemy, and YouTube, and they're fine for learning a specific technique in isolation. What they can't do is look at your actual vector artwork and explain why your paths or anchor points aren't behaving. A TutorA Illustrator tutor works with your real file in live 1:1 sessions, adapting to your project and skill level rather than a fixed course order. Every tutor is reviewed before being matched, with pricing shown before you book. The Adobe Illustrator tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -1170,6 +1201,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "graphic-design-a6240a94": {
+    keywords: ["Graphic Design tutor", "Graphic Design classes online", "Graphic Design tutor near me", "private Graphic Design tutor", "best Graphic Design tutor", "1:1 Graphic Design tutoring", "Graphic Design course for beginners", "learn Graphic Design", "how to learn Graphic Design", "is Graphic Design hard to learn", "Graphic Design for kids"],
     differentiation:
       "Graphic design has an enormous self-paced catalog — Skillshare classes, Domestika courses, Udemy bundles covering everything from typography to branding. They're a fine way to see principles explained once, but design feedback is inherently personal, and a fixed video can't critique your actual portfolio piece. A TutorA graphic design tutor reviews your real work live, 1:1, and gives feedback matched to your specific project and goals. Every tutor is reviewed before being matched, with pricing shown before you book. The Graphic Design tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -1208,6 +1240,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ui-ux-design-85bad5a6": {
+    keywords: ["UI/UX Design tutor", "UI/UX Design classes online", "UI/UX Design tutor near me", "private UI/UX Design tutor", "best UI/UX Design tutor", "1:1 UI/UX Design tutoring", "UI/UX Design course for beginners", "learn UI/UX Design", "how to learn UI/UX Design", "is UI/UX Design hard to learn", "UI/UX Design for kids"],
     differentiation:
       "UI/UX has a crowded self-paced market — Coursera's UX certificate programs, Udemy bootcamp-style bundles, Skillshare classes on specific tools like Figma. They're useful for learning process and terminology, but good UX feedback depends on someone actually looking at your flows and critiquing your decisions. A TutorA UI/UX tutor reviews your real designs or portfolio live, 1:1, matched to your specific project and goals rather than a fixed curriculum. Every tutor is reviewed before being matched, with pricing shown before you book. Most of TutorA's UI/UX Design tutors are based in India, and each profile shows their specific programming background, so you know who you'd be working with before you book.",
     courseDetail:
@@ -1246,6 +1279,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "video-editing-55a060cd": {
+    keywords: ["Video Editing tutor", "Video Editing classes online", "Video Editing tutor near me", "private Video Editing tutor", "best Video Editing tutor", "1:1 Video Editing tutoring", "Video Editing course for beginners", "learn Video Editing", "how to learn Video Editing", "is Video Editing hard to learn", "Video Editing for kids"],
     differentiation:
       "Video editing tutorials are everywhere for free — YouTube walkthroughs, Skillshare classes, Udemy bundles for specific software. They're useful for learning a tool's interface, but they can't look at your actual footage or project file and tell you why your cut isn't working. A TutorA video editing tutor works with your real project live, 1:1, adapting to your software and the specific problem you're solving. Every tutor is reviewed before being matched, with pricing shown before you book. The Video Editing tutor you're matched with is usually India-based — their profile lists real project and language experience, not just a generic bio.",
     courseDetail:
@@ -1288,6 +1322,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // Music & Instruments (6)
   // ---------------------------------------------------------------------
   "guitar-a7d7f6aa": {
+    keywords: ["Guitar tutor", "Guitar lessons online", "Guitar tutor near me", "private Guitar tutor", "best Guitar tutor", "1:1 Guitar tutoring", "Guitar classes online", "Guitar course for beginners", "learn Guitar", "how to learn Guitar", "is Guitar hard to learn", "Guitar for kids"],
     differentiation:
       "Guitar has some of the best free self-paced content online — JustinGuitar's full course, Yousician's app-based lessons, countless YouTube channels. They're genuinely good for the basics, but they can't watch your hand position or hear that your chord is buzzing because of one misplaced finger. A TutorA guitar tutor watches and listens to you play live, 1:1, correcting technique in real time rather than leaving you to guess from a video. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1325,6 +1360,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "piano-02656f00": {
+    keywords: ["Piano tutor", "Piano lessons online", "Piano tutor near me", "private Piano tutor", "best Piano tutor", "1:1 Piano tutoring", "Piano classes online", "Piano course for beginners", "learn Piano", "how to learn Piano", "is Piano hard to learn", "Piano for kids"],
     differentiation:
       "Piano has strong self-paced options — apps like Simply Piano and Flowkey use your device's camera or audio input to give automated feedback, and there's plenty of free sheet music and tutorials online. They're useful for practice between sessions, but automated feedback isn't the same as a real teacher hearing your dynamics and phrasing. A TutorA piano tutor listens and watches you play live, 1:1, and adjusts lessons to your actual progress and goals. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1362,6 +1398,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "violin-c7b9774e": {
+    keywords: ["Violin tutor", "Violin lessons online", "Violin tutor near me", "private Violin tutor", "best Violin tutor", "1:1 Violin tutoring", "Violin classes online", "Violin course for beginners", "learn Violin", "how to learn Violin", "is Violin hard to learn", "Violin for kids"],
     differentiation:
       "Violin has fewer strong self-paced options than guitar or piano, and for good reason — bow technique and intonation are genuinely hard to self-correct without someone listening and watching closely. A TutorA violin tutor works with you live, 1:1, hearing your intonation and watching your bow hold and posture in real time, rather than leaving you to guess from a video. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1399,6 +1436,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "singing-2d883ea7": {
+    keywords: ["Singing tutor", "Singing lessons online", "Singing tutor near me", "private Singing tutor", "best Singing tutor", "1:1 Singing tutoring", "Singing classes online", "Singing course for beginners", "learn Singing", "how to learn Singing", "is Singing hard to learn", "Singing for kids"],
     differentiation:
       "Singing has some self-paced apps and YouTube vocal warm-up channels, but vocal technique is one of the hardest things to safely self-teach — bad habits can strain your voice, and an app can't reliably hear whether your breath support or pitch is actually correct. A TutorA singing tutor listens to you live, 1:1, and gives real-time feedback on technique, breathing, and pitch, adjusted to your voice and goals. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1436,6 +1474,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "music-theory-88e94e5a": {
+    keywords: ["Music Theory tutor", "Music Theory lessons online", "Music Theory tutor near me", "private Music Theory tutor", "best Music Theory tutor", "1:1 Music Theory tutoring", "Music Theory classes online", "Music Theory course for beginners", "learn Music Theory", "how to learn Music Theory", "is Music Theory hard to learn", "Music Theory for kids"],
     differentiation:
       "Music theory has decent free coverage online — YouTube explainers, dedicated theory sites, and structured Coursera courses. They're fine for learning the rules in isolation, but applying theory to your own playing or composition is where a fixed course tends to fall short. A TutorA music theory tutor works with you live, 1:1, connecting concepts to the instrument or music you're actually working on. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1473,6 +1512,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "dance-8f1859ae": {
+    keywords: ["Dance tutor", "Dance lessons online", "Dance tutor near me", "private Dance tutor", "best Dance tutor", "1:1 Dance tutoring", "Dance classes online", "Dance course for beginners", "learn Dance", "how to learn Dance", "is Dance hard to learn", "Dance for kids"],
     differentiation:
       "Dance tutorials are widely available on YouTube and apps, and they're fine for learning a routine in isolation. What they can't do is watch your actual form and correct your posture, timing, or technique in real time — which matters a lot in dance. A TutorA dance tutor works with you live, 1:1, watching you move and adjusting to your style and goals rather than a fixed video routine. Every tutor is reviewed before being matched, with pricing shown before you book.",
     courseDetail:
@@ -1516,6 +1556,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
   // marketplaces (Wyzant), not self-paced course platforms — so the differentiation angle
   // is 1:1 personal matching + the guarantee, not "live tutor vs. video course."
   "sat-c5d2749b": {
+    keywords: ["SAT tutor", "SAT tutoring online", "SAT tutor near me", "private SAT tutor", "1:1 SAT tutoring", "best SAT tutor", "online SAT classes", "SAT prep course", "SAT tutoring cost", "SAT score guarantee", "SAT tutoring for high schoolers", "SAT exam prep", "how much does SAT tutoring cost", "SAT study plan", "when to start SAT prep", "SAT practice test", "SAT test dates", "what is the SAT"],
     differentiation:
       "SAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual SAT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for SAT at no extra cost. The tutor you're matched with for SAT Prep is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     courseDetail:
@@ -1539,6 +1580,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "act-dccdc694": {
+    keywords: ["ACT tutor", "ACT tutoring online", "ACT tutor near me", "private ACT tutor", "1:1 ACT tutoring", "best ACT tutor", "online ACT classes", "ACT prep course", "ACT tutoring cost", "ACT score guarantee", "ACT tutoring for high schoolers", "ACT exam prep", "how much does ACT tutoring cost", "ACT study plan", "when to start ACT prep", "ACT practice test", "ACT test dates", "what is the ACT"],
     differentiation:
       "ACT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual ACT tutor for 1:1 sessions built around your actual weak spots. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for ACT at no extra cost. The tutor you're matched with for ACT Prep is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     courseDetail:
@@ -1562,6 +1604,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "psat-preparation-course-4b552b9e": {
+    keywords: ["PSAT tutor", "PSAT tutoring online", "PSAT tutor near me", "private PSAT tutor", "1:1 PSAT tutoring", "best PSAT tutor", "online PSAT classes", "PSAT prep course", "PSAT tutoring cost", "PSAT score guarantee", "PSAT tutoring for high schoolers", "PSAT exam prep", "how much does PSAT tutoring cost", "PSAT study plan", "when to start PSAT prep", "PSAT practice test", "PSAT test dates", "what is the PSAT"],
     differentiation:
       "PSAT prep often gets treated as an afterthought bundled into SAT courses. TutorA matches you with a tutor specifically for the PSAT — its own format, timing, and scoring — through personally reviewed 1:1 sessions rather than a repurposed SAT curriculum. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PSAT at no extra cost. For PSAT Preparation, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     courseDetail:
@@ -1585,6 +1628,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "gre-a2b8cace": {
+    keywords: ["GRE tutor", "GRE tutoring online", "GRE tutor near me", "private GRE tutor", "1:1 GRE tutoring", "best GRE tutor", "online GRE classes", "GRE prep course", "GRE tutoring cost", "GRE score guarantee", "GRE tutoring for high schoolers", "GRE exam prep", "how much does GRE tutoring cost", "GRE study plan", "when to start GRE prep", "GRE practice test", "GRE test dates", "what is the GRE"],
     differentiation:
       "GRE prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GRE tutor for 1:1 sessions built around your actual weak spots — quant, verbal, or the analytical writing section specifically. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GRE at no extra cost. TutorA matches most GRE Preparation students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     courseDetail:
@@ -1608,6 +1652,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "gmat-d7e5eb9d": {
+    keywords: ["GMAT tutor", "GMAT tutoring online", "GMAT tutor near me", "private GMAT tutor", "1:1 GMAT tutoring", "best GMAT tutor", "online GMAT classes", "GMAT prep course", "GMAT tutoring cost", "GMAT score guarantee", "GMAT tutoring for high schoolers", "GMAT exam prep", "how much does GMAT tutoring cost", "GMAT study plan", "when to start GMAT prep", "GMAT practice test", "GMAT test dates", "what is the GMAT"],
     differentiation:
       "GMAT prep is dominated by big test-prep companies with fixed curricula and class-sized cohorts, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual GMAT tutor for 1:1 sessions built around your actual weak spots — quant, verbal, data insights, or the full test. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for GMAT at no extra cost. For GMAT Preparation, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     courseDetail:
@@ -1631,6 +1676,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "toefl-3a2e48ed": {
+    keywords: ["TOEFL tutor", "TOEFL tutoring online", "TOEFL tutor near me", "private TOEFL tutor", "1:1 TOEFL tutoring", "best TOEFL tutor", "online TOEFL classes", "TOEFL prep course", "TOEFL tutoring cost", "TOEFL score guarantee", "TOEFL tutoring for high schoolers", "TOEFL exam prep", "how much does TOEFL tutoring cost", "TOEFL study plan", "when to start TOEFL prep", "TOEFL practice test", "TOEFL test dates", "what is the TOEFL"],
     differentiation:
       "TOEFL prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual TOEFL tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for TOEFL at no extra cost. The tutor you're matched with for TOEFL Preparation is, in most cases, based in India and already vetted by our team — check their profile for their real background before you book.",
     courseDetail:
@@ -1654,6 +1700,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ielts-8d4686db": {
+    keywords: ["IELTS tutor", "IELTS tutoring online", "IELTS tutor near me", "private IELTS tutor", "1:1 IELTS tutoring", "best IELTS tutor", "online IELTS classes", "IELTS prep course", "IELTS tutoring cost", "IELTS score guarantee", "IELTS tutoring for high schoolers", "IELTS exam prep", "how much does IELTS tutoring cost", "IELTS study plan", "when to start IELTS prep", "IELTS practice test", "IELTS test dates", "what is the IELTS"],
     differentiation:
       "IELTS prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual IELTS tutor for 1:1 sessions built around your actual weak spots — reading, listening, speaking, or writing, Academic or General Training. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for IELTS at no extra cost. Most of TutorA's IELTS Preparation tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     courseDetail:
@@ -1677,6 +1724,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "pte-302557b2": {
+    keywords: ["PTE Academic tutor", "PTE Academic tutoring online", "PTE Academic tutor near me", "private PTE Academic tutor", "1:1 PTE Academic tutoring", "best PTE Academic tutor", "online PTE Academic classes", "PTE Academic prep course", "PTE Academic tutoring cost", "PTE Academic score guarantee", "PTE Academic tutoring for high schoolers", "PTE Academic exam prep", "how much does PTE Academic tutoring cost", "PTE Academic study plan", "when to start PTE Academic prep", "PTE Academic practice test", "PTE Academic test dates", "what is the PTE Academic"],
     differentiation:
       "PTE Academic prep is dominated by big test-prep companies with fixed curricula, or open marketplaces where you're picking a stranger's profile yourself. TutorA does neither: your request is personally reviewed and matched with an individual PTE tutor for 1:1 sessions built around the test's specific computer-based format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else for PTE at no extra cost. TutorA matches most PTE Academic Preparation students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     courseDetail:
@@ -1700,6 +1748,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "duolingo-english-test-preparation-course-3e98dca7": {
+    keywords: ["Duolingo English Test tutor", "Duolingo English Test tutoring online", "Duolingo English Test tutor near me", "private Duolingo English Test tutor", "1:1 Duolingo English Test tutoring", "best Duolingo English Test tutor", "online Duolingo English Test classes", "Duolingo English Test prep course", "Duolingo English Test tutoring cost", "Duolingo English Test score guarantee", "Duolingo English Test tutoring for high schoolers", "Duolingo English Test exam prep", "how much does Duolingo English Test tutoring cost", "Duolingo English Test study plan", "when to start Duolingo English Test prep", "Duolingo English Test practice test", "Duolingo English Test test dates", "what is the Duolingo English Test"],
     differentiation:
       "Duolingo English Test prep is a newer category with far less dedicated tutoring coverage than SAT or IELTS. TutorA matches you with a tutor for 1:1 sessions built around the test's specific adaptive, computer-based format rather than generic English-language material. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. TutorA matches most Duolingo English Test Preparation students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     courseDetail:
@@ -1723,6 +1772,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "gcse-preparation-course-97ec8c86": {
+    keywords: ["GCSE tutor", "GCSE tutoring online", "GCSE tutor near me", "online GCSE tuition", "private GCSE tutor", "1:1 GCSE tutoring", "best GCSE tutor", "GCSE tutoring cost", "GCSE revision help", "GCSE exam prep", "GCSE tutoring for year 10 students", "how much does GCSE tutoring cost", "GCSE revision timetable", "GCSE past papers", "GCSE syllabus", "what is GCSE"],
     differentiation:
       "GCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific GCSE subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. TutorA matches most GCSE Preparation students with an India-based tutor, reviewed by our team beforehand, with a profile that shows their specific experience before you commit.",
     courseDetail:
@@ -1746,6 +1796,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "gcse-english-017a23a5": {
+    keywords: ["GCSE English tutor", "GCSE English tutoring online", "GCSE English tutor near me", "online GCSE English tuition", "private GCSE English tutor", "1:1 GCSE English tutoring", "best GCSE English tutor", "GCSE English tutoring cost", "GCSE English revision help", "GCSE English exam prep", "GCSE English tutoring for year 10 students", "how much does GCSE English tutoring cost", "GCSE English revision timetable", "GCSE English past papers", "GCSE English syllabus", "what is GCSE English"],
     differentiation:
       "GCSE English is its own subject with its own exam structure — language and literature papers, coursework conventions, exam-board-specific texts. TutorA matches you with a tutor personally reviewed by our team for live 1:1 sessions built around your specific exam board and paper, rather than generic English tutoring. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's GCSE English tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     courseDetail:
@@ -1769,6 +1820,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "igcse-preparation-course-5ed7859f": {
+    keywords: ["IGCSE tutor", "IGCSE tutoring online", "IGCSE tutor near me", "online IGCSE tuition", "private IGCSE tutor", "1:1 IGCSE tutoring", "best IGCSE tutor", "IGCSE tutoring cost", "IGCSE revision help", "IGCSE exam prep", "IGCSE tutoring for year 10 students", "how much does IGCSE tutoring cost", "IGCSE revision timetable", "IGCSE past papers", "IGCSE syllabus", "what is IGCSE"],
     differentiation:
       "IGCSE tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IGCSE subject and exam board (Cambridge, Edexcel, etc.) where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. For IGCSE Preparation, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     courseDetail:
@@ -1792,6 +1844,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "a-level-preparation-course-6ede4ec7": {
+    keywords: ["A Level tutor", "A Level tutoring online", "A Level tutor near me", "online A Level tuition", "private A Level tutor", "1:1 A Level tutoring", "best A Level tutor", "A Level tutoring cost", "A Level revision help", "A Level exam prep", "A Level tutoring for year 10 students", "how much does A Level tutoring cost", "A Level revision timetable", "A Level past papers", "A Level syllabus", "what is A Level"],
     differentiation:
       "A Level tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific A Level subject and exam board where possible. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's A-Level Preparation tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     courseDetail:
@@ -1815,6 +1868,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ib-diploma-preparation-course-9e537a20": {
+    keywords: ["IB Diploma tutor", "IB Diploma tutoring online", "IB Diploma tutor near me", "online IB Diploma tuition", "private IB Diploma tutor", "1:1 IB Diploma tutoring", "best IB Diploma tutor", "IB Diploma tutoring cost", "IB Diploma revision help", "IB Diploma exam prep", "IB Diploma tutoring for year 10 students", "how much does IB Diploma tutoring cost", "IB Diploma revision timetable", "IB Diploma past papers", "IB Diploma syllabus", "what is IB Diploma"],
     differentiation:
       "IB Diploma tutoring often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific IB subject, level (HL/SL), and — where relevant — the Extended Essay or Internal Assessment. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. For IB Diploma Preparation, most TutorA tutors are based in India and go through our team's review process before ever being matched — their profile lists their actual background.",
     courseDetail:
@@ -1838,6 +1892,7 @@ export const courseSubjectContent: Record<string, CourseSubjectContent> = {
     ],
   },
   "ap-exam-preparation-course-cceffa19": {
+    keywords: ["AP Exam tutor", "AP Exam tutoring online", "AP Exam tutor near me", "online AP Exam tuition", "private AP Exam tutor", "1:1 AP Exam tutoring", "best AP Exam tutor", "AP Exam tutoring cost", "AP Exam revision help", "AP Exam exam prep", "AP Exam tutoring for year 10 students", "how much does AP Exam tutoring cost", "AP Exam revision timetable", "AP Exam past papers", "AP Exam syllabus", "what is AP Exam"],
     differentiation:
       "AP prep often comes from either large tutoring agencies assigning whichever tutor is available, or open marketplaces where you're vetting a stranger's profile yourself. TutorA matches you with a tutor personally reviewed by our team, for live 1:1 sessions matched to your specific AP subject and exam format. Every match is backed by our Tutor Match Guarantee — if your first tutor isn't right, we match you with someone else at no extra cost. Most of TutorA's AP Exam Preparation tutors are based in India and reviewed by our team before being matched — their profile shows their specific background before you book.",
     courseDetail:
