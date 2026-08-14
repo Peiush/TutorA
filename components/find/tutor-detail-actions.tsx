@@ -8,6 +8,7 @@ import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
 import { toggleSavedTutor } from "@/app/lib/actions/saved-tutor";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import type { TutorSubjectOffering } from "@/app/lib/tutor-listings";
+import { SubjectIcon } from "@/components/ui/subject-icons";
 
 export function TutorDetailActions({
   tutorProfileId,
@@ -76,35 +77,52 @@ export function TutorDetailActions({
       {subjects.map((offering) => (
         <div
           key={offering.id}
-          className="flex items-center justify-between gap-3 rounded-[var(--radius-md)] px-4 py-3"
-          style={{ background: "var(--color-surface)" }}
+          className="subject-offering-card"
+          data-subject-card
         >
-          <div className="min-w-0">
-            <div className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-              {offering.subjectName}
-            </div>
-            {(offering.curriculum || offering.gradeLevel) && (
-              <div className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
-                {[offering.curriculum, offering.gradeLevel].filter(Boolean).join(" · ")}
+          <div className="subject-offering-topline">
+            <div className="subject-offering-title-wrap">
+              <span className="subject-offering-icon"><SubjectIcon subject={offering.subjectName} /></span>
+              <div className="min-w-0">
+              <div className="subject-offering-title">
+                {offering.subjectName}
               </div>
-            )}
+              {(offering.curriculum || offering.gradeLevel || offering.durationLabel) && (
+                <div className="subject-offering-meta">
+                  {[offering.curriculum, offering.gradeLevel, offering.durationLabel].filter(Boolean).join(" · ")}
+                </div>
+              )}
+              </div>
+            </div>
+            <div className="subject-offering-action">
+              <span className="subject-offering-price">{offering.priceLabel}</span>
+              <button
+                type="button"
+                className="btn btn-primary subject-request-button"
+                disabled={requestedSubjects.has(offering.subjectName) || requestingSubjectId === offering.id}
+                onClick={(e) => onRequest(offering, e.currentTarget)}
+              >
+                {requestedSubjects.has(offering.subjectName)
+                  ? "Requested"
+                  : requestingSubjectId === offering.id
+                    ? "Sending…"
+                    : "Request"}
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-3 flex-none">
-            <span className="text-[14px] font-semibold whitespace-nowrap">{offering.priceLabel}</span>
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ padding: "7px 16px", fontSize: 13 }}
-              disabled={requestedSubjects.has(offering.subjectName) || requestingSubjectId === offering.id}
-              onClick={(e) => onRequest(offering, e.currentTarget)}
-            >
-              {requestedSubjects.has(offering.subjectName)
-                ? "Requested"
-                : requestingSubjectId === offering.id
-                  ? "Sending…"
-                  : "Request"}
-            </button>
-          </div>
+
+          {offering.whatYoullLearn.length > 0 && (
+            <ul className="subject-learn-list">
+              {offering.whatYoullLearn.slice(0, 4).map((item) => (
+                <li
+                  key={item}
+                  className="subject-learn-item"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ))}
 
@@ -113,7 +131,7 @@ export function TutorDetailActions({
         aria-pressed={saved}
         disabled={savePending}
         onClick={onToggleSaved}
-        className="btn btn-ghost self-start mt-1"
+        className="btn btn-ghost tutor-save-button"
         style={{ opacity: savePending ? 0.6 : 1 }}
       >
         {saved ? "Saved to wishlist" : "Save to wishlist"}

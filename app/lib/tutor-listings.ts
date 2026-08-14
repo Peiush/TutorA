@@ -117,6 +117,8 @@ export interface TutorSubjectOffering {
   curriculum: string | null;
   gradeLevel: string | null;
   priceLabel: string;
+  whatYoullLearn: string[];
+  durationLabel: string | null;
 }
 
 export interface TutorProfileDetail {
@@ -148,6 +150,8 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
           gradeLevel: listing.subject.gradeLevel,
           priceLabel:
             listing.hourlyRateCents != null ? `$${Math.round(listing.hourlyRateCents / 100)}/hr` : "Rate on request",
+          whatYoullLearn: (listing.subject.whatYoullLearn ?? "").split("\n").filter(Boolean),
+          durationLabel: listing.subject.durationLabel,
         }))
       : p.subjects
           .split(",")
@@ -161,6 +165,8 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
             curriculum: null,
             gradeLevel: null,
             priceLabel: p.hourlyRateCents != null ? `$${Math.round(p.hourlyRateCents / 100)}/hr` : "Rate on request",
+            whatYoullLearn: [] as string[],
+            durationLabel: null,
           }));
 
   return {

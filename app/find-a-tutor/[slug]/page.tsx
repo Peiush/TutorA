@@ -6,6 +6,8 @@ import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { SubjectIcon } from "@/components/ui/subject-icons";
 import { TutorDetailActions } from "@/components/find/tutor-detail-actions";
+import { TutorDetailMotion } from "@/components/find/tutor-detail-motion";
+import { TutorProfileIllustration } from "@/components/find/tutor-profile-illustration";
 import {
   getTutorProfileBySlug,
   getApprovedTutorListings,
@@ -166,11 +168,12 @@ export default async function TutorDetailPage({
   };
 
   return (
-    <div className="max-w-[720px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,4vw,56px)]">
+    <TutorDetailMotion>
+    <div className="tutor-detail-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <nav aria-label="Breadcrumb" className="text-[13px] mb-5" style={{ color: "color-mix(in srgb, var(--color-text) 68%, transparent)" }}>
+      <nav aria-label="Breadcrumb" className="tutor-breadcrumb" data-profile-intro>
         <ol className="flex items-center gap-1.5 flex-wrap list-none m-0 p-0">
           <li><Link href="/" className="hover:underline">Home</Link></li>
           <li aria-hidden>/</li>
@@ -180,37 +183,55 @@ export default async function TutorDetailPage({
         </ol>
       </nav>
 
-      <div className="card elev-sm p-6 flex flex-col gap-4">
-        <div className="flex gap-4 items-center">
+      <div className="tutor-detail-layout">
+      <div className="tutor-profile-card">
+        <div className="tutor-profile-hero">
+        <div className="tutor-profile-identity" data-profile-intro>
           <TutorAvatar name={tutor.name} size={72} withBadge />
           <div className="min-w-0">
-            <h1 className="font-[var(--font-heading)] text-[24px] m-0">{tutor.name}</h1>
-            <div className="text-[13.5px] mt-1" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
+            <p className="tutor-kicker">Personally verified tutor</p>
+            <h1 className="tutor-profile-name">{tutor.name}</h1>
+            <div className="tutor-profile-meta">
               {tutor.country}
               {tutor.yearsExperience != null ? ` · ${tutor.yearsExperience} yrs experience` : ""}
             </div>
-            <div className="flex items-center gap-1.5 mt-1.5">
-              <VerifiedBadge />
+            <div className="tutor-verified-line">
+              <span className="inline-flex items-center gap-1" style={{ color: "var(--color-verified)", fontWeight: 600 }}>
+                <VerifiedBadge />
+                <span className="text-[12.5px]">Verified</span>
+              </span>
+              <span className="tutor-verified-copy">
+                Reviewed by our team for subject expertise and experience.{" "}
+                <Link href="/about" className="hover:underline" style={{ color: "inherit" }}>
+                  How we vet tutors →
+                </Link>
+              </span>
             </div>
           </div>
         </div>
+        <TutorProfileIllustration />
+        </div>
 
-        <div className="flex flex-wrap gap-1.5">
+        <div className="tutor-skill-strip" data-profile-intro>
           {tutor.subjects.map((s) => (
-            <Tag key={s.id} variant="neutral" className="inline-flex items-center gap-1">
+            <Tag key={s.id} variant="neutral" className="tutor-skill-pill">
               <SubjectIcon subject={s.subjectName} />
               {s.subjectName}
             </Tag>
           ))}
         </div>
 
-        <p className="text-[14.5px] leading-relaxed m-0" style={{ color: "color-mix(in srgb, var(--color-text) 78%, transparent)" }}>
+        <p className="tutor-bio" data-profile-intro>
           {tutorIntroParagraph(tutor)}
         </p>
 
-        <h2 className="text-[14px] font-semibold mt-2" style={{ fontFamily: "var(--font-heading)" }}>
-          Subjects taught
-        </h2>
+        <div className="tutor-section-heading" data-profile-intro>
+          <div>
+            <p className="tutor-kicker">Build your next breakthrough</p>
+            <h2>Subjects taught</h2>
+          </div>
+          <span>{tutor.subjects.length} {tutor.subjects.length === 1 ? "subject" : "subjects"}</span>
+        </div>
         <TutorDetailActions
           tutorProfileId={tutor.id}
           tutorName={tutor.name}
@@ -220,49 +241,70 @@ export default async function TutorDetailPage({
         />
 
         {(relatedSubjectLinks.length > 0 || relatedCourseSlugs.length > 0) && (
-          <div className="flex flex-col gap-1">
-            <span className="text-[12px]" style={{ color: "color-mix(in srgb, var(--color-text) 60%, transparent)" }}>
+          <div className="tutor-related-links" data-related-section>
+            <div className="tutor-related-heading">
+              <span className="tutor-related-heading-mark" aria-hidden="true">↗</span>
+              <div>
+                <span className="tutor-kicker">Keep learning</span>
+                <span className="tutor-related-label">
               Subjects & courses {tutor.name} teaches
-            </span>
-            <div className="flex flex-wrap gap-x-3 gap-y-1">
+                </span>
+              </div>
+            </div>
+            <div className="tutor-resource-grid">
               {relatedSubjectLinks.map((s) => (
-                <Link key={s.id} href={`/subjects/${s.subjectSlug}`} className="text-[13px] hover:underline">
-                  {s.subjectName} →
+                <Link key={s.id} href={`/subjects/${s.subjectSlug}`} className="tutor-resource-link" data-related-link>
+                  <span className="tutor-resource-icon" aria-hidden="true"><SubjectIcon subject={s.subjectName} /></span>
+                  <span><small>Subject guide</small>{s.subjectName}</span>
+                  <span className="tutor-resource-arrow" aria-hidden="true">↗</span>
                 </Link>
               ))}
               {relatedCourseSlugs.map((slug) => (
-                <Link key={slug} href={`/courses/${slug}`} className="text-[13px] hover:underline">
-                  Full prep course →
+                <Link key={slug} href={`/courses/${slug}`} className="tutor-resource-link tutor-resource-link-course" data-related-link>
+                  <span className="tutor-resource-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5v-13Z" /><path d="M12 6v13" /></svg>
+                  </span>
+                  <span><small>Structured path</small>Full prep course</span>
+                  <span className="tutor-resource-arrow" aria-hidden="true">↗</span>
                 </Link>
               ))}
             </div>
           </div>
         )}
 
-        <Link href="/find-a-tutor" className="text-[13.5px] hover:underline mt-2">
+        <Link href="/find-a-tutor" className="tutor-back-link">
           ← Back to all tutors
         </Link>
       </div>
+      </div>
 
       {relatedTutors.length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-[16px] font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
-            Other tutors teaching similar subjects
-          </h2>
-          <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
-            {relatedTutors.map((related) => (
+        <div className="tutor-related-section" data-related-section>
+          <div className="tutor-related-section-heading">
+            <div>
+              <p className="tutor-kicker">More people to learn from</p>
+              <h2>Other tutors teaching similar subjects</h2>
+            </div>
+            <span className="tutor-related-count">{relatedTutors.length} nearby matches</span>
+          </div>
+          <div className="tutor-related-grid">
+            {relatedTutors.map((related, index) => (
               <Link
                 key={related.slug}
                 href={`/find-a-tutor/${related.slug}`}
-                className="card elev-sm p-4 flex flex-col gap-1.5 hover:shadow-[var(--shadow-md)] transition-shadow duration-200"
-                style={{ borderColor: "var(--color-divider)" }}
+                className="tutor-related-card"
+                data-related-card
               >
-                <span className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-                  {related.name}
-                </span>
-                <span className="text-[12.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 70%, transparent)" }}>
+                <div className="tutor-related-card-topline">
+                  <TutorAvatar name={related.name} index={index + 1} size={48} />
+                  <span className="tutor-related-card-arrow" aria-hidden="true">↗</span>
+                </div>
+                <span className="tutor-related-card-name">{related.name}</span>
+                <span className="tutor-related-card-subjects">
                   {related.subjectNames.slice(0, 2).join(", ")}
-                  {related.country ? ` · ${related.country}` : ""}
+                </span>
+                <span className="tutor-related-card-location">
+                  <span aria-hidden="true">●</span>{related.country || "Worldwide"}
                 </span>
               </Link>
             ))}
@@ -270,5 +312,6 @@ export default async function TutorDetailPage({
         </div>
       )}
     </div>
+    </TutorDetailMotion>
   );
 }
