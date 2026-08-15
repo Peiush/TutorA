@@ -90,6 +90,7 @@ model User {
   tutorRequests   TutorRequest[]
   matchedRequests TutorRequest[]  @relation("MatchedTutorRequests")
   savedTutors     SavedTutor[]
+  tutorReviews    TutorReview[]
   savedCourses    SavedCourse[]
   savedSubjects   SavedSubject[]
   courseRequests  CourseRequest[]
@@ -156,12 +157,30 @@ model TutorProfile {
   savedBy         SavedTutor[]
   courses         Course[]
   subjectListings TutorSubject[]
+  reviews         TutorReview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([status, updatedAt])
   @@map("tutor_profiles")
+}
+
+model TutorReview {
+  id             String       @id @default(cuid())
+  tutorProfileId String
+  tutorProfile   TutorProfile @relation(fields: [tutorProfileId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating         Int
+  comment        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tutorProfileId, createdAt])
+  @@index([userId, tutorProfileId])
+  @@map("tutor_reviews")
 }
 
 model Subject {

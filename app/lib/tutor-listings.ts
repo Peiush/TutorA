@@ -4,14 +4,19 @@ import { prisma } from "@/lib/prisma";
 import type { TutorRaw } from "@/lib/mock-data";
 
 async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
-  const [profiles, allSubjects] = await Promise.all([
+  const [profiles, allSubjects, reviewStats] = await Promise.all([
     prisma.tutorProfile.findMany({
       where: { status: "APPROVED" },
       include: { user: { select: { name: true } }, subjectListings: { include: { subject: true } } },
       orderBy: { updatedAt: "desc" },
     }),
     prisma.subject.findMany({ orderBy: { name: "asc" } }),
+    prisma.tutorReview.groupBy({ by: ["tutorProfileId"], _avg: { rating: true }, _count: { _all: true } }),
   ]);
+
+  const reviewStatsById = new Map(
+    reviewStats.map((r) => [r.tutorProfileId, { rating: r._avg.rating ?? 0, reviews: r._count._all }])
+  );
 
   const cards: TutorRaw[] = [];
   const coveredSubjectIds = new Set<string>();
@@ -19,6 +24,7 @@ async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
   for (const p of profiles) {
     const name = p.user.name ?? "Verified tutor";
     const meta = `${p.country} · ${p.yearsExperience ?? 0} yrs experience`;
+    const stats = reviewStatsById.get(p.id) ?? { rating: 0, reviews: 0 };
 
     if (p.subjectListings.length === 0) {
       // Self-registered tutor with no per-subject catalog listings yet — one card, legacy shape.
@@ -35,8 +41,8 @@ async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
         headline: p.bio ? p.bio.slice(0, 64) : subjects.join(" & "),
         subjects,
         price: p.hourlyRateCents ? `$${Math.round(p.hourlyRateCents / 100)}/hr` : "Rate on request",
-        rating: 0,
-        reviews: 0,
+        rating: stats.rating,
+        reviews: stats.reviews,
         meta,
         city: p.country,
         mode: "Both",
@@ -59,8 +65,8 @@ async function fetchApprovedTutorListings(): Promise<TutorRaw[]> {
         subjects: [listing.subject.name],
         curriculum: listing.subject.curriculum ?? undefined,
         price: listing.hourlyRateCents != null ? `$${Math.round(listing.hourlyRateCents / 100)}/hr` : "Rate on request",
-        rating: 0,
-        reviews: 0,
+        rating: stats.rating,
+        reviews: stats.reviews,
         meta,
         city: p.country,
         mode: "Both",
@@ -177,6 +183,65 @@ export async function getTutorProfileBySlug(slug: string): Promise<TutorProfileD
     yearsExperience: p.yearsExperience,
     bio: p.bio,
     subjects,
+  };
+}
+
+export interface TutorReviewItem {
+  id: string;
+  userId: string;
+  authorName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface TutorReviewSummary {
+  averageRating: number;
+  reviewCount: number;
+  reviews: (TutorReviewItem & { isOwn: boolean })[];
+}
+
+async function fetchTutorReviews(tutorProfileId: string): Promise<TutorReviewItem[]> {
+  const reviews = await prisma.tutorReview.findMany({
+    where: { tutorProfileId },
+    include: { user: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return reviews.map((r) => ({
+    id: r.id,
+    userId: r.userId,
+    authorName: r.user.name ?? "TutorA student",
+    rating: r.rating,
+    comment: r.comment,
+    createdAt: r.createdAt.toISOString(),
+  }));
+}
+
+/**
+ * Cached per-tutor (not globally) so a review submission only needs to invalidate
+ * the affected tutor's page — the submit/delete actions call
+ * `updateTag("tutor-reviews:<id>")` scoped to that one tutor.
+ */
+async function getCachedTutorReviews(tutorProfileId: string): Promise<TutorReviewItem[]> {
+  return unstable_cache(fetchTutorReviews, ["tutor-reviews", tutorProfileId], {
+    tags: [`tutor-reviews:${tutorProfileId}`],
+    revalidate: 60,
+  })(tutorProfileId);
+}
+
+export async function getTutorReviewSummary(
+  tutorProfileId: string,
+  currentUserId?: string | null
+): Promise<TutorReviewSummary> {
+  const reviews = await getCachedTutorReviews(tutorProfileId);
+  const reviewCount = reviews.length;
+  const averageRating = reviewCount > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount : 0;
+
+  return {
+    averageRating,
+    reviewCount,
+    reviews: reviews.map((r) => ({ ...r, isOwn: currentUserId != null && r.userId === currentUserId })),
   };
 }
 

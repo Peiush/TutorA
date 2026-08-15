@@ -8,10 +8,12 @@ import { SubjectIcon } from "@/components/ui/subject-icons";
 import { TutorDetailActions } from "@/components/find/tutor-detail-actions";
 import { TutorDetailMotion } from "@/components/find/tutor-detail-motion";
 import { TutorProfileIllustration } from "@/components/find/tutor-profile-illustration";
+import { TutorReviewsSection } from "@/components/find/tutor-reviews-section";
 import {
   getTutorProfileBySlug,
   getApprovedTutorListings,
   getRelatedTutors,
+  getTutorReviewSummary,
   type TutorProfileDetail,
 } from "@/app/lib/tutor-listings";
 import { SUBJECT_TO_COURSE_SLUG } from "@/lib/subject-course-links";
@@ -115,7 +117,7 @@ export default async function TutorDetailPage({
 
   const subjectNamesForMatch = tutor.subjects.map((s) => s.subjectName);
   const userId = session?.user?.id;
-  const [savedTutor, openRequests, relatedTutors] = userId
+  const [savedTutor, openRequests, relatedTutors, reviewSummary] = userId
     ? await Promise.all([
         prisma.savedTutor.findUnique({ where: { userId_tutorProfileId: { userId, tutorProfileId: tutor.id } } }),
         prisma.tutorRequest.findMany({
@@ -123,8 +125,14 @@ export default async function TutorDetailPage({
           select: { subject: true },
         }),
         getRelatedTutors(tutor.id, subjectNamesForMatch),
+        getTutorReviewSummary(tutor.id, userId),
       ])
-    : [null, [], await getRelatedTutors(tutor.id, subjectNamesForMatch)];
+    : [
+        null,
+        [],
+        await getRelatedTutors(tutor.id, subjectNamesForMatch),
+        await getTutorReviewSummary(tutor.id, null),
+      ];
   const requestedSubjectNames = openRequests.map((r) => r.subject);
 
   // Subject/course cross-links: prior to this, tutor profile pages linked out only to other
@@ -155,6 +163,13 @@ export default async function TutorDetailPage({
     url: canonicalUrl,
     ...(tutor.subjects.length > 0 && { knowsAbout: tutor.subjects.map((s) => s.subjectName) }),
     worksFor: { "@type": "Organization", name: "TutorA", sameAs: BASE_URL },
+    ...(reviewSummary.reviewCount > 0 && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: Number(reviewSummary.averageRating.toFixed(1)),
+        reviewCount: reviewSummary.reviewCount,
+      },
+    }),
   };
 
   const breadcrumbJsonLd = {
@@ -277,6 +292,22 @@ export default async function TutorDetailPage({
         </Link>
       </div>
       </div>
+
+      <TutorReviewsSection
+        tutorProfileId={tutor.id}
+        tutorName={tutor.name}
+        averageRating={reviewSummary.averageRating}
+        reviewCount={reviewSummary.reviewCount}
+        reviews={reviewSummary.reviews.map((r) => ({
+          id: r.id,
+          authorName: r.authorName,
+          rating: r.rating,
+          comment: r.comment,
+          createdAt: r.createdAt,
+          isOwn: r.isOwn,
+        }))}
+        isAuthenticated={Boolean(userId)}
+      />
 
       {relatedTutors.length > 0 && (
         <div className="tutor-related-section" data-related-section>

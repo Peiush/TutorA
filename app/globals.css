@@ -522,6 +522,8 @@ textarea.input {
 .tutor-resource-arrow { margin-left: auto; color: var(--profile-coral); font-size: 18px; transition: transform .22s ease; }
 .tutor-resource-link:hover .tutor-resource-arrow { transform: translate(2px, -2px); }
 .tutor-back-link { display: inline-block; margin-top: 26px; color: var(--profile-ink); font-size: 13.5px; font-weight: 700; }
+.tutor-reviews-section { margin-top: 58px; }
+.tutor-review-btn-sm { padding: 6px 12px; font-size: 12.5px; }
 .tutor-related-section { margin-top: 58px; }
 .tutor-related-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
 .tutor-related-section-heading h2 { max-width: 26ch; color: var(--profile-ink); font-size: clamp(23px, 3vw, 32px); }

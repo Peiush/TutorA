@@ -1084,6 +1084,19 @@ export function TutorBrowser({ tutors }: { tutors: TutorRaw[] }) {
                           No reviews yet
                         </span>
                       )}
+                      {!t.onDemand && t.slug && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/find-a-tutor/${t.slug}#tutor-reviews`);
+                          }}
+                          className="text-[13px] font-medium underline-offset-2 hover:underline cursor-pointer"
+                          style={{ color: "var(--color-accent-700, var(--color-accent))", background: "none", border: "none", padding: 0 }}
+                        >
+                          Add review
+                        </button>
+                      )}
                       {isAdmin && t.id && (
                         <div className="flex gap-2">
                           <button
