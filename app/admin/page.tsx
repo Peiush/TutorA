@@ -16,6 +16,8 @@ import { getMfaStatus } from "@/app/lib/actions/mfa";
 import { TwoFactorPanel } from "@/components/admin/two-factor-panel";
 import { WhatsAppInboxPanel } from "@/components/admin/whatsapp-inbox-panel";
 import { listConversations } from "@/app/lib/actions/whatsapp";
+import { TestimonialsAdminPanel } from "@/components/admin/testimonials-admin-panel";
+import { SparkleIcon } from "@/components/dashboard/dashboard-icons";
 
 export const metadata = {
   title: "Admin",
@@ -26,7 +28,7 @@ export default async function AdminPage() {
   await requireFreshRole(["ADMIN"]);
   const user = await getUser();
 
-  const [totalStudents, totalTutors, allUsers, profiles, requests, courses, courseRequests, subjectRequests, mfaStatus, conversations] =
+  const [totalStudents, totalTutors, allUsers, profiles, requests, courses, courseRequests, subjectRequests, mfaStatus, conversations, testimonials] =
     await Promise.all([
       prisma.user.count({ where: { role: "STUDENT" } }),
       prisma.user.count({ where: { role: "TUTOR" } }),
@@ -70,6 +72,10 @@ export default async function AdminPage() {
       }),
       getMfaStatus(),
       listConversations(),
+      prisma.testimonial.findMany({
+        include: { user: { select: { name: true, email: true } } },
+        orderBy: { createdAt: "desc" },
+      }),
     ]);
 
   const pendingApprovals = profiles.filter((p) => p.status === "PENDING").length;
@@ -77,6 +83,7 @@ export default async function AdminPage() {
   const openCourseRequests = courseRequests.filter((r) => r.status === "OPEN").length;
   const openSubjectRequests = subjectRequests.filter((r) => r.status === "OPEN").length;
   const pendingEmailChanges = allUsers.filter((u) => u.emailChangeRequest).length;
+  const pendingTestimonials = testimonials.filter((t) => !t.approved).length;
 
   const approvedTutors = profiles
     .filter((p) => p.status === "APPROVED")
@@ -133,6 +140,7 @@ export default async function AdminPage() {
     { id: "course-requests", label: `${openCourseRequests} open course enrollment request${openCourseRequests === 1 ? "" : "s"}`, count: openCourseRequests, targetTab: "courses" },
     { id: "subject-requests", label: `${openSubjectRequests} open custom subject request${openSubjectRequests === 1 ? "" : "s"}`, count: openSubjectRequests, targetTab: "subject-requests" },
     { id: "email-changes", label: `${pendingEmailChanges} pending email change${pendingEmailChanges === 1 ? "" : "s"} to confirm`, count: pendingEmailChanges, targetTab: "people" },
+    { id: "testimonials", label: `${pendingTestimonials} testimonial${pendingTestimonials === 1 ? "" : "s"} awaiting review`, count: pendingTestimonials, targetTab: "testimonials" },
   ];
 
   const sections: AdminSection[] = [
@@ -192,6 +200,13 @@ export default async function AdminPage() {
       label: "Messages",
       icon: <ChatDotsIcon width={15} height={15} />,
       content: <WhatsAppInboxPanel conversations={conversations} />,
+    },
+    {
+      id: "testimonials",
+      label: "Testimonials",
+      icon: <SparkleIcon width={15} height={15} />,
+      badge: pendingTestimonials,
+      content: <TestimonialsAdminPanel testimonials={testimonials} />,
     },
     {
       id: "settings",

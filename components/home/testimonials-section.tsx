@@ -5,13 +5,17 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
-import { TutorAvatar } from "@/components/ui/tutor-avatar";
-import type { testimonials as testimonialsList } from "@/lib/mock-data";
+import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-type Testimonial = (typeof testimonialsList)[number];
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: "Parent" | "Student" | "Tutor";
+  rating?: number | null;
+};
 
 const ROLE_BAR: Record<string, string> = {
   Parent: "var(--color-accent-2-500)",
@@ -135,6 +139,7 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
               <p className="font-[var(--font-heading)] text-[18px] leading-[1.4] m-0" style={{ color: "var(--color-text)" }}>
                 {q.quote}
               </p>
+              {!!q.rating && <StarRating rating={q.rating} size={14} />}
             </div>
             <figcaption className="relative z-[1] flex items-center gap-2.5">
               <div

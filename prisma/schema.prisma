@@ -22,6 +22,12 @@ enum TutorProfileStatus {
   REJECTED
 }
 
+enum TestimonialRole {
+  PARENT
+  STUDENT
+  TUTOR
+}
+
 enum TutorRequestStatus {
   OPEN
   MATCHED
@@ -91,6 +97,7 @@ model User {
   matchedRequests TutorRequest[]  @relation("MatchedTutorRequests")
   savedTutors     SavedTutor[]
   tutorReviews    TutorReview[]
+  testimonial     Testimonial?
   savedCourses    SavedCourse[]
   savedSubjects   SavedSubject[]
   courseRequests  CourseRequest[]
@@ -181,6 +188,22 @@ model TutorReview {
   @@index([tutorProfileId, createdAt])
   @@index([userId, tutorProfileId])
   @@map("tutor_reviews")
+}
+
+model Testimonial {
+  id       String          @id @default(cuid())
+  userId   String          @unique
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     TestimonialRole
+  quote    String
+  rating   Int?
+  approved Boolean         @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([approved, createdAt])
+  @@map("testimonials")
 }
 
 model Subject {

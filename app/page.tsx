@@ -13,6 +13,8 @@ import type { CategoryCount } from "@/components/home/course-categories-showcase
 import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
+import { getHomepageTestimonials } from "@/app/lib/testimonials";
+import type { Testimonial as TestimonialCard } from "@/components/home/testimonials-section";
 import { courseCategories } from "@/lib/mock-courses";
 import { GRADE_BANDS, matchesGradeBand } from "@/lib/grade-bands";
 import { POPULAR_SUBJECT_NAMES } from "@/lib/featured-subjects";
@@ -143,11 +145,23 @@ const breadcrumbJsonLd = {
 };
 
 export default async function Home() {
-  const [approvedTutors, allCourses, subjectListings] = await Promise.all([
+  const [approvedTutors, allCourses, subjectListings, realTestimonials] = await Promise.all([
     getApprovedTutorListings(),
     getPublishedCourses(),
     getSubjects(),
+    getHomepageTestimonials(),
   ]);
+
+  const ROLE_LABEL = { PARENT: "Parent", STUDENT: "Student", TUTOR: "Tutor" } as const;
+  const homepageTestimonials: TestimonialCard[] = [
+    ...realTestimonials.map((t) => ({
+      quote: t.quote,
+      name: t.name,
+      role: ROLE_LABEL[t.role],
+      rating: t.rating,
+    })),
+    ...(testimonials.slice(0, Math.max(0, 6 - realTestimonials.length)) as TestimonialCard[]),
+  ];
 
   const categoryCounts: CategoryCount[] = courseCategories.map((label) => ({
     label,
@@ -368,11 +382,18 @@ export default async function Home() {
       {/* Testimonials */}
       <section style={{ background: "var(--color-surface)" }}>
         <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
-          <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
-            What people say
-          </Tag>
-          <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-9">Trusted by both sides</h2>
-          <TestimonialsSection testimonials={testimonials} />
+          <div className="flex items-end justify-between gap-4 flex-wrap mb-9">
+            <div>
+              <Tag variant="accent-2" className="text-[12px] px-3.5 py-1.5">
+                What people say
+              </Tag>
+              <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-0">Trusted by both sides</h2>
+            </div>
+            <Link href="/testimonials" className="btn btn-ghost text-[14px]">
+              Read all stories →
+            </Link>
+          </div>
+          <TestimonialsSection testimonials={homepageTestimonials} />
         </div>
       </section>
 
