@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { completeProfile } from "@/app/lib/actions/complete-profile";
 import { logout } from "@/app/lib/actions/auth";
-import { PhoneIcon, ArrowRightIcon, SpinnerIcon } from "@/components/auth/auth-icons";
+import { ArrowRightIcon, SpinnerIcon } from "@/components/auth/auth-icons";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 export function CompleteProfileForm({ name }: { name: string | null }) {
   const [state, action, pending] = useActionState(completeProfile, undefined);
@@ -21,19 +22,7 @@ export function CompleteProfileForm({ name }: { name: string | null }) {
 
         <div className="field">
           <label htmlFor="phone">Phone number</label>
-          <div className="field-icon">
-            <PhoneIcon />
-            <input
-              className="input"
-              id="phone"
-              type="tel"
-              name="phone"
-              placeholder="+91 98765 43210"
-              autoComplete="tel"
-              autoFocus
-              required
-            />
-          </div>
+          <PhoneInput id="phone" name="phone" autoFocus required />
         </div>
 
         {state?.message && (

@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { getMyProfile, updateProfile, type UpdateProfileState } from "@/app/lib/actions/update-profile";
 import { requestSelfEmailChange, type RequestEmailChangeState } from "@/app/lib/actions/email-change";
-import { UserIcon, PhoneIcon, MailIcon, LockIcon, SpinnerIcon } from "@/components/auth/auth-icons";
+import { UserIcon, MailIcon, LockIcon, SpinnerIcon } from "@/components/auth/auth-icons";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { initialsOf } from "@/components/ui/tutor-avatar";
 import { ProfileIllustration } from "@/components/profile/profile-illustration";
 
@@ -323,21 +324,14 @@ export function EditProfileModal({
 
             <div className="epm-stagger field" style={{ opacity: phoneLoaded ? 1 : 0.6 }}>
               <label htmlFor="epm-phone">Phone number</label>
-              <div className="field-icon">
-                <PhoneIcon />
-                <input
-                  className={`input${phoneLoaded ? "" : " animate-pulse"}`}
-                  id="epm-phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+91 98765 43210"
-                  autoComplete="tel"
-                  required
-                  disabled={!phoneLoaded}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
+              <PhoneInput
+                id="epm-phone"
+                name="phone"
+                required
+                disabled={!phoneLoaded}
+                value={phone}
+                onChange={setPhone}
+              />
             </div>
 
             <div className="epm-stagger field" style={{ opacity: phoneLoaded ? 1 : 0.6 }}>
