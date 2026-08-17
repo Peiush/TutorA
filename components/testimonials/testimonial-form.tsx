@@ -54,9 +54,12 @@ function StarPicker({ value, onChange }: { value: number; onChange: (n: number) 
 export function TestimonialForm({
   isAuthenticated,
   existing,
+  bare = false,
 }: {
   isAuthenticated: boolean;
   existing: MyTestimonial | null;
+  /** Skip the outer .card wrapper — for embedding inside another surface (e.g. a modal panel). */
+  bare?: boolean;
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState(!existing);
@@ -107,7 +110,7 @@ export function TestimonialForm({
 
   if (existing && !editing) {
     return (
-      <div className="card elev-sm p-[clamp(20px,4vw,32px)] flex flex-col gap-3">
+      <div className={bare ? "flex flex-col gap-3" : "card elev-sm p-[clamp(20px,4vw,32px)] flex flex-col gap-3"}>
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <span className="text-[15px] font-semibold">Your testimonial</span>
           <span
@@ -151,7 +154,7 @@ export function TestimonialForm({
   }
 
   return (
-    <div className="card elev-sm p-[clamp(20px,4vw,32px)] flex flex-col gap-4">
+    <div className={bare ? "flex flex-col gap-4" : "card elev-sm p-[clamp(20px,4vw,32px)] flex flex-col gap-4"}>
       <div>
         <span className="text-[15px] font-semibold block mb-1">Share your story</span>
         <span className="text-[13.5px]" style={{ color: "color-mix(in srgb, var(--color-text) 65%, transparent)" }}>

@@ -14,6 +14,7 @@ import { getApprovedTutorListings } from "@/app/lib/tutor-listings";
 import { getPublishedCourses } from "@/app/lib/course-listings";
 import { getSubjects } from "@/app/lib/subject-listings";
 import { getHomepageTestimonials } from "@/app/lib/testimonials";
+import { AddTestimonialButton } from "@/components/testimonials/testimonial-launcher";
 import type { Testimonial as TestimonialCard } from "@/components/home/testimonials-section";
 import { courseCategories } from "@/lib/mock-courses";
 import { GRADE_BANDS, matchesGradeBand } from "@/lib/grade-bands";
@@ -389,9 +390,9 @@ export default async function Home() {
               </Tag>
               <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-0">Trusted by both sides</h2>
             </div>
-            <Link href="/testimonials" className="btn btn-ghost text-[14px]">
-              Read all stories →
-            </Link>
+            <div className="flex items-center gap-2 flex-wrap">
+              <AddTestimonialButton />
+            </div>
           </div>
           <TestimonialsSection testimonials={homepageTestimonials} />
         </div>

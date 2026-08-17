@@ -7,6 +7,7 @@ import { SiteNav } from "@/components/layout/site-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollTriggerGuard } from "@/components/home/scroll-trigger-guard";
 import { AutoLoginPrompt } from "@/components/home/auto-login-prompt";
+import { TestimonialFab } from "@/components/testimonials/testimonial-launcher";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -125,6 +126,7 @@ export default function RootLayout({
           <SiteFooter />
           <ScrollTriggerGuard />
           <AutoLoginPrompt />
+          <TestimonialFab />
         </SessionProvider>
         {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
       </body>

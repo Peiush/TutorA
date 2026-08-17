@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
+import { TestimonialQuoteModal } from "@/components/testimonials/testimonial-quote-modal";
 import type { TestimonialItem } from "@/app/lib/testimonials";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -43,6 +44,17 @@ function QuoteIcon({ className, style }: { className?: string; style?: CSSProper
 
 export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialItem[] }) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const quoteRefs = useRef<Map<string, HTMLParagraphElement>>(new Map());
+  const [truncatedIds, setTruncatedIds] = useState<Set<string>>(new Set());
+  const [activeTestimonial, setActiveTestimonial] = useState<{ item: TestimonialItem; index: number; rect: DOMRect | null } | null>(null);
+
+  useEffect(() => {
+    const next = new Set<string>();
+    quoteRefs.current.forEach((el, id) => {
+      if (el.scrollHeight - el.clientHeight > 1) next.add(id);
+    });
+    setTruncatedIds(next);
+  }, [testimonials]);
 
   useGSAP(
     () => {
@@ -109,40 +121,76 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
   }
 
   return (
-    <div ref={gridRef} className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
-      {testimonials.map((t, i) => {
-        const bar = ROLE_BAR[t.role] ?? ROLE_BAR.PARENT;
-        const tagVariant = tagVariantForBar(bar);
-        return (
-          <figure
-            key={t.id}
-            className="testimonial-card group relative flex flex-col justify-between gap-5 m-0 rounded-[22px] border p-7 cursor-default overflow-hidden transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5"
-            style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)" }}
-          >
-            <div className="h-[5px] w-full flex-none absolute top-0 left-0" style={{ background: bar }} aria-hidden />
-            <div className="relative z-[1] flex flex-col gap-4">
-              <QuoteIcon style={{ color: bar }} />
-              <p className="font-[var(--font-heading)] text-[17px] leading-[1.45] m-0" style={{ color: "var(--color-text)" }}>
-                {t.quote}
-              </p>
-              {!!t.rating && <StarRating rating={t.rating} size={14} />}
-            </div>
-            <figcaption className="relative z-[1] flex items-center gap-2.5">
-              <div className="rounded-full" style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${bar} 22%, transparent)`, borderRadius: "50%" }}>
-                <TutorAvatar name={t.name} index={i} size={38} />
-              </div>
-              <div className="min-w-0">
-                <div className="text-[13.5px] font-semibold" style={{ color: "var(--color-text)" }}>
-                  {t.name}
+    <>
+      <div ref={gridRef} className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] items-stretch">
+        {testimonials.map((t, i) => {
+          const bar = ROLE_BAR[t.role] ?? ROLE_BAR.PARENT;
+          const tagVariant = tagVariantForBar(bar);
+          const isTruncated = truncatedIds.has(t.id);
+          return (
+            <figure
+              key={t.id}
+              className="testimonial-card group relative flex flex-col justify-between gap-5 m-0 h-full rounded-[22px] border p-7 cursor-default overflow-hidden transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5"
+              style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)" }}
+            >
+              <div className="h-[5px] w-full flex-none absolute top-0 left-0" style={{ background: bar }} aria-hidden />
+              <div className="relative z-[1] flex flex-col gap-4">
+                <QuoteIcon style={{ color: bar }} />
+                <div className="flex flex-col gap-1.5">
+                  <p
+                    ref={(el) => {
+                      if (el) quoteRefs.current.set(t.id, el);
+                      else quoteRefs.current.delete(t.id);
+                    }}
+                    className="testimonial-quote font-[var(--font-heading)] text-[17px] leading-[1.45] m-0 line-clamp-4"
+                    style={{ color: "var(--color-text)" }}
+                  >
+                    {t.quote}
+                  </p>
+                  {isTruncated && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        const card = e.currentTarget.closest(".testimonial-card");
+                        const rect = card ? card.getBoundingClientRect() : null;
+                        setActiveTestimonial({ item: t, index: i, rect });
+                      }}
+                      className="self-start cursor-pointer text-[13px] font-semibold underline-offset-2 hover:underline transition-colors duration-200"
+                      style={{ color: bar }}
+                    >
+                      Show more
+                    </button>
+                  )}
                 </div>
-                <Tag variant={tagVariant} className="text-[10px] px-2 py-0.5 mt-0.5 inline-block">
-                  {ROLE_LABEL[t.role] ?? t.role}
-                </Tag>
+                {!!t.rating && <StarRating rating={t.rating} size={14} />}
               </div>
-            </figcaption>
-          </figure>
-        );
-      })}
-    </div>
+              <figcaption className="relative z-[1] flex items-center gap-2.5">
+                <div className="rounded-full" style={{ boxShadow: `0 0 0 3px color-mix(in srgb, ${bar} 22%, transparent)`, borderRadius: "50%" }}>
+                  <TutorAvatar name={t.name} index={i} size={38} />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[13.5px] font-semibold" style={{ color: "var(--color-text)" }}>
+                    {t.name}
+                  </div>
+                  <Tag variant={tagVariant} className="text-[10px] px-2 py-0.5 mt-0.5 inline-block">
+                    {ROLE_LABEL[t.role] ?? t.role}
+                  </Tag>
+                </div>
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+
+      {activeTestimonial && (
+        <TestimonialQuoteModal
+          testimonial={activeTestimonial.item}
+          avatarIndex={activeTestimonial.index}
+          accentColor={ROLE_BAR[activeTestimonial.item.role] ?? ROLE_BAR.PARENT}
+          originRect={activeTestimonial.rect}
+          onClose={() => setActiveTestimonial(null)}
+        />
+      )}
+    </>
   );
 }

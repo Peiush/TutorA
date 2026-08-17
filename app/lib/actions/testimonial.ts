@@ -7,6 +7,13 @@ import { auth } from "@/auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { requireAdmin } from "@/app/lib/actions/admin";
 import { logAdminAction } from "@/lib/audit-log";
+import { getMyTestimonial, type MyTestimonial } from "@/app/lib/testimonials";
+
+export async function getMyTestimonialState(): Promise<{ isAuthenticated: boolean; existing: MyTestimonial | null }> {
+  const session = await auth();
+  if (!session?.user?.id) return { isAuthenticated: false, existing: null };
+  return { isAuthenticated: true, existing: await getMyTestimonial() };
+}
 
 const TestimonialSchema = z.object({
   role: z.enum(["PARENT", "STUDENT", "TUTOR"]),
