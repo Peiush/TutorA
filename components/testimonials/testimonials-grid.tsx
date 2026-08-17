@@ -184,9 +184,15 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
 
       {activeTestimonial && (
         <TestimonialQuoteModal
-          testimonial={activeTestimonial.item}
+          testimonial={{
+            quote: activeTestimonial.item.quote,
+            name: activeTestimonial.item.name,
+            roleLabel: ROLE_LABEL[activeTestimonial.item.role] ?? activeTestimonial.item.role,
+            rating: activeTestimonial.item.rating,
+          }}
           avatarIndex={activeTestimonial.index}
           accentColor={ROLE_BAR[activeTestimonial.item.role] ?? ROLE_BAR.PARENT}
+          tagVariant={tagVariantForBar(ROLE_BAR[activeTestimonial.item.role] ?? ROLE_BAR.PARENT)}
           originRect={activeTestimonial.rect}
           onClose={() => setActiveTestimonial(null)}
         />

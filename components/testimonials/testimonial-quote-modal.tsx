@@ -6,22 +6,28 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Tag } from "@/components/ui/tag";
 import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
-import type { TestimonialItem } from "@/app/lib/testimonials";
 
 gsap.registerPlugin(useGSAP);
 
-const ROLE_LABEL: Record<string, string> = { PARENT: "Parent", STUDENT: "Student", TUTOR: "Tutor" };
+export type QuoteModalTestimonial = {
+  quote: string;
+  name: string;
+  roleLabel: string;
+  rating?: number | null;
+};
 
 export function TestimonialQuoteModal({
   testimonial,
   avatarIndex,
   accentColor,
+  tagVariant,
   originRect,
   onClose,
 }: {
-  testimonial: TestimonialItem;
+  testimonial: QuoteModalTestimonial;
   avatarIndex: number;
   accentColor: string;
+  tagVariant: "accent" | "accent-2";
   originRect: DOMRect | null;
   onClose: () => void;
 }) {
@@ -158,11 +164,8 @@ export function TestimonialQuoteModal({
               <div className="text-[14.5px] font-semibold" style={{ color: "var(--color-text)" }}>
                 {testimonial.name}
               </div>
-              <Tag
-                variant={accentColor === "var(--color-accent-2-500)" ? "accent-2" : "accent"}
-                className="text-[10px] px-2 py-0.5 mt-0.5 inline-block"
-              >
-                {ROLE_LABEL[testimonial.role] ?? testimonial.role}
+              <Tag variant={tagVariant} className="text-[10px] px-2 py-0.5 mt-0.5 inline-block">
+                {testimonial.roleLabel}
               </Tag>
             </div>
           </div>

@@ -1,24 +1,54 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TutorAvatar } from "@/components/ui/tutor-avatar";
 import { scrollRevealSafetyNet, isGsapHidden } from "@/lib/scroll-reveal-safety-net";
+import { TestimonialQuoteModal } from "@/components/testimonials/testimonial-quote-modal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Testimonial = { quote: string; name: string; role: string };
 
-const ROLE_TINTS: Record<string, { chip: string; chipText: string; quote: string }> = {
-  Parent: { chip: "var(--color-neutral-100)", chipText: "var(--color-neutral-700)", quote: "var(--color-neutral-300)" },
-  Student: { chip: "var(--color-accent-100)", chipText: "var(--color-accent-800)", quote: "var(--color-accent-300)" },
-  Tutor: { chip: "var(--color-accent-2-100)", chipText: "var(--color-accent-2-800)", quote: "var(--color-accent-2-300)" },
+const ROLE_TINTS: Record<string, { chip: string; chipText: string; quote: string; bar: string; tagVariant: "accent" | "accent-2" }> = {
+  Parent: {
+    chip: "var(--color-neutral-100)",
+    chipText: "var(--color-neutral-700)",
+    quote: "var(--color-neutral-300)",
+    bar: "var(--color-accent-2-500)",
+    tagVariant: "accent-2",
+  },
+  Student: {
+    chip: "var(--color-accent-100)",
+    chipText: "var(--color-accent-800)",
+    quote: "var(--color-accent-300)",
+    bar: "var(--color-accent)",
+    tagVariant: "accent",
+  },
+  Tutor: {
+    chip: "var(--color-accent-2-100)",
+    chipText: "var(--color-accent-2-800)",
+    quote: "var(--color-accent-2-300)",
+    bar: "var(--color-verified)",
+    tagVariant: "accent-2",
+  },
 };
 
 export function TestimonialCards({ testimonials }: { testimonials: Testimonial[] }) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const quoteRefs = useRef<Map<number, HTMLParagraphElement>>(new Map());
+  const [truncatedIdx, setTruncatedIdx] = useState<Set<number>>(new Set());
+  const [activeIdx, setActiveIdx] = useState<{ index: number; rect: DOMRect | null } | null>(null);
+
+  useEffect(() => {
+    const next = new Set<number>();
+    quoteRefs.current.forEach((el, idx) => {
+      if (el.scrollHeight - el.clientHeight > 1) next.add(idx);
+    });
+    setTruncatedIdx(next);
+  }, [testimonials]);
 
   useGSAP(
     () => {
@@ -95,9 +125,31 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
               <path d="M7.5 6C4.9 6 3 8.1 3 10.9c0 2.6 1.8 4.6 4.2 4.6.4 0 .8-.1 1.1-.2-.5 2-2 3.6-4.1 4.4l.8 1.6c3.6-1.2 6-4.2 6-8.4C11 9.4 9.5 6 7.5 6Zm9.3 0c-2.6 0-4.5 2.1-4.5 4.9 0 2.6 1.8 4.6 4.2 4.6.4 0 .8-.1 1.1-.2-.5 2-2 3.6-4.1 4.4l.8 1.6c3.6-1.2 6-4.2 6-8.4 0-3.5-1.5-6.9-3.5-6.9Z" />
             </svg>
 
-            <p className="relative z-10 font-[var(--font-heading)] text-[17.5px] leading-[1.45] m-0 pr-9">
-              {q.quote}
-            </p>
+            <div className="relative z-10 flex flex-col gap-1.5 pr-9">
+              <p
+                ref={(el) => {
+                  if (el) quoteRefs.current.set(i, el);
+                  else quoteRefs.current.delete(i);
+                }}
+                className="font-[var(--font-heading)] text-[17.5px] leading-[1.45] m-0 line-clamp-4"
+              >
+                {q.quote}
+              </p>
+              {truncatedIdx.has(i) && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    const card = e.currentTarget.closest(".tm-card");
+                    const rect = card ? card.getBoundingClientRect() : null;
+                    setActiveIdx({ index: i, rect });
+                  }}
+                  className="self-start cursor-pointer text-[13px] font-semibold underline-offset-2 hover:underline transition-colors duration-200"
+                  style={{ color: tint.chipText }}
+                >
+                  Show more
+                </button>
+              )}
+            </div>
 
             <figcaption className="relative z-10 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
@@ -120,6 +172,21 @@ export function TestimonialCards({ testimonials }: { testimonials: Testimonial[]
           </figure>
         );
       })}
+
+      {activeIdx && (() => {
+        const q = testimonials[activeIdx.index];
+        const tint = ROLE_TINTS[q.role] ?? ROLE_TINTS.Parent;
+        return (
+          <TestimonialQuoteModal
+            testimonial={{ quote: q.quote, name: q.name, roleLabel: q.role, rating: null }}
+            avatarIndex={activeIdx.index}
+            accentColor={tint.bar}
+            tagVariant={tint.tagVariant}
+            originRect={activeIdx.rect}
+            onClose={() => setActiveIdx(null)}
+          />
+        );
+      })()}
     </div>
   );
 }
