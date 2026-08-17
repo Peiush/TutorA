@@ -46,6 +46,7 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
   const gridRef = useRef<HTMLDivElement>(null);
   const quoteRefs = useRef<Map<string, HTMLParagraphElement>>(new Map());
   const [truncatedIds, setTruncatedIds] = useState<Set<string>>(new Set());
+  const [activeRole, setActiveRole] = useState<"ALL" | "PARENT" | "STUDENT" | "TUTOR">("ALL");
   const [activeTestimonial, setActiveTestimonial] = useState<{ item: TestimonialItem; index: number; rect: DOMRect | null } | null>(null);
 
   useEffect(() => {
@@ -53,7 +54,8 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
     quoteRefs.current.forEach((el, id) => {
       if (el.scrollHeight - el.clientHeight > 1) next.add(id);
     });
-    setTruncatedIds(next);
+    const frame = window.requestAnimationFrame(() => setTruncatedIds(next));
+    return () => window.cancelAnimationFrame(frame);
   }, [testimonials]);
 
   useGSAP(
@@ -107,8 +109,10 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
         mm.revert();
       };
     },
-    { scope: gridRef, dependencies: [testimonials.length] }
+    { scope: gridRef, dependencies: [testimonials.length, activeRole] }
   );
+
+  const visibleTestimonials = activeRole === "ALL" ? testimonials : testimonials.filter((item) => item.role === activeRole);
 
   if (testimonials.length === 0) {
     return (
@@ -122,15 +126,21 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
 
   return (
     <>
-      <div ref={gridRef} className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] items-stretch">
-        {testimonials.map((t, i) => {
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div><p className="mb-1 text-[11px] font-semibold uppercase tracking-[.16em]" style={{ color: "var(--color-accent-700)" }}>The story wall</p><h2 className="text-[clamp(26px,3vw,38px)]">Real people. Real progress.</h2></div>
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter stories by role">
+          {[{ label: "Everyone", value: "ALL" }, { label: "Parents", value: "PARENT" }, { label: "Students", value: "STUDENT" }, { label: "Tutors", value: "TUTOR" }].map((filter) => <button key={filter.value} type="button" aria-pressed={activeRole === filter.value} onClick={() => setActiveRole(filter.value as typeof activeRole)} className="rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-[background,color,border-color,transform] duration-200 hover:-translate-y-0.5" style={{ borderColor: activeRole === filter.value ? "var(--color-accent-600)" : "var(--color-divider)", background: activeRole === filter.value ? "var(--color-accent-600)" : "transparent", color: activeRole === filter.value ? "#fff" : "var(--color-text)" }}>{filter.label}</button>)}
+        </div>
+      </div>
+      {visibleTestimonials.length === 0 ? <div className="rounded-[24px] border border-dashed p-12 text-center" style={{ borderColor: "var(--color-divider)" }}>No stories in this group yet — yours could be the first.</div> : <div ref={gridRef} className="grid gap-4.5 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] items-stretch">
+        {visibleTestimonials.map((t, i) => {
           const bar = ROLE_BAR[t.role] ?? ROLE_BAR.PARENT;
           const tagVariant = tagVariantForBar(bar);
           const isTruncated = truncatedIds.has(t.id);
           return (
             <figure
               key={t.id}
-              className="testimonial-card group relative flex flex-col justify-between gap-5 m-0 h-full rounded-[22px] border p-7 cursor-default overflow-hidden transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5"
+              className={`testimonial-card group relative flex flex-col justify-between gap-5 m-0 h-full rounded-[22px] border p-7 cursor-default overflow-hidden transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5 ${i === 0 ? "md:col-span-2" : ""}`}
               style={{ background: "var(--color-bg)", borderColor: "var(--color-divider)" }}
             >
               <div className="h-[5px] w-full flex-none absolute top-0 left-0" style={{ background: bar }} aria-hidden />
@@ -180,7 +190,7 @@ export function TestimonialsGrid({ testimonials }: { testimonials: TestimonialIt
             </figure>
           );
         })}
-      </div>
+      </div>}
 
       {activeTestimonial && (
         <TestimonialQuoteModal

@@ -18,17 +18,22 @@ export default async function TestimonialsPage() {
     getAllApprovedTestimonials(),
     getMyTestimonial(),
   ]);
+  const ratedTestimonials = testimonials.filter((testimonial) => testimonial.rating);
+  const averageRating = ratedTestimonials.length
+    ? (ratedTestimonials.reduce((sum, testimonial) => sum + (testimonial.rating ?? 0), 0) / ratedTestimonials.length).toFixed(1)
+    : "—";
 
   return (
     <main>
-      <TestimonialsHero count={testimonials.length} />
+      <TestimonialsHero count={testimonials.length} averageRating={averageRating} />
 
-      <section className="max-w-[720px] mx-auto px-[clamp(20px,5vw,64px)] pb-[clamp(32px,6vw,64px)]">
+      <section id="share-story" className="relative max-w-[760px] mx-auto px-[clamp(20px,4vw,48px)] py-[clamp(36px,5vw,64px)]">
+        <div className="pointer-events-none absolute -right-16 top-12 hidden h-40 w-40 rounded-full border border-dashed md:block" style={{ borderColor: "var(--color-accent-300)" }} aria-hidden />
         <TestimonialForm isAuthenticated={!!session?.user?.id} existing={myTestimonial} />
       </section>
 
-      <section style={{ background: "var(--color-surface)" }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,84px)]">
+      <section id="all-stories" style={{ background: "var(--color-surface)" }}>
+        <div className="max-w-[1160px] mx-auto px-[clamp(20px,4vw,48px)] py-[clamp(32px,5vw,64px)]">
           <TestimonialsGrid testimonials={testimonials} />
         </div>
       </section>

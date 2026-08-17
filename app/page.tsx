@@ -391,6 +391,9 @@ export default async function Home() {
               <h2 className="text-[clamp(26px,3.2vw,36px)] mt-4 mb-0">Trusted by both sides</h2>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
+              <Link href="/testimonials#all-stories" className="btn btn-secondary text-[14px]">
+                See all stories <span aria-hidden>→</span>
+              </Link>
               <AddTestimonialButton />
             </div>
           </div>
