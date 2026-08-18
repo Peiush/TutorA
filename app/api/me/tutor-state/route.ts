@@ -15,6 +15,7 @@ export async function GET() {
       isAdmin: false,
       savedTutorIds: [],
       requestedTutorProfileIds: [],
+      requestedTutorSubjectKeys: [],
     });
   }
 
@@ -26,7 +27,7 @@ export async function GET() {
         status: { in: ["OPEN", "MATCHED"] },
         requestedTutorProfileId: { not: null },
       },
-      select: { requestedTutorProfileId: true },
+      select: { requestedTutorProfileId: true, subject: true },
     }),
   ]);
 
@@ -36,5 +37,12 @@ export async function GET() {
     requestedTutorProfileIds: requestedTutors
       .map((r) => r.requestedTutorProfileId)
       .filter((id): id is string => Boolean(id)),
+    // "<tutorProfileId>::<subject>" keys — lets the homepage's per-subject request
+    // modal (which merges a tutor's several subject listings into one card) know
+    // exactly which subjects were already requested for that tutor, not just whether
+    // any request exists at all.
+    requestedTutorSubjectKeys: requestedTutors
+      .filter((r) => r.requestedTutorProfileId)
+      .map((r) => `${r.requestedTutorProfileId}::${r.subject}`),
   });
 }

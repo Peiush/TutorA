@@ -5,6 +5,11 @@ export interface TutorRaw {
   name: string;
   headline: string;
   subjects: string[];
+  // Populated only by the homepage's per-tutor merge (see app/page.tsx) when a tutor's
+  // subjects were merged from several single-subject listings that each had their own
+  // rate — lets the per-subject request modal show the correct price per subject
+  // instead of falling back to whichever listing's price won the merge.
+  subjectPrices?: Record<string, string>;
   curriculum?: string;
   onDemand?: boolean;
   price: string;

@@ -173,26 +173,74 @@ export default async function Home() {
   ) as Record<(typeof GRADE_BANDS)[number]["key"], number>;
   const allTutors = [...approvedTutors, ...tutorsRaw];
 
-  // The homepage's "Featured tutors" showcase pulls 6 tutors teaching popular subjects
-  // (deduped by identity) instead of just the first 3 in listing order — that previously
-  // surfaced the same duplicate-named seed tutor 3x whenever a handful of approved
-  // profiles shared a name.
+  // getApprovedTutorListings returns one card per subject listing, so a tutor teaching
+  // 5 subjects normally shows up as 5 separate single-subject cards. The homepage
+  // "Featured tutors" showcase wants one card per tutor with every subject they teach —
+  // merge same-tutor cards into one here, scoped to the homepage only so the
+  // per-subject listing behaviour on /find-a-tutor is untouched.
+  function mergeTutorsBySubject(tutors: typeof allTutors): typeof allTutors {
+    const order: string[] = [];
+    const byKey = new Map<string, (typeof allTutors)[number]>();
+    for (const t of tutors) {
+      const key = (t.id ?? t.name).toLowerCase().trim();
+      const existing = byKey.get(key);
+      if (!existing) {
+        const subjectPrices: Record<string, string> = {};
+        for (const s of t.subjects) subjectPrices[s] = t.price;
+        order.push(key);
+        byKey.set(key, { ...t, subjects: [...t.subjects], subjectPrices });
+        continue;
+      }
+      for (const s of t.subjects) {
+        if (!existing.subjects.includes(s)) existing.subjects.push(s);
+        if (!existing.subjectPrices![s]) existing.subjectPrices![s] = t.price;
+      }
+      if (existing.price === "Rate on request" && t.price !== "Rate on request") {
+        existing.price = t.price;
+      }
+    }
+    return order.map((k) => byKey.get(k)!);
+  }
+
+  const homepageTutorPool = mergeTutorsBySubject(allTutors);
+
+  // Hand-picked tutors to lead with on the homepage; falls back to the popular-subject
+  // pick below to fill any remaining slots if fewer than 6 of these are approved yet.
+  const FEATURED_TUTOR_NAMES = [
+    "priya virat",
+    "kritartha dey",
+    "abir ghosh",
+    "ahasker",
+    "puru",
+    "priyanka barawkar",
+  ];
+
   const popularNamesLower = POPULAR_SUBJECT_NAMES.map((s) => s.toLowerCase());
   const seenTutorKeys = new Set<string>();
   const featured: typeof allTutors = [];
-  for (const t of allTutors) {
-    const key = t.id ?? t.listingId ?? t.name;
+  for (const wanted of FEATURED_TUTOR_NAMES) {
+    const match = homepageTutorPool.find((t) => t.name.toLowerCase().trim() === wanted);
+    if (!match) continue;
+    const key = match.id ?? match.listingId ?? match.name;
     if (seenTutorKeys.has(key)) continue;
-    const matchesPopular = t.subjects.some((s) =>
-      popularNamesLower.some((p) => s.toLowerCase().includes(p) || p.includes(s.toLowerCase()))
-    );
-    if (!matchesPopular) continue;
     seenTutorKeys.add(key);
-    featured.push(t);
-    if (featured.length === 6) break;
+    featured.push(match);
   }
   if (featured.length < 6) {
-    for (const t of allTutors) {
+    for (const t of homepageTutorPool) {
+      const key = t.id ?? t.listingId ?? t.name;
+      if (seenTutorKeys.has(key)) continue;
+      const matchesPopular = t.subjects.some((s) =>
+        popularNamesLower.some((p) => s.toLowerCase().includes(p) || p.includes(s.toLowerCase()))
+      );
+      if (!matchesPopular) continue;
+      seenTutorKeys.add(key);
+      featured.push(t);
+      if (featured.length === 6) break;
+    }
+  }
+  if (featured.length < 6) {
+    for (const t of homepageTutorPool) {
       const key = t.id ?? t.listingId ?? t.name;
       if (seenTutorKeys.has(key)) continue;
       seenTutorKeys.add(key);

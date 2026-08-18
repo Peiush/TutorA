@@ -10,6 +10,7 @@ import { TutorAvatar, StarRating } from "@/components/ui/tutor-avatar";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Toast, ToastTone } from "@/components/ui/toast";
 import { TutorDetailModal } from "@/components/find/tutor-detail-modal";
+import { RequestTutorSubjectsModal } from "@/components/home/request-tutor-subjects-modal";
 import { RequestLoginModal } from "@/components/auth/request-login-modal";
 import { usePlaneLaunch } from "@/components/ui/plane-launch";
 import { requestSpecificTutor } from "@/app/lib/actions/tutor-request";
@@ -24,20 +25,18 @@ type Tutor = (typeof tutorsRaw)[number];
 export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
   const router = useRouter();
   const gridRef = useRef<HTMLDivElement>(null);
-  const [pendingName, setPendingName] = useState<string | null>(null);
-  const [requestedNames, setRequestedNames] = useState<Set<string>>(new Set());
-  const [requestedIds, setRequestedIds] = useState<Set<string>>(new Set());
+  const [requestedSubjectKeys, setRequestedSubjectKeys] = useState<Set<string>>(new Set());
 
   // The homepage no longer calls auth() itself (that forced it to be dynamically
   // re-rendered, uncached, on every request) — pick up which of these featured
-  // tutors the signed-in user already requested right after mount instead.
+  // tutors' subjects the signed-in user already requested right after mount instead.
   useEffect(() => {
     let cancelled = false;
     fetch("/api/me/tutor-state")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (cancelled || !data) return;
-        setRequestedIds(new Set(data.requestedTutorProfileIds));
+        setRequestedSubjectKeys(new Set(data.requestedTutorSubjectKeys ?? []));
       })
       .catch(() => {});
     return () => {
@@ -46,40 +45,58 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
   }, []);
   const [toast, setToast] = useState<{ tone: ToastTone; message: string } | null>(null);
   const [detail, setDetail] = useState<{ tutor: Tutor; index: number } | null>(null);
+  const [subjectModal, setSubjectModal] = useState<{ tutor: Tutor; index: number } | null>(null);
+  const [pendingKey, setPendingKey] = useState<string | null>(null);
   const [loginPrompt, setLoginPrompt] = useState<{ rect: DOMRect | null; retry: () => void } | null>(null);
   const [, startTransition] = useTransition();
   const launchPlane = usePlaneLaunch();
 
-  function isAlreadyRequested(t: Tutor) {
-    return t.id ? requestedIds.has(t.id) : requestedNames.has(t.name);
+  function subjectKey(t: Tutor, subject: string) {
+    return `${t.id ?? t.name}::${subject}`;
   }
 
-  function handleRequestTutor(t: Tutor, origin: HTMLElement | null) {
-    if (isAlreadyRequested(t)) return;
+  function isSubjectRequested(t: Tutor, subject: string) {
+    return requestedSubjectKeys.has(subjectKey(t, subject));
+  }
+
+  // A merged homepage card can list several subjects for one tutor — "fully requested"
+  // means every one of them has an open/matched request already.
+  function allSubjectsRequested(t: Tutor) {
+    return t.subjects.length > 0 && t.subjects.every((s) => isSubjectRequested(t, s));
+  }
+
+  function handleRequestSubject(t: Tutor, subject: string, origin: HTMLElement | null) {
+    if (isSubjectRequested(t, subject)) return;
     const rect = origin?.getBoundingClientRect() ?? null;
-    setPendingName(t.name);
+    const key = subjectKey(t, subject);
+    setPendingKey(key);
     startTransition(async () => {
       const result = await requestSpecificTutor({
         tutorName: t.name,
-        subject: t.subjects[0] ?? t.headline,
+        subject,
         mode: t.mode,
-        tutorRate: t.price,
+        tutorRate: t.subjectPrices?.[subject] ?? t.price,
         tutorProfileId: t.id,
       });
-      setPendingName(null);
+      setPendingKey(null);
       if (result.requiresAuth) {
-        setLoginPrompt({ rect, retry: () => handleRequestTutor(t, origin) });
+        setLoginPrompt({ rect, retry: () => handleRequestSubject(t, subject, origin) });
         return;
       }
       launchPlane(origin);
       if (result.ok) {
-        setRequestedNames((prev) => new Set(prev).add(t.name));
-        if (t.id) setRequestedIds((prev) => new Set(prev).add(t.id!));
-        setToast({ tone: "success", message: result.message ?? `Your request for ${t.name} has been sent.` });
+        setRequestedSubjectKeys((prev) => new Set(prev).add(key));
+        setToast({ tone: "success", message: result.message ?? `Your request for ${t.name} (${subject}) has been sent.` });
       } else {
         setToast({ tone: "error", message: result.message ?? "Something went wrong. Please try again." });
       }
     });
+  }
+
+  // TutorDetailModal (opened when a tutor has no slug to link to) still requests a
+  // single subject in one click — use the tutor's first listed subject for that path.
+  function handleRequestTutor(t: Tutor, origin: HTMLElement | null) {
+    handleRequestSubject(t, t.subjects[0] ?? t.headline, origin);
   }
 
   useGSAP(
@@ -182,7 +199,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
       <div ref={gridRef} className="grid gap-3.5 sm:gap-4.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {tutors.map((t, i) => {
           const vibe = vibrantAccent(i);
-          const already = isAlreadyRequested(t);
+          const already = allSubjectsRequested(t);
           return (
             <div
               key={t.listingId ?? t.id ?? t.name}
@@ -289,7 +306,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                 <button
                   type="button"
                   className={`btn btn-block ${already ? "" : "hover:brightness-110 active:scale-[0.97]"}`}
-                  disabled={pendingName === t.name || already}
+                  disabled={already}
                   style={
                     already
                       ? { background: "var(--color-bg)", border: "1px solid var(--color-divider)", color: "var(--color-text)" }
@@ -302,7 +319,7 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                   }
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleRequestTutor(t, e.currentTarget);
+                    setSubjectModal({ tutor: t, index: i });
                   }}
                 >
                   {already ? (
@@ -310,10 +327,8 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 6 9 17l-5-5" />
                       </svg>
-                      Request sent
+                      All requests sent
                     </span>
-                  ) : pendingName === t.name ? (
-                    "Sending…"
                   ) : (
                     "Request This Tutor"
                   )}
@@ -329,10 +344,27 @@ export function FeaturedTutors({ tutors }: { tutors: Tutor[] }) {
           tutor={detail.tutor}
           index={detail.index}
           isTopRated={detail.tutor.rating >= 4.9}
-          pending={pendingName === detail.tutor.name}
-          requested={isAlreadyRequested(detail.tutor)}
+          pending={pendingKey === subjectKey(detail.tutor, detail.tutor.subjects[0] ?? detail.tutor.headline)}
+          requested={isSubjectRequested(detail.tutor, detail.tutor.subjects[0] ?? detail.tutor.headline)}
           onClose={() => setDetail(null)}
           onRequest={handleRequestTutor}
+        />
+      )}
+      {subjectModal && (
+        <RequestTutorSubjectsModal
+          tutor={subjectModal.tutor}
+          index={subjectModal.index}
+          vibe={vibrantAccent(subjectModal.index)}
+          pendingSubject={
+            pendingKey?.startsWith(`${subjectModal.tutor.id ?? subjectModal.tutor.name}::`)
+              ? pendingKey.slice(`${subjectModal.tutor.id ?? subjectModal.tutor.name}::`.length)
+              : null
+          }
+          requestedSubjects={
+            new Set(subjectModal.tutor.subjects.filter((s) => isSubjectRequested(subjectModal.tutor, s)))
+          }
+          onRequestSubject={(subject, origin) => handleRequestSubject(subjectModal.tutor, subject, origin)}
+          onClose={() => setSubjectModal(null)}
         />
       )}
       {toast && <Toast tone={toast.tone} message={toast.message} onClose={() => setToast(null)} />}
