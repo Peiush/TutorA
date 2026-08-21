@@ -4,8 +4,7 @@ import { FaqAccordion } from "@/components/about/faq-accordion";
 import { FaqIllustration } from "@/components/about/faq-illustration";
 import { studentFlow, tutorFlow, faqs, testimonials } from "@/lib/mock-data";
 import { AboutHero } from "@/components/about/about-hero";
-// Temporarily hidden — see <AboutPage> below
-// import { FounderStory } from "@/components/about/founder-story";
+import { FounderStory } from "@/components/about/founder-story";
 import { FlowPanels } from "@/components/about/flow-panels";
 import { TrustPillars } from "@/components/about/trust-pillars";
 import { TestimonialCards } from "@/components/about/testimonial-cards";
@@ -70,8 +69,7 @@ export default function AboutPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <AboutHero />
-      {/* Temporarily hidden — re-enable by uncommenting <FounderStory /> */}
-      {/* <FounderStory /> */}
+      <FounderStory />
 
       {/* Trust pillars + Flows */}
       <section style={{ background: "var(--color-surface)" }}>
